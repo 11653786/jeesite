@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao">
+    
+	<sql id="orderGoodsColumns">
+		a.id AS "id",
+		a.order_no AS "orderNo",
+		a.product_id AS "productId",
+		a.product_price AS "productPrice",
+		a.product_actual_price AS "productActualPrice",
+		a.cabinet AS "cabinet",
+		a.door AS "door",
+		a.address AS "address",
+		a.create_time AS "createTime",
+		a.update_time AS "updateTime",
+		a.payment_time AS "paymentTime"
+	</sql>
+	
+	<sql id="orderGoodsJoins">
+	</sql>
+    
+	<select id="get" resultType="OrderGoods">
+		SELECT 
+			<include refid="orderGoodsColumns"/>
+		FROM order_goods a
+		<include refid="orderGoodsJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="OrderGoods">
+		SELECT 
+			<include refid="orderGoodsColumns"/>
+		FROM order_goods a
+		<include refid="orderGoodsJoins"/>
+		<where>
+			
+			<if test="orderNo != null and orderNo != ''">
+				AND a.order_no = #{orderNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="OrderGoods">
+		SELECT 
+			<include refid="orderGoodsColumns"/>
+		FROM order_goods a
+		<include refid="orderGoodsJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO order_goods(
+			id,
+			order_no,
+			product_id,
+			product_price,
+			product_actual_price,
+			cabinet,
+			door,
+			address,
+			create_time,
+			update_time,
+			payment_time
+		) VALUES (
+			#{id},
+			#{orderNo},
+			#{productId},
+			#{productPrice},
+			#{productActualPrice},
+			#{cabinet},
+			#{door},
+			#{address},
+			#{createTime},
+			#{updateTime},
+			#{paymentTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE order_goods SET 	
+			order_no = #{orderNo},
+			product_id = #{productId},
+			product_price = #{productPrice},
+			product_actual_price = #{productActualPrice},
+			cabinet = #{cabinet},
+			door = #{door},
+			address = #{address},
+			create_time = #{createTime},
+			update_time = #{updateTime},
+			payment_time = #{paymentTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM order_goods
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
