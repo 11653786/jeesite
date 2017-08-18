@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao">
+    
+	<sql id="cabinetColumns">
+		a.id AS "id",
+		a.cabinet_name AS "cabinetName",
+		a.province AS "province",
+		a.city AS "city",
+		a.area AS "area",
+		a.address AS "address",
+		a.cabinet_status AS "cabinetStatus",
+		a.create_time AS "createTime",
+		a.cabinet_no AS "cabinetNo"
+	</sql>
+	
+	<sql id="cabinetJoins">
+		LEFT JOIN sys_area a3 ON a3.id = a.province
+		LEFT JOIN sys_area a4 ON a4.id = a.city
+		LEFT JOIN sys_area a5 ON a5.id = a.area
+	</sql>
+    
+	<select id="get" resultType="Cabinet">
+		SELECT 
+			<include refid="cabinetColumns"/>
+		FROM cabinet a
+		<include refid="cabinetJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Cabinet">
+		SELECT 
+			<include refid="cabinetColumns"/>
+		FROM cabinet a
+		<include refid="cabinetJoins"/>
+		<where>
+			
+			<if test="cabinetName != null and cabinetName != ''">
+				AND a.cabinet_name = #{cabinetName}
+			</if>
+			<if test="province != null and province != ''">
+				AND a.province = #{province}
+			</if>
+			<if test="city != null and city != ''">
+				AND a.city = #{city}
+			</if>
+			<if test="area != null and area != ''">
+				AND a.area = #{area}
+			</if>
+			<if test="cabinetStatus != null and cabinetStatus != ''">
+				AND a.cabinet_status = #{cabinetStatus}
+			</if>
+			<if test="cabinetNo != null and cabinetNo != ''">
+				AND a.cabinet_no = #{cabinetNo}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Cabinet">
+		SELECT 
+			<include refid="cabinetColumns"/>
+		FROM cabinet a
+		<include refid="cabinetJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO cabinet(
+			id,
+			cabinet_name,
+			province,
+			city,
+			area,
+			address,
+			cabinet_status,
+			create_time,
+			cabinet_no
+		) VALUES (
+			#{id},
+			#{cabinetName},
+			#{province},
+			#{city},
+			#{area},
+			#{address},
+			#{cabinetStatus},
+			#{createTime},
+			#{cabinetNo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE cabinet SET 	
+			cabinet_name = #{cabinetName},
+			province = #{province},
+			city = #{city},
+			area = #{area},
+			address = #{address},
+			cabinet_status = #{cabinetStatus},
+			create_time = #{createTime},
+			cabinet_no = #{cabinetNo}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM cabinet
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

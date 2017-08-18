@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao">
+    
+	<sql id="drawerColumns">
+		a.id AS "id",
+		a.drawer_no AS "drawerNo",
+		a.cabinet_id AS "cabinetId",
+		a.cabinet_name AS "cabinetName",
+		a.drawer_status AS "drawerStatus",
+		a.food_status AS "foodStatus",
+		a.create_time AS "createTime"
+	</sql>
+	
+	<sql id="drawerJoins">
+		LEFT JOIN cabinet b ON b.id = a.cabinet_id
+	</sql>
+    
+	<select id="get" resultType="Drawer">
+		SELECT 
+			<include refid="drawerColumns"/>
+		FROM drawer a
+		<include refid="drawerJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Drawer">
+		SELECT 
+			<include refid="drawerColumns"/>
+		FROM drawer a
+		<include refid="drawerJoins"/>
+		<where>
+			
+			<if test="cabinetId != null and cabinetId != ''">
+				AND a.cabinet_id = #{cabinetId.id}
+			</if>
+			<if test="cabinetName != null and cabinetName != ''">
+				AND a.cabinet_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
+			</if>
+			<if test="drawerStatus != null and drawerStatus != ''">
+				AND a.drawer_status = #{drawerStatus}
+			</if>
+			<if test="foodStatus != null and foodStatus != ''">
+				AND a.food_status = #{foodStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Drawer">
+		SELECT 
+			<include refid="drawerColumns"/>
+		FROM drawer a
+		<include refid="drawerJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO drawer(
+			id,
+			drawer_no,
+			cabinet_id,
+			cabinet_name,
+			drawer_status,
+			food_status,
+			create_time
+		) VALUES (
+			#{id},
+			#{drawerNo},
+			#{cabinetId},
+			#{cabinetName},
+			#{drawerStatus},
+			#{foodStatus},
+			#{createTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE drawer SET 	
+			drawer_no = #{drawerNo},
+			cabinet_id = #{cabinetId},
+			cabinet_name = #{cabinetName},
+			drawer_status = #{drawerStatus},
+			food_status = #{foodStatus},
+			create_time = #{createTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM drawer
+		<choose>
+			<when test="id !=null and id != ''">
+				WHERE id = #{id}
+			</when>
+			<otherwise>
+				WHERE cabinet_id = #{cabinetId}
+			</otherwise>
+		</choose>
+	</update>
+	
+</mapper>
