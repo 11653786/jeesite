@@ -70,37 +70,8 @@ public class TenpayUtil {
     }
 
 
-    public static String date2String(Date date, String formatType) {
-        SimpleDateFormat sdf = new SimpleDateFormat(formatType);
-        return sdf.format(date);
-    }
 
-    /**
-     * 生成request URL
-     *
-     * @return String
-     * @throws java.io.UnsupportedEncodingException
-     */
-    public static String getRequestURL(Map<String, String> params, String charSet, String signType, String key) {
-        String reqPars = "";
-        try {
-            String sign = createSign(params, charSet, signType, key);
 
-            StringBuffer sb = new StringBuffer();
-            for (String paraKey : params.keySet()) {
-                String k = paraKey;
-                String v = params.get(k);
-                if (v == null || v.trim().length() == 0) {
-                    continue;
-                }
-                sb.append(k + "=" + URLEncoder.encode(v, charSet) + "&");
-            }
-            sb.append("sign=" + sign.toUpperCase()); //因为要求大写，所以就大写吧
-            reqPars = sb.toString();
-        } catch (UnsupportedEncodingException ex) {
-        }
-        return reqPars;
-    }
 
     /**
      * 生成签名
@@ -132,6 +103,32 @@ public class TenpayUtil {
 
         return sign;
     }
+
+
+    public static boolean isTenpaySign(Map<String, String> packageParams,String charSet,String signType, String API_KEY) {
+        StringBuffer sb = new StringBuffer();
+        Set es = packageParams.entrySet();
+        Iterator it = es.iterator();
+        while(it.hasNext()) {
+            Map.Entry entry = (Map.Entry)it.next();
+            String k = (String)entry.getKey();
+            String v = (String)entry.getValue();
+            if(!"sign".equals(k) && null != v && !"".equals(v)) {
+                sb.append(k + "=" + v + "&");
+            }
+        }
+
+        sb.append("key=" + API_KEY);
+
+        //算出摘要
+        String mysign = createSign(packageParams,charSet,signType,API_KEY);
+        String tenpaySign = ((String)packageParams.get("sign")).toLowerCase();
+
+        //System.out.println(tenpaySign + "    " + mysign);
+        return tenpaySign.equals(mysign);
+    }
+
+
 
     /**
      * 生成随机数串
