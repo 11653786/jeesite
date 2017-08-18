@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util;
+package com.thinkgem.jeesite.util;
 
 import java.security.MessageDigest;
 

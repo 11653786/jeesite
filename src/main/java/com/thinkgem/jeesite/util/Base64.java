@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util;
+package com.thinkgem.jeesite.util;
 
 /**
  * Base64���뷽ʽ�ǣ���������ַ����ݱ����ֻ����

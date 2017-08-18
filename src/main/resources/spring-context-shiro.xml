@@ -22,6 +22,8 @@
 				${adminPath}/** = user
 				/act/editor/** = user
 				/ReportServer/** = user
+				<!--api接口开头不拦截-->
+				/api/** = anon
 			</value>
 		</constructor-arg>
 	</bean>
