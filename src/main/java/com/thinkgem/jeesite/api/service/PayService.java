@@ -59,8 +59,10 @@ public class PayService {
         try {
             //xml格式字符串
             String body = setWechatXmlString(orderNo, productId, productPrice);
+            //调用接口并且转换成map
             result = WebRequestUtil.getResponseString(wechatConfig.api_url, body, false);
             resultMap = XMLUtil.doXMLParse(result);
+            //二维码图片
             prePayId = resultMap.get("code_url");
             //没有生成支付信息就返回微信给的信息
             if (StringUtils.isBlank(prePayId))
@@ -98,10 +100,18 @@ public class PayService {
         params.put("total_fee", productPrice.toString());
         //下单客户端ip
         params.put("spbill_create_ip", "127.0.0.1");
+        //支付类型
         params.put("trade_type", wechatConfig.trade_type);
+        //商品id
         params.put("product_id", productId);
+        //回调url
         params.put("notify_url", wechatConfig.notify_url);
+        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+        //加密参数
+        params.put("sign", sign);
         return XMLUtil.getXmlByMap(params);
+
+
     }
 
 
