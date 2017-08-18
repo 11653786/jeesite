@@ -1,11 +1,6 @@
-package com.thinkgem.jeesite.modules.wx.wxpay;
+package com.thinkgem.jeesite.third.wx;
 
 
-import com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util.WebRequestUtil;
-import com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util.WechatUtil;
-import com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util.XMLUtil;
-
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 

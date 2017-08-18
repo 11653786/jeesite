@@ -1,17 +1,12 @@
-package com.thinkgem.jeesite.modules.wx.wxpay;
+package com.thinkgem.jeesite.third.wx;
 
 /**
  * Created by erfeng on 17/8/17.
  */
 
-import com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util.MD5Util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.*;
 

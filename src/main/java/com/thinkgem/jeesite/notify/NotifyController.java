@@ -2,8 +2,8 @@ package com.thinkgem.jeesite.notify;
 
 import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.config.WechatConfig;
-import com.thinkgem.jeesite.modules.wx.wxpay.TenpayUtil;
-import com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util.XMLUtil;
+import com.thinkgem.jeesite.third.wx.TenpayUtil;
+import com.thinkgem.jeesite.third.wx.XMLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
