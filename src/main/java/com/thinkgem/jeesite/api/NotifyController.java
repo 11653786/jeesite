@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.notify;
+package com.thinkgem.jeesite.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
