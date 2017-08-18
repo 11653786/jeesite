@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.third.wx;
+package com.thinkgem.jeesite.util;
 
 import java.security.MessageDigest;
 

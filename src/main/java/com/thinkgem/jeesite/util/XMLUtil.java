@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.third.wx;
+package com.thinkgem.jeesite.util;
 
 import org.jdom.Document;
 import org.jdom.Element;

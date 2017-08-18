@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite.third.wx;
+package com.thinkgem.jeesite.util;
 
 /**
  * Created by erfeng on 17/8/17.

@@ -1,5 +1,9 @@
-package com.thinkgem.jeesite.third.wx;
+package com.thinkgem.jeesite.junit;
 
+
+import com.thinkgem.jeesite.util.TenpayUtil;
+import com.thinkgem.jeesite.util.WebRequestUtil;
+import com.thinkgem.jeesite.util.XMLUtil;
 
 import java.util.HashMap;
 import java.util.Map;
