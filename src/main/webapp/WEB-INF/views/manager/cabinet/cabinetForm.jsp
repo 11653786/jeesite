@@ -74,7 +74,7 @@
 		<div class="control-group">
 			<label class="control-label">省：</label>
 			<div class="controls">
-				<sys:treeselect id="province" name="province" value="${cabinet.province}" labelName="" labelValue="${cabinet.province}"
+				<sys:treeselect id="province" name="province" value="${cabinet.province}" labelName="" labelValue="${cabinet.province1}"
 					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -82,7 +82,7 @@
 		<div class="control-group">
 			<label class="control-label">市：</label>
 			<div class="controls">
-				<sys:treeselect id="city" name="city" value="${cabinet.city}" labelName="" labelValue="${cabinet.city}"
+				<sys:treeselect id="city" name="city" value="${cabinet.city}" labelName="" labelValue="${cabinet.city1}"
 					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
@@ -90,7 +90,7 @@
 		<div class="control-group">
 			<label class="control-label">区：</label>
 			<div class="controls">
-				<sys:treeselect id="area" name="area" value="${cabinet.area}" labelName="" labelValue="${cabinet.area}"
+				<sys:treeselect id="area" name="area" value="${cabinet.area}" labelName="" labelValue="${cabinet.area1}"
 					title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>

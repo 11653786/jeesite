@@ -75,13 +75,13 @@
 					${cabinet.cabinetName}
 				</a></td>
 				<td>
-					${cabinet.province}
+					${cabinet.province1}
 				</td>
 				<td>
-					${cabinet.city}
+					${cabinet.city1}
 				</td>
 				<td>
-					${cabinet.area}
+					${cabinet.area1}
 				</td>
 				<td>
 					${cabinet.address}

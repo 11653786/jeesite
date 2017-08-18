@@ -31,8 +31,8 @@
 		<include refid="drawerJoins"/>
 		<where>
 			
-			<if test="cabinetId != null and cabinetId != ''">
-				AND a.cabinet_id = #{cabinetId.id}
+			<if test="cabinet != null and cabinet != ''">
+				AND a.cabinet_id = #{cabinet.id}
 			</if>
 			<if test="cabinetName != null and cabinetName != ''">
 				AND a.cabinet_name LIKE 

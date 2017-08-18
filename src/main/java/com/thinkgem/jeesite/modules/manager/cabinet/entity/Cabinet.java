@@ -29,7 +29,11 @@ public class Cabinet extends DataEntity<Cabinet> {
 	private Date createTime;		// 创建时间
 	private String cabinetNo;		// 柜子编号
 	private List<Drawer> drawerList = Lists.newArrayList();		// 子表列表
-	
+
+	private String province1;
+	private String city1;
+	private String area1;
+
 	public Cabinet() {
 		super();
 	}
@@ -117,5 +121,29 @@ public class Cabinet extends DataEntity<Cabinet> {
 
 	public void setDrawerList(List<Drawer> drawerList) {
 		this.drawerList = drawerList;
+	}
+
+	public String getProvince1() {
+		return province1;
+	}
+
+	public void setProvince1(String province1) {
+		this.province1 = province1;
+	}
+
+	public String getCity1() {
+		return city1;
+	}
+
+	public void setCity1(String city1) {
+		this.city1 = city1;
+	}
+
+	public String getArea1() {
+		return area1;
+	}
+
+	public void setArea1(String area1) {
+		this.area1 = area1;
 	}
 }
