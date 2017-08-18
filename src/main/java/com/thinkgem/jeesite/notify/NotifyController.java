@@ -1,14 +1,15 @@
 package com.thinkgem.jeesite.notify;
 
 import com.alibaba.fastjson.JSONObject;
+import com.thinkgem.jeesite.config.WechatConfig;
 import com.thinkgem.jeesite.modules.wx.wxpay.TenpayUtil;
 import com.thinkgem.jeesite.modules.wx.wxpay.base.util.tenpay.util.XMLUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,6 +24,12 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping(value = "/api/notify")
 public class NotifyController {
+
+
+    @Autowired
+    private WechatConfig wechatConfig;
+
+
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -42,7 +49,7 @@ public class NotifyController {
      */
     @RequestMapping(value = "/wechatNotify")
     @ResponseBody
-    public String wechatNotify(HttpServletRequest request, HttpServletResponse response) {
+    public String wechatNotify(HttpServletRequest request) {
         //读取参数
         InputStream inputStream;
         StringBuffer sb = new StringBuffer();
@@ -75,13 +82,12 @@ public class NotifyController {
                 packageParams.put(parameter, v);
             }
 
-            // 账号信息
-            String key = "BCFB58527EF47F485BE308C0331A86B9"; // key
 
-            logger.info("传入参数!" + JSONObject.toJSONString(packageParams));
 
             //判断签名是否正确
-            if (TenpayUtil.isTenpaySign(packageParams, "UTF-8", "MD5", key)) {
+            boolean isTenpaySign = TenpayUtil.isTenpaySign(packageParams, "UTF-8", "MD5", wechatConfig.app_key);
+            logger.info("传入参数!" + JSONObject.toJSONString(packageParams) + ",结果: " + isTenpaySign);
+            if (isTenpaySign) {
                 //------------------------------
                 //处理业务开始
                 //------------------------------
