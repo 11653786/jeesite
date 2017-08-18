@@ -70,9 +70,6 @@ public class TenpayUtil {
     }
 
 
-
-
-
     /**
      * 生成签名
      *
@@ -104,16 +101,24 @@ public class TenpayUtil {
         return sign;
     }
 
-
-    public static boolean isTenpaySign(Map<String, String> packageParams,String charSet,String signType, String API_KEY) {
+    /**
+     * 判断微信签名是否正确得方法
+     *
+     * @param packageParams
+     * @param charSet
+     * @param signType
+     * @param API_KEY
+     * @return
+     */
+    public static boolean isTenpaySign(Map<String, String> packageParams, String charSet, String signType, String API_KEY) {
         StringBuffer sb = new StringBuffer();
         Set es = packageParams.entrySet();
         Iterator it = es.iterator();
-        while(it.hasNext()) {
-            Map.Entry entry = (Map.Entry)it.next();
-            String k = (String)entry.getKey();
-            String v = (String)entry.getValue();
-            if(!"sign".equals(k) && null != v && !"".equals(v)) {
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = (String) entry.getKey();
+            String v = (String) entry.getValue();
+            if (!"sign".equals(k) && null != v && !"".equals(v)) {
                 sb.append(k + "=" + v + "&");
             }
         }
@@ -121,13 +126,12 @@ public class TenpayUtil {
         sb.append("key=" + API_KEY);
 
         //算出摘要
-        String mysign = createSign(packageParams,charSet,signType,API_KEY);
-        String tenpaySign = ((String)packageParams.get("sign")).toLowerCase();
+        String mysign = createSign(packageParams, charSet, signType, API_KEY);
+        String tenpaySign = packageParams.get("sign").toLowerCase().toString();
 
         //System.out.println(tenpaySign + "    " + mysign);
         return tenpaySign.equals(mysign);
     }
-
 
 
     /**
