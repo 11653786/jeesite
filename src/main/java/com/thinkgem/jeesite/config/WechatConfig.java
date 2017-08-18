@@ -21,5 +21,13 @@ public class WechatConfig {
     public String trade_type;
     @Value("${notify_url}")
     public String notify_url;
+    @Value("${charset}")
+    public String charset;
+    @Value("${signType}")
+    public String signType;
+    @Value("${api_url}")
+    public String api_url;
+
+
 
 }

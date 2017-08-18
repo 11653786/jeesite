@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 /**
+ * 支付宝和微信的回调
  * Created by yangtao on 2017/8/18.
  */
 @Controller
