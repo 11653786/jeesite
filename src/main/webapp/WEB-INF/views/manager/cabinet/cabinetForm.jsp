@@ -128,25 +128,26 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		<c:if test="${cabinet!=null && cabinet.id!=null}">
 			<div class="control-group">
 				<label class="control-label">柜子对应的抽屉：</label>
 				<div class="controls">
 					<table id="contentTable" class="table table-striped table-bordered table-condensed">
 						<thead>
-							<tr>
-								<th class="hide"></th>
-								<th>抽屉编号</th>
-								<th>柜子名称</th>
-								<th>抽屉状态</th>
-								<th>放餐状态</th>
-								<th>创建时间</th>
-								<shiro:hasPermission name="cabinet:cabinet:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
-							</tr>
+						<tr>
+							<th class="hide"></th>
+							<th>抽屉编号</th>
+							<th>柜子名称</th>
+							<th>抽屉状态</th>
+							<th>放餐状态</th>
+							<th>创建时间</th>
+							<shiro:hasPermission name="cabinet:cabinet:edit"><th width="10">&nbsp;</th></shiro:hasPermission>
+						</tr>
 						</thead>
 						<tbody id="drawerList">
 						</tbody>
 						<shiro:hasPermission name="cabinet:cabinet:edit"><tfoot>
-							<tr><td colspan="7"><a href="javascript:" onclick="addRow('#drawerList', drawerRowIdx, drawerTpl);drawerRowIdx = drawerRowIdx + 1;" class="btn">新增</a></td></tr>
+						<tr><td colspan="7"><a href="javascript:" onclick="addRow('#drawerList', drawerRowIdx, drawerTpl);drawerRowIdx = drawerRowIdx + 1;" class="btn">新增</a></td></tr>
 						</tfoot></shiro:hasPermission>
 					</table>
 					<script type="text/template" id="drawerTpl">//<!--
@@ -159,7 +160,7 @@
 								<input id="drawerList{{idx}}_drawerNo" name="drawerList[{{idx}}].drawerNo" type="text" value="{{row.drawerNo}}" maxlength="11" class="input-small required"/>
 							</td>
 							<td>
-								<input id="drawerList{{idx}}_cabinetName" name="drawerList[{{idx}}].cabinetName" type="text" value="{{row.cabinetName}}" maxlength="50" class="input-small "/>
+								<input id="cabinetName" name="cabinetName" type="text" value="${cabinet.cabinetName}" maxlength="50" class="input-small "/>
 							</td>
 							<td>
 								<select id="drawerList{{idx}}_drawerStatus" name="drawerList[{{idx}}].drawerStatus" data-value="{{row.drawerStatus}}" class="input-small required">
@@ -198,6 +199,7 @@
 					</script>
 				</div>
 			</div>
+		</c:if>
 		<div class="form-actions">
 			<shiro:hasPermission name="cabinet:cabinet:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
