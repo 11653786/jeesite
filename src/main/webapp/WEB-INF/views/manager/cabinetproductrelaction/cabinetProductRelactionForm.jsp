@@ -71,9 +71,12 @@
     <%--<form:hidden path="id"/>--%>
     <sys:message content="${message}"/>
     <div class="control-group">
+        <sys:treeselect id="productName" name="productName" value="" labelName="" labelValue=""
+                        title="区域" url="/product/product/getProductList" cssClass="required" allowClear="true"/>
         <label class="control-label">配置商品：</label>
     </div>
     <div class="control-group">
+        <label class="control-label">商品列表：</label>
         <div class="controls">
             <table id="contentTable" class="table table-striped table-bordered table-condensed">
                 <thead>
@@ -88,33 +91,35 @@
                 </thead>
                 <tbody id="cabinetProductRelactionList">
                 </tbody>
-                <shiro:hasPermission name="cabinet:cabinet:edit">
-                    <tfoot>
-                    <tr>
-                        <td colspan="7"><a href="javascript:"
-                                           onclick="addRow('#cabinetProductRelactionList', drawerRowIdx, drawerTpl);drawerRowIdx = drawerRowIdx + 1;"
-                                           class="btn">新增</a></td>
-                    </tr>
-                    </tfoot>
-                </shiro:hasPermission>
+                    <%--<shiro:hasPermission name="cabinet:cabinet:edit">--%>
+                    <%--<tfoot>--%>
+                    <%--<tr>--%>
+                    <%--<td colspan="7"><a href="javascript:"--%>
+                    <%--onclick="addRow('#cabinetProductRelactionList', drawerRowIdx, drawerTpl);drawerRowIdx = drawerRowIdx + 1;"--%>
+                    <%--class="btn">新增</a></td>--%>
+                    <%--</tr>--%>
+                    <%--</tfoot>--%>
+                    <%--</shiro:hasPermission>--%>
             </table>
             <script type="text/template" id="drawerTpl">//<!--
 						<tr id="cabinetProductRelactionList{{idx}}">
 							<td class="hide">
 								<input id="cabinetProductRelactionList{{idx}}_id" name="cabinetProductRelactionList[{{idx}}].id" type="hidden" value="{{row.id}}"/>
-							</td>
+						        			<input id="cabinetProductRelactionList{{idx}}_productId" name="cabinetProductRelactionList[{{idx}}].productId" type="hidden" value="{{row.productId}}"/>
+								</td>
 							<td>
 								<input id="cabinetProductRelactionList{{idx}}_cabinetName" name="cabinetProductRelactionList[{{idx}}].cabinetName" type="text" readonly="readonly" maxlength="20" class="input-medium required"
 									value="${cabinet.cabinetName}" />
-									<span class="help-inline"><font color="red">*</font> </span>
 							</td>
 							<td>
-								<sys:treeselect id="province" name="province" value="${cabinet.province}" labelName="" labelValue="${cabinet.province1}"
-								title="区域" url="/sys/area/treeData" cssClass="required" allowClear="true" notAllowSelectParent="true"/>
-				            <span class="help-inline"><font color="red">*</font> </span></td>
-							<shiro:hasPermission name="cabinet:cabinet:edit"><td class="text-center" width="10">
-								{{#delBtn}}<span class="close" onclick="delRow(this, '#cabinetProductRelactionList{{idx}}')" title="删除">&times;</span>{{/delBtn}}
-							</td></shiro:hasPermission>
+							<input id="cabinetProductRelactionList{{idx}}_productName" name="cabinetProductRelactionList[{{idx}}].productName" type="text" readonly="readonly" maxlength="20" class="input-medium required"
+									value="{{row.productName}}" />
+							</td>
+							<td>
+							<shiro:hasPermission name="cabinet:cabinet:edit">
+							   <a href="${ctx}/cabinetproductrelaction/cabinetproductrelaction/delete?id={{row.id}}" onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
+                            </shiro:hasPermission>
+							</td>
 						</tr>//-->
             </script>
             <script type="text/javascript">
