@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.product.dao.ProductDao">
+    
+	<sql id="productColumns">
+		a.id AS "id",
+		a.product_name AS "productName",
+		a.product_price AS "productPrice",
+		a.product_actual_price AS "productActualPrice",
+		a.product_status AS "productStatus",
+		a.create_time AS "createTime",
+		a.remark AS "remark",
+		a.imgurl AS "imgurl"
+	</sql>
+	
+	<sql id="productJoins">
+	</sql>
+    
+	<select id="get" resultType="Product">
+		SELECT 
+			<include refid="productColumns"/>
+		FROM product a
+		<include refid="productJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Product">
+		SELECT 
+			<include refid="productColumns"/>
+		FROM product a
+		<include refid="productJoins"/>
+		<where>
+			
+			<if test="productName != null and productName != ''">
+				AND a.product_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{productName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{productName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{productName},'%')</if>
+			</if>
+			<if test="productStatus != null and productStatus != ''">
+				AND a.product_status = #{productStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Product">
+		SELECT 
+			<include refid="productColumns"/>
+		FROM product a
+		<include refid="productJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO product(
+			id,
+			product_name,
+			product_price,
+			product_actual_price,
+			product_status,
+			create_time,
+			remark,
+			imgurl
+		) VALUES (
+			#{id},
+			#{productName},
+			#{productPrice},
+			#{productActualPrice},
+			#{productStatus},
+			#{createTime},
+			#{remark},
+			#{imgurl}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE product SET 	
+			product_name = #{productName},
+			product_price = #{productPrice},
+			product_actual_price = #{productActualPrice},
+			product_status = #{productStatus},
+			create_time = #{createTime},
+			remark = #{remark},
+			imgurl = #{imgurl}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM product
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
