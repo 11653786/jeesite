@@ -9,7 +9,11 @@
 		a.cabinet_name AS "cabinetName",
 		a.drawer_status AS "drawerStatus",
 		a.food_status AS "foodStatus",
-		a.create_time AS "createTime"
+		a.create_time AS "createTime",
+		a.product_id as "productId",
+		a.product_name as "productName",
+		a.in_time as "inTime"
+
 	</sql>
 	
 	<sql id="drawerJoins">

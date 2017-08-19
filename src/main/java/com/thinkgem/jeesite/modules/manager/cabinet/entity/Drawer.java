@@ -25,7 +25,10 @@ public class Drawer extends DataEntity<Drawer> {
 	private String drawerStatus;		// 抽屉状态
 	private String foodStatus;		// 放餐状态
 	private Date createTime;		// 创建时间
-	
+	private String productId;		//放入柜中的商品时间
+	private String productName;	//放入柜中的商品名称
+	private Date inTime;	//放入时间
+
 	public Drawer() {
 		super();
 	}
@@ -100,5 +103,31 @@ public class Drawer extends DataEntity<Drawer> {
 
 	public void setCabinet(Cabinet cabinet) {
 		this.cabinet = cabinet;
+	}
+
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+
+	public Date getInTime() {
+		return inTime;
+	}
+
+	public void setInTime(Date inTime) {
+		this.inTime = inTime;
+	}
+
+	public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
 	}
 }
