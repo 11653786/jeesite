@@ -28,10 +28,15 @@ public class Drawer extends DataEntity<Drawer> {
 	private String productId;		//放入柜中的商品时间
 	private String productName;	//放入柜中的商品名称
 	private Date inTime;	//放入时间
-	//
-	private String cabinetProvince;	//柜子所在省
-	private String cabinetCity;	//柜子所在城市
-	private String cabinetArea; //柜子所在区域
+
+	private String provinceId;
+	private String cabinetProvinceName;	//柜子所在省
+
+	private String cityId;
+	private String cabinetCityName;	//柜子所在城市
+
+	private String areaId;	//区id
+	private String cabinetAreaName; //柜子所在区域
 
 	public Drawer() {
 		super();
@@ -135,27 +140,52 @@ public class Drawer extends DataEntity<Drawer> {
 		this.productName = productName;
 	}
 
-	public String getCabinetProvince() {
-		return cabinetProvince;
+
+	public String getProvinceId() {
+		return provinceId;
 	}
 
-	public void setCabinetProvince(String cabinetProvince) {
-		this.cabinetProvince = cabinetProvince;
+	public void setProvinceId(String provinceId) {
+		this.provinceId = provinceId;
 	}
 
-	public String getCabinetCity() {
-		return cabinetCity;
+	public String getCabinetProvinceName() {
+		return cabinetProvinceName;
 	}
 
-	public void setCabinetCity(String cabinetCity) {
-		this.cabinetCity = cabinetCity;
+	public void setCabinetProvinceName(String cabinetProvinceName) {
+		this.cabinetProvinceName = cabinetProvinceName;
 	}
 
-	public String getCabinetArea() {
-		return cabinetArea;
+	public String getCityId() {
+		return cityId;
 	}
 
-	public void setCabinetArea(String cabinetArea) {
-		this.cabinetArea = cabinetArea;
+	public void setCityId(String cityId) {
+		this.cityId = cityId;
+	}
+
+	public String getCabinetCityName() {
+		return cabinetCityName;
+	}
+
+	public void setCabinetCityName(String cabinetCityName) {
+		this.cabinetCityName = cabinetCityName;
+	}
+
+	public String getAreaId() {
+		return areaId;
+	}
+
+	public void setAreaId(String areaId) {
+		this.areaId = areaId;
+	}
+
+	public String getCabinetAreaName() {
+		return cabinetAreaName;
+	}
+
+	public void setCabinetAreaName(String cabinetAreaName) {
+		this.cabinetAreaName = cabinetAreaName;
 	}
 }

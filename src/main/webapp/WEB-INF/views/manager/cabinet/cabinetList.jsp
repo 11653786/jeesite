@@ -29,15 +29,15 @@
 				<form:input path="cabinetName" htmlEscape="false" maxlength="50" class="input-medium"/>
 			</li>
 			<li><label>省：</label>
-				<sys:treeselect id="province" name="province" value="${cabinet.province}" labelName="" labelValue="${cabinet.province}"
+				<sys:treeselect id="province" name="province" value="${cabinet.province}" labelName="" labelValue="${cabinet.province1}"
 					title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>市：</label>
-				<sys:treeselect id="city" name="city" value="${cabinet.city}" labelName="" labelValue="${cabinet.city}"
+				<sys:treeselect id="city" name="city" value="${cabinet.city}" labelName="" labelValue="${cabinet.city1}"
 					title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>区：</label>
-				<sys:treeselect id="area" name="area" value="${cabinet.area}" labelName="" labelValue="${cabinet.area}"
+				<sys:treeselect id="area" name="area" value="${cabinet.area}" labelName="" labelValue="${cabinet.area1}"
 					title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true" notAllowSelectParent="true"/>
 			</li>
 			<li><label>柜子状态：</label>

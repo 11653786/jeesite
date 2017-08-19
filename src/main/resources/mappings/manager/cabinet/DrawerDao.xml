@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao">
-    
-	<sql id="drawerColumns">
+
+    <sql id="drawerColumns">
 		a.id AS "id",
 		a.drawer_no AS "drawerNo",
 		a.cabinet_id AS "cabinetId",
@@ -13,74 +13,93 @@
 		a.product_id as "productId",
 		a.product_name as "productName",
 		a.in_time as "inTime",
-		b.province as "cabinetProvince",
-		b.city as "cabinetCity",
-		b.area as "cabinetArea"
+		areaProvince.id as "provinceId",
+		areaProvince.name as "cabinetProvinceName",
+		areaCity.id as "cityId",
+		areaCity.name as "cabinetCityName",
+		area.id as "areaId",
+		area.name as  "cabinetAreaName"
 
 	</sql>
-	
-	<sql id="drawerJoins">
+
+    <sql id="drawerJoins">
 		LEFT JOIN cabinet b ON b.id = a.cabinet_id
+		left join sys_area areaProvince on areaProvince.id=b.province
+		left join sys_area areaCity on areaCity.id=b.city
+		left join sys_area area on area.id=b.area
 	</sql>
-    
-	<select id="get" resultType="Drawer">
-		SELECT 
-			<include refid="drawerColumns"/>
-		FROM drawer a
-		<include refid="drawerJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="Drawer">
-		SELECT 
-			<include refid="drawerColumns"/>
-		FROM drawer a
-		<include refid="drawerJoins"/>
-		<where>
-			
-			<if test="cabinet != null and cabinet != ''">
-				AND a.cabinet_id = #{cabinet.id}
-			</if>
-			<if test="cabinetName != null and cabinetName != ''">
-				AND a.cabinet_name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
-			</if>
-			<if test="drawerStatus != null and drawerStatus != ''">
-				AND a.drawer_status = #{drawerStatus}
-			</if>
-			<if test="foodStatus != null and foodStatus != ''">
-				AND a.food_status = #{foodStatus}
-			</if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="Drawer">
-		SELECT 
-			<include refid="drawerColumns"/>
-		FROM drawer a
-		<include refid="drawerJoins"/>
-		<where>
-			
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+
+    <select id="get" resultType="Drawer">
+        SELECT
+        <include refid="drawerColumns"/>
+        FROM drawer a
+        <include refid="drawerJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Drawer">
+        SELECT
+        <include refid="drawerColumns"/>
+        FROM drawer a
+        <include refid="drawerJoins"/>
+        <where>
+
+            <if test="cabinet != null and cabinet != ''">
+                AND a.cabinet_id = #{cabinet.id}
+            </if>
+            <if test="cabinetName != null and cabinetName != ''">
+                AND a.cabinet_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
+            </if>
+            <if test="drawerStatus != null and drawerStatus != ''">
+                AND a.drawer_status = #{drawerStatus}
+            </if>
+            <if test="foodStatus != null and foodStatus != ''">
+                AND a.food_status = #{foodStatus}
+            </if>
+
+            <if test="provinceId !=null and provinceId!=''">
+                and areaProvince.id=#{cabinetProvince}
+            </if>
+
+            <if test="cityId !=null and cityId!=''">
+                and areaCity.id=#{cityId}
+            </if>
+
+            <if test="areaId !=null and areaId!=''">
+                and area.id=#{areaId}
+            </if>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="Drawer">
+        SELECT
+        <include refid="drawerColumns"/>
+        FROM drawer a
+        <include refid="drawerJoins"/>
+        <where>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO drawer(
 			id,
 			drawer_no,
@@ -99,8 +118,8 @@
 			#{createTime}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE drawer SET 	
 			drawer_no = #{drawerNo},
 			cabinet_id = #{cabinetId},
@@ -110,17 +129,17 @@
 			create_time = #{createTime}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
-		DELETE FROM drawer
-		<choose>
-			<when test="id !=null and id != ''">
-				WHERE id = #{id}
-			</when>
-			<otherwise>
-				WHERE cabinet_id = #{cabinetId}
-			</otherwise>
-		</choose>
-	</update>
-	
+
+    <update id="delete">
+        DELETE FROM drawer
+        <choose>
+            <when test="id !=null and id != ''">
+                WHERE id = #{id}
+            </when>
+            <otherwise>
+                WHERE cabinet_id = #{cabinetId}
+            </otherwise>
+        </choose>
+    </update>
+
 </mapper>
