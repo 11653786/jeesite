@@ -28,6 +28,10 @@ public class Drawer extends DataEntity<Drawer> {
 	private String productId;		//放入柜中的商品时间
 	private String productName;	//放入柜中的商品名称
 	private Date inTime;	//放入时间
+	//
+	private String cabinetProvince;	//柜子所在省
+	private String cabinetCity;	//柜子所在城市
+	private String cabinetArea; //柜子所在区域
 
 	public Drawer() {
 		super();
@@ -129,5 +133,29 @@ public class Drawer extends DataEntity<Drawer> {
 
 	public void setProductName(String productName) {
 		this.productName = productName;
+	}
+
+	public String getCabinetProvince() {
+		return cabinetProvince;
+	}
+
+	public void setCabinetProvince(String cabinetProvince) {
+		this.cabinetProvince = cabinetProvince;
+	}
+
+	public String getCabinetCity() {
+		return cabinetCity;
+	}
+
+	public void setCabinetCity(String cabinetCity) {
+		this.cabinetCity = cabinetCity;
+	}
+
+	public String getCabinetArea() {
+		return cabinetArea;
+	}
+
+	public void setCabinetArea(String cabinetArea) {
+		this.cabinetArea = cabinetArea;
 	}
 }

@@ -12,7 +12,10 @@
 		a.create_time AS "createTime",
 		a.product_id as "productId",
 		a.product_name as "productName",
-		a.in_time as "inTime"
+		a.in_time as "inTime",
+		b.province as "cabinetProvince",
+		b.city as "cabinetCity",
+		b.area as "cabinetArea"
 
 	</sql>
 	
