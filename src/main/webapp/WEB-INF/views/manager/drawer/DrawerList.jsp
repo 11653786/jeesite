@@ -28,8 +28,8 @@
     <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
-        <li><label>柜子名称：</label>
-            <form:input path="cabinetName" htmlEscape="false" maxlength="50" class="input-medium"/>
+        <li><label>柜子编号：</label>
+            <form:input path="cabinetNo" htmlEscape="false" maxlength="50" class="input-medium"/>
         </li>
         <li><label>省：</label>
             <sys:treeselect id="provinceId" name="provinceId" value="${drawer.provinceId}" labelName=""
@@ -76,7 +76,7 @@
     <tr>
         <th>所在省市区</th>
         <th>抽屉编号</th>
-        <th>柜子名称</th>
+        <th>柜子编号</th>
         <th>抽屉状态</th>
         <th>放餐状态</th>
         <th>放餐商品名称</th>
@@ -94,7 +94,7 @@
                     ${drawer.drawerNo}
             </td>
             <td>
-                    ${drawer.cabinetName}
+                    ${drawer.cabinetNo}
             </td>
             <td>
                     ${fns:getDictLabel(drawer.drawerStatus, 'drawer_status', '')}

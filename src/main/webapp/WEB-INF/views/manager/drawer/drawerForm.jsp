@@ -95,7 +95,6 @@
 					<form:option value="" label=""/>
 					<form:options items="${fns:getDictList('food_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
