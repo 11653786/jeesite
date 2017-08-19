@@ -14,7 +14,7 @@
 		a.address AS "address",
 		a.cabinet_status AS "cabinetStatus",
 		a.create_time AS "createTime",
-		a.cabinet_no AS "cabinetNo"
+		a.cabinet_nos AS "cabinetNos"
 	</sql>
 	
 	<sql id="cabinetJoins">
@@ -53,8 +53,8 @@
 			<if test="cabinetStatus != null and cabinetStatus != ''">
 				AND a.cabinet_status = #{cabinetStatus}
 			</if>
-			<if test="cabinetNo != null and cabinetNo != ''">
-				AND a.cabinet_no = #{cabinetNo}
+			<if test="cabinetNos != null and cabinetNos != ''">
+				AND a.cabinet_nos = #{cabinetNos}
 			</if>
 		</where>
 		<choose>
@@ -93,7 +93,7 @@
 			address,
 			cabinet_status,
 			create_time,
-			cabinet_no
+			cabinet_nos
 		) VALUES (
 			#{id},
 			#{cabinetName},
@@ -103,7 +103,7 @@
 			#{address},
 			#{cabinetStatus},
 			#{createTime},
-			#{cabinetNo}
+			#{cabinetNos}
 		)
 	</insert>
 	
@@ -116,7 +116,7 @@
 			address = #{address},
 			cabinet_status = #{cabinetStatus},
 			create_time = #{createTime},
-			cabinet_no = #{cabinetNo}
+			cabinet_nos = #{cabinetNos}
 		WHERE id = #{id}
 	</update>
 	

@@ -25,7 +25,7 @@ public class Drawer extends DataEntity<Drawer> {
     private String drawerNo;        // 抽屉编号
     private Cabinet cabinet;        // 柜子id 父类
     private String cabinetId;
-    private String cabinetName;        // 柜子名称
+    private String cabinetNo;        // 柜子名称
     private String drawerStatus;        // 抽屉状态
     private String foodStatus;        // 放餐状态
     private Date createTime;        // 创建时间
@@ -74,13 +74,14 @@ public class Drawer extends DataEntity<Drawer> {
         this.cabinetId = cabinetId;
     }
 
-    @Length(min = 0, max = 50, message = "柜子名称长度必须介于 0 和 50 之间")
-    public String getCabinetName() {
-        return cabinetName;
+    @Length(min = 0, max = 50, message = "柜子编号长度必须介于 0 和 50 之间")
+    public String getCabinetNo() {
+        return cabinetNo;
     }
 
-    public void setCabinetName(String cabinetName) {
-        this.cabinetName = cabinetName;
+
+    public void setCabinetNo(String cabinetNo) {
+        this.cabinetNo = cabinetNo;
     }
 
     @Length(min = 1, max = 11, message = "抽屉状态长度必须介于 1 和 11 之间")

@@ -27,7 +27,7 @@ public class Cabinet extends DataEntity<Cabinet> {
 	private String address;		// 详细地址
 	private String cabinetStatus;		// 柜子状态
 	private Date createTime;		// 创建时间
-	private String cabinetNo;		// 柜子编号
+	private String cabinetNos;		// 柜子编号
 	private List<Drawer> drawerList = Lists.newArrayList();		// 子表列表
 
 	private String province1;
@@ -107,12 +107,12 @@ public class Cabinet extends DataEntity<Cabinet> {
 	}
 	
 	@Length(min=1, max=50, message="柜子编号长度必须介于 1 和 50 之间")
-	public String getCabinetNo() {
-		return cabinetNo;
+	public String getCabinetNos() {
+		return cabinetNos;
 	}
 
-	public void setCabinetNo(String cabinetNo) {
-		this.cabinetNo = cabinetNo;
+	public void setCabinetNos(String cabinetNos) {
+		this.cabinetNos = cabinetNos;
 	}
 	
 	public List<Drawer> getDrawerList() {

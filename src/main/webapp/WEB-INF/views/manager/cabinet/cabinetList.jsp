@@ -47,7 +47,7 @@
 				</form:select>
 			</li>
 			<li><label>柜子编号：</label>
-				<form:input path="cabinetNo" htmlEscape="false" maxlength="50" class="input-medium"/>
+				<form:input path="cabinetNos" htmlEscape="false" maxlength="50" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -93,7 +93,7 @@
 					<fmt:formatDate value="${cabinet.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td>
-					${cabinet.cabinetNo}
+					${cabinet.cabinetNos}
 				</td>
 				<shiro:hasPermission name="cabinet:cabinet:edit"><td>
     				<a href="${ctx}/cabinet/cabinet/form?id=${cabinet.id}">修改</a>

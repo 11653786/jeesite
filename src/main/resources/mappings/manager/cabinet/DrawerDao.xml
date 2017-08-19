@@ -6,7 +6,7 @@
 		a.id AS "id",
 		a.drawer_no AS "drawerNo",
 		a.cabinet_id AS "cabinetId",
-		a.cabinet_name AS "cabinetName",
+		a.cabinet_no AS "cabinetNo",
 		a.drawer_status AS "drawerStatus",
 		a.food_status AS "foodStatus",
 		a.create_time AS "createTime",
@@ -47,11 +47,8 @@
             <if test="cabinet != null and cabinet != ''">
                 AND a.cabinet_id = #{cabinet.id}
             </if>
-            <if test="cabinetName != null and cabinetName != ''">
-                AND a.cabinet_name LIKE
-                <if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
-                <if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
-                <if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
+            <if test="cabinetNo != null and cabinetNo != ''">
+                AND a.cabinet_no =#{cabinetNo}
             </if>
             <if test="drawerStatus != null and drawerStatus != ''">
                 AND a.drawer_status = #{drawerStatus}
@@ -104,7 +101,7 @@
 			id,
 			drawer_no,
 			cabinet_id,
-			cabinet_name,
+			cabinet_no,
 			drawer_status,
 			food_status,
 			create_time
@@ -112,7 +109,7 @@
 			#{id},
 			#{drawerNo},
 			#{cabinetId},
-			#{cabinetName},
+			#{cabinetNo},
 			#{drawerStatus},
 			#{foodStatus},
 			#{createTime}
@@ -123,7 +120,7 @@
 		UPDATE drawer SET 	
 			drawer_no = #{drawerNo},
 			cabinet_id = #{cabinetId},
-			cabinet_name = #{cabinetName},
+			cabinet_no = #{cabinetNo},
 			drawer_status = #{drawerStatus},
 			food_status = #{foodStatus},
 			create_time = #{createTime}

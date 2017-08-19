@@ -124,7 +124,7 @@
 		<div class="control-group">
 			<label class="control-label">柜子编号：</label>
 			<div class="controls">
-				<form:input path="cabinetNo" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
+				<form:input path="cabinetNos" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -137,7 +137,7 @@
 						<tr>
 							<th class="hide"></th>
 							<th>抽屉编号</th>
-							<th>柜子名称</th>
+							<th>柜子编号</th>
 							<th>抽屉状态</th>
 							<th>放餐状态</th>
 							<th>创建时间</th>
@@ -160,7 +160,7 @@
 								<input id="drawerList{{idx}}_drawerNo" name="drawerList[{{idx}}].drawerNo" type="text" value="{{row.drawerNo}}" maxlength="11" class="input-small required"/>
 							</td>
 							<td>
-								<input id="cabinetName" name="cabinetName" type="text" value="${cabinet.cabinetName}" maxlength="50" class="input-small "/>
+								<input id="drawerList{{idx}}_cabinetNo" name="drawerList[{{idx}}].cabinetNo" type="text" value="${cabinet.cabinetNos}" maxlength="50" class="input-small "/>
 							</td>
 							<td>
 								<select id="drawerList{{idx}}_drawerStatus" name="drawerList[{{idx}}].drawerStatus" data-value="{{row.drawerStatus}}" class="input-small required">
