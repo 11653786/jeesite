@@ -68,13 +68,18 @@
 <br/>
 <form:form id="inputForm" modelAttribute="cabinetProductRelactionList"
            action="${ctx}/cabinetproductrelaction/cabinetProductRelaction/save" method="post" class="form-horizontal">
-    <%--<form:hidden path="id"/>--%>
+    <input type="hidden" name="cabinetId" value="${cabinet.id}">
     <sys:message content="${message}"/>
+
     <div class="control-group">
-        <sys:treeselect id="productName" name="productName" value="" labelName="" labelValue=""
-                        title="区域" url="/product/product/getProductList" cssClass="required" allowClear="true"/>
-        <label class="control-label">配置商品：</label>
+        <label class="control-label">商品：</label>
+        <div class="controls">
+            <sys:treeselect id="productId" name="productId" value="" labelName="" labelValue=""
+                            title="商品" url="/product/product/getProductList" cssClass="required" allowClear="true"/>
+            <span class="help-inline"><font color="red">*</font> </span>
+        </div>
     </div>
+
     <div class="control-group">
         <label class="control-label">商品列表：</label>
         <div class="controls">
@@ -116,8 +121,8 @@
 									value="{{row.productName}}" />
 							</td>
 							<td>
-							<shiro:hasPermission name="cabinet:cabinet:edit">
-							   <a href="${ctx}/cabinetproductrelaction/cabinetproductrelaction/delete?id={{row.id}}" onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
+								<shiro:hasPermission name="cabinetproductrelaction:cabinetProductRelaction:edit">
+							   <a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/delete?id={{row.id}}" onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
                             </shiro:hasPermission>
 							</td>
 						</tr>//-->

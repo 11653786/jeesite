@@ -92,7 +92,7 @@ public class CabinetProductRelactionController extends BaseController {
     public String delete(CabinetProductRelaction cabinetProductRelaction, RedirectAttributes redirectAttributes) {
         cabinetProductRelactionService.delete(cabinetProductRelaction);
         addMessage(redirectAttributes, "删除柜子商品配置表成功");
-        return "redirect:" + Global.getAdminPath() + "/cabinetproductrelaction/cabinetProductRelaction/?repage";
+        return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
     }
 
 }
