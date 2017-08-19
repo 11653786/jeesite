@@ -84,7 +84,7 @@
 		<div class="control-group">
 			<label class="control-label">权限标识:</label>
 			<div class="controls">
-				<form:input path="permission" htmlEscape="false" maxlength="100" class="input-xxlarge"/>
+				<form:input path="permission" htmlEscape="false" maxlength="200" class="input-xxlarge"/>
 				<span class="help-inline">控制器中定义的权限标识，如：@RequiresPermissions("权限标识")</span>
 			</div>
 		</div>

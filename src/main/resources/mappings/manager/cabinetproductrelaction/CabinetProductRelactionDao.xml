@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao">
+    
+	<sql id="cabinetProductRelactionColumns">
+		a.id AS "id",
+		a.cabinet_id AS "cabinetId",
+		a.cabinet_no AS "cabinetNo",
+		a.product_id AS "productId",
+		a.cabinet_name AS "cabinetName",
+		a.product_name AS "productName",
+		a.cabinet_product_status AS "cabinetProductStatus",
+		a.create_time AS "createTime"
+	</sql>
+	
+	<sql id="cabinetProductRelactionJoins">
+	</sql>
+    
+	<select id="get" resultType="CabinetProductRelaction">
+		SELECT 
+			<include refid="cabinetProductRelactionColumns"/>
+		FROM cabinet_product_relaction a
+		<include refid="cabinetProductRelactionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="CabinetProductRelaction">
+		SELECT 
+			<include refid="cabinetProductRelactionColumns"/>
+		FROM cabinet_product_relaction a
+		<include refid="cabinetProductRelactionJoins"/>
+		<where>
+			
+			<if test="cabinetNo != null and cabinetNo != ''">
+				AND a.cabinet_no = #{cabinetNo}
+			</if>
+			<if test="cabinetName != null and cabinetName != ''">
+				AND a.cabinet_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
+			</if>
+			<if test="productName != null and productName != ''">
+				AND a.product_name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{productName}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{productName}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{productName},'%')</if>
+			</if>
+			<if test="cabinetProductStatus != null and cabinetProductStatus != ''">
+				AND a.cabinet_product_status = #{cabinetProductStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="CabinetProductRelaction">
+		SELECT 
+			<include refid="cabinetProductRelactionColumns"/>
+		FROM cabinet_product_relaction a
+		<include refid="cabinetProductRelactionJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO cabinet_product_relaction(
+			id,
+			cabinet_id,
+			cabinet_no,
+			product_id,
+			cabinet_name,
+			product_name,
+			cabinet_product_status,
+			create_time
+		) VALUES (
+			#{id},
+			#{cabinetId},
+			#{cabinetNo},
+			#{productId},
+			#{cabinetName},
+			#{productName},
+			#{cabinetProductStatus},
+			#{createTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE cabinet_product_relaction SET 	
+			cabinet_id = #{cabinetId},
+			cabinet_no = #{cabinetNo},
+			product_id = #{productId},
+			cabinet_name = #{cabinetName},
+			product_name = #{productName},
+			cabinet_product_status = #{cabinetProductStatus},
+			create_time = #{createTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM cabinet_product_relaction
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
