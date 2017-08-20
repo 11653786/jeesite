@@ -173,11 +173,11 @@
 		<div class="control-group">
 			<label class="control-label">优惠卷名称：</label>
 			<div class="controls">
-				<form:input path="redpacketName" htmlEscape="false" maxlength="11" class="input-xlarge  digits"/>
+				<form:input path="redpacketName" htmlEscape="false" maxlength="11" class="input-xlarge"/>
 			</div>
 		</div>
 		<div class="form-actions">
-			<shiro:hasPermission name="orders:orders:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
+			<%--<shiro:hasPermission name="orders:orders:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>--%>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
 		</div>
 	</form:form>
