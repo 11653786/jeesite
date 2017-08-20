@@ -33,6 +33,10 @@
 		WHERE del_flag = #{DEL_FLAG_NORMAL} 
 		ORDER BY type, sort, update_date DESC
 	</select>
+
+	<select id="findByTypeAndValue" resultType="Dict">
+	  	select * from sys_dict where type=#{type} and value=#{value};
+	</select>
 	
 	<select id="findTypeList" resultType="string">
 		SELECT 

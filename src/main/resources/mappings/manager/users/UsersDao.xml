@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.users.dao.UsersDao">
+    
+	<sql id="usersColumns">
+		a.id AS "id",
+		a.nike_name AS "nikeName",
+		a.user_name AS "userName",
+		a.phone AS "phone",
+		a.password AS "password",
+		a.user_status AS "userStatus",
+		a.openid AS "openid",
+		a.alipayid AS "alipayid",
+		a.integral AS "integral"
+	</sql>
+	
+	<sql id="usersJoins">
+	</sql>
+    
+	<select id="get" resultType="Users">
+		SELECT 
+			<include refid="usersColumns"/>
+		FROM users a
+		<include refid="usersJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Users">
+		SELECT 
+			<include refid="usersColumns"/>
+		FROM users a
+		<include refid="usersJoins"/>
+		<where>
+			
+			<if test="userName != null and userName != ''">
+				AND a.user_name = #{userName}
+			</if>
+			<if test="phone != null and phone != ''">
+				AND a.phone = #{phone}
+			</if>
+			<if test="userStatus != null and userStatus != ''">
+				AND a.user_status = #{userStatus}
+			</if>
+			<if test="openid != null and openid != ''">
+				AND a.openid = #{openid}
+			</if>
+			<if test="alipayid != null and alipayid != ''">
+				AND a.alipayid = #{alipayid}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Users">
+		SELECT 
+			<include refid="usersColumns"/>
+		FROM users a
+		<include refid="usersJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO users(
+			id,
+			nike_name,
+			user_name,
+			phone,
+			password,
+			user_status,
+			openid,
+			alipayid,
+			integral
+		) VALUES (
+			#{id},
+			#{nikeName},
+			#{userName},
+			#{phone},
+			#{password},
+			#{userStatus},
+			#{openid},
+			#{alipayid},
+			#{integral}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE users SET 	
+			nike_name = #{nikeName},
+			user_name = #{userName},
+			phone = #{phone},
+			password = #{password},
+			user_status = #{userStatus},
+			openid = #{openid},
+			alipayid = #{alipayid},
+			integral = #{integral}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM users
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

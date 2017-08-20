@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
+import com.thinkgem.jeesite.modules.manager.product.entity.Product;
+import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,6 +42,8 @@ public class CabinetProductRelactionController extends BaseController {
     private CabinetProductRelactionService cabinetProductRelactionService;
     @Autowired
     private CabinetService cabinetService;
+    @Autowired
+    private ProductService productService;
 
     @ModelAttribute
     public CabinetProductRelaction get(@RequestParam(required = false) String id) {
@@ -78,12 +82,24 @@ public class CabinetProductRelactionController extends BaseController {
 
     @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:edit")
     @RequestMapping(value = "save")
-    public String save(CabinetProductRelaction cabinetProductRelaction, Model model, RedirectAttributes redirectAttributes) {
-        if (!beanValidator(model, cabinetProductRelaction)) {
-            return form(cabinetProductRelaction.getCabinetId(), model);
+    public String save(String cabinetId, Model model, String productId, RedirectAttributes redirectAttributes) {
+
+        if (StringUtils.isBlank(cabinetId) || StringUtils.isBlank(productId)) {
+            addMessage(redirectAttributes, "传入参数异常");
+            return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
         }
-        cabinetProductRelactionService.save(cabinetProductRelaction);
-        addMessage(redirectAttributes, "保存柜子商品配置表成功");
+
+        Product product = productService.get(productId);
+        Cabinet cabinet = cabinetService.get(cabinetId);
+
+        if (product == null || cabinet == null) {
+            addMessage(redirectAttributes, "传入参数异常");
+            return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
+        }
+
+
+        cabinetProductRelactionService.save(product, cabinet);
+        addMessage(redirectAttributes, "保存柜子商品配置成功");
         return "redirect:" + Global.getAdminPath() + "/cabinetproductrelaction/cabinetProductRelaction/?repage";
     }
 

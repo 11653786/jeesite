@@ -8,15 +8,19 @@ import java.util.List;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 字典DAO接口
+ *
  * @author ThinkGem
  * @version 2014-05-16
  */
 @MyBatisDao
 public interface DictDao extends CrudDao<Dict> {
 
-	public List<String> findTypeList(Dict dict);
-	
+    public List<String> findTypeList(Dict dict);
+
+    public Dict findByTypeAndValue(@Param("type") String type, @Param("value") String value);
+
 }

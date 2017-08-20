@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 柜子商品关系配置DAO接口
@@ -14,5 +15,7 @@ import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.Cabin
  */
 @MyBatisDao
 public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelaction> {
+
+    CabinetProductRelaction findBycabinetIdAndProductId(@Param("cabinetId")String cabinetId,@Param("productId") String productId);
 	
 }

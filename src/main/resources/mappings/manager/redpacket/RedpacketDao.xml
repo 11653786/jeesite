@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.redpacket.dao.RedpacketDao">
+    
+	<sql id="redpacketColumns">
+		a.id AS "id",
+		a.name AS "name",
+		a.redpacket_price AS "redpacketPrice",
+		a.redpacket_total AS "redpacketTotal",
+		a.status AS "status",
+		a.create_time AS "createTime",
+		a.remark AS "remark",
+		a.redpacket_type AS "redpacketType",
+		a.discount_ratio AS "discountRatio",
+		a.limit_day AS "limitDay"
+	</sql>
+	
+	<sql id="redpacketJoins">
+	</sql>
+    
+	<select id="get" resultType="Redpacket">
+		SELECT 
+			<include refid="redpacketColumns"/>
+		FROM redpacket a
+		<include refid="redpacketJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="Redpacket">
+		SELECT 
+			<include refid="redpacketColumns"/>
+		FROM redpacket a
+		<include refid="redpacketJoins"/>
+		<where>
+			
+			<if test="name != null and name != ''">
+				AND a.name LIKE 
+					<if test="dbName == 'oracle'">'%'||#{name}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{name}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{name},'%')</if>
+			</if>
+			<if test="status != null and status != ''">
+				AND a.status = #{status}
+			</if>
+			<if test="redpacketType != null and redpacketType != ''">
+				AND a.redpacket_type = #{redpacketType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="Redpacket">
+		SELECT 
+			<include refid="redpacketColumns"/>
+		FROM redpacket a
+		<include refid="redpacketJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO redpacket(
+			id,
+			name,
+			redpacket_price,
+			redpacket_total,
+			status,
+			create_time,
+			remark,
+			redpacket_type,
+			discount_ratio,
+			limit_day
+		) VALUES (
+			#{id},
+			#{name},
+			#{redpacketPrice},
+			#{redpacketTotal},
+			#{status},
+			#{createTime},
+			#{remark},
+			#{redpacketType},
+			#{discountRatio},
+			#{limitDay}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE redpacket SET 	
+			name = #{name},
+			redpacket_price = #{redpacketPrice},
+			redpacket_total = #{redpacketTotal},
+			status = #{status},
+			create_time = #{createTime},
+			remark = #{remark},
+			redpacket_type = #{redpacketType},
+			discount_ratio = #{discountRatio},
+			limit_day = #{limitDay}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM redpacket
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
