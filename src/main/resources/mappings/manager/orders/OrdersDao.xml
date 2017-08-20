@@ -22,7 +22,7 @@
 		a.product_id AS "productId",
 		a.product_name AS "productName",
 		a.product_money AS "productMoney",
-		a.drawer_no AS "drawerNo"
+		a.drawer_no AS "drawerNo",
 		a.redpacket_id AS "redpacketId",
 		a.redpacket_price as "redpacketPrice",
 		a.redpacket_name as "redpacketName"

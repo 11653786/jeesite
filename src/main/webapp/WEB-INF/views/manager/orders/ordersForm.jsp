@@ -165,7 +165,7 @@
 		<div class="control-group">
 			<label class="control-label">优惠卷金额：</label>
 			<div class="controls">
-				<form:input path="redpacket_price" htmlEscape="false" maxlength="11" class="input-xlarge  digits"/>
+				<form:input path="redpacketPrice" htmlEscape="false" maxlength="11" class="input-xlarge  digits"/>
 			</div>
 		</div>
 
@@ -173,7 +173,7 @@
 		<div class="control-group">
 			<label class="control-label">优惠卷名称：</label>
 			<div class="controls">
-				<form:input path="redpacket_name" htmlEscape="false" maxlength="11" class="input-xlarge  digits"/>
+				<form:input path="redpacketName" htmlEscape="false" maxlength="11" class="input-xlarge  digits"/>
 			</div>
 		</div>
 		<div class="form-actions">
