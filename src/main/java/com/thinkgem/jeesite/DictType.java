@@ -6,7 +6,8 @@ package com.thinkgem.jeesite;
 public enum DictType {
 
     cabinet_product_status_up("cabinet_product_status", "1","商品配置状态其用"),
-    user_status_limit_login("user_status","0","用户限制登录");
+    user_status_limit_login("user_status","0","用户限制登录"),
+    user_status_login("user_status","1","用户登录");
 
     private String type;
     private String value;
