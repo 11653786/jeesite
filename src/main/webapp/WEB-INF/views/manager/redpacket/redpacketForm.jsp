@@ -44,7 +44,7 @@
 			<label class="control-label">优惠金额：</label>
 			<div class="controls">
 				<form:input path="redpacketPrice" htmlEscape="false" maxlength="20" class="input-xlarge required digits"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+				<span class="help-inline"><font color="#a52a2a">折扣劵类型不填写</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -93,6 +93,7 @@
 			<label class="control-label">折扣比率：</label>
 			<div class="controls">
 				<form:input path="discountRatio" htmlEscape="false" maxlength="100" class="input-xlarge "/>
+				<span class="help-inline"><font color="#a52a2a">优惠卷类型为折扣劵时候填写(例如0.95表示95折)</font> </span>
 			</div>
 		</div>
 		<div class="control-group">

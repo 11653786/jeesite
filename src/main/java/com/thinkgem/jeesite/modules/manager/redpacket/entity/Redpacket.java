@@ -45,7 +45,6 @@ public class Redpacket extends DataEntity<Redpacket> {
 		this.name = name;
 	}
 	
-	@NotNull(message="优惠金额不能为空")
 	public Long getRedpacketPrice() {
 		return redpacketPrice;
 	}
