@@ -23,6 +23,9 @@
 		a.product_name AS "productName",
 		a.product_money AS "productMoney",
 		a.drawer_no AS "drawerNo"
+		a.redpacket_id AS "redpacketId",
+		a.redpacket_price as "redpacketPrice",
+		a.redpacket_name as "redpacketName"
 	</sql>
 	
 	<sql id="ordersJoins">
@@ -121,7 +124,10 @@
 			product_id,
 			product_name,
 			product_money,
-			drawer_no
+			drawer_no,
+			redpacket_id,
+			redpacket_price,
+			redpacket_name
 		) VALUES (
 			#{id},
 			#{orderNo},
@@ -142,7 +148,10 @@
 			#{productId},
 			#{productName},
 			#{productMoney},
-			#{drawerNo}
+			#{drawerNo},
+			#{redpacketId},
+			#{redpacketPrice},
+			#{redpacketName}
 		)
 	</insert>
 	
@@ -166,7 +175,10 @@
 			product_id = #{productId},
 			product_name = #{productName},
 			product_money = #{productMoney},
-			drawer_no = #{drawerNo}
+			drawer_no = #{drawerNo},
+			redpacket_id=#{redpacketId},
+			redpacket_price=#{redpacketPrice},
+			redpacket_name=#{redpacketName}
 		WHERE id = #{id}
 	</update>
 	

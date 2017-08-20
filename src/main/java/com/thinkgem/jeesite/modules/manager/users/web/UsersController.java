@@ -106,4 +106,13 @@ public class UsersController extends BaseController {
         return "redirect:" + Global.getAdminPath() + "/users/users/?repage";
     }
 
+    @RequiresPermissions("users:users:edit")
+    @RequestMapping(value = "userAddRedpacket")
+    public String userAddRedpacket(String id, Model model) {
+        Users users = usersService.get(id);
+        model.addAttribute("users", users);
+        return "manager/users/userAddRedpacket";
+    }
+
+
 }

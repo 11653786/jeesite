@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao">
+    
+	<sql id="userRedpacketRelactionColumns">
+		a.id AS "id",
+		a.redpacket_id AS "redpacketId",
+		a.redpacket_name AS "redpacketName",
+		a.user_id AS "userid",
+		a.user_name AS "userName",
+		a.redpacket_price AS "redpacketPrice",
+		a.create_time AS "createTime",
+		a.redpacket_type AS "redpacketType",
+		a.discount_ratio AS "discountRatio",
+		a.in_use as "inUse"
+	</sql>
+	
+	<sql id="userRedpacketRelactionJoins">
+		LEFT JOIN sys_user u4 ON u4.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="UserRedpacketRelaction">
+		SELECT 
+			<include refid="userRedpacketRelactionColumns"/>
+		FROM user_redpacket_relaction a
+		<include refid="userRedpacketRelactionJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="UserRedpacketRelaction">
+		SELECT 
+			<include refid="userRedpacketRelactionColumns"/>
+		FROM user_redpacket_relaction a
+		<include refid="userRedpacketRelactionJoins"/>
+		<where>
+			
+			<if test="redpacketName != null and redpacketName != ''">
+				AND a.redpacket_name = #{redpacketName}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND a.user_name = #{userName}
+			</if>
+			<if test="beginCreateTime != null and endCreateTime != null and beginCreateTime != '' and endCreateTime != ''">
+				AND a.create_time BETWEEN #{beginCreateTime} AND #{endCreateTime}
+			</if>
+			<if test="redpacketType != null and redpacketType != ''">
+				AND a.redpacket_type = #{redpacketType}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="UserRedpacketRelaction">
+		SELECT 
+			<include refid="userRedpacketRelactionColumns"/>
+		FROM user_redpacket_relaction a
+		<include refid="userRedpacketRelactionJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO user_redpacket_relaction(
+			id,
+			redpacket_id,
+			redpacket_name,
+			user_id,
+			user_name,
+			redpacket_price,
+			create_time,
+			redpacket_type,
+			discount_ratio,
+			in_use
+		) VALUES (
+			#{id},
+			#{redpacketId},
+			#{redpacketName},
+			#{userid},
+			#{userName},
+			#{redpacketPrice},
+			#{createTime},
+			#{redpacketType},
+			#{discountRatio},
+			#{inUse}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE user_redpacket_relaction SET 	
+			redpacket_id = #{redpacketId},
+			redpacket_name = #{redpacketName},
+			user_id = #{userid},
+			user_name = #{userName},
+			redpacket_price = #{redpacketPrice},
+			create_time = #{createTime},
+			redpacket_type = #{redpacketType},
+			discount_ratio = #{discountRatio},
+			in_use=#{inUse}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM user_redpacket_relaction
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

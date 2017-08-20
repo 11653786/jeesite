@@ -7,7 +7,10 @@ public enum DictType {
 
     cabinet_product_status_up("cabinet_product_status", "1","商品配置状态其用"),
     user_status_limit_login("user_status","0","用户限制登录"),
-    user_status_login("user_status","1","用户登录");
+    user_status_login("user_status","1","用户登录"),
+    dict_redpacket_in_use("in_use","1","红包未使用"),
+    dict_redpacket_in_not_use("in_use","2","红包已使用"),
+    redpacket_status_use("redpacket_status","1","优惠卷状态,可用");
 
     private String type;
     private String value;

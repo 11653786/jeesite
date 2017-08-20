@@ -85,6 +85,7 @@
             </td>
             <shiro:hasPermission name="users:users:edit">
                 <td>
+                    <a href="${ctx}/users/users/userAddRedpacket?id=${users.id}">发送优惠卷</a>
                     <a href="${ctx}/users/users/form?id=${users.id}">修改</a>
                     <a href="${ctx}/users/users/limitLogin?id=${users.id}">
                         <c:if test="${users.userStatus==0}" var="isLimitLogin">
