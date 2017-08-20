@@ -18,15 +18,15 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 public class Redpacket extends DataEntity<Redpacket> {
 	
 	private static final long serialVersionUID = 1L;
-	private String name;		// 红包名称
+	private String name;		// 优惠卷名称
 	private Long redpacketPrice;		// 优惠金额
-	private Long redpacketTotal;		// 红包数量
-	private String status;		// 红包状态
+	private Long redpacketTotal;		// 优惠卷数量
+	private String status;		// 优惠卷状态
 	private Date createTime;		// 创建时间
 	private String remark;		// remark
-	private String redpacketType;		// 红包类型
+	private String redpacketType;		// 优惠卷类型
 	private String discountRatio;		// 折扣比率
-	private Integer limitDay;		// 过期天书
+	private Integer limitDay;		// 过期天数
 	
 	public Redpacket() {
 		super();
@@ -36,7 +36,7 @@ public class Redpacket extends DataEntity<Redpacket> {
 		super(id);
 	}
 
-	@Length(min=1, max=255, message="红包名称长度必须介于 1 和 255 之间")
+	@Length(min=1, max=255, message="优惠卷名称长度必须介于 1 和 255 之间")
 	public String getName() {
 		return name;
 	}
@@ -54,7 +54,7 @@ public class Redpacket extends DataEntity<Redpacket> {
 		this.redpacketPrice = redpacketPrice;
 	}
 	
-	@NotNull(message="红包数量不能为空")
+	@NotNull(message="优惠卷数量不能为空")
 	public Long getRedpacketTotal() {
 		return redpacketTotal;
 	}
@@ -63,7 +63,7 @@ public class Redpacket extends DataEntity<Redpacket> {
 		this.redpacketTotal = redpacketTotal;
 	}
 	
-	@Length(min=1, max=11, message="红包状态长度必须介于 1 和 11 之间")
+	@Length(min=1, max=11, message="优惠卷状态长度必须介于 1 和 11 之间")
 	public String getStatus() {
 		return status;
 	}
@@ -91,7 +91,7 @@ public class Redpacket extends DataEntity<Redpacket> {
 		this.remark = remark;
 	}
 	
-	@Length(min=1, max=11, message="红包类型长度必须介于 1 和 11 之间")
+	@Length(min=1, max=11, message="优惠卷类型长度必须介于 1 和 11 之间")
 	public String getRedpacketType() {
 		return redpacketType;
 	}
@@ -109,7 +109,7 @@ public class Redpacket extends DataEntity<Redpacket> {
 		this.discountRatio = discountRatio;
 	}
 	
-	@NotNull(message="过期天书不能为空")
+	@NotNull(message="过期天数不能为空")
 	public Integer getLimitDay() {
 		return limitDay;
 	}

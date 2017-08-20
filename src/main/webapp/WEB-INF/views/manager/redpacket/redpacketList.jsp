@@ -25,14 +25,20 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>红包名称：</label>
+			<li><label>优惠卷名称：</label>
 				<form:input path="name" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
-			<li><label>红包状态：</label>
-				<form:input path="status" htmlEscape="false" maxlength="11" class="input-medium"/>
+			<li><label>优惠卷状态：</label>
+				<form:select path="status" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('redpacket_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
-			<li><label>红包类型：</label>
-				<form:input path="redpacketType" htmlEscape="false" maxlength="11" class="input-medium"/>
+			<li><label>优惠卷类型：</label>
+				<form:select path="redpacketType" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('redpacket_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -42,14 +48,14 @@
 	<table id="contentTable" class="table table-striped table-bordered table-condensed">
 		<thead>
 			<tr>
-				<th>红包名称</th>
+				<th>优惠卷名称</th>
 				<th>优惠金额</th>
-				<th>红包数量</th>
-				<th>红包状态</th>
+				<th>优惠卷数量</th>
+				<th>优惠卷状态</th>
 				<th>remark</th>
-				<th>红包类型</th>
+				<th>优惠卷类型</th>
 				<th>折扣比率</th>
-				<th>过期天书</th>
+				<th>过期天数</th>
 				<shiro:hasPermission name="redpacket:redpacket:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -66,13 +72,13 @@
 					${redpacket.redpacketTotal}
 				</td>
 				<td>
-					${redpacket.status}
+					${fns:getDictLabel(redpacket.status, 'redpacket_status', '')}
 				</td>
 				<td>
 					${redpacket.remark}
 				</td>
 				<td>
-					${redpacket.redpacketType}
+					${fns:getDictLabel(redpacket.redpacketType, 'redpacket_type', '')}
 				</td>
 				<td>
 					${redpacket.discountRatio}

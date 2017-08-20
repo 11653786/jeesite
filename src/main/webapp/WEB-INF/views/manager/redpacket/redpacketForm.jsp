@@ -34,7 +34,7 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">红包名称：</label>
+			<label class="control-label">优惠卷名称：</label>
 			<div class="controls">
 				<form:input path="name" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
@@ -48,16 +48,19 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">红包数量：</label>
+			<label class="control-label">优惠卷数量：</label>
 			<div class="controls">
 				<form:input path="redpacketTotal" htmlEscape="false" maxlength="20" class="input-xlarge required digits"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">红包状态：</label>
+			<label class="control-label">优惠卷状态：</label>
 			<div class="controls">
-				<form:input path="status" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<form:select path="status" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('redpacket_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -77,9 +80,12 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">红包类型：</label>
+			<label class="control-label">优惠卷类型：</label>
 			<div class="controls">
-				<form:input path="redpacketType" htmlEscape="false" maxlength="11" class="input-xlarge required"/>
+				<form:select path="redpacketType" class="input-xlarge required">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('redpacket_type')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
@@ -90,7 +96,7 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">过期天书：</label>
+			<label class="control-label">过期天数：</label>
 			<div class="controls">
 				<form:input path="limitDay" htmlEscape="false" maxlength="11" class="input-xlarge required digits"/>
 				<span class="help-inline"><font color="red">*</font> </span>
