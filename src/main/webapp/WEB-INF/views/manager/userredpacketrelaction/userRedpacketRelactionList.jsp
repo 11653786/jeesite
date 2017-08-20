@@ -76,7 +76,9 @@
                     ${userRedpacketRelaction.userName}
             </td>
             <td>
-                    ${userRedpacketRelaction.redpacketPrice}
+                <c:if test="${userRedpacketRelaction.redpacketPrice!=null}">
+                    ${userRedpacketRelaction.redpacketPrice/100}元
+                </c:if>
             </td>
             <td>
                 <fmt:formatDate value="${userRedpacketRelaction.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
