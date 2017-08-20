@@ -79,6 +79,7 @@
 				</td>
 				<shiro:hasPermission name="users:users:edit"><td>
     				<a href="${ctx}/users/users/form?id=${users.id}">修改</a>
+					<a href="${ctx}/users/users/limitLogin?id=${users.id}">限制登录</a>
 					<a href="${ctx}/users/users/delete?id=${users.id}" onclick="return confirmx('确认要删除该客户管理吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

@@ -34,10 +34,9 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">微信昵称：</label>
+			<label class="control-label">昵称：</label>
 			<div class="controls">
 				<form:input path="nikeName" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -50,7 +49,6 @@
 			<label class="control-label">手机号：</label>
 			<div class="controls">
 				<form:input path="phone" htmlEscape="false" maxlength="20" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">

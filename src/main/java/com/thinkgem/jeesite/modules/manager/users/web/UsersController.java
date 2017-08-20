@@ -6,6 +6,9 @@ package com.thinkgem.jeesite.modules.manager.users.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.DictType;
+import com.thinkgem.jeesite.util.MD5Util;
+import oracle.net.aso.MD5;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -67,6 +70,7 @@ public class UsersController extends BaseController {
 		if (!beanValidator(model, users)){
 			return form(users, model);
 		}
+		users.setPassword(MD5Util.MD5Encode(users.getPassword(),"utf-8"));
 		usersService.save(users);
 		addMessage(redirectAttributes, "保存客户管理成功");
 		return "redirect:"+Global.getAdminPath()+"/users/users/?repage";
@@ -76,6 +80,22 @@ public class UsersController extends BaseController {
 	@RequestMapping(value = "delete")
 	public String delete(Users users, RedirectAttributes redirectAttributes) {
 		usersService.delete(users);
+		addMessage(redirectAttributes, "删除客户管理成功");
+		return "redirect:"+Global.getAdminPath()+"/users/users/?repage";
+	}
+
+	/**
+	 * 限制登录
+	 * @param id
+	 * @param redirectAttributes
+     * @return
+     */
+	@RequiresPermissions("users:users:edit")
+	@RequestMapping(value = "limitLogin")
+	public String limitLogin(String id, RedirectAttributes redirectAttributes) {
+		Users users=usersService.get(id);
+		users.setUserStatus(DictType.user_status_limit_login.getValue());
+		usersService.save(users);
 		addMessage(redirectAttributes, "删除客户管理成功");
 		return "redirect:"+Global.getAdminPath()+"/users/users/?repage";
 	}
