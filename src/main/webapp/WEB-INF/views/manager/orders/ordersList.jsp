@@ -57,8 +57,8 @@
 			<li><label>手机号：</label>
 				<form:input path="phone" htmlEscape="false" maxlength="255" class="input-medium"/>
 			</li>
-			<li><label>柜子名称：</label>
-				<form:input path="cabinetName" htmlEscape="false" maxlength="40" class="input-medium"/>
+			<li><label>柜子编号：</label>
+				<form:input path="cabinetNo" htmlEscape="false" maxlength="40" class="input-medium"/>
 			</li>
 			<li class="btns"><input id="btnSubmit" class="btn btn-primary" type="submit" value="查询"/></li>
 			<li class="clearfix"></li>
@@ -79,7 +79,9 @@
 				<th>微信标志</th>
 				<th>alipay标志</th>
 				<th>手机号</th>
-				<th>柜子名称</th>
+				<th>柜子编号</th>
+				<th>商品名称</th>
+				<th>商品数量</th>
 				<shiro:hasPermission name="orders:orders:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -120,8 +122,10 @@
 					${orders.phone}
 				</td>
 				<td>
-					${orders.cabinetName}
+					${orders.cabinetNo}
 				</td>
+				<td>${orders.productName}</td>
+				<td>${orders.productTotal}</td>
 				<shiro:hasPermission name="orders:orders:edit"><td>
     				<a href="${ctx}/orders/orders/form?id=${orders.id}">查看</a>
 					<a href="${ctx}/orders/orders/delete?id=${orders.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>

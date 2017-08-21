@@ -18,14 +18,15 @@
 		a.alipayid AS "alipayid",
 		a.user_id AS "userId",
 		a.phone AS "phone",
-		a.cabinet_name AS "cabinetName",
+		a.cabinet_no AS "cabinetNo",
 		a.product_id AS "productId",
 		a.product_name AS "productName",
 		a.product_money AS "productMoney",
 		a.drawer_no AS "drawerNo",
 		a.redpacket_id AS "redpacketId",
 		a.redpacket_price as "redpacketPrice",
-		a.redpacket_name as "redpacketName"
+		a.redpacket_name as "redpacketName",
+		a.product_total as "productTotal"
 	</sql>
 	
 	<sql id="ordersJoins">
@@ -70,11 +71,11 @@
 			<if test="phone != null and phone != ''">
 				AND a.phone = #{phone}
 			</if>
-			<if test="cabinetName != null and cabinetName != ''">
+			<if test="cabinetNo != null and cabinetNo != ''">
 				AND a.cabinet_name LIKE 
-					<if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
+					<if test="dbName == 'oracle'">'%'||#{cabinetNo}||'%'</if>
+					<if test="dbName == 'mssql'">'%'+#{cabinetNo}+'%'</if>
+					<if test="dbName == 'mysql'">concat('%',#{cabinetNo},'%')</if>
 			</if>
 		</where>
 		<choose>
@@ -120,14 +121,15 @@
 			alipayid,
 			user_id,
 			phone,
-			cabinet_name,
+			cabinet_no,
 			product_id,
 			product_name,
 			product_money,
 			drawer_no,
 			redpacket_id,
 			redpacket_price,
-			redpacket_name
+			redpacket_name,
+			product_total
 		) VALUES (
 			#{id},
 			#{orderNo},
@@ -144,14 +146,15 @@
 			#{alipayid},
 			#{userId},
 			#{phone},
-			#{cabinetName},
+			#{cabinetNo},
 			#{productId},
 			#{productName},
 			#{productMoney},
 			#{drawerNo},
 			#{redpacketId},
 			#{redpacketPrice},
-			#{redpacketName}
+			#{redpacketName},
+			#{productTotal}
 		)
 	</insert>
 	
@@ -171,14 +174,15 @@
 			alipayid = #{alipayid},
 			user_id = #{userId},
 			phone = #{phone},
-			cabinet_name = #{cabinetName},
+			cabinet_no = #{cabinetNo},
 			product_id = #{productId},
 			product_name = #{productName},
 			product_money = #{productMoney},
 			drawer_no = #{drawerNo},
 			redpacket_id=#{redpacketId},
 			redpacket_price=#{redpacketPrice},
-			redpacket_name=#{redpacketName}
+			redpacket_name=#{redpacketName},
+			product_total=#{productTotal}
 		WHERE id = #{id}
 	</update>
 	

@@ -33,13 +33,13 @@ public class Orders extends DataEntity<Orders> {
     private Date paymentTime;        // 支付时间
     private String openid;        // 微信标志
     private String alipayid;        // alipay标志
-    private Integer userId;        // 下单用户id
+    private String userId;        // 下单用户id
     private String phone;        // 手机号
-    private String cabinetName;        // 柜子名称
+    private String cabinetNo;        // 柜子编号
     private String productId;        // 商品id
     private String productName;        // 商品名称
     private Long productMoney;        // 商品金额
-    private Integer drawerNo;        // 抽屉编号
+    private String drawerNo;        // 抽屉编号
     private Date beginPaymentTime;        // 开始 支付时间
     private Date endPaymentTime;        // 结束 支付时间
 
@@ -47,6 +47,9 @@ public class Orders extends DataEntity<Orders> {
     private String redpacketId;
     private Long redpacketPrice;
     private String redpacketName;
+
+    //补充字段------------------------
+    private Integer productTotal;      //商品数量
 
     public Orders() {
         super();
@@ -164,11 +167,11 @@ public class Orders extends DataEntity<Orders> {
         this.alipayid = alipayid;
     }
 
-    public Integer getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -181,13 +184,13 @@ public class Orders extends DataEntity<Orders> {
         this.phone = phone;
     }
 
-    @Length(min = 0, max = 40, message = "柜子名称长度必须介于 0 和 40 之间")
-    public String getCabinetName() {
-        return cabinetName;
+    @Length(min = 0, max = 40, message = "柜子编号长度必须介于 0 和 40 之间")
+    public String getCabinetNo() {
+        return cabinetNo;
     }
 
-    public void setCabinetName(String cabinetName) {
-        this.cabinetName = cabinetName;
+    public void setCabinetNo(String cabinetNo) {
+        this.cabinetNo = cabinetNo;
     }
 
     @Length(min = 0, max = 40, message = "商品id长度必须介于 0 和 40 之间")
@@ -216,11 +219,11 @@ public class Orders extends DataEntity<Orders> {
         this.productMoney = productMoney;
     }
 
-    public Integer getDrawerNo() {
+    public String getDrawerNo() {
         return drawerNo;
     }
 
-    public void setDrawerNo(Integer drawerNo) {
+    public void setDrawerNo(String drawerNo) {
         this.drawerNo = drawerNo;
     }
 
@@ -267,5 +270,14 @@ public class Orders extends DataEntity<Orders> {
 
     public void setRedpacketName(String redpacketName) {
         this.redpacketName = redpacketName;
+    }
+
+
+    public Integer getProductTotal() {
+        return productTotal;
+    }
+
+    public void setProductTotal(Integer productTotal) {
+        this.productTotal = productTotal;
     }
 }
