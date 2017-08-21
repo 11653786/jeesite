@@ -132,9 +132,9 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">柜子名称：</label>
+			<label class="control-label">柜子编号：</label>
 			<div class="controls">
-				<form:input path="cabinetName" htmlEscape="false" maxlength="40" class="input-xlarge "/>
+				<form:input path="cabinetNo" htmlEscape="false" maxlength="40" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="control-group">
@@ -174,6 +174,12 @@
 			<label class="control-label">优惠卷名称：</label>
 			<div class="controls">
 				<form:input path="redpacketName" htmlEscape="false" maxlength="11" class="input-xlarge"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">商品数量：</label>
+			<div class="controls">
+				<form:input path="productTotal" htmlEscape="false" maxlength="11" class="input-xlarge"/>
 			</div>
 		</div>
 		<div class="form-actions">
