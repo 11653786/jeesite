@@ -65,7 +65,7 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">柜子名称：</label>
+			<label class="control-label">通信状态：</label>
 			<div class="controls">
 				<form:input path="cabinetName" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
