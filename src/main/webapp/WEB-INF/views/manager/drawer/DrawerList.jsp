@@ -29,26 +29,11 @@
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
         <li><label>柜子编号：</label>
-            <form:input path="cabinetNo" htmlEscape="false" maxlength="50" class="input-medium"/>
-        </li>
-        <li><label>省：</label>
-            <sys:treeselect id="provinceId" name="provinceId" value="${drawer.provinceId}" labelName=""
-                            labelValue="${drawer.cabinetProvinceName}"
-                            title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true"
-                            notAllowSelectParent="true"/>
-        </li>
-        <li><label>市：</label>
-            <sys:treeselect id="cityId" name="cityId" value="${drawer.cityId}" labelName=""
-                            labelValue="${drawer.cabinetCityName}"
-                            title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true"
-                            notAllowSelectParent="true"/>
-        </li>
-        <li><label>区：</label>
-            <sys:treeselect id="areaId" name="areaId" value="${drawer.areaId}" labelName=""
-                            labelValue="${drawer.cabinetAreaName}"
-                            title="区域" url="/sys/area/treeData" cssClass="input-small" allowClear="true"
-                            notAllowSelectParent="true"/>
-        </li>
+            <form:select path="cabinetId" class="input-medium">
+                <form:option value="" label=""/>
+                <form:options items="${cabinetList}" itemLabel="cabinetNos" itemValue="id"
+                              htmlEscape="false"/>
+            </form:select>
         <li><label>抽屉状态：</label>
             <form:select path="drawerStatus" class="input-medium">
                 <form:option value="" label=""/>
@@ -113,6 +98,9 @@
                     <a href="${ctx}/drawer/drawer/form?id=${drawer.id}">修改</a>
                     <a href="${ctx}/drawer/drawer/delete?id=${drawer.id}"
                        onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
+                    <shiro:hasPermission name="cabinetproductrelaction:cabinetProductRelaction:edit">
+                        <a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/form?id=${drawer.id}">配置商品</a>
+                    </shiro:hasPermission>
                 </td>
             </shiro:hasPermission>
         </tr>
