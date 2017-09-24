@@ -80,6 +80,23 @@ public class CabinetProductRelactionController extends BaseController {
         return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
     }
 
+
+    @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:view")
+    @RequestMapping(value = "form1")
+    public String form1(String id, Model model) {
+        //修改或者配置柜子商品信息
+        //获取当前柜子信息
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionService.get(id);
+        Cabinet cabinet = cabinetService.get(cabinetProductRelaction.getCabinetId());
+        List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findList(new CabinetProductRelaction(cabinet.getId()));
+        //
+        model.addAttribute("cabinet", cabinet);
+        model.addAttribute("cabinetProductRelactionList", cabinetProductRelactionList);
+
+
+        return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
+    }
+
     @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:edit")
     @RequestMapping(value = "save")
     public String save(String cabinetId, Model model, String productId, RedirectAttributes redirectAttributes) {
