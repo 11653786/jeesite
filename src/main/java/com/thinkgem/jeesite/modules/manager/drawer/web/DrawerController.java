@@ -4,7 +4,9 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
+import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
@@ -31,6 +33,8 @@ public class DrawerController extends BaseController {
 
     @Autowired
     private DrawerService drawerService;
+    @Autowired
+    private CabinetService cabinetService;
 
     @ModelAttribute
     public Drawer get(@RequestParam(required = false) String id) {
@@ -53,11 +57,12 @@ public class DrawerController extends BaseController {
     }
 
 
-
     @RequiresPermissions("drawer:drawer:view")
     @RequestMapping(value = "form")
     public String form(Drawer drawer, Model model) {
+        List<Cabinet> cabinetList = cabinetService.findList(new Cabinet());
         model.addAttribute("drawer", drawer);
+        model.addAttribute("cabinetList",cabinetList);
         return "manager/drawer/drawerForm";
     }
 
@@ -65,6 +70,8 @@ public class DrawerController extends BaseController {
     @RequestMapping(value = "save")
     public String save(Drawer drawer, Model model, RedirectAttributes redirectAttributes) {
         if (!beanValidator(model, drawer)) {
+            Cabinet cabinet=cabinetService.get(drawer.getCabinetId());
+            drawer.setCabinetNo(cabinet.getCabinetNos());
             return form(drawer, model);
         }
         drawerService.save(drawer);

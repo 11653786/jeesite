@@ -65,17 +65,21 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">抽屉名称：</label>
+			<label class="control-label">抽屉编号：</label>
 			<div class="controls">
 				<form:input path="drawerNo" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">柜子编号：</label>
+			<label class="control-label">柜子：</label>
 			<div class="controls">
-				<form:input path="cabinetNo" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
+                <form:select path="cabinetId" class="input-medium required">
+                    <form:option value="" label=""/>
+                    <form:options items="${cabinetList}" itemLabel="cabinetName" itemValue="id"
+                                  htmlEscape="false"/>
+                </form:select>
+                <span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
 		<div class="control-group">
@@ -100,36 +104,36 @@
 		<div class="control-group">
 			<label class="control-label">创建时间：</label>
 			<div class="controls">
-				<input name="createTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
+				<input name="createTime" type="text"  maxlength="20" class="input-medium Wdate required"
 					value="<fmt:formatDate value="${drawer.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
 					onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
-		<div class="control-group">
-			<label class="control-label">放餐时间：</label>
-			<div class="controls">
-				<input name="createTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate required"
-					   value="<fmt:formatDate value="${drawer.inTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
-					   onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">商品id：</label>
-			<div class="controls">
-				<form:input path="productId" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
+		<%--<div class="control-group">--%>
+			<%--<label class="control-label">放餐时间：</label>--%>
+			<%--<div class="controls">--%>
+				<%--<input name="createTime" type="text"  maxlength="20" class="input-medium Wdate required"--%>
+					   <%--value="<fmt:formatDate value="${drawer.inTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"--%>
+					   <%--onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>--%>
+				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			<%--</div>--%>
+		<%--</div>--%>
+		<%--<div class="control-group">--%>
+			<%--<label class="control-label">商品id：</label>--%>
+			<%--<div class="controls">--%>
+				<%--<form:input path="productId" htmlEscape="false" maxlength="50" class="input-xlarge required"/>--%>
+				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			<%--</div>--%>
+		<%--</div>--%>
 
-		<div class="control-group">
-			<label class="control-label">商品名称：</label>
-			<div class="controls">
-				<form:input path="productName" htmlEscape="false" maxlength="50" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
+		<%--<div class="control-group">--%>
+			<%--<label class="control-label">商品名称：</label>--%>
+			<%--<div class="controls">--%>
+				<%--<form:input path="productName" htmlEscape="false" maxlength="50" class="input-xlarge required"/>--%>
+				<%--<span class="help-inline"><font color="red">*</font> </span>--%>
+			<%--</div>--%>
+		<%--</div>--%>
 		<div class="form-actions">
 			<shiro:hasPermission name="cabinet:cabinet:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
 			<input id="btnCancel" class="btn" type="button" value="返 回" onclick="history.go(-1)"/>
