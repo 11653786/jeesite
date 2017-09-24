@@ -25,12 +25,19 @@
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
 		<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
 		<ul class="ul-form">
-			<li><label>柜子编号：</label>
-				<form:input path="cabinetNo" htmlEscape="false" maxlength="40" class="input-medium"/>
-			</li>
+            <li><label>柜子编号：</label>
+                <form:select path="cabinetNo" class="input-medium">
+                    <form:option value="" label=""/>
+                    <form:options items="${cabinetList}" itemLabel="cabinetNos" itemValue="cabinetNos"
+                                  htmlEscape="false"/>
+                </form:select>
+            </li>
 			<li><label>柜子名称：</label>
 				<form:input path="cabinetName" htmlEscape="false" maxlength="40" class="input-medium"/>
 			</li>
+            <li><label>抽屉编号：</label>
+                <form:input path="drawerNo" htmlEscape="false" maxlength="40" class="input-medium"/>
+            </li>
 			<li><label>商品名称：</label>
 				<form:input path="productName" htmlEscape="false" maxlength="40" class="input-medium"/>
 			</li>
@@ -50,6 +57,7 @@
 			<tr>
 				<th>柜子编号</th>
 				<th>柜子名称</th>
+                <th>抽屉编号</th>
 				<th>商品名称</th>
 				<th>启用状态</th>
 				<th>创建时间</th>
@@ -65,6 +73,7 @@
 				<td>
 					${cabinetProductRelaction.cabinetName}
 				</td>
+                <td>${cabinetProductRelaction.drawerNo}</td>
 				<td>
 					${cabinetProductRelaction.productName}
 				</td>

@@ -10,7 +10,9 @@
 		a.cabinet_name AS "cabinetName",
 		a.product_name AS "productName",
 		a.cabinet_product_status AS "cabinetProductStatus",
-		a.create_time AS "createTime"
+		a.create_time AS "createTime",
+		a.drawer_no as "drawerNo",
+		a.drawer_id as "drawerId"
 	</sql>
 
     <sql id="cabinetProductRelactionJoins">
