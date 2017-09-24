@@ -124,5 +124,13 @@
 		DELETE FROM cabinet
 		WHERE id = #{id}
 	</update>
+
+
+    <select id="groupByProductNameTotal" resultType="Cabinet">
+        select cabinetNos,GROUP_CONCAT(productName, ":", productTotal) AS province
+        from (select cabinet_no as cabinetNos,count(product_name) as productTotal,product_name as productName
+        from orders
+        where payment_time is not null group by product_name) as t1;
+    </select>
 	
 </mapper>

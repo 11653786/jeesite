@@ -7,6 +7,8 @@ import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 
+import java.util.List;
+
 /**
  * 快餐柜实体类DAO接口
  * @author yt
@@ -14,5 +16,11 @@ import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
  */
 @MyBatisDao
 public interface CabinetDao extends CrudDao<Cabinet> {
+
+    /**
+     * 统计每个柜子的所有商品
+     * @return
+     */
+    List<Cabinet> groupByProductNameTotal();
 	
 }

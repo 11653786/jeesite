@@ -73,6 +73,7 @@
         <th>柜子状态</th>
         <th>创建时间</th>
         <th>柜子编号</th>
+        <th>菜品统计</th>
         <shiro:hasPermission name="cabinet:cabinet:edit">
             <th>操作</th>
         </shiro:hasPermission>
@@ -105,7 +106,13 @@
             <td>
                     ${cabinet.cabinetNos}
             </td>
-
+            <td>
+                <c:forEach items="${groupByCabinet}"  var="groupcabinet">
+                    <c:if test="${groupcabinet.cabinetNos==cabinet.cabinetNos}">
+                        ${groupcabinet.province}
+                    </c:if>
+                </c:forEach>
+            </td>
             <shiro:hasPermission name="cabinet:cabinet:edit">
             <td>
                 <a href="${ctx}/cabinet/cabinet/form?id=${cabinet.id}">修改</a>
