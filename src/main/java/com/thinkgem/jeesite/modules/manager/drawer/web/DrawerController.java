@@ -52,6 +52,8 @@ public class DrawerController extends BaseController {
     @RequestMapping(value = {"list", ""})
     public String list(Drawer drawer, HttpServletRequest request, HttpServletResponse response, Model model) {
         Page<Drawer> page = drawerService.findPage(new Page<Drawer>(request, response), drawer);
+        List<Cabinet> cabinetList = cabinetService.findList(new Cabinet());
+        model.addAttribute("cabinetList",cabinetList);
         model.addAttribute("page", page);
         return "manager/drawer/drawerList";
     }

@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
+import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -44,6 +46,8 @@ public class CabinetProductRelactionController extends BaseController {
     private CabinetService cabinetService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private DrawerService drawerService;
 
     @ModelAttribute
     public CabinetProductRelaction get(@RequestParam(required = false) String id) {
@@ -70,10 +74,12 @@ public class CabinetProductRelactionController extends BaseController {
     public String form(String id, Model model) {
         //修改或者配置柜子商品信息
         //获取当前柜子信息
-        Cabinet cabinet = cabinetService.get(id);
+        Drawer drawer = drawerService.get(id);
+        Cabinet cabinet = cabinetService.get(drawer.getCabinetId());
         List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findList(new CabinetProductRelaction(cabinet.getId()));
         //
         model.addAttribute("cabinet", cabinet);
+        model.addAttribute("drawer", drawer);
         model.addAttribute("cabinetProductRelactionList", cabinetProductRelactionList);
 
 
@@ -99,23 +105,23 @@ public class CabinetProductRelactionController extends BaseController {
 
     @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:edit")
     @RequestMapping(value = "save")
-    public String save(String cabinetId, Model model, String productId, RedirectAttributes redirectAttributes) {
+    public String save(String drawerId, String productId, RedirectAttributes redirectAttributes) {
 
-        if (StringUtils.isBlank(cabinetId) || StringUtils.isBlank(productId)) {
+        if (StringUtils.isBlank(productId) || StringUtils.isBlank(drawerId)) {
             addMessage(redirectAttributes, "传入参数异常");
             return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
         }
 
         Product product = productService.get(productId);
-        Cabinet cabinet = cabinetService.get(cabinetId);
+        Drawer drawer =drawerService.get(drawerId);
 
-        if (product == null || cabinet == null) {
+        if (product == null || drawer == null) {
             addMessage(redirectAttributes, "传入参数异常");
             return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
         }
 
 
-        cabinetProductRelactionService.save(product, cabinet);
+        cabinetProductRelactionService.save(product, drawer);
         addMessage(redirectAttributes, "保存柜子商品配置成功");
         return "redirect:" + Global.getAdminPath() + "/cabinetproductrelaction/cabinetProductRelaction/?repage";
     }

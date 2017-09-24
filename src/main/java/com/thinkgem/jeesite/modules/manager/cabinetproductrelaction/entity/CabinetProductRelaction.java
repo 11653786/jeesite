@@ -20,6 +20,8 @@ public class CabinetProductRelaction extends DataEntity<CabinetProductRelaction>
 	private static final long serialVersionUID = 1L;
 	private String cabinetId;		// 柜子id
 	private String cabinetNo;		// 柜子编号
+    private String drawerId;       //柜子编号
+    private String drawerNo;       //柜子
 	private String productId;		// 商品id
 	private String cabinetName;		// 柜子名称
 	private String productName;		// 商品名称
@@ -97,5 +99,20 @@ public class CabinetProductRelaction extends DataEntity<CabinetProductRelaction>
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	
+
+    public String getDrawerId() {
+        return drawerId;
+    }
+
+    public void setDrawerId(String drawerId) {
+        this.drawerId = drawerId;
+    }
+
+    public String getDrawerNo() {
+        return drawerNo;
+    }
+
+    public void setDrawerNo(String drawerNo) {
+        this.drawerNo = drawerNo;
+    }
 }

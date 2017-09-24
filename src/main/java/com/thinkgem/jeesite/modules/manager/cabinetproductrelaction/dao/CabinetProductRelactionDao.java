@@ -16,6 +16,6 @@ import org.apache.ibatis.annotations.Param;
 @MyBatisDao
 public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelaction> {
 
-    CabinetProductRelaction findBycabinetIdAndProductId(@Param("cabinetId")String cabinetId,@Param("productId") String productId);
+    CabinetProductRelaction findBydrawerIdAndProductId(@Param("drawerId")String drawerId,@Param("productId") String productId);
 	
 }

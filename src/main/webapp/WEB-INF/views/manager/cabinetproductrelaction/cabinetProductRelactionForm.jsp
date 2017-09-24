@@ -68,7 +68,7 @@
 <br/>
 <form:form id="inputForm" modelAttribute="cabinetProductRelactionList"
            action="${ctx}/cabinetproductrelaction/cabinetProductRelaction/save" method="post" class="form-horizontal">
-    <input type="hidden" name="cabinetId" value="${cabinet.id}">
+    <input type="hidden" name="drawerId" value="${drawer.id}">
     <sys:message content="${message}"/>
 
     <div class="control-group">
@@ -88,6 +88,7 @@
                 <tr>
                     <th class="hide"></th>
                     <th>柜子名称</th>
+                    <th>抽屉编号</th>
                     <th>商品名称</th>
                     <shiro:hasPermission name="cabinet:cabinet:edit">
                         <th width="10">&nbsp;</th>
@@ -115,6 +116,10 @@
 							<td>
 								<input id="cabinetProductRelactionList{{idx}}_cabinetName" name="cabinetProductRelactionList[{{idx}}].cabinetName" type="text" readonly="readonly" maxlength="20" class="input-medium required"
 									value="${cabinet.cabinetName}" />
+							</td>
+                            <td>
+								<input id="cabinetProductRelactionList{{idx}}_cabinetName" name="cabinetProductRelactionList[{{idx}}].cabinetName" type="text" readonly="readonly" maxlength="20" class="input-medium required"
+									value="${drawer.drawerNo}" />
 							</td>
 							<td>
 							<input id="cabinetProductRelactionList{{idx}}_productName" name="cabinetProductRelactionList[{{idx}}].productName" type="text" readonly="readonly" maxlength="20" class="input-medium required"

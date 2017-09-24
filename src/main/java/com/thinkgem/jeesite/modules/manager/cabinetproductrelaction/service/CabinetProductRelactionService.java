@@ -7,7 +7,9 @@ import java.util.Date;
 import java.util.List;
 
 import com.thinkgem.jeesite.DictType;
+import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.sys.entity.Dict;
 import com.thinkgem.jeesite.modules.sys.service.DictService;
@@ -35,6 +37,8 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
     private DictService dictService;
     @Autowired
     private CabinetProductRelactionDao cabinetProductRelactionDao;
+    @Autowired
+    private CabinetDao cabinetDao;
 
     public CabinetProductRelaction get(String id) {
         return super.get(id);
@@ -49,18 +53,21 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
     }
 
     @Transactional(readOnly = false)
-    public void save(Product product, Cabinet cabinet) {
+    public void save(Product product, Drawer drawer) {
 
         CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
-        cabinetProductRelaction.setCabinetId(cabinet.getId());
+        cabinetProductRelaction.setCabinetId(drawer.getCabinetId());
+        Cabinet cabinet = cabinetDao.get(drawer.getCabinetId());
         cabinetProductRelaction.setCabinetName(cabinet.getCabinetName());
-        cabinetProductRelaction.setCabinetNo(cabinet.getCabinetNos());
+        cabinetProductRelaction.setCabinetNo(drawer.getCabinetNo());
+        cabinetProductRelaction.setDrawerId(drawer.getId());
+        cabinetProductRelaction.setDrawerNo(drawer.getDrawerNo());
         Dict dict = dictService.findByTypeAndValue(DictType.cabinet_product_status_up.getType(), DictType.cabinet_product_status_up.getValue());
         cabinetProductRelaction.setCabinetProductStatus(dict.getValue());
         cabinetProductRelaction.setCreateTime(new Date());
         cabinetProductRelaction.setProductId(product.getId());
         cabinetProductRelaction.setProductName(product.getProductName());
-        CabinetProductRelaction existsEntity = cabinetProductRelactionDao.findBycabinetIdAndProductId(cabinet.getId(), product.getId());
+        CabinetProductRelaction existsEntity = cabinetProductRelactionDao.findBydrawerIdAndProductId(drawer.getId(), product.getId());
         if (existsEntity == null)
             super.save(cabinetProductRelaction);
 
