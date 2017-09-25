@@ -121,11 +121,9 @@
                     <c:if test="${food00.cabinetNos==cabinet.cabinetNos}">
                      ${food00.total}
                         <%--补货预警判断--%>
-                        <c:if test="${cabinetFullNum!=null}">
                             <c:if test="${food00.total!=null && food00.total>cabinet.cabinetFullNum}">
-                                <c:set var="tipFull" value="补货预警：${cabinetFullNum},空余抽屉:${food00.total}&nbsp" scope="page"></c:set>
+                                <c:set var="tipFull" value="补货预警：${cabinet.cabinetFullNum},空余抽屉:${food00.total}&nbsp" scope="page"></c:set>
                             </c:if>
-                        </c:if>
                     </c:if>
                 </c:forEach>
                 ,放餐数量:
@@ -141,11 +139,9 @@
                     <c:if test="${food02.cabinetNos==cabinet.cabinetNos}">
                         ${food02.total}
                         <%--换货预警判断--%>
-                        <c:if test="${cabinetReplaceNum!=null}">
                             <c:if test="${food02.total!=null && food02.total>cabinet.cabinetReplaceNum}">
-                                <c:set var="tipReplace" value="换货预警：${cabinetFullNum},需换抽屉:${food02.total}" scope="page"></c:set>
+                                <c:set var="tipReplace" value="换货预警：${cabinet.cabinetReplaceNum},需换抽屉:${food02.total}" scope="page"></c:set>
                             </c:if>
-                        </c:if>
                     </c:if>
                 </c:forEach>
 
