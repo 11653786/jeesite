@@ -122,7 +122,7 @@
                      ${food00.total}
                         <%--补货预警判断--%>
                         <c:if test="${cabinetFullNum!=null}">
-                            <c:if test="${food00.total!=null && food00.total>cabinetFullNum}">
+                            <c:if test="${food00.total!=null && food00.total>cabinet.cabinetFullNum}">
                                 <c:set var="tipFull" value="补货预警：${cabinetFullNum},空余抽屉:${food00.total}&nbsp" scope="page"></c:set>
                             </c:if>
                         </c:if>
@@ -142,7 +142,7 @@
                         ${food02.total}
                         <%--换货预警判断--%>
                         <c:if test="${cabinetReplaceNum!=null}">
-                            <c:if test="${food02.total!=null && food02.total>cabinetReplaceNum}">
+                            <c:if test="${food02.total!=null && food02.total>cabinet.cabinetReplaceNum}">
                                 <c:set var="tipReplace" value="换货预警：${cabinetFullNum},需换抽屉:${food02.total}" scope="page"></c:set>
                             </c:if>
                         </c:if>
@@ -161,6 +161,7 @@
             <shiro:hasPermission name="cabinet:cabinet:edit">
             <td>
                 <a href="${ctx}/cabinet/cabinet/form?id=${cabinet.id}">修改</a>
+                <a href="${ctx}/cabinet/cabinet/updatePassword?id=${cabinet.id}">设置密码</a>
                 <a href="${ctx}/cabinet/cabinet/delete?id=${cabinet.id}"
                    onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
                 </shiro:hasPermission>

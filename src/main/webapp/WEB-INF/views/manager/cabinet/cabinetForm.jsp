@@ -128,6 +128,20 @@
 				<span class="help-inline"><font color="red">*</font> </span>
 			</div>
 		</div>
+		<div class="control-group">
+			<label class="control-label">补货预警：</label>
+			<div class="controls">
+				<form:input path="cabinetFullNum" htmlEscape="false" maxlength="50" class="input-xlarge required number"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">换货预警：</label>
+			<div class="controls">
+				<form:input path="cabinetReplaceNum" htmlEscape="false" maxlength="50" class="input-xlarge required number"/>
+				<span class="help-inline"><font color="red">*</font> </span>
+			</div>
+		</div>
 		<c:if test="${cabinet!=null && cabinet.id!=null}">
 			<div class="control-group">
 				<label class="control-label">柜子对应的抽屉：</label>

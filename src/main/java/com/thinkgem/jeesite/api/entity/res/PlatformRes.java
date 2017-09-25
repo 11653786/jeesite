@@ -62,6 +62,10 @@ public class PlatformRes<T> {
         return new PlatformRes<T>(resCodeMsgType.code(), resCodeMsgType.desc());
     }
 
+    public static <String> PlatformRes<String> error(String message) {
+        return new PlatformRes<String>(ResCodeMsgType.FAIL.code(),ResCodeMsgType.FAIL.code(),message);
+    }
+
     public static <T> PlatformRes<T> error(String code, String msg) {
         return new PlatformRes<T>(code, msg);
     }

@@ -14,7 +14,11 @@
 		a.address AS "address",
 		a.cabinet_status AS "cabinetStatus",
 		a.create_time AS "createTime",
-		a.cabinet_nos AS "cabinetNos"
+		a.cabinet_nos AS "cabinetNos",
+		a.cabinet_replace_num as "cabinetReplaceNum",
+		a.cabinet_full_num as "cabinetFullNum",
+		a.food_password as "foodPassword",
+		a.sys_password as "sysPassword"
 	</sql>
 	
 	<sql id="cabinetJoins">
@@ -90,25 +94,33 @@
 			province,
 			city,
 			area,
+		    cabinet_replace_num,
+		    cabinet_full_num,
 			address,
 			cabinet_status,
 			create_time,
-			cabinet_nos
+			cabinet_nos,
+			food_password,
+			sys_password
 		) VALUES (
 			#{id},
 			#{cabinetName},
 			#{province},
 			#{city},
 			#{area},
+			#{cabinetReplaceNum},
+			#{cabinetFullNum},
 			#{address},
 			#{cabinetStatus},
 			#{createTime},
-			#{cabinetNos}
+			#{cabinetNos},
+			#{foodPassword},
+			#{sysPassword},
 		)
 	</insert>
 	
 	<update id="update">
-		UPDATE cabinet SET 	
+		UPDATE cabinet SET
 			cabinet_name = #{cabinetName},
 			province = #{province},
 			city = #{city},
@@ -116,9 +128,33 @@
 			address = #{address},
 			cabinet_status = #{cabinetStatus},
 			create_time = #{createTime},
-			cabinet_nos = #{cabinetNos}
+			cabinet_nos = #{cabinetNos},
+		  	cabinet_replace_num=#{cabinetReplaceNum},
+			cabinet_full_num=#{cabinetFullNum}
 		WHERE id = #{id}
 	</update>
+
+
+	<update id="updatePassword">
+		UPDATE cabinet SET
+			<if test="type==0">
+				sys_password=#{sysPassword}
+			</if>
+
+		<if test="type==1">
+			food_password=#{foodPassword}
+		</if>
+
+		<if test="type==2">
+			sys_password=#{sysPassword},
+			food_password=#{foodPassword}
+		</if>
+
+
+
+		WHERE id = #{cabinetId}
+	</update>
+
 	
 	<update id="delete">
 		DELETE FROM cabinet

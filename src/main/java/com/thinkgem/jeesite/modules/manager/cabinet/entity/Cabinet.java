@@ -28,6 +28,10 @@ public class Cabinet extends DataEntity<Cabinet> {
 	private String cabinetStatus;		// 柜子状态
 	private Date createTime;		// 创建时间
 	private String cabinetNos;		// 柜子编号
+	private Integer cabinetReplaceNum; //换货预警值
+	private Integer cabinetFullNum;		//补货预警值
+	private String foodPassword;  //放餐密码
+	private String sysPassword;		//系统密码
 	private List<Drawer> drawerList = Lists.newArrayList();		// 子表列表
 
 	private String province1;
@@ -156,5 +160,39 @@ public class Cabinet extends DataEntity<Cabinet> {
 
 	public void setTotal(Integer total) {
 		this.total = total;
+	}
+
+
+	public Integer getCabinetReplaceNum() {
+		return cabinetReplaceNum;
+	}
+
+	public void setCabinetReplaceNum(Integer cabinetReplaceNum) {
+		this.cabinetReplaceNum = cabinetReplaceNum;
+	}
+
+	public Integer getCabinetFullNum() {
+		return cabinetFullNum;
+	}
+
+	public void setCabinetFullNum(Integer cabinetFullNum) {
+		this.cabinetFullNum = cabinetFullNum;
+	}
+
+
+	public String getFoodPassword() {
+		return foodPassword;
+	}
+
+	public void setFoodPassword(String foodPassword) {
+		this.foodPassword = foodPassword;
+	}
+
+	public String getSysPassword() {
+		return sysPassword;
+	}
+
+	public void setSysPassword(String sysPassword) {
+		this.sysPassword = sysPassword;
 	}
 }
