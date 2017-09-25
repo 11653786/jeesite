@@ -74,6 +74,7 @@
         <th>创建时间</th>
         <th>柜子编号</th>
         <th>菜品统计</th>
+        <th>库存情况</th>
         <shiro:hasPermission name="cabinet:cabinet:edit">
             <th>操作</th>
         </shiro:hasPermission>
@@ -112,6 +113,29 @@
                         ${groupcabinet.province}
                     </c:if>
                 </c:forEach>
+            </td>
+            <td>
+                未放餐数量:
+                <c:forEach items="${food0}"  var="food00">
+                    <c:if test="${food00.cabinetNos==cabinet.cabinetNos}">
+                     ${food00.total}
+                    </c:if>
+                </c:forEach>
+                ,放餐数量:
+                <c:forEach items="${food1}"  var="food01">
+
+                    <c:if test="${food01.cabinetNos==cabinet.cabinetNos}">
+                        ${food01.total}
+                    </c:if>
+                </c:forEach>
+                ,过期数量:
+                <c:forEach items="${food2}"  var="food02">
+
+                    <c:if test="${food02.cabinetNos==cabinet.cabinetNos}">
+                        ${food02.total}
+                    </c:if>
+                </c:forEach>
+
             </td>
             <shiro:hasPermission name="cabinet:cabinet:edit">
             <td>

@@ -57,7 +57,16 @@ public class CabinetController extends BaseController {
         List<Cabinet> groupByCabinet = cabinetDao.groupByProductNameTotal();
         model.addAttribute("page", page);
         model.addAttribute("groupByCabinet", groupByCabinet);
+
+        //查询不同状态的柜子信息
+        List<Cabinet> food0 = cabinetDao.groupbyCabinetNosByFoodStatus(0);
+        List<Cabinet> food1 = cabinetDao.groupbyCabinetNosByFoodStatus(1);
+        List<Cabinet> food2 = cabinetDao.groupbyCabinetNosByFoodStatus(2);
+
         model.addAttribute("page", page);
+        model.addAttribute("food0", food0);
+        model.addAttribute("food1", food1);
+        model.addAttribute("food2", food2);
         return "manager/cabinet/cabinetList";
     }
 

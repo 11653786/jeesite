@@ -132,5 +132,13 @@
         from orders
         where payment_time is not null group by product_name) as t1;
     </select>
+
+
+
+	<select id="groupbyCabinetNosByFoodStatus" resultType="Cabinet">
+		select cabinet.cabinet_nos as cabinetNos,count(drawer.drawer_no) as total from drawer drawer join cabinet cabinet on cabinet.cabinet_nos=drawer.cabinet_no
+		where drawer.food_status=#{foodStatus} and drawer.drawer_status=1
+		group by cabinet.cabinet_nos;
+	</select>
 	
 </mapper>

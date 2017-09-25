@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.manager.cabinet.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,5 +23,14 @@ public interface CabinetDao extends CrudDao<Cabinet> {
      * @return
      */
     List<Cabinet> groupByProductNameTotal();
+
+
+
+    /**
+     *根据放餐状态查询柜子编号和对应的柜子编号对应的状态
+     * @param foodStatus  放餐状态:0,未放餐,1已放餐,2已过期',
+     */
+    List<Cabinet> groupbyCabinetNosByFoodStatus(@Param("foodStatus") Integer foodStatus);
+
 	
 }

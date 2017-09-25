@@ -34,6 +34,9 @@ public class Cabinet extends DataEntity<Cabinet> {
 	private String city1;
 	private String area1;
 
+	//帮助字段
+	private Integer total;
+
 	public Cabinet() {
 		super();
 	}
@@ -145,5 +148,13 @@ public class Cabinet extends DataEntity<Cabinet> {
 
 	public void setArea1(String area1) {
 		this.area1 = area1;
+	}
+
+	public Integer getTotal() {
+		return total;
+	}
+
+	public void setTotal(Integer total) {
+		this.total = total;
 	}
 }
