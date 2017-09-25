@@ -73,7 +73,7 @@
         <th>通信状态</th>
         <th>创建时间</th>
         <th>柜子编号</th>
-        <th>菜品统计</th>
+        <th>不同商品销售数量</th>
         <th>抽屉放餐情况</th>
         <th>补换货预警</th>
         <shiro:hasPermission name="cabinet:cabinet:edit">
