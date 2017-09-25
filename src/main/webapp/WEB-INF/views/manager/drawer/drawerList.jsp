@@ -29,9 +29,9 @@
     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <ul class="ul-form">
         <li><label>柜子编号：</label>
-            <form:select path="cabinetId" class="input-medium">
+            <form:select path="cabinetNo" class="input-medium">
                 <form:option value="" label=""/>
-                <form:options items="${cabinetList}" itemLabel="cabinetNos" itemValue="id"
+                <form:options items="${cabinetList}" itemLabel="cabinetNos" itemValue="cabinetNos"
                               htmlEscape="false"/>
             </form:select>
         <li><label>抽屉状态：</label>
