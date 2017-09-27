@@ -1,10 +1,15 @@
 package com.thinkgem.jeesite.mapper;
 
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.vo.OrderLog;
 import com.thinkgem.jeesite.vo.OrderLogExample;
+
+import java.util.Date;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
+@MyBatisDao
 public interface OrderLogMapper {
     int countByExample(OrderLogExample example);
 
@@ -27,4 +32,7 @@ public interface OrderLogMapper {
     int updateByPrimaryKeySelective(OrderLog record);
 
     int updateByPrimaryKey(OrderLog record);
+
+
+    List<OrderLog> orderLogGroupByAreaId(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }

@@ -321,4 +321,21 @@
       create_time = #{createTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+
+  <select id="orderLogGroupByAreaId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+     from order_log group by area_id where 1==1
+    <choose>
+      <when test="startTime==null or endTime==null">
+        create_time &gt; date_add(now(),interval -7 day);
+      </when>
+      <when test="startTime!=null and endTime!=null">
+        create_time BETWEEN #{startTime}  AND #{endTime}
+      </when>
+    </choose>
+
+  </select>
+
 </mapper>
