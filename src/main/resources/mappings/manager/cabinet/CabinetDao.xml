@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao">
-    
-	<sql id="cabinetColumns">
+
+    <sql id="cabinetColumns">
 		a.id AS "id",
 		a.cabinet_name AS "cabinetName",
 		a.province AS "province",
@@ -20,74 +20,74 @@
 		a.food_password as "foodPassword",
 		a.sys_password as "sysPassword"
 	</sql>
-	
-	<sql id="cabinetJoins">
+
+    <sql id="cabinetJoins">
 		LEFT JOIN sys_area a3 ON a3.id = a.province
 		LEFT JOIN sys_area a4 ON a4.id = a.city
 		LEFT JOIN sys_area a5 ON a5.id = a.area
 	</sql>
-    
-	<select id="get" resultType="Cabinet">
-		SELECT 
-			<include refid="cabinetColumns"/>
-		FROM cabinet a
-		<include refid="cabinetJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="Cabinet">
-		SELECT 
-			<include refid="cabinetColumns"/>
-		FROM cabinet a
-		<include refid="cabinetJoins"/>
-		<where>
-			
-			<if test="cabinetName != null and cabinetName != ''">
-				AND a.cabinet_name = #{cabinetName}
-			</if>
-			<if test="province != null and province != ''">
-				AND a.province = #{province}
-			</if>
-			<if test="city != null and city != ''">
-				AND a.city = #{city}
-			</if>
-			<if test="area != null and area != ''">
-				AND a.area = #{area}
-			</if>
-			<if test="cabinetStatus != null and cabinetStatus != ''">
-				AND a.cabinet_status = #{cabinetStatus}
-			</if>
-			<if test="cabinetNos != null and cabinetNos != ''">
-				AND a.cabinet_nos = #{cabinetNos}
-			</if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="Cabinet">
-		SELECT 
-			<include refid="cabinetColumns"/>
-		FROM cabinet a
-		<include refid="cabinetJoins"/>
-		<where>
-			
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+
+    <select id="get" resultType="Cabinet">
+        SELECT
+        <include refid="cabinetColumns"/>
+        FROM cabinet a
+        <include refid="cabinetJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="Cabinet">
+        SELECT
+        <include refid="cabinetColumns"/>
+        FROM cabinet a
+        <include refid="cabinetJoins"/>
+        <where>
+
+            <if test="cabinetName != null and cabinetName != ''">
+                AND a.cabinet_name = #{cabinetName}
+            </if>
+            <if test="province != null and province != ''">
+                AND a.province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                AND a.city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                AND a.area = #{area}
+            </if>
+            <if test="cabinetStatus != null and cabinetStatus != ''">
+                AND a.cabinet_status = #{cabinetStatus}
+            </if>
+            <if test="cabinetNos != null and cabinetNos != ''">
+                AND a.cabinet_nos = #{cabinetNos}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="Cabinet">
+        SELECT
+        <include refid="cabinetColumns"/>
+        FROM cabinet a
+        <include refid="cabinetJoins"/>
+        <where>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO cabinet(
 			id,
 			cabinet_name,
@@ -118,8 +118,8 @@
 			#{sysPassword},
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE cabinet SET
 			cabinet_name = #{cabinetName},
 			province = #{province},
@@ -135,28 +135,27 @@
 	</update>
 
 
-	<update id="updatePassword">
-		UPDATE cabinet SET
-			<if test="type==0">
-				sys_password=#{sysPassword}
-			</if>
+    <update id="updatePassword">
+        UPDATE cabinet SET
+        <if test="type==0">
+            sys_password=#{sysPassword}
+        </if>
 
-		<if test="type==1">
-			food_password=#{foodPassword}
-		</if>
+        <if test="type==1">
+            food_password=#{foodPassword}
+        </if>
 
-		<if test="type==2">
-			sys_password=#{sysPassword},
-			food_password=#{foodPassword}
-		</if>
+        <if test="type==2">
+            sys_password=#{sysPassword},
+            food_password=#{foodPassword}
+        </if>
 
 
+        WHERE id = #{cabinetId}
+    </update>
 
-		WHERE id = #{cabinetId}
-	</update>
 
-	
-	<update id="delete">
+    <update id="delete">
 		DELETE FROM cabinet
 		WHERE id = #{id}
 	</update>
@@ -170,11 +169,18 @@
     </select>
 
 
-
-	<select id="groupbyCabinetNosByFoodStatus" resultType="Cabinet">
+    <select id="groupbyCabinetNosByFoodStatus" resultType="Cabinet">
 		select cabinet.cabinet_nos as cabinetNos,count(drawer.drawer_no) as total from drawer drawer join cabinet cabinet on cabinet.cabinet_nos=drawer.cabinet_no
 		where drawer.food_status=#{foodStatus} and drawer.drawer_status=1
 		group by cabinet.cabinet_nos;
 	</select>
-	
+
+
+    <select id="getCabinetByAreaId" resultType="Cabinet">
+       select id AS "id",
+        cabinet_no as "cabinetNo",
+		cabinet_name AS "cabinetName"
+		from cabinet where area=#{areaId}
+    </select>
+
 </mapper>

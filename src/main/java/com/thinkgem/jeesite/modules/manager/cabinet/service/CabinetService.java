@@ -106,4 +106,9 @@ public class CabinetService extends CrudService<CabinetDao, Cabinet> {
     }
 
 
+    public List<Cabinet> getCabinetByAreaId(String areaId){
+       return cabinetDao.getCabinetByAreaId(areaId);
+    }
+
+
 }

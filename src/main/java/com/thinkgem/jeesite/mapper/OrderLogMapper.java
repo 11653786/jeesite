@@ -33,6 +33,13 @@ public interface OrderLogMapper {
 
     int updateByPrimaryKey(OrderLog record);
 
-
-    List<OrderLog> orderLogGroupByAreaId(@Param("startTime") Date startTime, @Param("endTime") Date endTime);
+    /**
+     *
+     * @param areaId  地区
+     * @param cabinetId 柜子
+     * @param startTime 开始时间
+     * @param endTime   截止时间
+     * @return
+     */
+    List<OrderLog> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetId") String cabinetId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }

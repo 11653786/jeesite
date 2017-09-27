@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.vo;
 
+import com.thinkgem.jeesite.common.utils.excel.annotation.ExcelField;
+
 import java.util.Date;
 
 /**
@@ -15,13 +17,13 @@ public class OrderLog {
     private String cabinetName;
 
     private String productId;
-
+    @ExcelField(title="商品名称", type=1, align=2, sort=1)
     private String productName;
-
+    @ExcelField(title="商品数量", type=1, align=2, sort=2)
     private Integer productNum;
 
     private Long productPrice;
-
+    @ExcelField(title="商品总金额", type=1, align=2, sort=3)
     private Long productTotalPrice;
 
     private Date paymentTime;

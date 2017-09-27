@@ -45,5 +45,11 @@ public interface CabinetDao extends CrudDao<Cabinet> {
      */
     Integer updatePassword(@Param("type")Integer type,@Param("cabinetId") String cabinetId,@Param("sysPassword") String sysPassword, @Param("foodPassword") String foodPassword);
 
+    /**
+     * 根据区域查询柜子
+     * @param areaId
+     * @return
+     */
+    public List<Cabinet> getCabinetByAreaId(String areaId);
 
 }
