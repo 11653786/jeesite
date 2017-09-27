@@ -178,7 +178,7 @@
 
     <select id="getCabinetByAreaId" resultType="Cabinet">
        select id AS "id",
-        cabinet_no as "cabinetNo",
+        cabinet_nos as "cabinetNos",
 		cabinet_name AS "cabinetName"
 		from cabinet where area=#{areaId}
     </select>

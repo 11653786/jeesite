@@ -77,9 +77,12 @@
 				if(typeof ${id}TreeselectCallBack == 'function'){
 					${id}TreeselectCallBack(v, h, f);
 				}
+                //这里表动onchange事件给totalorderList.jsp
+                $("#${id}Name").change();
 			}, loaded:function(h){
 				$(".jbox-content", top.document).css("overflow-y","hidden");
 			}
+
 		});
 	});
 </script>
