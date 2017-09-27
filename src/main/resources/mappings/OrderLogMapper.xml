@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.thinkgem.jeesite.mapper.OrderLogMapper" >
+  <resultMap id="BaseResultMap" type="com.thinkgem.jeesite.vo.OrderLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="cabinet_no" property="cabinetNo" jdbcType="VARCHAR" />
+    <result column="cabinet_name" property="cabinetName" jdbcType="VARCHAR" />
+    <result column="product_id" property="productId" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="product_num" property="productNum" jdbcType="INTEGER" />
+    <result column="product_price" property="productPrice" jdbcType="BIGINT" />
+    <result column="product_total_price" property="productTotalPrice" jdbcType="BIGINT" />
+    <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP" />
+    <result column="payment_type" property="paymentType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, area_id, cabinet_no, cabinet_name, product_id, product_name, product_num, product_price, 
+    product_total_price, payment_time, payment_type, create_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.thinkgem.jeesite.vo.OrderLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from order_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.thinkgem.jeesite.vo.OrderLogExample" >
+    delete from order_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.thinkgem.jeesite.vo.OrderLog" >
+    insert into order_log (id, area_id, cabinet_no, 
+      cabinet_name, product_id, product_name, 
+      product_num, product_price, product_total_price, 
+      payment_time, payment_type, create_time
+      )
+    values (#{id,jdbcType=INTEGER}, #{areaId,jdbcType=VARCHAR}, #{cabinetNo,jdbcType=VARCHAR}, 
+      #{cabinetName,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
+      #{productNum,jdbcType=INTEGER}, #{productPrice,jdbcType=BIGINT}, #{productTotalPrice,jdbcType=BIGINT}, 
+      #{paymentTime,jdbcType=TIMESTAMP}, #{paymentType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.thinkgem.jeesite.vo.OrderLog" >
+    insert into order_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="cabinetNo != null" >
+        cabinet_no,
+      </if>
+      <if test="cabinetName != null" >
+        cabinet_name,
+      </if>
+      <if test="productId != null" >
+        product_id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="productNum != null" >
+        product_num,
+      </if>
+      <if test="productPrice != null" >
+        product_price,
+      </if>
+      <if test="productTotalPrice != null" >
+        product_total_price,
+      </if>
+      <if test="paymentTime != null" >
+        payment_time,
+      </if>
+      <if test="paymentType != null" >
+        payment_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetNo != null" >
+        #{cabinetNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetName != null" >
+        #{cabinetName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productNum != null" >
+        #{productNum,jdbcType=INTEGER},
+      </if>
+      <if test="productPrice != null" >
+        #{productPrice,jdbcType=BIGINT},
+      </if>
+      <if test="productTotalPrice != null" >
+        #{productTotalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="paymentTime != null" >
+        #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.thinkgem.jeesite.vo.OrderLogExample" resultType="java.lang.Integer" >
+    select count(*) from order_log
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update order_log
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaId != null" >
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cabinetNo != null" >
+        cabinet_no = #{record.cabinetNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cabinetName != null" >
+        cabinet_name = #{record.cabinetName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productId != null" >
+        product_id = #{record.productId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productName != null" >
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productNum != null" >
+        product_num = #{record.productNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.productPrice != null" >
+        product_price = #{record.productPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.productTotalPrice != null" >
+        product_total_price = #{record.productTotalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="record.paymentTime != null" >
+        payment_time = #{record.paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.paymentType != null" >
+        payment_type = #{record.paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update order_log
+    set id = #{record.id,jdbcType=INTEGER},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      cabinet_no = #{record.cabinetNo,jdbcType=VARCHAR},
+      cabinet_name = #{record.cabinetName,jdbcType=VARCHAR},
+      product_id = #{record.productId,jdbcType=VARCHAR},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      product_num = #{record.productNum,jdbcType=INTEGER},
+      product_price = #{record.productPrice,jdbcType=BIGINT},
+      product_total_price = #{record.productTotalPrice,jdbcType=BIGINT},
+      payment_time = #{record.paymentTime,jdbcType=TIMESTAMP},
+      payment_type = #{record.paymentType,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.thinkgem.jeesite.vo.OrderLog" >
+    update order_log
+    <set >
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetNo != null" >
+        cabinet_no = #{cabinetNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cabinetName != null" >
+        cabinet_name = #{cabinetName,jdbcType=VARCHAR},
+      </if>
+      <if test="productId != null" >
+        product_id = #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="productNum != null" >
+        product_num = #{productNum,jdbcType=INTEGER},
+      </if>
+      <if test="productPrice != null" >
+        product_price = #{productPrice,jdbcType=BIGINT},
+      </if>
+      <if test="productTotalPrice != null" >
+        product_total_price = #{productTotalPrice,jdbcType=BIGINT},
+      </if>
+      <if test="paymentTime != null" >
+        payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="paymentType != null" >
+        payment_type = #{paymentType,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.thinkgem.jeesite.vo.OrderLog" >
+    update order_log
+    set area_id = #{areaId,jdbcType=VARCHAR},
+      cabinet_no = #{cabinetNo,jdbcType=VARCHAR},
+      cabinet_name = #{cabinetName,jdbcType=VARCHAR},
+      product_id = #{productId,jdbcType=VARCHAR},
+      product_name = #{productName,jdbcType=VARCHAR},
+      product_num = #{productNum,jdbcType=INTEGER},
+      product_price = #{productPrice,jdbcType=BIGINT},
+      product_total_price = #{productTotalPrice,jdbcType=BIGINT},
+      payment_time = #{paymentTime,jdbcType=TIMESTAMP},
+      payment_type = #{paymentType,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
