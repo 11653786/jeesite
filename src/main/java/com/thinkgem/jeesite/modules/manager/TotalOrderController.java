@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.mapper.OrderLogMapper;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 import com.thinkgem.jeesite.modules.sys.entity.User;
+import com.thinkgem.jeesite.service.OrderLogService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class TotalOrderController extends BaseController {
     @Autowired
     private OrdersService orderService;
     @Autowired
-    private OrderLogMapper orderLogMapper;
+    private OrderLogService orderLogService;
 
 
     @RequiresPermissions("totalorder:totalorder:view")
@@ -44,6 +45,7 @@ public class TotalOrderController extends BaseController {
     public String export(Date startTime, Date endTime,String areaId,HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             String fileName = "统计数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
+
 //            Page<User> page = systemService.findUser(new Page<User>(request, response, -1), user);
 //            new ExportExcel("用户数据", User.class).setDataList(page.getList()).write(response, fileName).dispose();
             return null;
