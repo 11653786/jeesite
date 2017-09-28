@@ -21,10 +21,10 @@
                         //返回的数据用data.d获取内容
                         var selectValue="<option value=''>请选择</option>";
                         for(var a in data){
-                            selectValue=selectValue+"<option value="+data[a]['id']+">"+data[a]['cabinetName']+"</option>";
+                            selectValue=selectValue+"<option value="+data[a]['cabinetNos']+">"+data[a]['cabinetName']+"</option>";
                         }
 
-                       $("#cabinetId").html(selectValue);
+                       $("#cabinetNo").html(selectValue);
                     },
                     error: function(err) {
                         alert(err);
@@ -37,6 +37,11 @@
                 top.$.jBox.confirm("确认要导出数据吗？","系统提示",function(v,h,f){
                     if(v=="ok"){
                         $("#searchForm").attr("action","${ctx}/totalorder/totalorder/export");
+                        var areaName=$("#areaName").val();
+                        if(areaName==null || areaName==undefined){
+                            alert("请选择区域");
+                            return false;
+                        }
                         $("#searchForm").submit();
                     }
                 },{buttonsFocus:1});
@@ -63,7 +68,7 @@
                             notAllowSelectParent="true"/>
         </li>
         <li><label>柜子：</label>
-        <select id="cabinetId" name="cabinetId" class="input-medium">
+        <select id="cabinetNo" name="cabinetNo" class="input-medium">
         </select>
         </li>
         <input id="btnExport" class="btn btn-primary" type="button" value="导出"/>

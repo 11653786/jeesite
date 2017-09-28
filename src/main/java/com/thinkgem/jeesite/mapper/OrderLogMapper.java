@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.vo.OrderLogExample;
 import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.vo.handler.OrderLogHandler;
 import org.apache.ibatis.annotations.Param;
 
 @MyBatisDao
@@ -34,12 +35,12 @@ public interface OrderLogMapper {
     int updateByPrimaryKey(OrderLog record);
 
     /**
-     *
+     * 统计区域或者柜子的销售统计
      * @param areaId  地区
-     * @param cabinetId 柜子
+     * @param cabinetNo 柜子
      * @param startTime 开始时间
      * @param endTime   截止时间
      * @return
      */
-    List<OrderLog> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetId") String cabinetId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+    List<OrderLogHandler> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }

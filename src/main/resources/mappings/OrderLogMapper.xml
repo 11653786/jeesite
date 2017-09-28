@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.thinkgem.jeesite.vo.OrderLog">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="area_id" property="areaId" jdbcType="VARCHAR"/>
+        <result column="area_name" property="areName" jdbcType="VARCHAR"/>
         <result column="cabinet_no" property="cabinetNo" jdbcType="VARCHAR"/>
         <result column="cabinet_name" property="cabinetName" jdbcType="VARCHAR"/>
         <result column="product_id" property="productId" jdbcType="VARCHAR"/>
@@ -76,7 +77,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, area_id, cabinet_no, cabinet_name, product_id, product_name, product_num, product_price, 
+    id, area_id,area_name, cabinet_no, cabinet_name, product_id, product_name, product_num, product_price,
     product_total_price, payment_time, payment_type, create_time
   </sql>
     <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.thinkgem.jeesite.vo.OrderLogExample">
@@ -111,12 +112,12 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.thinkgem.jeesite.vo.OrderLog">
-    insert into order_log (id, area_id, cabinet_no, 
+    insert into order_log (id, area_id,area_name, cabinet_no,
       cabinet_name, product_id, product_name, 
       product_num, product_price, product_total_price, 
       payment_time, payment_type, create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{areaId,jdbcType=VARCHAR}, #{cabinetNo,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{areaId,jdbcType=VARCHAR},#{areaName,jdbcType=VARCHAR}, #{cabinetNo,jdbcType=VARCHAR},
       #{cabinetName,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
       #{productNum,jdbcType=INTEGER}, #{productPrice,jdbcType=BIGINT}, #{productTotalPrice,jdbcType=BIGINT}, 
       #{paymentTime,jdbcType=TIMESTAMP}, #{paymentType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
@@ -130,6 +131,9 @@
             </if>
             <if test="areaId != null">
                 area_id,
+            </if>
+            <if test="areaName != null">
+                area_name,
             </if>
             <if test="cabinetNo != null">
                 cabinet_no,
@@ -168,6 +172,9 @@
             </if>
             <if test="areaId != null">
                 #{areaId,jdbcType=VARCHAR},
+            </if>
+            <if test="areaName != null">
+                #{areaName,jdbcType=VARCHAR},
             </if>
             <if test="cabinetNo != null">
                 #{cabinetNo,jdbcType=VARCHAR},
@@ -255,6 +262,7 @@
         update order_log
         set id = #{record.id,jdbcType=INTEGER},
         area_id = #{record.areaId,jdbcType=VARCHAR},
+        area_name = #{record.areaName,jdbcType=VARCHAR},
         cabinet_no = #{record.cabinetNo,jdbcType=VARCHAR},
         cabinet_name = #{record.cabinetName,jdbcType=VARCHAR},
         product_id = #{record.productId,jdbcType=VARCHAR},
@@ -274,6 +282,9 @@
         <set>
             <if test="areaId != null">
                 area_id = #{areaId,jdbcType=VARCHAR},
+            </if>
+            <if test="areaName != null">
+                area_name = #{areaName,jdbcType=VARCHAR},
             </if>
             <if test="cabinetNo != null">
                 cabinet_no = #{cabinetNo,jdbcType=VARCHAR},
@@ -311,6 +322,7 @@
     <update id="updateByPrimaryKey" parameterType="com.thinkgem.jeesite.vo.OrderLog">
     update order_log
     set area_id = #{areaId,jdbcType=VARCHAR},
+      area_name = #{areaName,jdbcType=VARCHAR},
       cabinet_no = #{cabinetNo,jdbcType=VARCHAR},
       cabinet_name = #{cabinetName,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=VARCHAR},
@@ -325,16 +337,33 @@
   </update>
 
 
-    <select id="groupByProductNameByAreaId" resultMap="BaseResultMap">
-        select product_name as productName,sum(product_total_price)/100 as productTotalPrice,sum(product_num) as productNum
-        from order_log
-        where 1=1
+    <select id="groupByProductNameByAreaId" resultType="com.thinkgem.jeesite.vo.handler.OrderLogHandler">
+        SELECT
+        areaName,
+        cabinetNo,
+        GROUP_CONCAT(productName,":",productTotalPrice) as totalPrice,
+        GROUP_CONCAT(productName,":",productNum) as productNum,
+        sum(productTotalPrice) as productTotalPrice,
+        sum(productNum) as totalProductNum
+        FROM
+        (
+        SELECT
+        product_name AS productName,
+        sum(product_total_price) / 100 AS productTotalPrice,
+        sum(product_num) AS productNum,
+        area_name as areaName,
+        cabinet_no AS cabinetNo
+
+        FROM
+        order_log
+        WHERE
+        1 = 1
         <if test="areaId!=null and areaId!=''">
             and area_id=#{areaId}
         </if>
 
-        <if test="cabinetId!=null and cabinetId!=''">
-            and cabinet_id=#{cabinetId}
+        <if test="cabinetNo!=null and cabinetNo!=''">
+            and cabinet_no=#{cabinetNo}
         </if>
 
         <choose>
@@ -345,7 +374,13 @@
                 and create_time BETWEEN #{startTime} AND #{endTime}
             </otherwise>
         </choose>
-        group by product_name;
+
+        GROUP BY
+        product_name,
+        area_id,
+        cabinet_no
+        ) AS t1
+        group by areaName,cabinetNo;
     </select>
 
 </mapper>

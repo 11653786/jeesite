@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.service.OrderLogService;
 import com.thinkgem.jeesite.vo.OrderLog;
+import com.thinkgem.jeesite.vo.handler.OrderLogHandler;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,11 +44,11 @@ public class TotalOrderController extends BaseController {
 
     @RequiresPermissions("totalorder:totalorder:export")
     @RequestMapping(value = "/export")
-    public String export(Date startTime, Date endTime, String areaId, String cabinetId, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) {
+    public String export(Date startTime, Date endTime, String areaId, String cabinetNo, HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             String fileName = "统计数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
-            List<OrderLog> list = orderLogService.groupByProductNameByAreaId(startTime, endTime, areaId, cabinetId);
-            new ExportExcel("统计数据", OrderLog.class).setDataList(list).write(response, fileName).dispose();
+            List<OrderLogHandler> list = orderLogService.groupByProductNameByAreaId(startTime, endTime, areaId, cabinetNo);
+            new ExportExcel("统计数据", OrderLogHandler.class).setDataList(list).write(response, fileName).dispose();
             return null;
         } catch (Exception e) {
             addMessage(redirectAttributes, e.getMessage());
