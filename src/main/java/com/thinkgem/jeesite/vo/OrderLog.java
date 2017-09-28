@@ -22,6 +22,8 @@ public class OrderLog {
     @ExcelField(title = "商品数量", type = 1, align = 2, sort = 3)
     private Integer productNum;
 
+    private Integer submitOrderType;
+
     private Long productPrice;
     @ExcelField(title = "商品总金额", type = 1, align = 2, sort = 4)
     private Long productTotalPrice;
@@ -126,5 +128,13 @@ public class OrderLog {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getSubmitOrderType() {
+        return submitOrderType;
+    }
+
+    public void setSubmitOrderType(Integer submitOrderType) {
+        this.submitOrderType = submitOrderType;
     }
 }

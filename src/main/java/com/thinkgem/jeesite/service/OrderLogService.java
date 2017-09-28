@@ -27,16 +27,16 @@ public class OrderLogService {
      * @param cabinetNo
      * @return
      */
-    public List<OrderLogHandler> groupByProductNameByAreaId(Date startTime, Date endTime, String areaId, String cabinetNo) {
-        return orderLogMapper.groupByProductNameByAreaId(areaId, cabinetNo, startTime, endTime);
+    public List<OrderLogHandler> groupByProductNameByAreaId(Date startTime, Date endTime, String areaId, String cabinetNo,Integer submitOrderType) {
+        return orderLogMapper.groupByProductNameByAreaId(areaId, cabinetNo, startTime, endTime,submitOrderType);
     }
 
     /**
      *
      * @return
      */
-    public OrderLogHandler getGroupbyTotal(String areaId,String cabinetNo){
-        return orderLogMapper.getGroupbyTotal(areaId,cabinetNo);
+    public OrderLogHandler getGroupbyTotal(String areaId,String cabinetNo,Integer submitOrderType){
+        return orderLogMapper.getGroupbyTotal(areaId,cabinetNo,submitOrderType);
     }
 
 }

@@ -41,15 +41,17 @@ public interface OrderLogMapper {
      * @param cabinetNo 柜子
      * @param startTime 开始时间
      * @param endTime   截止时间
+     * @param submitOrderType 下单类型0,非会员下单,1会员下单
      * @return
      */
-    List<OrderLogHandler> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+    List<OrderLogHandler> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo, @Param("startTime") Date startTime, @Param("endTime") Date endTime,@Param("submitOrderType")Integer submitOrderType);
 
     /**
      * 统计总数量和金额
      * @param areaId
      * @param cabinetNo
+     * @param submitOrderType 下单类型0,非会员下单,1会员下单
      * @return
      */
-    OrderLogHandler getGroupbyTotal(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo);
+    OrderLogHandler getGroupbyTotal(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo,@Param("submitOrderType")Integer submitOrderType);
 }

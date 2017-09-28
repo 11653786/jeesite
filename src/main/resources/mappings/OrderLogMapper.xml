@@ -10,6 +10,7 @@
         <result column="product_id" property="productId" jdbcType="VARCHAR"/>
         <result column="product_name" property="productName" jdbcType="VARCHAR"/>
         <result column="product_num" property="productNum" jdbcType="INTEGER"/>
+        <result column="submit_order_type" property="submitOrderType" jdbcType="INTEGER"/>
         <result column="product_price" property="productPrice" jdbcType="BIGINT"/>
         <result column="product_total_price" property="productTotalPrice" jdbcType="BIGINT"/>
         <result column="payment_time" property="paymentTime" jdbcType="TIMESTAMP"/>
@@ -77,7 +78,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, area_id,area_name, cabinet_no, cabinet_name, product_id, product_name, product_num, product_price,
+    id, area_id,area_name, cabinet_no, cabinet_name, product_id, product_name, product_num,submit_order_type, product_price,
     product_total_price, payment_time, payment_type, create_time
   </sql>
     <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.thinkgem.jeesite.vo.OrderLogExample">
@@ -114,12 +115,12 @@
     <insert id="insert" parameterType="com.thinkgem.jeesite.vo.OrderLog">
     insert into order_log (id, area_id,area_name, cabinet_no,
       cabinet_name, product_id, product_name, 
-      product_num, product_price, product_total_price, 
+      product_num,submit_order_type, product_price, product_total_price,
       payment_time, payment_type, create_time
       )
     values (#{id,jdbcType=INTEGER}, #{areaId,jdbcType=VARCHAR},#{areaName,jdbcType=VARCHAR}, #{cabinetNo,jdbcType=VARCHAR},
       #{cabinetName,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
-      #{productNum,jdbcType=INTEGER}, #{productPrice,jdbcType=BIGINT}, #{productTotalPrice,jdbcType=BIGINT}, 
+      #{productNum,jdbcType=INTEGER},#{submitOrderType,jdbcType=INTEGER}, #{productPrice,jdbcType=BIGINT}, #{productTotalPrice,jdbcType=BIGINT},
       #{paymentTime,jdbcType=TIMESTAMP}, #{paymentType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -147,9 +148,13 @@
             <if test="productName != null">
                 product_name,
             </if>
+            <if test="submitOrderType != null">
+                submit_order_type,
+            </if>
             <if test="productNum != null">
                 product_num,
             </if>
+
             <if test="productPrice != null">
                 product_price,
             </if>
@@ -190,6 +195,9 @@
             </if>
             <if test="productNum != null">
                 #{productNum,jdbcType=INTEGER},
+            </if>
+            <if test="submitOrderType != null">
+                #{submitOrderType,jdbcType=INTEGER},
             </if>
             <if test="productPrice != null">
                 #{productPrice,jdbcType=BIGINT},
@@ -238,6 +246,9 @@
             <if test="record.productNum != null">
                 product_num = #{record.productNum,jdbcType=INTEGER},
             </if>
+            <if test="submitOrderType != null">
+                submit_order_type = #{submitOrderType,jdbcType=INTEGER},
+            </if>
             <if test="record.productPrice != null">
                 product_price = #{record.productPrice,jdbcType=BIGINT},
             </if>
@@ -268,6 +279,7 @@
         product_id = #{record.productId,jdbcType=VARCHAR},
         product_name = #{record.productName,jdbcType=VARCHAR},
         product_num = #{record.productNum,jdbcType=INTEGER},
+        submit_order_type = #{submitOrderType,jdbcType=INTEGER},
         product_price = #{record.productPrice,jdbcType=BIGINT},
         product_total_price = #{record.productTotalPrice,jdbcType=BIGINT},
         payment_time = #{record.paymentTime,jdbcType=TIMESTAMP},
@@ -301,11 +313,14 @@
             <if test="productNum != null">
                 product_num = #{productNum,jdbcType=INTEGER},
             </if>
+            <if test="submitOrderType != null">
+                submit_order_type = #{submitOrderType,jdbcType=INTEGER},
+            </if>
             <if test="productPrice != null">
                 product_price = #{productPrice,jdbcType=BIGINT},
             </if>
             <if test="productTotalPrice != null">
-                product_total_price = #{productTotalPrice,jdbcType=BIGINT},
+                product_total_price = #{productTotalPrice,jdbcType=INTEGER},
             </if>
             <if test="paymentTime != null">
                 payment_time = #{paymentTime,jdbcType=TIMESTAMP},
@@ -328,6 +343,7 @@
       product_id = #{productId,jdbcType=VARCHAR},
       product_name = #{productName,jdbcType=VARCHAR},
       product_num = #{productNum,jdbcType=INTEGER},
+        product_total_price = #{productTotalPrice,jdbcType=INTEGER},
       product_price = #{productPrice,jdbcType=BIGINT},
       product_total_price = #{productTotalPrice,jdbcType=BIGINT},
       payment_time = #{paymentTime,jdbcType=TIMESTAMP},
@@ -366,6 +382,11 @@
             and cabinet_no=#{cabinetNo}
         </if>
 
+        <if test="submitOrderType!=null">
+            and submit_order_type=#{submitOrderType}
+        </if>
+
+
         <choose>
             <when test="startTime==null or endTime==null">
                 and create_time &gt; date_add(now(),interval -7 day)
@@ -385,7 +406,7 @@
 
 
     <select id="getGroupbyTotal" resultType="com.thinkgem.jeesite.vo.handler.OrderLogHandler">
-        select sum(product_total_price) as totalProductPrices,sum(product_num)/100 as totalProductNums from order_log
+        select sum(product_total_price)/100 as totalProductPrices,sum(product_num) as totalProductNums from order_log
         where 1=1
         <choose>
             <when test="cabinetNo!=null and cabinetNo!=''">
@@ -396,6 +417,10 @@
             </otherwise>
         </choose>
 
+
+        <if test="submitOrderType!=null">
+            and submit_order_type=#{submitOrderType}
+        </if>
     </select>
 
 </mapper>
