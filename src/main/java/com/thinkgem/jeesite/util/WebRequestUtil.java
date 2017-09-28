@@ -139,7 +139,7 @@ public class WebRequestUtil {
         HttpRequestBase req = null;
         if (params == null) {
             req = new HttpGet(baseUrl);
-        } else if (params.length() > 200) {
+        } else if (params.length() > 20) {
             System.out.println("Post请求:" + params);
             HttpPost post = new HttpPost(baseUrl);
             StringEntity se = new StringEntity(params, "utf-8");

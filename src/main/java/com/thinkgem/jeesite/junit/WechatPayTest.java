@@ -54,11 +54,11 @@ public class WechatPayTest {
         params1.put("mch_id", mch_id);
         params1.put("nonce_str",TenpayUtil.genNonceStr());
         params1.put("out_trade_no", out_trade_no);
-        String sign1 = TenpayUtil.createSign(params1, charSet, signType, appId).toUpperCase();
+        String sign1 = TenpayUtil.createSign(params1, charSet, signType, appkey).toUpperCase();
         params1.put("sign", sign1);
         boolean isTrue1 = TenpayUtil.isTenpaySign(params1, charSet, signType, appkey);
         String body1 = XMLUtil.getXmlByMap(params1);
-        String result1 = WebRequestUtil.getResponseString("https://api.mch.weixin.qq.com/pay/orderquery", body1, false);
+        String result1 = WebRequestUtil.getResponseString("https://api.mch.weixin.qq.com/pay/closeorder", body1, false);
         params1 = XMLUtil.doXMLParse(result1);
         System.out.println(result1);
 
