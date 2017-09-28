@@ -48,7 +48,12 @@ public class TotalOrderController extends BaseController {
         try {
             String fileName = "统计数据" + DateUtils.getDate("yyyyMMddHHmmss") + ".xlsx";
             List<OrderLogHandler> list = orderLogService.groupByProductNameByAreaId(startTime, endTime, areaId, cabinetNo);
-            new ExportExcel("统计数据", OrderLogHandler.class).setDataList(list).write(response, fileName).dispose();
+            if (!list.isEmpty()) {
+                //销售总数量和金额
+                OrderLogHandler total = orderLogService.getGroupbyTotal(areaId, cabinetNo);
+                list.add(total);
+                new ExportExcel("统计数据", OrderLogHandler.class).setDataList(list).write(response, fileName).dispose();
+            }
             return null;
         } catch (Exception e) {
             addMessage(redirectAttributes, e.getMessage());

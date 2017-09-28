@@ -383,4 +383,19 @@
         group by areaName,cabinetNo;
     </select>
 
+
+    <select id="getGroupbyTotal" resultType="com.thinkgem.jeesite.vo.handler.OrderLogHandler">
+        select sum(product_total_price) as totalProductPrices,sum(product_num)/100 as totalProductNums from order_log
+        where 1=1
+        <choose>
+            <when test="cabinetNo!=null and cabinetNo!=''">
+                and cabinet_no=#{cabinetNo}
+            </when>
+            <otherwise>
+                and area_id=#{areaId}
+            </otherwise>
+        </choose>
+
+    </select>
+
 </mapper>

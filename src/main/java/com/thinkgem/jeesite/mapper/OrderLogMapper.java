@@ -36,11 +36,20 @@ public interface OrderLogMapper {
 
     /**
      * 统计区域或者柜子的销售统计
-     * @param areaId  地区
+     *
+     * @param areaId    地区
      * @param cabinetNo 柜子
      * @param startTime 开始时间
      * @param endTime   截止时间
      * @return
      */
     List<OrderLogHandler> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+
+    /**
+     * 统计总数量和金额
+     * @param areaId
+     * @param cabinetNo
+     * @return
+     */
+    OrderLogHandler getGroupbyTotal(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo);
 }
