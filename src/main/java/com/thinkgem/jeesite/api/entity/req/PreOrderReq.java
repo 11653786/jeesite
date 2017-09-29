@@ -12,8 +12,6 @@ public class PreOrderReq {
     private String cabinetNo;
     //抽屉编号
     private String drawerNo;
-    //商品数量
-    private Integer productNum;
 
     //这三个参数不用传递,是半路拼接上用来下单的
     private String areaId;
@@ -45,14 +43,6 @@ public class PreOrderReq {
 
     public void setDrawerNo(String drawerNo) {
         this.drawerNo = drawerNo;
-    }
-
-    public Integer getProductNum() {
-        return productNum;
-    }
-
-    public void setProductNum(Integer productNum) {
-        this.productNum = productNum;
     }
 
 

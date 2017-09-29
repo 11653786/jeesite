@@ -32,6 +32,7 @@ public class Drawer extends DataEntity<Drawer> {
     private String productId;        //放入柜中的商品时间
     private String productName;    //放入柜中的商品名称
     private Date inTime;    //放入时间
+    private Date inOutTime;
 
     ///-------下面是帮助字段
 
@@ -194,5 +195,13 @@ public class Drawer extends DataEntity<Drawer> {
 
     public void setCabinetAreaName(String cabinetAreaName) {
         this.cabinetAreaName = cabinetAreaName;
+    }
+
+    public Date getInOutTime() {
+        return inOutTime;
+    }
+
+    public void setInOutTime(Date inOutTime) {
+        this.inOutTime = inOutTime;
     }
 }

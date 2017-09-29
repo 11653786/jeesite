@@ -41,9 +41,10 @@ public class OrderService {
      * @param products
      * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
      * @param tradeType
+     * @param repackgeId  用户红包表的id
      * @return
      */
-    public PlatformRes<String> preorder(List<PreOrderReq> products, Integer paymentType, String tradeType) {
+    public PlatformRes<String> preorder(List<PreOrderReq> products, Integer paymentType, String tradeType, String repackgeId) {
 
 
         //参数验证
@@ -68,19 +69,23 @@ public class OrderService {
 
 
         //这里要创建订单,订单状态为0,等到回调通过以后更改状态,微信预约下单生成二维码
+        PlatformRes<String> wechatPayResult = null;
         if (paymentType == 0) {
-            PlatformRes<String> wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType);
+            wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType);
             //预支付id成功,生成订单
             if (!wechatPayResult.getCode().equals("0")) {
                 return wechatPayResult;
             }
 
-        } else
-            //支付宝预约下单生成二维码
-            return null;
+        } else if (paymentType == 1) { //公众号支付
 
-        //------全部验证通过保存订单和订单明细
-            return null;
+        } else {       //支付宝扫码付
+
+        }
+
+        //------全部验证通过保存订单和订单明细--------------------------------------
+        ordersService.submitForOrder(orderNo,products, productTotalPrice);
+        return wechatPayResult;
 
 
     }
@@ -95,9 +100,6 @@ public class OrderService {
             return PlatformRes.error("传入参数抽屉编号有为空的");
         }
 
-        if (productReq.getProductNum() < 1) {
-            return PlatformRes.error("传入参数商品数量最小为1");
-        }
 
         if (StringUtils.isBlank(productReq.getProductId())) {
             return PlatformRes.error("传入参数商品ID为空!");
@@ -109,6 +111,9 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.PRODUCT_NOT_EXISTS);
         //商品价格
         productReq.setGetProductActualPrice(product.getProductActualPrice());
+        //拼接商品id和设置商品金额
+        productIds = product.getId() + "," + productIds;
+        productTotalPrice = product.getProductActualPrice() + productTotalPrice;
 
         //商品下架判断
         if (product.getProductStatus().equals("0"))
@@ -123,9 +128,9 @@ public class OrderService {
         if (!cabinerDrawerHandler.getDrawerStatus().equals("1"))
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_ACTION);
 
-        //柜子是否放餐
-        if (!cabinerDrawerHandler.getDrawerStatus().equals("0"))
-            return PlatformRes.error(ResCodeMsgType.DRAWER_HAVING_FOOD);
+        //柜子是否放餐,1.已放餐
+        if (!cabinerDrawerHandler.getDrawerStatus().equals("1"))
+            return PlatformRes.error(ResCodeMsgType.DRAWER_HAVING_NOT_FOOD);
 
 
         //设置区域信息给后面订单用,节省查询数据库次数

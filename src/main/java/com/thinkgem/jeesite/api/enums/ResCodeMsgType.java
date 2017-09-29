@@ -10,7 +10,7 @@ public enum ResCodeMsgType {
     PRODUCT_NOT_USE("106", "无效商品"),
     CABINET_DRAWER_EXISTS("107","柜子或抽屉信息不存在"),
     DRAWER_NOT_ACTION("108","当前抽屉不可操作"),
-    DRAWER_HAVING_FOOD("109","当前抽屉已放餐"),
+    DRAWER_HAVING_NOT_FOOD("109","当前抽屉没有放餐"),
     DRAWER_NOT_PUT_PRODUCT("110","当前抽屉不可放当前商品"),
     FAIL("501", "失败");
 

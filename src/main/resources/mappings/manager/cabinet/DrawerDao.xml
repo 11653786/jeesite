@@ -13,6 +13,7 @@
 		a.product_id as "productId",
 		a.product_name as "productName",
 		a.in_time as "inTime",
+		a.in_out_time as "inOutTime",
 		areaProvince.id as "provinceId",
 		areaProvince.name as "cabinetProvinceName",
 		areaCity.id as "cityId",
@@ -130,6 +131,24 @@
 			create_time = #{createTime}
 		WHERE id = #{id}
 	</update>
+
+    <!--取餐抽屉的操作-->
+    <update id="putFood">
+       UPDATE drawer SET
+         food_status=0,
+         in_time = null,
+         in_out_time = null
+         where drawer_no=#{drawerNo} and cabinet_no=#{cabinet_no}
+    </update>
+
+    <update id="outFood">
+      UPDATE
+         drawer SET
+         food_status=1,
+         in_time = now(),
+         in_out_time = date_add(now(), interval 1 hour)
+         where drawer_no=#{drawerNo} and cabinet_no=#{cabinet_no}
+    </update>
 
     <update id="delete">
         DELETE FROM drawer

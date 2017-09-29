@@ -27,4 +27,20 @@ public interface DrawerDao extends CrudDao<Drawer> {
      */
     CabinerDrawerHandler findCabinetAndDrawerInfo(@Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
 
+    /**
+     * 取餐
+     * @param cabinetNo
+     * @param drawerNo
+     * @return
+     */
+    Integer outFood(@Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
+
+    /**
+     * 放餐
+     * @param cabinetNo
+     * @param drawerNo
+     * @return
+     */
+    Integer putFood(@Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
+
 }

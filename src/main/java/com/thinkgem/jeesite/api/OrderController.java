@@ -46,7 +46,7 @@ public class OrderController {
         if (paymentType == 0) {
             tradeType = "NATIVE";
         }
-        return orderService.preorder(products, paymentType, tradeType);
+        return orderService.preorder(products, paymentType, tradeType,repackgeId);
     }
 
 
