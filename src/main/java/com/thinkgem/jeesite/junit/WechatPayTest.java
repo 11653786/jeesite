@@ -21,8 +21,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class WechatPayTest {
 
 
-
-
     public static void main(String[] args) throws Exception {
         Map<String, String> params = new HashMap<String, String>();
         //生成预支付请求参数列表
@@ -62,7 +60,7 @@ public class WechatPayTest {
         params1.put("appid", appId);
         params1.put("mch_id", mch_id);
         params1.put("nonce_str", TenpayUtil.genNonceStr());
-        params1.put("out_trade_no", out_trade_no);
+        params1.put("out_trade_no", out_trade_no + "1");
         String sign1 = TenpayUtil.createSign(params1, charSet, signType, appkey).toUpperCase();
         params1.put("sign", sign1);
         boolean isTrue1 = TenpayUtil.isTenpaySign(params1, charSet, signType, appkey);
@@ -70,6 +68,26 @@ public class WechatPayTest {
         String result1 = WebRequestUtil.getResponseString("https://api.mch.weixin.qq.com/pay/orderquery", body1, false);
         params1 = XMLUtil.doXMLParse(result1);
         System.out.println(result1);
+
+
+        //微信退款订单
+        //查询订单
+        String nonce_str = TenpayUtil.genNonceStr();
+        Map<String, String> params2 = new HashMap<String, String>();
+        params2.put("appid", appId);
+        params2.put("mch_id", mch_id);
+        params2.put("nonce_str", nonce_str);
+        params2.put("out_trade_no", out_trade_no);
+        params2.put("out_refund_no", nonce_str);
+        params2.put("refund_fee", 1 + "");
+        params2.put("total_fee", 1 + "");
+        String sign2 = TenpayUtil.createSign(params2, charSet, signType, appkey).toUpperCase();
+        params2.put("sign", sign2);
+        boolean isTrue2 = TenpayUtil.isTenpaySign(params2, charSet, signType, appkey);
+        String body2 = XMLUtil.getXmlByMap(params2);
+        String result2 = WebRequestUtil.getResponseString("https://api.mch.weixin.qq.com/secapi/pay/refund", body2, false);
+        params2 = XMLUtil.doXMLParse(result2);
+        System.out.println(result2);
 
 
     }

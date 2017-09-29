@@ -39,6 +39,7 @@ public class Orders extends DataEntity<Orders> {
     private String phone;        // 手机号
     private Date beginPaymentTime;        // 开始 支付时间
     private Date endPaymentTime;        // 结束 支付时间
+    private String refundNo;            //退款订单号
     private Integer refundStatus;       //退款状态:0,未退款,1退款成功,2退款失败
     private Date refundTime;            //退款时间
 
@@ -261,5 +262,13 @@ public class Orders extends DataEntity<Orders> {
 
     public void setCabinetNo(String cabinetNo) {
         this.cabinetNo = cabinetNo;
+    }
+
+    public String getRefundNo() {
+        return refundNo;
+    }
+
+    public void setRefundNo(String refundNo) {
+        this.refundNo = refundNo;
     }
 }
