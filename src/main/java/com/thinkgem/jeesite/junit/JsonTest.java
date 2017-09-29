@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.junit;
 
+import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 
 import java.util.ArrayList;
@@ -13,26 +14,38 @@ public class JsonTest {
         List<PreOrderReq> products = new ArrayList<PreOrderReq>();
         PreOrderReq preOrderReq = new PreOrderReq();
 
-        preOrderReq.setProductId("");
-        preOrderReq.setCabinetNo("");
-        preOrderReq.setDrawerNo("");
-        preOrderReq.setProductNum(1);
+        preOrderReq.setProductId("be8b53dcd8ec4afd80deba294af7354f");
+        preOrderReq.setCabinetNo("002");
+        preOrderReq.setDrawerNo("1");
 
 
         PreOrderReq preOrderReq1 = new PreOrderReq();
 
-        preOrderReq1.setProductId("");
-        preOrderReq1.setCabinetNo("");
-        preOrderReq1.setDrawerNo("");
-        preOrderReq1.setProductNum(1);
+        preOrderReq1.setProductId("719f18d663fe4b91aee96f7c39d77236");
+        preOrderReq1.setCabinetNo("002");
+        preOrderReq1.setDrawerNo("2");
 
 
         PreOrderReq preOrderReq2 = new PreOrderReq();
 
-        preOrderReq2.setProductId("");
-        preOrderReq2.setCabinetNo("");
-        preOrderReq2.setDrawerNo("");
-        preOrderReq2.setProductNum(2);
+        preOrderReq2.setProductId("719f18d663fe4b91aee96f7c39d77236");
+        preOrderReq2.setCabinetNo("002");
+        preOrderReq2.setDrawerNo("3");
+
+        PreOrderReq preOrderReq3 = new PreOrderReq();
+
+        preOrderReq3.setProductId("be8b53dcd8ec4afd80deba294af7354f");
+        preOrderReq3.setCabinetNo("002");
+        preOrderReq3.setDrawerNo("4");
+
+        products.add(preOrderReq);
+        products.add(preOrderReq1);
+        products.add(preOrderReq2);
+        products.add(preOrderReq3);
+
+
+        String productsStr = JSONObject.toJSONString(products);
+        System.out.println(productsStr);
 
 
     }
