@@ -91,7 +91,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             orderGoods.setProductId(req.getProductId());
             orderGoods.setProductName(req.getProductName());
             orderGoods.setProductActualPrice(req.getGetProductActualPrice());
-            orderGoods.setProductNum(1);
+            orderGoods.setProductNum(req.getProductNum());
             orderGoods.setAreaId(req.getAreaId());
             orderGoods.setAreaName(req.getAreaName());
             orderGoods.setCabinetNo(req.getCabinetNo());

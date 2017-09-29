@@ -12,6 +12,8 @@ public class PreOrderReq {
     private String cabinetNo;
     //抽屉编号
     private String drawerNo;
+    //这个传递过来
+    private Integer productNum;
 
     //这三个参数不用传递,是半路拼接上用来下单的
     private String areaId;
@@ -22,7 +24,7 @@ public class PreOrderReq {
     //
     private String productName;
 
-    private Integer productNum;
+
 
 
     public String getProductId() {

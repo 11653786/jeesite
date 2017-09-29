@@ -18,37 +18,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * Created by erfeng on 17/8/17.
  */
-@RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试
-@ContextConfiguration(locations = {"classpath:spring-context.xml"}) //加载配置文件
 public class WechatPayTest {
 
 
-    @Autowired
-    private WechatPayService wechatPayService;
-
-
-    /**
-     * 微信统一下单
-     */
-    @Test
-    public void testWechatUnifiedorder() {
-        String productId = 1 + "";
-        Integer productPrice = 1;
-        String tradeType = "NATIVE";
-        wechatPayService.unifiedorder(TenpayUtil.getCurrTime(), productId, productPrice, tradeType);
-    }
 
 
     public static void main(String[] args) throws Exception {
         Map<String, String> params = new HashMap<String, String>();
         //生成预支付请求参数列表
-        String appId = "";
-        String mch_id = "";
+        //生成预支付请求参数列表
+        String appId = "wx70375dde1ac8a3d0";
+        String mch_id = "1393701402";
         String out_trade_no = TenpayUtil.getCurrTime();
         String charSet = "utf-8";
         String signType = "MD5";
-        String appkey = "";
-
+        String appkey = "BCFB58527EF47F485BE308C0331A86B9";
 
         params.put("appid", appId);
         params.put("mch_id", mch_id);

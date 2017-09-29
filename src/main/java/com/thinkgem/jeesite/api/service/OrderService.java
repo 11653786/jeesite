@@ -60,6 +60,11 @@ public class OrderService {
 
         for (PreOrderReq productReq : products) {
 
+
+            if(productReq.getProductNum() ==null || productReq.getProductNum()<1){
+                return PlatformRes.error(ResCodeMsgType.PRODUCT_NUM_NOT_EMPTY);
+            }
+
             //如果验证通过(区域,商品信息填充)
             PlatformRes<String> validResult = validOrderInfo(productReq, productIds, productTotalPrice);
 
@@ -137,7 +142,6 @@ public class OrderService {
         productReq.setAreaId(cabinerDrawerHandler.getAreaId());
         productReq.setAreaName(cabinerDrawerHandler.getAreaName());
         productReq.setProductName(product.getProductName());
-        productReq.setProductNum(1);
         //判断当前柜子是否可以放当前的商品
         CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.get(new CabinetProductRelaction(productReq.getProductId(), productReq.getDrawerNo()));
         if (cabinetProductRelaction == null)
