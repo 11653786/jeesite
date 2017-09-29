@@ -28,23 +28,23 @@ public class WechatPayService {
      *
      * @param orderNo
      * @param productId
-     * @param productPrice
+     * @param productTotalPrice
      * @return
      */
-    public PlatformRes<String> unifiedorder(String orderNo, String productId, Integer productPrice, String tradeType) {
+    public PlatformRes<String> unifiedorder(String orderNo, String productId, Integer productTotalPrice, String tradeType) {
         Map<String, String> resultMap = null;
         String prePayId = null;
         String result = null;
         try {
             //xml格式字符串
-            Map<String, String> params = setWechatConfig(orderNo, productId, productPrice);
+            Map<String, String> params = setWechatConfig();
 
             params.put("nonce_str", TenpayUtil.genNonceStr());
             params.put("body", "测试订单" + Math.random());
             params.put("out_trade_no", orderNo);
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
-            params.put("total_fee", productPrice + "");
+            params.put("total_fee", productTotalPrice + "");
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
             params.put("product_id", productId);
@@ -78,12 +78,9 @@ public class WechatPayService {
     /**
      * 微信预下单参数拼装,返回xml格式字符串
      *
-     * @param orderNo      订单号
-     * @param productId    商品id
-     * @param productPrice 商品价格
      * @return
      */
-    public Map<String, String> setWechatConfig(String orderNo, String productId, Integer productPrice) {
+    public Map<String, String> setWechatConfig() {
         Map<String, String> params = new HashMap<String, String>();
         //生成预支付请求参数列表
         params.put("appid", wechatConfig.app_id);

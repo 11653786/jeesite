@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.api;
 
+import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.api.service.WechatPayService;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * Created by yangtao on 2017/8/18.
@@ -22,7 +25,7 @@ public class OrderController {
 
 
     /**
-     * localhost:8080/api/order/preorder?orderNo=112312321&productId=1&productPrice=300&orderType=0
+     * localhost:8080/api/order/preorder?productId=1&productPrice=300&paymentType=0
      * 微信预下单生成二维码
      * <p>
      * {
@@ -31,20 +34,19 @@ public class OrderController {
      * "data": "weixin://wxpay/bizpayurl?pr=hMnBust"
      * }
      *
-     * @param orderNo      订单号
-     * @param productId    商品id
-     * @param productPrice 商品金额
-     * @param orderType    订单类型:0 微信公众号支付 .2.微信扫码支付. 3支付宝
+     * @param productIds   商品id,多个用逗号分开
+     * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
+     * @param repackgeId  红包id,公众号支付有用
      * @return
      */
     @RequestMapping(value = "/preorder", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PlatformRes<String> preorder(String orderNo, String productId, Integer productPrice, String orderType) {
+    public PlatformRes<String> preorder(List<PreOrderReq> products, Integer paymentType, String repackgeId) {
         String tradeType = null;
-        if(orderType.equals(2)){
-            tradeType="NATIVE";
+        if (paymentType == 0) {
+            tradeType = "NATIVE";
         }
-        return orderService.preorder(orderNo, productId, productPrice, orderType, tradeType);
+        return orderService.preorder(products, paymentType, tradeType);
     }
 
 

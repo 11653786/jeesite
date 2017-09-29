@@ -19,8 +19,8 @@ public class Product extends DataEntity<Product> {
 	
 	private static final long serialVersionUID = 1L;
 	private String productName;		// 商品名称
-	private Long productPrice;		// 商品价格
-	private Long productActualPrice;		// 实际价格
+	private Integer productPrice;		// 商品价格
+	private Integer productActualPrice;		// 实际价格
 	private String productStatus;		// 菜单状态
 	private Date createTime;		// 创建时间
 	private String remark;		// 菜单介绍
@@ -44,20 +44,20 @@ public class Product extends DataEntity<Product> {
 	}
 	
 	@NotNull(message="商品价格不能为空")
-	public Long getProductPrice() {
+	public Integer getProductPrice() {
 		return productPrice;
 	}
 
-	public void setProductPrice(Long productPrice) {
+	public void setProductPrice(Integer productPrice) {
 		this.productPrice = productPrice;
 	}
 	
 	@NotNull(message="实际价格不能为空")
-	public Long getProductActualPrice() {
+	public Integer getProductActualPrice() {
 		return productActualPrice;
 	}
 
-	public void setProductActualPrice(Long productActualPrice) {
+	public void setProductActualPrice(Integer productActualPrice) {
 		this.productActualPrice = productActualPrice;
 	}
 	

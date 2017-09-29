@@ -6,6 +6,12 @@ public enum ResCodeMsgType {
     PASSWORD_NOT_ONE("102", "至少传入一个密码"),
     CABINET_NOT_EXISTS("103", "柜子不存在"),
     WECHAT_SIGN_ERROR("104", "非法提交,验证签名错误"),
+    PRODUCT_NOT_EXISTS("105", "商品信息不存在"),
+    PRODUCT_NOT_USE("106", "无效商品"),
+    CABINET_DRAWER_EXISTS("107","柜子或抽屉信息不存在"),
+    DRAWER_NOT_ACTION("108","当前抽屉不可操作"),
+    DRAWER_HAVING_FOOD("109","当前抽屉已放餐"),
+    DRAWER_NOT_PUT_PRODUCT("110","当前抽屉不可放当前商品"),
     FAIL("501", "失败");
 
     private String code;

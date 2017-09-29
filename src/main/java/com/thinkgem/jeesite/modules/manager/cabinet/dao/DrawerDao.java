@@ -3,16 +3,28 @@
  */
 package com.thinkgem.jeesite.modules.manager.cabinet.dao;
 
+import com.thinkgem.jeesite.api.entity.handler.CabinerDrawerHandler;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
+import org.apache.ibatis.annotations.Param;
 
 /**
- * 快餐柜实体类DAO接口
+ * 抽屉DAO接口
+ *
  * @author yt
  * @version 2017-08-19
  */
 @MyBatisDao
 public interface DrawerDao extends CrudDao<Drawer> {
-	
+
+    /**
+     * 根据柜子和抽屉查询当前柜子是否存在
+     *
+     * @param cabinetNo
+     * @param drawerNo
+     * @return
+     */
+    CabinerDrawerHandler findCabinetAndDrawerInfo(@Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
+
 }

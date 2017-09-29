@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.manager.orders.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -13,8 +14,11 @@ import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 
+import javax.swing.*;
+
 /**
  * 订单实体类Service
+ *
  * @author yt
  * @version 2017-08-19
  */
@@ -22,26 +26,39 @@ import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 @Transactional(readOnly = true)
 public class OrdersService extends CrudService<OrdersDao, Orders> {
 
-	public Orders get(String id) {
-		return super.get(id);
-	}
-	
-	public List<Orders> findList(Orders orders) {
-		return super.findList(orders);
-	}
-	
-	public Page<Orders> findPage(Page<Orders> page, Orders orders) {
-		return super.findPage(page, orders);
-	}
-	
-	@Transactional(readOnly = false)
-	public void save(Orders orders) {
-		super.save(orders);
-	}
-	
-	@Transactional(readOnly = false)
-	public void delete(Orders orders) {
-		super.delete(orders);
-	}
-	
+    public Orders get(String id) {
+        return super.get(id);
+    }
+
+    public List<Orders> findList(Orders orders) {
+        return super.findList(orders);
+    }
+
+    public Page<Orders> findPage(Page<Orders> page, Orders orders) {
+        return super.findPage(page, orders);
+    }
+
+    @Transactional(readOnly = false)
+    public void save(Orders orders) {
+        super.save(orders);
+    }
+
+    @Transactional(readOnly = false)
+    public void delete(Orders orders) {
+        super.delete(orders);
+    }
+
+    @Transactional(readOnly = false)
+    public void save(String productId, String productName, Integer productPrice, String orderNo, Integer payMoney, Integer actualPayMoney, Integer orderStatus, Integer paymentStatus, String cabinetNo, String drawerNo) {
+
+        Orders orders = new Orders();
+        orders.setOrderNo(orderNo);
+        orders.setPayMoney(payMoney);
+        orders.setActualPayMoney(actualPayMoney);
+        orders.setOrderStatus(0);
+        orders.setCreateTime(new Date());
+//        private String openid;        // 微信标志
+        super.save(orders);
+    }
+
 }

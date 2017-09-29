@@ -32,6 +32,11 @@ public class CabinetProductRelaction extends DataEntity<CabinetProductRelaction>
 		super();
 	}
 
+	public CabinetProductRelaction(String productId,String drawerNo) {
+		this.drawerNo = drawerNo;
+		this.productId = productId;
+	}
+
 	public CabinetProductRelaction(String id){
 		super(id);
 	}

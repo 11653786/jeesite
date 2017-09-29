@@ -22,9 +22,10 @@ public class Orders extends DataEntity<Orders> {
 
     private static final long serialVersionUID = 1L;
     private String orderNo;        // 订单号
-    private Long payMoney;        // 订单金额
-    private Long actualPayMoney;        // 实际支付金额
-    private String orderStatus;        // 订单状态
+    private Integer payMoney;        // 订单金额
+    private Integer actualPayMoney;        // 实际支付金额
+    private Integer orderStatus;        // 订单状态
+    private Integer paymentStatus;         //支付状态:0,微信扫码支付,1微信公众号支付,2支付宝支付
     private String wechatTradeNo;        // 微信流水
     private String alipayTradeNo;        // 支付宝流水
     private Date createTime;        // 创建时间
@@ -35,21 +36,19 @@ public class Orders extends DataEntity<Orders> {
     private String alipayid;        // alipay标志
     private String userId;        // 下单用户id
     private String phone;        // 手机号
-    private String cabinetNo;        // 柜子编号
-    private String productId;        // 商品id
-    private String productName;        // 商品名称
-    private Long productMoney;        // 商品金额
-    private String drawerNo;        // 抽屉编号
     private Date beginPaymentTime;        // 开始 支付时间
     private Date endPaymentTime;        // 结束 支付时间
+    private Integer refundStatus;       //退款状态:0,未退款,1退款成功,2退款失败
+    private Date refundTime;            //退款时间
+
 
     //	-----------红包补充字段
     private String redpacketId;
-    private Long redpacketPrice;
+    private Integer redpacketPrice;
     private String redpacketName;
 
-    //补充字段------------------------
-    private Integer productTotal;      //商品数量
+    //
+
 
     public Orders() {
         super();
@@ -69,31 +68,32 @@ public class Orders extends DataEntity<Orders> {
     }
 
     @NotNull(message = "订单金额不能为空")
-    public Long getPayMoney() {
+    public Integer getPayMoney() {
         return payMoney;
     }
 
-    public void setPayMoney(Long payMoney) {
+    public void setPayMoney(Integer payMoney) {
         this.payMoney = payMoney;
     }
 
     @NotNull(message = "实际支付金额不能为空")
-    public Long getActualPayMoney() {
+    public Integer getActualPayMoney() {
         return actualPayMoney;
     }
 
-    public void setActualPayMoney(Long actualPayMoney) {
+    public void setActualPayMoney(Integer actualPayMoney) {
         this.actualPayMoney = actualPayMoney;
     }
 
-    @Length(min = 1, max = 11, message = "订单状态长度必须介于 1 和 11 之间")
-    public String getOrderStatus() {
+    @NotNull(message = "订单状态不能为空")
+    public Integer getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(Integer orderStatus) {
         this.orderStatus = orderStatus;
     }
+
 
     @Length(min = 0, max = 100, message = "微信流水长度必须介于 0 和 100 之间")
     public String getWechatTradeNo() {
@@ -184,48 +184,7 @@ public class Orders extends DataEntity<Orders> {
         this.phone = phone;
     }
 
-    @Length(min = 0, max = 40, message = "柜子编号长度必须介于 0 和 40 之间")
-    public String getCabinetNo() {
-        return cabinetNo;
-    }
 
-    public void setCabinetNo(String cabinetNo) {
-        this.cabinetNo = cabinetNo;
-    }
-
-    @Length(min = 0, max = 40, message = "商品id长度必须介于 0 和 40 之间")
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    @Length(min = 0, max = 50, message = "商品名称长度必须介于 0 和 50 之间")
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public Long getProductMoney() {
-        return productMoney;
-    }
-
-    public void setProductMoney(Long productMoney) {
-        this.productMoney = productMoney;
-    }
-
-    public String getDrawerNo() {
-        return drawerNo;
-    }
-
-    public void setDrawerNo(String drawerNo) {
-        this.drawerNo = drawerNo;
-    }
 
     public Date getBeginPaymentTime() {
         return beginPaymentTime;
@@ -244,9 +203,6 @@ public class Orders extends DataEntity<Orders> {
     }
 
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
 
     public String getRedpacketId() {
         return redpacketId;
@@ -256,11 +212,11 @@ public class Orders extends DataEntity<Orders> {
         this.redpacketId = redpacketId;
     }
 
-    public Long getRedpacketPrice() {
+    public Integer getRedpacketPrice() {
         return redpacketPrice;
     }
 
-    public void setRedpacketPrice(Long redpacketPrice) {
+    public void setRedpacketPrice(Integer redpacketPrice) {
         this.redpacketPrice = redpacketPrice;
     }
 
@@ -273,11 +229,28 @@ public class Orders extends DataEntity<Orders> {
     }
 
 
-    public Integer getProductTotal() {
-        return productTotal;
+    public Integer getPaymentStatus() {
+        return paymentStatus;
     }
 
-    public void setProductTotal(Integer productTotal) {
-        this.productTotal = productTotal;
+    public void setPaymentStatus(Integer paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+
+    public Integer getRefundStatus() {
+        return refundStatus;
+    }
+
+    public void setRefundStatus(Integer refundStatus) {
+        this.refundStatus = refundStatus;
+    }
+
+    public Date getRefundTime() {
+        return refundTime;
+    }
+
+    public void setRefundTime(Date refundTime) {
+        this.refundTime = refundTime;
     }
 }

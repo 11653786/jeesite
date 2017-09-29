@@ -143,4 +143,20 @@
         </choose>
     </update>
 
+    <select id="findCabinetAndDrawerInfo" resultType="com.thinkgem.jeesite.api.entity.handler.CabinerDrawerHandler">
+        select
+        area.id as areaId,
+        area.name as areaName,
+        cabinet.cabinet_nos as cabinetNo,
+        cabinet.cabinet_name as cabinetName,
+        cabinet.area as area,
+        drawer.drawer_no as drawerNo,
+        drawer.drawer_status as drawerStatus,
+        drawer.food_status as foodStatus
+        from cabinet cabinet
+        join drawer drawer on cabinet.cabinet_nos=drawer.cabinet_no
+        join sys_area area on area.id=cabinet.area
+        where cabinet.cabinet_nos=#{cabinetNo} and drawer.drawer_no=#{drawerNo};
+    </select>
+
 </mapper>
