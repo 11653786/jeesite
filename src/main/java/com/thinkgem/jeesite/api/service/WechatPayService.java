@@ -23,24 +23,6 @@ public class WechatPayService {
     private WechatConfig wechatConfig;
 
 
-    public PlatformRes<String> preorder(String orderNo, String productId, Integer productPrice, String orderType, String tradeType) {
-
-        //参数验证
-        if (StringUtils.isBlank(orderNo) || StringUtils.isBlank(productId) || productPrice == null || StringUtils.isBlank(orderNo))
-            return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
-
-
-        if (orderType.equals("0")) //微信预约下单生成二维码
-            return unifiedorder(orderNo, productId, productPrice, tradeType);
-        else
-            //支付宝预约下单生成二维码
-            return null;
-
-        //这里要创建订单,订单状态为0,等到回调通过以后更改状态
-
-    }
-
-
     /**
      * 微信统一下单
      *

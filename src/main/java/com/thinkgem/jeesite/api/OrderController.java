@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.api;
 
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
+import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.api.service.WechatPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,7 @@ public class OrderController {
 
 
     @Autowired
-    private WechatPayService payService;
+    private OrderService orderService;
 
 
     /**
@@ -33,13 +34,17 @@ public class OrderController {
      * @param orderNo      订单号
      * @param productId    商品id
      * @param productPrice 商品金额
-     * @param orderType    订单类型 0,微信,1支付宝
+     * @param orderType    订单类型:0 微信公众号支付 .2.微信扫码支付. 3支付宝
      * @return
      */
     @RequestMapping(value = "/preorder", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PlatformRes<String> preorder(String orderNo, String productId, Integer productPrice, String orderType) {
-        return payService.preorder(orderNo, productId, productPrice, orderType);
+        String tradeType = null;
+        if(orderType.equals(2)){
+            tradeType="NATIVE";
+        }
+        return orderService.preorder(orderNo, productId, productPrice, orderType, tradeType);
     }
 
 
