@@ -136,6 +136,8 @@ public class OrderService {
         //设置区域信息给后面订单用,节省查询数据库次数
         productReq.setAreaId(cabinerDrawerHandler.getAreaId());
         productReq.setAreaName(cabinerDrawerHandler.getAreaName());
+        productReq.setProductName(product.getProductName());
+        productReq.setProductNum(1);
         //判断当前柜子是否可以放当前的商品
         CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.get(new CabinetProductRelaction(productReq.getProductId(), productReq.getDrawerNo()));
         if (cabinetProductRelaction == null)

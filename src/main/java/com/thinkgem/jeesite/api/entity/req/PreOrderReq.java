@@ -19,6 +19,10 @@ public class PreOrderReq {
     private String areaName;
     //商品价格
     private Integer getProductActualPrice;
+    //
+    private String productName;
+
+    private Integer productNum;
 
 
     public String getProductId() {
@@ -68,5 +72,22 @@ public class PreOrderReq {
 
     public void setGetProductActualPrice(Integer getProductActualPrice) {
         this.getProductActualPrice = getProductActualPrice;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+
+    public Integer getProductNum() {
+        return productNum;
+    }
+
+    public void setProductNum(Integer productNum) {
+        this.productNum = productNum;
     }
 }

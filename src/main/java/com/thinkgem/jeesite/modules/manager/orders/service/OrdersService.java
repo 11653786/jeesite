@@ -7,6 +7,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
+import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
+import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +30,11 @@ import javax.swing.*;
 @Service
 @Transactional(readOnly = true)
 public class OrdersService extends CrudService<OrdersDao, Orders> {
+
+
+    @Autowired
+    private OrderGoodsDao orderGoodsDao;
+
 
     public Orders get(String id) {
         return super.get(id);
@@ -60,10 +69,40 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
         orders.setCreateTime(new Date());
         //private String openid;        // 微信标志
 
+        //去重
         for (PreOrderReq req : products) {
-
+            int i = 0;
+            for (int j = i + 1; j < products.size(); j++) {
+                PreOrderReq compareReq = products.get(j);
+                if (req.getProductId().equals(compareReq.getProductId())) {
+                    req.setGetProductActualPrice(req.getGetProductActualPrice() + compareReq.getGetProductActualPrice());
+                    req.setProductNum(req.getProductNum() + compareReq.getProductNum());
+                    products.remove(j);
+                }
+            }
+            i++;
         }
 
+
+        for (PreOrderReq req : products) {
+
+            OrderGoods orderGoods = new OrderGoods();
+            orderGoods.setOrderNo(orderNo);
+            orderGoods.setProductId(req.getProductId());
+            orderGoods.setProductName(req.getProductName());
+            orderGoods.setProductActualPrice(req.getGetProductActualPrice());
+            orderGoods.setProductNum(1);
+            orderGoods.setAreaId(req.getAreaId());
+            orderGoods.setAreaName(req.getAreaName());
+            orderGoods.setCabinetNo(req.getCabinetNo());
+            orderGoods.setDrawerNo(req.getDrawerNo());
+            //设置订单柜子信息
+            if (StringUtils.isBlank(orders.getCabinetNo()))
+                orders.setCabinetNo(orders.getCabinetNo());
+
+            orderGoodsDao.insert(orderGoods);
+
+        }
 
 
         super.save(orders);
