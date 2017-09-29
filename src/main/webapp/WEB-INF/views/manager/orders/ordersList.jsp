@@ -19,7 +19,6 @@
 <body>
 	<ul class="nav nav-tabs">
 		<li class="active"><a href="${ctx}/orders/orders/">订单管理列表</a></li>
-		<%--<shiro:hasPermission name="orders:orders:edit"><li><a href="${ctx}/orders/orders/form">订单管理添加</a></li></shiro:hasPermission>--%>
 	</ul>
 	<form:form id="searchForm" modelAttribute="orders" action="${ctx}/orders/orders/" method="post" class="breadcrumb form-search">
 		<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -80,8 +79,6 @@
 				<th>alipay标志</th>
 				<th>手机号</th>
 				<th>柜子编号</th>
-				<th>商品名称</th>
-				<th>商品数量</th>
 				<shiro:hasPermission name="orders:orders:edit"><th>操作</th></shiro:hasPermission>
 			</tr>
 		</thead>
@@ -124,12 +121,10 @@
 				<td>
 					${orders.cabinetNo}
 				</td>
-				<td>${orders.productName}</td>
-				<td>${orders.productTotal}</td>
-				<shiro:hasPermission name="orders:orders:edit"><td>
-    				<a href="${ctx}/orders/orders/form?id=${orders.id}">查看</a>
-					<a href="${ctx}/orders/orders/delete?id=${orders.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>
-				</td></shiro:hasPermission>
+				<%--<shiro:hasPermission name="orders:orders:edit"><td>--%>
+    				<%--<a href="${ctx}/orders/orders/form?id=${orders.id}">查看</a>--%>
+					<%--<a href="${ctx}/orders/orders/delete?id=${orders.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>--%>
+				<%--</td></shiro:hasPermission>--%>
 			</tr>
 		</c:forEach>
 		</tbody>
