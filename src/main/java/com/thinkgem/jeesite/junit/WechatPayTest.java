@@ -27,12 +27,12 @@ public class WechatPayTest {
         Map<String, String> params = new HashMap<String, String>();
         //生成预支付请求参数列表
         //生成预支付请求参数列表
-        String appId = "wx70375dde1ac8a3d0";
-        String mch_id = "1393701402";
+        String appId = "";
+        String mch_id = "";
         String out_trade_no = TenpayUtil.getCurrTime();
         String charSet = "utf-8";
         String signType = "MD5";
-        String appkey = "BCFB58527EF47F485BE308C0331A86B9";
+        String appkey = "";
 
         params.put("appid", appId);
         params.put("mch_id", mch_id);
