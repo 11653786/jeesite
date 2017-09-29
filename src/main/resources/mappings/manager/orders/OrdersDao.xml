@@ -25,7 +25,7 @@
 		a.redpacket_price as "redpacketPrice",
 		a.redpacket_name as "redpacketName",
 		a.refund_status as "refundStatus",
-		a.refund_time as "refundTime",
+		a.refund_time as "refundTime"
 
 
 	</sql>

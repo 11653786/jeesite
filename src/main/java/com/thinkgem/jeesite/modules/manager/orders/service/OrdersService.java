@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.manager.orders.service;
 import java.util.Date;
 import java.util.List;
 
+import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,15 +50,22 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     }
 
     @Transactional(readOnly = false)
-    public void save(String productId, String productName, Integer productPrice, String orderNo, Integer payMoney, Integer actualPayMoney, Integer orderStatus, Integer paymentStatus, String cabinetNo, String drawerNo) {
+    public void submitForOrder(String orderNo, List<PreOrderReq> products, Integer productTotalPrice) {
 
         Orders orders = new Orders();
         orders.setOrderNo(orderNo);
-        orders.setPayMoney(payMoney);
-        orders.setActualPayMoney(actualPayMoney);
+        orders.setPayMoney(productTotalPrice);
+        orders.setActualPayMoney(productTotalPrice);
         orders.setOrderStatus(0);
         orders.setCreateTime(new Date());
-//        private String openid;        // 微信标志
+        //private String openid;        // 微信标志
+
+        for (PreOrderReq req : products) {
+
+        }
+
+
+
         super.save(orders);
     }
 

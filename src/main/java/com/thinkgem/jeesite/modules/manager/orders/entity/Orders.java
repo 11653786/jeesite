@@ -26,6 +26,7 @@ public class Orders extends DataEntity<Orders> {
     private Integer actualPayMoney;        // 实际支付金额
     private Integer orderStatus;        // 订单状态
     private Integer paymentStatus;         //支付状态:0,微信扫码支付,1微信公众号支付,2支付宝支付
+    private String cabinetNo;               //柜子编号
     private String wechatTradeNo;        // 微信流水
     private String alipayTradeNo;        // 支付宝流水
     private Date createTime;        // 创建时间
@@ -252,5 +253,13 @@ public class Orders extends DataEntity<Orders> {
 
     public void setRefundTime(Date refundTime) {
         this.refundTime = refundTime;
+    }
+
+    public String getCabinetNo() {
+        return cabinetNo;
+    }
+
+    public void setCabinetNo(String cabinetNo) {
+        this.cabinetNo = cabinetNo;
     }
 }

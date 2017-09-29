@@ -66,6 +66,7 @@
         <th>放餐状态</th>
         <th>放餐商品名称</th>
         <th>放餐时间</th>
+        <th>过期时间</th>
         <shiro:hasPermission name="drawer:drawer:edit">
             <th>操作</th>
         </shiro:hasPermission>
@@ -92,6 +93,9 @@
             </td>
             <td>
                 <fmt:formatDate value="${drawer.inTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
+            </td>
+            <td>
+                <fmt:formatDate value="${drawer.inOutTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
             <shiro:hasPermission name="drawer:drawer:edit">
                 <td>

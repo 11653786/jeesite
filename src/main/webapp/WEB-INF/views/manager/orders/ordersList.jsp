@@ -71,6 +71,8 @@
 				<th>订单金额</th>
 				<th>实际支付金额</th>
 				<th>订单状态</th>
+				<th>支付状态</th>
+				<th>退款状态</th>
 				<th>微信流水</th>
 				<th>支付宝流水</th>
 				<th>创建时间</th>
@@ -96,6 +98,12 @@
 				</td>
 				<td>
 					${fns:getDictLabel(orders.orderStatus, 'order_status', '')}
+				</td>
+				<td>
+					${fns:getDictLabel(orders.paymentStatus, 'payment_status', '')}
+				</td>
+				<td>
+					${fns:getDictLabel(orders.refundStatus, 'refund_status', '')}
 				</td>
 				<td>
 					${orders.wechatTradeNo}

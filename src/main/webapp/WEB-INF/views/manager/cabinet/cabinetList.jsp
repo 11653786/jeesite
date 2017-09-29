@@ -162,9 +162,7 @@
                 <a href="${ctx}/cabinet/cabinet/delete?id=${cabinet.id}"
                    onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
                 </shiro:hasPermission>
-                <%--<shiro:hasPermission name="cabinetproductrelaction:cabinetProductRelaction:edit">--%>
-                    <%--<a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/form?id=${cabinet.id}">配置商品</a>--%>
-                <%--</shiro:hasPermission>--%>
+
 
             </td>
         </tr>
