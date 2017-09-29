@@ -19,14 +19,15 @@ public class WechatConfig {
     public String fee_type;
     @Value("${trade_type}")
     public String trade_type;
-    @Value("${notify_url}")
-    public String notify_url;
+    //微信扫码付回调url
+    @Value("${scan_pay_url}")
+    public String scan_pay_url;
     @Value("${charset}")
     public String charset;
     @Value("${signType}")
     public String signType;
-    @Value("${api_url}")
-    public String api_url;
+    @Value("${unifiedorder_url}")
+    public String unifiedorder_url;
 
 
 

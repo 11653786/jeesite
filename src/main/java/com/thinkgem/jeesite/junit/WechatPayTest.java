@@ -58,7 +58,7 @@ public class WechatPayTest {
         params1.put("sign", sign1);
         boolean isTrue1 = TenpayUtil.isTenpaySign(params1, charSet, signType, appkey);
         String body1 = XMLUtil.getXmlByMap(params1);
-        String result1 = WebRequestUtil.getResponseString("https://api.mch.weixin.qq.com/pay/closeorder", body1, false);
+        String result1 = WebRequestUtil.getResponseString("https://api.mch.weixin.qq.com/pay/orderquery", body1, false);
         params1 = XMLUtil.doXMLParse(result1);
         System.out.println(result1);
 

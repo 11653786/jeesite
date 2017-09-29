@@ -1,7 +1,7 @@
 package com.thinkgem.jeesite.api;
 
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
-import com.thinkgem.jeesite.api.service.PayService;
+import com.thinkgem.jeesite.api.service.WechatPayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ public class OrderController {
 
 
     @Autowired
-    private PayService payService;
+    private WechatPayService payService;
 
 
     /**
