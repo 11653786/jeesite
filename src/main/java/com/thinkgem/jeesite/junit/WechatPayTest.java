@@ -1,28 +1,53 @@
 package com.thinkgem.jeesite.junit;
 
 
-import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.api.service.WechatPayService;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.WebRequestUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by erfeng on 17/8/17.
  */
+@RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试
+@ContextConfiguration(locations = {"classpath:spring-context.xml"}) //加载配置文件
 public class WechatPayTest {
+
+
+    @Autowired
+    private WechatPayService wechatPayService;
+
+
+    /**
+     * 微信统一下单
+     */
+    @Test
+    public void testWechatUnifiedorder() {
+        String productId = 1 + "";
+        Integer productPrice = 1;
+        String tradeType = "NATIVE";
+        wechatPayService.unifiedorder(TenpayUtil.getCurrTime(), productId, productPrice, tradeType);
+    }
+
+
     public static void main(String[] args) throws Exception {
         Map<String, String> params = new HashMap<String, String>();
         //生成预支付请求参数列表
-        String appId = "wx70375dde1ac8a3d0";
-        String mch_id = "1393701402";
+        String appId = "";
+        String mch_id = "";
         String out_trade_no = TenpayUtil.getCurrTime();
         String charSet = "utf-8";
         String signType = "MD5";
-        String appkey = "BCFB58527EF47F485BE308C0331A86B9";
+        String appkey = "";
 
 
         params.put("appid", appId);
@@ -52,7 +77,7 @@ public class WechatPayTest {
         Map<String, String> params1 = new HashMap<String, String>();
         params1.put("appid", appId);
         params1.put("mch_id", mch_id);
-        params1.put("nonce_str",TenpayUtil.genNonceStr());
+        params1.put("nonce_str", TenpayUtil.genNonceStr());
         params1.put("out_trade_no", out_trade_no);
         String sign1 = TenpayUtil.createSign(params1, charSet, signType, appkey).toUpperCase();
         params1.put("sign", sign1);
