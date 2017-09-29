@@ -19,6 +19,21 @@ public class JsonTest {
         preOrderReq.setProductNum(1);
 
 
+        PreOrderReq preOrderReq1 = new PreOrderReq();
+
+        preOrderReq1.setProductId("");
+        preOrderReq1.setCabinetNo("");
+        preOrderReq1.setDrawerNo("");
+        preOrderReq1.setProductNum(1);
+
+
+        PreOrderReq preOrderReq2 = new PreOrderReq();
+
+        preOrderReq2.setProductId("");
+        preOrderReq2.setCabinetNo("");
+        preOrderReq2.setDrawerNo("");
+        preOrderReq2.setProductNum(2);
+
 
     }
 }
