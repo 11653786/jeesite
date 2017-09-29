@@ -198,4 +198,12 @@
 		WHERE id = #{id}
 	</update>
 
+    <select id="getOrdersByOrderNo" resultType="Orders">
+        SELECT
+        <include refid="ordersColumns"/>
+        FROM orders a
+        WHERE a.order_no = #{orderNo}
+    </select>
+
+
 </mapper>

@@ -13,6 +13,7 @@ public enum ResCodeMsgType {
     DRAWER_HAVING_NOT_FOOD("109","当前抽屉没有放餐"),
     DRAWER_NOT_PUT_PRODUCT("110","当前抽屉不可放当前商品"),
     PRODUCT_NUM_NOT_EMPTY("111","商品数量不能为空"),
+    ORDERS_NOT_EXISTS("111",""),
     FAIL("501", "失败");
 
     private String code;

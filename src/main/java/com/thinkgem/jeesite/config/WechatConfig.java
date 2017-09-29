@@ -28,6 +28,8 @@ public class WechatConfig {
     public String signType;
     @Value("${unifiedorder_url}")
     public String unifiedorder_url;
+    @Value("${query_order_url}")
+    public String  query_order_url;
 
 
 

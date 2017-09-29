@@ -8,6 +8,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
+import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
+import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
@@ -35,6 +37,8 @@ public class OrderService {
     private DrawerDao drawerDao;
     @Autowired
     private CabinetProductRelactionDao cabinetProductRelactionDao;
+    @Autowired
+    private OrdersDao ordersDao;
 
 
     /**
@@ -84,7 +88,7 @@ public class OrderService {
         }
 
         //------全部验证通过保存订单和订单明细--------------------------------------
-        ordersService.submitForOrder(orderNo,products, productTotalPrice);
+        ordersService.submitForOrder(orderNo, products, productTotalPrice);
         return wechatPayResult;
 
 
@@ -145,6 +149,28 @@ public class OrderService {
 
 
         return PlatformRes.success(null);
+    }
+
+    public PlatformRes<Orders> queryOrder(String orderNo) {
+        Orders orders = ordersDao.getOrdersByOrderNo(orderNo);
+        if (orders == null)
+            return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+        /**
+         *
+         */
+        if (StringUtils.isBlank(orders.getWechatTradeNo())) {
+            //支付宝订单查询
+            return null;
+        } else {
+            //订单号
+            PlatformRes<String> result = wechatPayService.orderQuery(orderNo);
+            if (result.getCode().equals("0")) {
+                return PlatformRes.success(orders);
+            } else {
+                //订单号出错
+                return PlatformRes.error(result.getCode(), result.getData());
+            }
+        }
     }
 
 }

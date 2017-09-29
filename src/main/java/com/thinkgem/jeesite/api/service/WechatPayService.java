@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.api.service;
 
+import com.alibaba.fastjson.JSON;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -7,9 +8,11 @@ import com.thinkgem.jeesite.config.WechatConfig;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.WebRequestUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
+import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,14 +67,59 @@ public class WechatPayService {
                     return PlatformRes.error(resultMap.get("return_code"), resultMap.get("return_msg"));
                 else
                     return PlatformRes.success(prePayId);
-            } else {
+            } else
                 return PlatformRes.error(ResCodeMsgType.WECHAT_SIGN_ERROR);
-            }
+
 
 
         } catch (Exception e) {
             throw new RuntimeException("预下单失败: " + e.getMessage());
         }
+    }
+
+    public PlatformRes<String> orderQuery(String orderNo) {
+        //查询订单
+        Map<String, String> params = new HashMap<String, String>();
+        String result = null;
+        try {
+            params = setWechatConfig();
+            params.put("nonce_str", TenpayUtil.genNonceStr());
+            params.put("out_trade_no", orderNo);
+            String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+            params.put("sign", sign);
+            boolean isTrue = TenpayUtil.isTenpaySign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key);
+            if(isTrue){
+                String body = XMLUtil.getXmlByMap(params);
+                result = WebRequestUtil.getResponseString(wechatConfig.query_order_url, body, false);
+                params = XMLUtil.doXMLParse(result);
+                if(params.get("result_code")!=null){
+                    if(params.get("result_code").toString().equals("FAIL")){
+                        return PlatformRes.error(""+params.get("error_code"));
+                    }else if(params.get("result_code").toString().equals("SUCCESS")){
+                        if(params.get("trade_state").toString().equals("SUCCESS")){
+                            return PlatformRes.success("");
+                        }else
+                            return  PlatformRes.error(params.get("trade_state"));
+
+
+                    }else{
+                        return PlatformRes.error("");
+                    }
+
+                }
+                return PlatformRes.success(JSON.toJSONString(params));
+            }else
+                return PlatformRes.error(ResCodeMsgType.WECHAT_SIGN_ERROR);
+
+
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
     }
 
 
