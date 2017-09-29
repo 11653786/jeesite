@@ -34,7 +34,7 @@ public class OrderController {
      * "data": "weixin://wxpay/bizpayurl?pr=hMnBust"
      * }
      *
-     * @param productIds   商品id,多个用逗号分开
+     * @param products   商品信息
      * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
      * @param repackgeId  红包id,公众号支付有用
      * @return

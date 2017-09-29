@@ -21,7 +21,7 @@ public class PreOrderReq {
     private String areaName;
     //商品价格
     private Integer getProductActualPrice;
-    //
+    //后面自动拼装
     private String productName;
 
 

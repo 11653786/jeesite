@@ -75,7 +75,6 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             for (int j = i + 1; j < products.size(); j++) {
                 PreOrderReq compareReq = products.get(j);
                 if (req.getProductId().equals(compareReq.getProductId())) {
-                    req.setGetProductActualPrice(req.getGetProductActualPrice() + compareReq.getGetProductActualPrice());
                     req.setProductNum(req.getProductNum() + compareReq.getProductNum());
                     products.remove(j);
                 }
@@ -85,7 +84,6 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 
 
         for (PreOrderReq req : products) {
-
             OrderGoods orderGoods = new OrderGoods();
             orderGoods.setOrderNo(orderNo);
             orderGoods.setProductId(req.getProductId());
