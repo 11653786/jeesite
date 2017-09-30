@@ -149,18 +149,16 @@ public class WechatPayService {
         CloseableHttpResponse response = null;
         Map<String, String> result = null;
         try {
+            //设置双向验证客户端
             httpclient = getHttpClient();
-            HttpPost httpPost = new HttpPost(wechatConfig.refund_order_url);
+            //拼装参数
             String body = setRefundParams(orderNo, refundOrderNo, orderTotalFee, orderRefundFee);
-            StringEntity se = new StringEntity(body, "utf-8");
-            se.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
-            httpPost.setEntity(se);
-            response = httpclient.execute(httpPost);
-            HttpEntity entity = response.getEntity();
+            //发送http获取结果
+            HttpEntity entity = getHttpEntity(httpclient, response, body);
             if (entity != null) {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
-                    throw new RuntimeException("微信退款失败:" + body);
+                    throw new RuntimeException("微信退款失败,请求参数:" + body);
                 }
 
                 if (entity != null)
@@ -188,35 +186,7 @@ public class WechatPayService {
 
 
     /**
-     * 退款返回的信息转成map
-     *
-     * @param orderNo
-     * @param refundOrderNo
-     * @param orderTotalFee
-     * @param orderRefundFee
-     * @return
-     */
-    private String setRefundParams(String orderNo, String refundOrderNo, Integer orderTotalFee, Integer orderRefundFee) {
-        String nonce_str = TenpayUtil.genNonceStr();
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("appid", wechatConfig.app_id);
-        params.put("mch_id", wechatConfig.mch_id);
-        params.put("nonce_str", nonce_str);
-        params.put("out_trade_no", orderNo);
-        params.put("out_refund_no", refundOrderNo);
-        params.put("total_fee", orderTotalFee + "");
-        params.put("refund_fee", orderRefundFee + "");
-        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
-        params.put("sign", sign);
-
-        return XMLUtil.getXmlByMap(params);
-
-    }
-
-
-    /**
-     * 获取微信退款
+     * 获取微信退款的双向认证
      *
      * @return
      */
@@ -250,6 +220,53 @@ public class WechatPayService {
 
         return httpclient;
 
+    }
+
+
+    /**
+     * 退款请求信息转成string
+     *
+     * @param orderNo
+     * @param refundOrderNo
+     * @param orderTotalFee
+     * @param orderRefundFee
+     * @return
+     */
+    private String setRefundParams(String orderNo, String refundOrderNo, Integer orderTotalFee, Integer orderRefundFee) {
+        String nonce_str = TenpayUtil.genNonceStr();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", wechatConfig.app_id);
+        params.put("mch_id", wechatConfig.mch_id);
+        params.put("nonce_str", nonce_str);
+        params.put("out_trade_no", orderNo);
+        params.put("out_refund_no", refundOrderNo);
+        params.put("total_fee", orderTotalFee + "");
+        params.put("refund_fee", orderRefundFee + "");
+        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+        params.put("sign", sign);
+
+        return XMLUtil.getXmlByMap(params);
+
+    }
+
+    /**
+     * 获取微信退款http请求结果
+     *
+     * @param httpclient
+     * @param response
+     * @throws IOException
+     */
+    private HttpEntity getHttpEntity(CloseableHttpClient httpclient,
+                                     CloseableHttpResponse response, String xmlbody) throws IOException {
+        HttpPost httpPost = new HttpPost(wechatConfig.refund_order_url);
+        //设置请求参数,并且请求
+
+        StringEntity se = new StringEntity(xmlbody, "utf-8");
+        se.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
+        httpPost.setEntity(se);
+        response = httpclient.execute(httpPost);
+        return response.getEntity();
     }
 
 
