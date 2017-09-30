@@ -13,6 +13,8 @@ public class WechatConfig {
     public String app_key;
     @Value("${app_id}")
     public String app_id;
+    @Value("${app_sercet}")
+    public String app_sercet;
     @Value("${mch_id}")
     public String mch_id;
     @Value("${fee_type}")
