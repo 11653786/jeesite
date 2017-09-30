@@ -144,7 +144,7 @@ public class WechatPayService {
      * @param orderTotalFee
      * @param orderRefundFee
      */
-    public Map<String, String> wechatRefundFee(String orderNo, String refundOrderNo, Integer orderTotalFee, Integer orderRefundFee) {
+    public PlatformRes<String> wechatRefundFee(String orderNo, String refundOrderNo, Integer orderTotalFee, Integer orderRefundFee) {
         CloseableHttpClient httpclient = null;
         CloseableHttpResponse response = null;
         Map<String, String> result = null;
@@ -181,7 +181,34 @@ public class WechatPayService {
                 e.printStackTrace();
             }
         }
-        return result;
+        if (result.get("result_code").toString().equalsIgnoreCase("SUCCESS"))
+            return PlatformRes.success("退款成功");
+        else
+            return PlatformRes.error(ResCodeMsgType.REFUND_ERROR);
+    }
+
+    /**
+     * 查询退款订单信息
+     *
+     * @return
+     */
+    public PlatformRes<String> queryRefundOrder(String orderNo) throws JDOMException, IOException {
+        //查询退款订单订单
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", wechatConfig.app_id);
+        params.put("mch_id", wechatConfig.mch_id);
+        params.put("nonce_str", TenpayUtil.genNonceStr());
+        params.put("out_trade_no", orderNo);
+        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+        params.put("sign", sign);
+        String body = XMLUtil.getXmlByMap(params);
+        String result = WebRequestUtil.getResponseString(wechatConfig.refund_order_query, body, false);
+        params = XMLUtil.doXMLParse(result);
+        if (params.get("result_code").equalsIgnoreCase("SUCCESS")) {
+            return PlatformRes.success(body);
+        } else {
+            return PlatformRes.error(body);
+        }
     }
 
 

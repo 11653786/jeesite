@@ -191,9 +191,9 @@ public class OrderService {
         } else {
             if (orders.getRefundStatus().equals("0") || orders.getRefundStatus().equals("2")) {
                 String refundOrderNo = StringUtils.isBlank(orders.getRefundNo()) ? TenpayUtil.getCurrTime() : orders.getRefundNo();
-                Map<String, String> result = wechatPayService.wechatRefundFee(orderNo, refundOrderNo, orders.getActualPayMoney(), orders.getActualPayMoney());
+                PlatformRes<String> result = wechatPayService.wechatRefundFee(orderNo, refundOrderNo, orders.getActualPayMoney(), orders.getActualPayMoney());
                 orders.setRefundNo(refundOrderNo);
-                if (result.get("err_code") == null && result.get("result_code") != null && result.get("result_code").toString().equalsIgnoreCase("SUCCESS") && result.get("total_fee") != null) {
+                if (result.getCode().equals("0")) {
                     //退款成功
                     orders.setRefundStatus(1);
                     ordersDao.update(orders);
@@ -209,6 +209,29 @@ public class OrderService {
             } else
                 return PlatformRes.error(ResCodeMsgType.REFUND_ORDERS_NOT_EXISTS);
 
+        }
+
+    }
+
+    /**
+     * 查詢退款訂單,微信和支付宝
+     *
+     * @param orderNo
+     * @return
+     */
+    public PlatformRes<String> queryRefundOrder(String orderNo) {
+        Orders orders = ordersDao.getOrdersByOrderNo(orderNo);
+        try {
+            if (orders == null)
+                return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+            if (StringUtils.isBlank(orders.getWechatTradeNo())) {
+                //支付宝订单查询
+                return null;
+            } else {
+                return wechatPayService.queryRefundOrder(orderNo);
+            }
+        } catch (Exception e) {
+            return PlatformRes.error(e.getMessage());
         }
 
     }

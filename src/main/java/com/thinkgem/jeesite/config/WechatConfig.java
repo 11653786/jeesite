@@ -37,6 +37,9 @@ public class WechatConfig {
     //退款证书所在地址
     @Value("${refund_token}")
     public String refund_token;
+    //微信退款订单查询
+    @Value("${refund_order_query}")
+    public String refund_order_query;
 
 
 }
