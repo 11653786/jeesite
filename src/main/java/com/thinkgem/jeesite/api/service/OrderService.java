@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 给外部提供的订单接口
@@ -171,6 +172,45 @@ public class OrderService {
                 return PlatformRes.error(result.getCode(), result.getData());
             }
         }
+    }
+
+
+    /**
+     * 退单,微信和支付宝
+     *
+     * @param orderNo
+     * @return
+     */
+    public PlatformRes<String> refundOrder(String orderNo) {
+        Orders orders = ordersDao.getOrdersByOrderNo(orderNo);
+        if (orders == null)
+            return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+        if (StringUtils.isBlank(orders.getWechatTradeNo())) {
+            //支付宝订单查询
+            return null;
+        } else {
+            if (orders.getRefundStatus().equals("0") || orders.getRefundStatus().equals("2")) {
+                String refundOrderNo = StringUtils.isBlank(orders.getRefundNo()) ? TenpayUtil.getCurrTime() : orders.getRefundNo();
+                Map<String, String> result = wechatPayService.wechatRefundFee(orderNo, refundOrderNo, orders.getActualPayMoney(), orders.getActualPayMoney());
+                orders.setRefundNo(refundOrderNo);
+                if (result.get("err_code") == null && result.get("result_code") != null && result.get("result_code").toString().equalsIgnoreCase("SUCCESS") && result.get("total_fee") != null) {
+                    //退款成功
+                    orders.setRefundStatus(1);
+                    ordersDao.update(orders);
+                    return PlatformRes.success("退款成功");
+                } else {
+                    //退款失败
+                    orders.setRefundStatus(2);
+                    ordersDao.update(orders);
+                    return PlatformRes.error(ResCodeMsgType.REFUND_ERROR);
+                }
+
+
+            } else
+                return PlatformRes.error(ResCodeMsgType.REFUND_ORDERS_NOT_EXISTS);
+
+        }
+
     }
 
 }

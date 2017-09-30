@@ -40,6 +40,7 @@ import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
 import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -59,6 +60,7 @@ public class ClientCustomSSL {
     public final static void main(String[] args) throws Exception {
 
         CloseableHttpClient httpclient = null;
+        Map<String, String> result = null;
         try {
 
             httpclient = getHttpClient();
@@ -73,21 +75,14 @@ public class ClientCustomSSL {
             CloseableHttpResponse response = httpclient.execute(httpPost);
             try {
                 HttpEntity entity = response.getEntity();
-
-                System.out.println("----------------------------------------");
-                System.out.println(response.getStatusLine());
-                if (entity != null) {
-                    System.out.println("Response content length: " + entity.getContentLength());
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
-                    String text="<xml>";
-                    while (bufferedReader.readLine() != null) {
-                            text=text+bufferedReader.readLine();
-                    }
-
-                    Map<String, String> result = XMLUtil.doXMLParse(text);
-
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    throw new RuntimeException("微信退款失败:" + body);
                 }
-                EntityUtils.consume(entity);
+
+                if (entity != null)
+                    result = XMLUtil.doXMLParse(EntityUtils.toString(response.getEntity(), "UTF-8"));
+
             } finally {
                 response.close();
             }
@@ -136,7 +131,7 @@ public class ClientCustomSSL {
         String appId = "wx3bb5180e192011f3";
         String appsercet = "jzOJq3Y1oWkCSNbpT9WoKUGzNtBpoLVv";
         String mch_id = "1489914282";
-        String out_trade_no = "20170930103356";
+        String out_trade_no = "20170930141227";
         String nonce_str = TenpayUtil.getCurrTime();
         String charSet = "utf-8";
         String signType = "MD5";

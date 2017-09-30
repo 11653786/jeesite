@@ -8,11 +8,25 @@ import com.thinkgem.jeesite.config.WechatConfig;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.WebRequestUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,7 +85,6 @@ public class WechatPayService {
                 return PlatformRes.error(ResCodeMsgType.WECHAT_SIGN_ERROR);
 
 
-
         } catch (Exception e) {
             throw new RuntimeException("预下单失败: " + e.getMessage());
         }
@@ -88,27 +101,27 @@ public class WechatPayService {
             String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
             params.put("sign", sign);
             boolean isTrue = TenpayUtil.isTenpaySign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key);
-            if(isTrue){
+            if (isTrue) {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.query_order_url, body, false);
                 params = XMLUtil.doXMLParse(result);
-                if(params.get("result_code")!=null){
-                    if(params.get("result_code").toString().equals("FAIL")){
-                        return PlatformRes.error(""+params.get("error_code"));
-                    }else if(params.get("result_code").toString().equals("SUCCESS")){
-                        if(params.get("trade_state").toString().equals("SUCCESS")){
+                if (params.get("result_code") != null) {
+                    if (params.get("result_code").toString().equals("FAIL")) {
+                        return PlatformRes.error("" + params.get("error_code"));
+                    } else if (params.get("result_code").toString().equals("SUCCESS")) {
+                        if (params.get("trade_state").toString().equals("SUCCESS")) {
                             return PlatformRes.success("");
-                        }else
-                            return  PlatformRes.error(params.get("trade_state"));
+                        } else
+                            return PlatformRes.error(params.get("trade_state"));
 
 
-                    }else{
+                    } else {
                         return PlatformRes.error("");
                     }
 
                 }
                 return PlatformRes.success(JSON.toJSONString(params));
-            }else
+            } else
                 return PlatformRes.error(ResCodeMsgType.WECHAT_SIGN_ERROR);
 
 
@@ -119,6 +132,123 @@ public class WechatPayService {
         }
 
         return null;
+
+    }
+
+
+    /**
+     * 微信退款,分一次退款获取结果
+     *
+     * @param orderNo
+     * @param refundOrderNo
+     * @param orderTotalFee
+     * @param orderRefundFee
+     */
+    public Map<String, String> wechatRefundFee(String orderNo, String refundOrderNo, Integer orderTotalFee, Integer orderRefundFee) {
+        CloseableHttpClient httpclient = null;
+        CloseableHttpResponse response = null;
+        Map<String, String> result = null;
+        try {
+            httpclient = getHttpClient();
+            HttpPost httpPost = new HttpPost(wechatConfig.refund_order_url);
+            String body = setRefundParams(orderNo, refundOrderNo, orderTotalFee, orderRefundFee);
+            StringEntity se = new StringEntity(body, "utf-8");
+            se.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
+            httpPost.setEntity(se);
+            response = httpclient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode != HttpStatus.SC_OK) {
+                    throw new RuntimeException("微信退款失败:" + body);
+                }
+
+                if (entity != null)
+                    result = XMLUtil.doXMLParse(EntityUtils.toString(response.getEntity(), "UTF-8"));
+
+            }
+            EntityUtils.consume(entity);
+        } catch (Exception e) {
+            e.getMessage();
+        } finally {
+            try {
+                if (response != null) {
+                    response.close();
+                }
+
+                if (httpclient != null) {
+                    httpclient.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 退款返回的信息转成map
+     *
+     * @param orderNo
+     * @param refundOrderNo
+     * @param orderTotalFee
+     * @param orderRefundFee
+     * @return
+     */
+    private String setRefundParams(String orderNo, String refundOrderNo, Integer orderTotalFee, Integer orderRefundFee) {
+        String nonce_str = TenpayUtil.genNonceStr();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("appid", wechatConfig.app_id);
+        params.put("mch_id", wechatConfig.mch_id);
+        params.put("nonce_str", nonce_str);
+        params.put("out_trade_no", orderNo);
+        params.put("out_refund_no", refundOrderNo);
+        params.put("total_fee", orderTotalFee + "");
+        params.put("refund_fee", orderRefundFee + "");
+        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+        params.put("sign", sign);
+
+        return XMLUtil.getXmlByMap(params);
+
+    }
+
+
+    /**
+     * 获取微信退款
+     *
+     * @return
+     */
+    private CloseableHttpClient getHttpClient() {
+        CloseableHttpClient httpclient = null;
+        try {
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            FileInputStream instream = new FileInputStream(new File(wechatConfig.refund_token));
+            try {
+                keyStore.load(instream, wechatConfig.mch_id.toCharArray());
+            } finally {
+                instream.close();
+            }
+
+            // Trust own CA and all self-signed certs
+            SSLContext sslcontext = SSLContexts.custom()
+                    .loadKeyMaterial(keyStore, wechatConfig.mch_id.toCharArray())
+                    .build();
+            // Allow TLSv1 protocol only
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                    sslcontext,
+                    new String[]{"TLSv1"},
+                    null,
+                    SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+            httpclient = HttpClients.custom()
+                    .setSSLSocketFactory(sslsf)
+                    .build();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        return httpclient;
 
     }
 
