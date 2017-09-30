@@ -50,6 +50,7 @@ public class Orders extends DataEntity<Orders> {
     private String redpacketName;
 
     //
+    private String putPassword; //取餐密码
 
 
     public Orders() {
@@ -270,5 +271,13 @@ public class Orders extends DataEntity<Orders> {
 
     public void setRefundNo(String refundNo) {
         this.refundNo = refundNo;
+    }
+
+    public String getPutPassword() {
+        return putPassword;
+    }
+
+    public void setPutPassword(String putPassword) {
+        this.putPassword = putPassword;
     }
 }

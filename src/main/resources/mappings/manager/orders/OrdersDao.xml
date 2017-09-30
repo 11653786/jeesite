@@ -26,7 +26,8 @@
 		a.redpacket_name as "redpacketName",
 		a.refund_No as "refundNo",
 		a.refund_status as "refundStatus",
-		a.refund_time as "refundTime"
+		a.refund_time as "refundTime",
+		a.put_password as "putPassword"
 
 
 	</sql>
@@ -143,7 +144,8 @@
 			redpacket_name,
             refund_No,
 			refund_status,
-			refund_time
+			refund_time,
+			put_password
 		) VALUES (
 			#{id},
 			#{orderNo},
@@ -168,7 +170,8 @@
 			#{redpacketName},
             #{refundNo},
 			#{refundStatus},
-			#{refundTime}
+			#{refundTime},
+			#{putPassword}
 		)
 	</insert>
 
@@ -196,7 +199,8 @@
 			redpacket_name=#{redpacketName},
 			refund_status=#{refundStatus},
             refund_no=#{refundNo},
-			refund_time=#{refundTime}
+			refund_time=#{refundTime},
+			put_password=#{putPassword}
 		WHERE id = #{id}
 	</update>
 
