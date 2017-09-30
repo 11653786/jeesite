@@ -31,8 +31,12 @@ public class WechatConfig {
     @Value("${unifiedorder_url}")
     public String unifiedorder_url;
     @Value("${query_order_url}")
-    public String  query_order_url;
-
+    public String query_order_url;
+    @Value("${refund_order_url}")
+    public String refund_order_url;
+    //退款证书所在地址
+    @Value("${refund_token}")
+    public String refund_token;
 
 
 }
