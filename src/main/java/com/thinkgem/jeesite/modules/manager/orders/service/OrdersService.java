@@ -10,6 +10,8 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +36,8 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 
     @Autowired
     private OrderGoodsDao orderGoodsDao;
+    @Autowired
+    private UserRedpacketRelactionDao userRedpacketRelactionDao;
 
 
     public Orders get(String id) {
@@ -59,14 +63,46 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     }
 
     @Transactional(readOnly = false)
-    public void submitForOrder(String orderNo, List<PreOrderReq> products, Integer productTotalPrice) {
+    public void submitForOrder(String orderNo, Integer paymentStatus, List<PreOrderReq> products, Integer productTotalPrice, String repackgeId) {
 
         Orders orders = new Orders();
         orders.setOrderNo(orderNo);
+        //这里判断下红包使用
+        UserRedpacketRelaction userRedpacketRelaction = null;
+        if (StringUtils.isBlank(repackgeId)) {
+            userRedpacketRelaction = userRedpacketRelactionDao.get(repackgeId);
+        }
+
+        if (userRedpacketRelaction != null) {
+
+            // 红包类型，1折扣劵，2.优惠卷，3.满减优惠（这个暂时累用）
+            if (userRedpacketRelaction.getRedpacketType().equals("1")) {
+                Double actualPayMoney = Double.valueOf(productTotalPrice) - Double.valueOf(userRedpacketRelaction.getDiscountRatio()) * Double.valueOf(productTotalPrice);
+                orders.setActualPayMoney(actualPayMoney.intValue());
+            } else if (userRedpacketRelaction.getRedpacketType().equals("2")) {
+                orders.setActualPayMoney(productTotalPrice - userRedpacketRelaction.getRedpacketPrice());
+            } else if (userRedpacketRelaction.getRedpacketType().equals("3")) {
+
+            }
+
+            orders.setActualPayMoney(productTotalPrice);
+        } else {
+            orders.setActualPayMoney(productTotalPrice);
+        }
         orders.setPayMoney(productTotalPrice);
-        orders.setActualPayMoney(productTotalPrice);
         orders.setOrderStatus(0);
+        orders.setPaymentStatus(paymentStatus);
         orders.setCreateTime(new Date());
+        //微信扫码付,微信公众号支付
+        if (paymentStatus == 0) {
+            orders.setWechatTradeNo(orderNo);
+        } else if (paymentStatus == 1) {
+            orders.setWechatTradeNo(orderNo);
+//            orders.setOpenid();
+        } else if (paymentStatus == 2) {     //支付宝扫码付
+            orders.setAlipayTradeNo(orderNo);
+        }
+
         //private String openid;        // 微信标志
 
         //去重

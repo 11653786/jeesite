@@ -22,7 +22,7 @@ public class UserRedpacketRelaction extends DataEntity<UserRedpacketRelaction> {
 	private String redpacketName;		// 优惠卷名称
 	private String userid;		// 领取用户
 	private String userName;		// 用户名称
-	private Long redpacketPrice;		// 优惠金额
+	private Integer redpacketPrice;		// 优惠金额
 	private Date createTime;		// 领取时间
 	private String redpacketType;		// 红包类型
 	private String discountRatio;		// 折扣比例
@@ -75,11 +75,11 @@ public class UserRedpacketRelaction extends DataEntity<UserRedpacketRelaction> {
 		this.userName = userName;
 	}
 	
-	public Long getRedpacketPrice() {
+	public Integer getRedpacketPrice() {
 		return redpacketPrice;
 	}
 
-	public void setRedpacketPrice(Long redpacketPrice) {
+	public void setRedpacketPrice(Integer redpacketPrice) {
 		this.redpacketPrice = redpacketPrice;
 	}
 	

@@ -44,12 +44,12 @@ public class OrderService {
 
     /**
      * @param products
-     * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
+     * @param paymentStatus 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
      * @param tradeType
      * @param repackgeId  用户红包表的id
      * @return
      */
-    public PlatformRes<String> preorder(List<PreOrderReq> products, Integer paymentType, String tradeType, String repackgeId) {
+    public PlatformRes<String> preorder(List<PreOrderReq> products, Integer paymentStatus, String tradeType, String repackgeId) {
 
 
         //参数验证
@@ -75,21 +75,21 @@ public class OrderService {
 
         //这里要创建订单,订单状态为0,等到回调通过以后更改状态,微信预约下单生成二维码
         PlatformRes<String> wechatPayResult = null;
-        if (paymentType == 0) {
+        if (paymentStatus == 0) {
             wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType);
             //预支付id成功,生成订单
             if (!wechatPayResult.getCode().equals("0")) {
                 return wechatPayResult;
             }
 
-        } else if (paymentType == 1) { //公众号支付
+        } else if (paymentStatus == 1) { //公众号支付
 
         } else {       //支付宝扫码付
 
         }
 
         //------全部验证通过保存订单和订单明细--------------------------------------
-        ordersService.submitForOrder(orderNo, products, productTotalPrice);
+        ordersService.submitForOrder(orderNo, paymentStatus,products, productTotalPrice,repackgeId);
         return wechatPayResult;
 
 
