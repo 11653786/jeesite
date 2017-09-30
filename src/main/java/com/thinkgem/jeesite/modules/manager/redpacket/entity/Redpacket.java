@@ -19,8 +19,8 @@ public class Redpacket extends DataEntity<Redpacket> {
 	
 	private static final long serialVersionUID = 1L;
 	private String name;		// 优惠卷名称
-	private Long redpacketPrice;		// 优惠金额
-	private Long redpacketTotal;		// 优惠卷数量
+	private Integer redpacketPrice;		// 优惠金额
+	private Integer redpacketTotal;		// 优惠卷数量
 	private String status;		// 优惠卷状态
 	private Date createTime;		// 创建时间
 	private String remark;		// remark
@@ -45,20 +45,20 @@ public class Redpacket extends DataEntity<Redpacket> {
 		this.name = name;
 	}
 	
-	public Long getRedpacketPrice() {
+	public Integer getRedpacketPrice() {
 		return redpacketPrice;
 	}
 
-	public void setRedpacketPrice(Long redpacketPrice) {
+	public void setRedpacketPrice(Integer redpacketPrice) {
 		this.redpacketPrice = redpacketPrice;
 	}
 	
 	@NotNull(message="优惠卷数量不能为空")
-	public Long getRedpacketTotal() {
+	public Integer getRedpacketTotal() {
 		return redpacketTotal;
 	}
 
-	public void setRedpacketTotal(Long redpacketTotal) {
+	public void setRedpacketTotal(Integer redpacketTotal) {
 		this.redpacketTotal = redpacketTotal;
 	}
 	
