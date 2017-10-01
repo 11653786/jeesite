@@ -67,7 +67,7 @@ public class CabinetProductRelactionController extends BaseController {
         Page<CabinetProductRelaction> page = cabinetProductRelactionService.findPage(new Page<CabinetProductRelaction>(request, response), cabinetProductRelaction);
         List<Cabinet> cabinetList = cabinetService.findList(new Cabinet());
         model.addAttribute("page", page);
-        model.addAttribute("cabinetList",cabinetList);
+        model.addAttribute("cabinetList", cabinetList);
         return "manager/cabinetproductrelaction/cabinetProductRelactionList";
     }
 
@@ -78,7 +78,7 @@ public class CabinetProductRelactionController extends BaseController {
         //获取当前柜子信息
         Drawer drawer = drawerService.get(id);
         Cabinet cabinet = cabinetService.get(drawer.getCabinetId());
-        List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findList(new CabinetProductRelaction(cabinet.getId()));
+        List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findListByDrawerNo(drawer.getDrawerNo());
         //
         model.addAttribute("cabinet", cabinet);
         model.addAttribute("drawer", drawer);
@@ -115,7 +115,7 @@ public class CabinetProductRelactionController extends BaseController {
         }
 
         Product product = productService.get(productId);
-        Drawer drawer =drawerService.get(drawerId);
+        Drawer drawer = drawerService.get(drawerId);
 
         if (product == null || drawer == null) {
             addMessage(redirectAttributes, "传入参数异常");

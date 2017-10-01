@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 给外部提供的订单接口
@@ -144,7 +143,7 @@ public class OrderService {
         productReq.setProductName(product.getProductName());
         productReq.setProductNum(1);
         //判断当前柜子是否可以放当前的商品
-        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.get(new CabinetProductRelaction(productReq.getProductId(), productReq.getDrawerNo()));
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findByDrawerNoAndProductId(productReq.getDrawerNo(), productReq.getProductId());
         if (cabinetProductRelaction == null)
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_PRODUCT);
 

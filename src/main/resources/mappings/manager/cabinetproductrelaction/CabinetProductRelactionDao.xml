@@ -129,7 +129,22 @@
 	</update>
 
     <select id="findBydrawerIdAndProductId" resultType="CabinetProductRelaction">
-		select * from cabinet_product_relaction where product_id=#{productId} and drawer_id=#{drawerId};
+		select
+        <include refid="cabinetProductRelactionColumns"/>
+		 from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId};
 	</select>
+
+    <select id="findByDrawerNoAndProductId" resultType="CabinetProductRelaction">
+        select
+        <include refid="cabinetProductRelactionColumns"/>
+         from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_no=#{drawerNo};
+    </select>
+
+
+    <select id="findListByDrawerNo" resultType="CabinetProductRelaction">
+        SELECT
+        <include refid="cabinetProductRelactionColumns"/>
+        FROM cabinet_product_relaction a where a.drawer_no=#{drawerNo}
+    </select>
 
 </mapper>

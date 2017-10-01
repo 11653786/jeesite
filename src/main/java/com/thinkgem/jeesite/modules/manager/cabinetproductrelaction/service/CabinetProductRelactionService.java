@@ -48,6 +48,10 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
         return super.findList(cabinetProductRelaction);
     }
 
+    public List<CabinetProductRelaction> findListByDrawerNo(String drawerNo) {
+        return cabinetProductRelactionDao.findListByDrawerNo(drawerNo);
+    }
+
     public Page<CabinetProductRelaction> findPage(Page<CabinetProductRelaction> page, CabinetProductRelaction cabinetProductRelaction) {
         return super.findPage(page, cabinetProductRelaction);
     }
