@@ -65,10 +65,30 @@ public class OrderService {
         for (PreOrderReq productReq : products) {
 
             //如果验证通过(区域,商品信息填充)
-            PlatformRes<String> validResult = validOrderInfo(productReq, productIds, productTotalPrice);
+            if (StringUtils.isBlank(productReq.getCabinetNo())) {
+                return PlatformRes.error("传入参数柜子编号有错误!");
+            }
+
+            if (StringUtils.isBlank(productReq.getDrawerNo())) {
+                return PlatformRes.error("传入参数抽屉编号有为空的");
+            }
+
+
+            if (StringUtils.isBlank(productReq.getProductId())) {
+                return PlatformRes.error("传入参数商品ID为空!");
+            }
+
+            Product product = productService.get(productReq.getProductId());
+
+
+
+            PlatformRes<String> validResult = validOrderInfo(productReq,product);
+
 
             if (!validResult.getCode().equals("0"))
                 return validResult;
+            productIds = product.getId() + "," + productIds;
+            productTotalPrice = product.getProductActualPrice() + productTotalPrice;
         }
 
 
@@ -95,29 +115,15 @@ public class OrderService {
     }
 
 
-    private PlatformRes<String> validOrderInfo(PreOrderReq productReq, String productIds, Integer productTotalPrice) {
-        if (StringUtils.isBlank(productReq.getCabinetNo())) {
-            return PlatformRes.error("传入参数柜子编号有错误!");
-        }
+    private PlatformRes<String> validOrderInfo(PreOrderReq productReq,Product product) {
 
-        if (StringUtils.isBlank(productReq.getDrawerNo())) {
-            return PlatformRes.error("传入参数抽屉编号有为空的");
-        }
-
-
-        if (StringUtils.isBlank(productReq.getProductId())) {
-            return PlatformRes.error("传入参数商品ID为空!");
-        }
-
-        Product product = productService.get(productReq.getProductId());
 
         if (product == null)
             return PlatformRes.error(ResCodeMsgType.PRODUCT_NOT_EXISTS);
         //商品价格
         productReq.setGetProductActualPrice(product.getProductActualPrice());
         //拼接商品id和设置商品金额
-        productIds = product.getId() + "," + productIds;
-        productTotalPrice = product.getProductActualPrice() + productTotalPrice;
+
 
         //商品下架判断
         if (product.getProductStatus().equals("0"))

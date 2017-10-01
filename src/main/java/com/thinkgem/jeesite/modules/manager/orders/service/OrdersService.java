@@ -70,11 +70,11 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
         //取餐密码设置
         String putPassword = (int) ((Math.random() * 9 + 1) * 100000) + "";
         orders.setPutPassword(putPassword);
-
+        orders.setPayMoney(productTotalPrice);
 
         //这里判断下红包使用
         UserRedpacketRelaction userRedpacketRelaction = null;
-        if (StringUtils.isBlank(repackgeId)) {
+        if (StringUtils.isNotBlank(repackgeId)) {
             userRedpacketRelaction = userRedpacketRelactionDao.get(repackgeId);
         }
 
@@ -90,11 +90,9 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 
             }
 
-            orders.setActualPayMoney(productTotalPrice);
         } else {
             orders.setActualPayMoney(productTotalPrice);
         }
-        orders.setPayMoney(productTotalPrice);
         orders.setOrderStatus(0);
         orders.setPaymentStatus(paymentStatus);
         orders.setCreateTime(new Date());
@@ -110,19 +108,6 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 
         //private String openid;        // 微信标志
 
-        //去重
-        for (PreOrderReq req : products) {
-            int i = 0;
-            for (int j = i + 1; j < products.size(); j++) {
-                PreOrderReq compareReq = products.get(j);
-                if (req.getProductId().equals(compareReq.getProductId())) {
-                    req.setProductNum(req.getProductNum() + compareReq.getProductNum());
-                    products.remove(j);
-                }
-            }
-            i++;
-        }
-
 
         for (PreOrderReq req : products) {
             OrderGoods orderGoods = new OrderGoods();
@@ -135,10 +120,11 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             orderGoods.setAreaName(req.getAreaName());
             orderGoods.setCabinetNo(req.getCabinetNo());
             orderGoods.setDrawerNo(req.getDrawerNo());
+            orderGoods.setCreateTime(new Date());
             //设置订单柜子信息
-            if (StringUtils.isBlank(orders.getCabinetNo()))
-                orders.setCabinetNo(orders.getCabinetNo());
-
+            orders.setCabinetNo(orderGoods.getCabinetNo());
+            //生成id
+            orderGoods.preInsert();
             orderGoodsDao.insert(orderGoods);
 
         }

@@ -64,7 +64,7 @@ public class WechatPayService {
             params.put("total_fee", productTotalPrice + "");
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
-            params.put("product_id", productId);
+            params.put("product_id", "0");
             params.put("notify_url", wechatConfig.scan_pay_url);
 
             String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
