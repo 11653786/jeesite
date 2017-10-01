@@ -6,6 +6,8 @@ package com.thinkgem.jeesite.modules.manager.orders.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.thinkgem.jeesite.api.entity.res.PlatformRes;
+import com.thinkgem.jeesite.api.service.OrderService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,7 @@ import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 
 /**
  * 订单实体类Controller
+ *
  * @author yt
  * @version 2017-08-19
  */
@@ -31,53 +34,76 @@ import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 @RequestMapping(value = "${adminPath}/orders/orders")
 public class OrdersController extends BaseController {
 
-	@Autowired
-	private OrdersService ordersService;
-	
-	@ModelAttribute
-	public Orders get(@RequestParam(required=false) String id) {
-		Orders entity = null;
-		if (StringUtils.isNotBlank(id)){
-			entity = ordersService.get(id);
-		}
-		if (entity == null){
-			entity = new Orders();
-		}
-		return entity;
-	}
-	
-	@RequiresPermissions("orders:orders:view")
-	@RequestMapping(value = {"list", ""})
-	public String list(Orders orders, HttpServletRequest request, HttpServletResponse response, Model model) {
-		Page<Orders> page = ordersService.findPage(new Page<Orders>(request, response), orders); 
-		model.addAttribute("page", page);
-		return "manager/orders/ordersList";
-	}
+    @Autowired
+    private OrdersService ordersService;
+    @Autowired
+    private OrderService orderService;
 
-	@RequiresPermissions("orders:orders:view")
-	@RequestMapping(value = "form")
-	public String form(Orders orders, Model model) {
-		model.addAttribute("orders", orders);
-		return "manager/orders/ordersForm";
-	}
+    @ModelAttribute
+    public Orders get(@RequestParam(required = false) String id) {
+        Orders entity = null;
+        if (StringUtils.isNotBlank(id)) {
+            entity = ordersService.get(id);
+        }
+        if (entity == null) {
+            entity = new Orders();
+        }
+        return entity;
+    }
 
-	@RequiresPermissions("orders:orders:edit")
-	@RequestMapping(value = "save")
-	public String save(Orders orders, Model model, RedirectAttributes redirectAttributes) {
-		if (!beanValidator(model, orders)){
-			return form(orders, model);
-		}
-		ordersService.save(orders);
-		addMessage(redirectAttributes, "保存订单管理成功");
-		return "redirect:"+Global.getAdminPath()+"/orders/orders/?repage";
-	}
-	
-	@RequiresPermissions("orders:orders:edit")
-	@RequestMapping(value = "delete")
-	public String delete(Orders orders, RedirectAttributes redirectAttributes) {
-		ordersService.delete(orders);
-		addMessage(redirectAttributes, "删除订单管理成功");
-		return "redirect:"+Global.getAdminPath()+"/orders/orders/?repage";
-	}
+    @RequiresPermissions("orders:orders:view")
+    @RequestMapping(value = {"list", ""})
+    public String list(Orders orders, HttpServletRequest request, HttpServletResponse response, Model model) {
+        Page<Orders> page = ordersService.findPage(new Page<Orders>(request, response), orders);
+        model.addAttribute("page", page);
+        return "manager/orders/ordersList";
+    }
+
+    @RequiresPermissions("orders:orders:view")
+    @RequestMapping(value = "form")
+    public String form(Orders orders, Model model) {
+        model.addAttribute("orders", orders);
+        return "manager/orders/ordersForm";
+    }
+
+    @RequiresPermissions("orders:orders:edit")
+    @RequestMapping(value = "save")
+    public String save(Orders orders, Model model, RedirectAttributes redirectAttributes) {
+        if (!beanValidator(model, orders)) {
+            return form(orders, model);
+        }
+        ordersService.save(orders);
+        addMessage(redirectAttributes, "保存订单管理成功");
+        return "redirect:" + Global.getAdminPath() + "/orders/orders/?repage";
+    }
+
+    @RequiresPermissions("orders:orders:edit")
+    @RequestMapping(value = "delete")
+    public String delete(Orders orders, RedirectAttributes redirectAttributes) {
+        ordersService.delete(orders);
+        addMessage(redirectAttributes, "删除订单管理成功");
+        return "redirect:" + Global.getAdminPath() + "/orders/orders/?repage";
+    }
+
+    @RequiresPermissions("orders:orders:queryorder")
+    @RequestMapping(value = "queryorder")
+    public String queryOrderList(String orderNo, Integer queryType, Model model) {
+        if (StringUtils.isNotBlank(orderNo)) {
+            model.addAttribute("orderNo", orderNo);
+        }
+        if (queryType != null) {
+            if (queryType == 0) {
+                PlatformRes<Orders> orders = orderService.queryOrder(orderNo);
+                model.addAttribute("order", orders);
+            } else if (queryType == 1) {
+                PlatformRes<String> orders = orderService.refundOrder(orderNo);
+                model.addAttribute("order", orders);
+            } else if (queryType == 2) {
+                PlatformRes<String> orders = orderService.queryRefundOrder(orderNo);
+                model.addAttribute("order", orders);
+            }
+        }
+        return "manager/orders/queryorder";
+    }
 
 }

@@ -63,11 +63,14 @@ public class PlatformRes<T> {
     }
 
     public static <String> PlatformRes<String> error(String message) {
-        return new PlatformRes<String>(ResCodeMsgType.FAIL.code(),ResCodeMsgType.FAIL.code(),message);
+        return new PlatformRes<String>(ResCodeMsgType.FAIL.code(),ResCodeMsgType.FAIL.name(),message);
     }
 
     public static <T> PlatformRes<T> error(String code, String msg) {
         return new PlatformRes<T>(code, msg);
     }
 
+    public static <T> PlatformRes<T> error(String code, String msg,T data) {
+        return new PlatformRes<T>(code, msg,data);
+    }
 }

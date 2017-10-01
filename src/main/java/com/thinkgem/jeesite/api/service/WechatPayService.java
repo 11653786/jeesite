@@ -107,7 +107,7 @@ public class WechatPayService {
                 params = XMLUtil.doXMLParse(result);
                 if (params.get("result_code") != null) {
                     if (params.get("result_code").toString().equals("FAIL")) {
-                        return PlatformRes.error("" + params.get("error_code"));
+                        return PlatformRes.error("" + params.get("err_code"));
                     } else if (params.get("result_code").toString().equals("SUCCESS")) {
                         if (params.get("trade_state").toString().equals("SUCCESS")) {
                             return PlatformRes.success("");

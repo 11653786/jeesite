@@ -38,11 +38,9 @@ import javax.net.ssl.SSLContext;
 
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
-import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.SSLContexts;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;

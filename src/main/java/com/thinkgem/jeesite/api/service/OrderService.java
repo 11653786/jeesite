@@ -46,7 +46,7 @@ public class OrderService {
      * @param products
      * @param paymentStatus 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
      * @param tradeType
-     * @param repackgeId  用户红包表的id
+     * @param repackgeId    用户红包表的id
      * @return
      */
     public PlatformRes<String> preorder(List<PreOrderReq> products, Integer paymentStatus, String tradeType, String repackgeId) {
@@ -89,7 +89,7 @@ public class OrderService {
         }
 
         //------全部验证通过保存订单和订单明细--------------------------------------
-        ordersService.submitForOrder(orderNo, paymentStatus,products, productTotalPrice,repackgeId);
+        ordersService.submitForOrder(orderNo, paymentStatus, products, productTotalPrice, repackgeId);
         return wechatPayResult;
 
 
@@ -169,7 +169,7 @@ public class OrderService {
                 return PlatformRes.success(orders);
             } else {
                 //订单号出错
-                return PlatformRes.error(result.getCode(), result.getData());
+                return PlatformRes.error(result.getCode(), result.getData(), orders);
             }
         }
     }
