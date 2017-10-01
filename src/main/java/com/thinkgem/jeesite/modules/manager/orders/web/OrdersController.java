@@ -91,6 +91,10 @@ public class OrdersController extends BaseController {
         if (StringUtils.isNotBlank(orderNo)) {
             model.addAttribute("orderNo", orderNo);
         }
+
+        if (queryType != null)
+            model.addAttribute("queryType", queryType);
+
         if (queryType != null) {
             if (queryType == 0) {
                 PlatformRes<Orders> orders = orderService.queryOrder(orderNo);

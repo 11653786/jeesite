@@ -34,20 +34,27 @@
     </form>
 </ul>
 
-<if test="${order!=null && order!=''}">
+<c:if test="${order!=null && order!=''}">
     code:${order.code},<br>
     message:${order.message},<br>
-    <if test="${order.data!=null}">
-        订单号：${order.data.orderNo},<br>
-        订单状态：${fns:getDictLabel(order.data.orderStatus, 'order_status', '')}<br>
-        付款状态：${fns:getDictLabel(order.data.paymentStatus, 'payment_status', '')}<br>
-        退款状态：	${fns:getDictLabel(order.data.refundStatus, 'refund_status', '')}<br>
-        订单金额：${order.data.payMoney},<br>
-        订单实际支付金额：${order.data.actualPayMoney},<br>
-       柜子编号：${order.data.cabinetNo},<br>
+    <c:if test="${queryType==0}" var="isQueryOrder">
+        <c:if test="${order.data!=null}">
+            订单号：${order.data.orderNo},<br>
+            订单状态：${fns:getDictLabel(order.data.orderStatus, 'order_status', '')}<br>
+            付款状态：${fns:getDictLabel(order.data.paymentStatus, 'payment_status', '')}<br>
+            退款状态：    ${fns:getDictLabel(order.data.refundStatus, 'refund_status', '')}<br>
+            订单金额：${order.data.payMoney},<br>
+            订单实际支付金额：${order.data.actualPayMoney},<br>
+            柜子编号：${order.data.cabinetNo},<br>
 
-    </if>
-</if>
+        </c:if>
+    </c:if>
+
+    <c:if test="${!isQueryOrder}">
+        data:${order.data}
+    </c:if>
+
+</c:if>
 
 </body>
 </html>
