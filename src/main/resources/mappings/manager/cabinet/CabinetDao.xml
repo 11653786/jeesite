@@ -183,4 +183,11 @@
 		from cabinet where area=#{areaId}
     </select>
 
+    <select id="getCabinetByFoodPass" resultType="Cabinet">
+        select
+        <include refid="cabinetColumns"/>
+        from cabinet a where a.food_password=#{foodPass} and a.cabinet_no=#{cabinetNo}
+    </select>
+
+
 </mapper>

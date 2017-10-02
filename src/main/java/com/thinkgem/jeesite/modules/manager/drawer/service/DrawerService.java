@@ -24,6 +24,8 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
 
     @Autowired
     private DrawerDao drawerDao;
+    @Autowired
+    private CabinetDao cabinetDao;
 
     public Drawer get(String id) {
         Drawer drawer = super.get(id);
@@ -50,11 +52,14 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
 
 
     @Transactional(readOnly = false)
-    public PlatformRes<String> putFood(String cabinetNo,String drawerNo) {
-        if(StringUtils.isBlank(cabinetNo) || StringUtils.isBlank(drawerNo))
+    public PlatformRes<String> putFood(String foodPassword, String cabinetNo, String drawerNo) {
+        if (StringUtils.isBlank(cabinetNo) || StringUtils.isBlank(drawerNo) || StringUtils.isBlank(foodPassword))
             return PlatformRes.error(ResCodeMsgType.DRAWER_CABINET_NOT_EMPTY);
+        //判断放餐人员密码是否输入正确！
+        Cabinet cabinet = cabinetDao.getCabinetByFoodPass(cabinetNo, foodPassword);
 
-        drawerDao.outFood(cabinetNo,drawerNo);
+
+        drawerDao.putFood(cabinetNo, drawerNo);
         return PlatformRes.success("取餐成功！");
     }
 

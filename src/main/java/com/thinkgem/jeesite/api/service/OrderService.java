@@ -255,9 +255,16 @@ public class OrderService {
     }
 
     public PlatformRes<String> outFood(String cabinetNo, String outPassword) {
+        if (StringUtils.isBlank(outPassword))
+            return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
+        if (StringUtils.isBlank(cabinetNo))
+            return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
         Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
+        if (!orders.getPutPassword().equals(outPassword))
+            return PlatformRes.error(ResCodeMsgType.PUT_FOOD_PASS_ERROR);
         if (orders == null)
             return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+
         if (orders.getOrderStatus() == null || orders.getOrderStatus() != 1)
             return PlatformRes.error(ResCodeMsgType.PUT_ORDER_MESSAGE_EXCEPTION);
         List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
