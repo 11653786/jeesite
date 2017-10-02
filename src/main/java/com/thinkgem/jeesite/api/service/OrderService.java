@@ -281,12 +281,12 @@ public class OrderService {
     }
 
     /**
-     * 微信扫码付回调修改订单逻辑
+     * 微信扫码付回调,支付宝扫码付回调修改订单逻辑
      *
      * @param orderNo
      * @return
      */
-    public PlatformRes<String> wechatCardNotify(String orderNo) {
+    public PlatformRes<String> cardNotify(String orderNo) {
         Orders orders = null;
         try {
             orders = ordersDao.getOrdersByOrderNo(orderNo);

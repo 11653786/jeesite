@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
+import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.product.dao.ProductDao;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,9 +66,19 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
             return PlatformRes.error(ResCodeMsgType.DRAWER_CABINET_NOT_EMPTY);
         //判断放餐人员密码是否输入正确！
         Cabinet cabinet = cabinetDao.getCabinetByFoodPass(cabinetNo, foodPassword);
+        if (cabinet == null)
+            return PlatformRes.error(ResCodeMsgType.PUT_FOOD_PASS_ERROR);
         Product product = productDao.get(productId);
-        if (product == null)
+        if (product == null || product.getProductStatus().equals("0"))
             return PlatformRes.error(ResCodeMsgType.PRODUCT_NOT_USE);
+
+        Drawer drawer = drawerDao.findCabinetAndDrawerNo(cabinetNo, drawerNo);
+        if (drawer == null)
+            return PlatformRes.error(ResCodeMsgType.CABINET_DRAWER_EXISTS);
+
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findBydrawerIdAndProductId(drawer.getId(), productId);
+        if (cabinetProductRelaction == null)
+            return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_PRODUCT);
 
         drawerDao.putFood(productId, product.getProductName(), cabinetNo, drawerNo);
         return PlatformRes.success("取餐成功！");

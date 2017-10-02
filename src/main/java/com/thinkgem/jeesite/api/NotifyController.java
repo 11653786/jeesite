@@ -259,7 +259,7 @@ public class NotifyController {
 
                     logger.info("支付成功");
                     //订单号，支付类型为微信扫码付
-                    orderService.wechatCardNotify(out_trade_no);
+                    orderService.cardNotify(out_trade_no);
                     //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
                     resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                             + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
