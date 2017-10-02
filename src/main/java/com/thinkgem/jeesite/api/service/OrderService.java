@@ -269,6 +269,15 @@ public class OrderService {
                 orderLog.setProductName(orderGood.getProductName());
                 orderLog.setProductNum(1);
                 orderLog.setCreateTime(new Date());
+                if (StringUtils.isBlank(orders.getRedpacketId()))
+                    orderLog.setProductActualPrice(orderGood.getProductPrice());
+                else {
+                    //计算优惠金额
+                    Integer redpackgetMoney = orders.getPayMoney() - orders.getActualPayMoney();
+                    redpackgetMoney = redpackgetMoney / orderGoods.size();
+                    orderLog.setProductActualPrice(orderGood.getProductPrice() - redpackgetMoney);
+                }
+
                 orderLog.setProductPrice(orderGood.getProductPrice());
                 orderLog.setPaymentType(orders.getPaymentStatus());
                 orderLog.setPaymentTime(orders.getPaymentTime());

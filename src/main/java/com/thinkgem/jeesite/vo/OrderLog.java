@@ -27,8 +27,8 @@ public class OrderLog {
     private Integer submitOrderType;
 
     private Integer productPrice;
-    @ExcelField(title = "商品总金额", type = 1, align = 2, sort = 4)
-    private Integer productTotalPrice;
+    @ExcelField(title = "商品实际金额", type = 1, align = 2, sort = 4)
+    private Integer productActualPrice;
 
     private Date paymentTime;
 
@@ -100,12 +100,12 @@ public class OrderLog {
         this.productPrice = productPrice;
     }
 
-    public Integer getProductTotalPrice() {
-        return productTotalPrice;
+    public Integer getProductActualPrice() {
+        return productActualPrice;
     }
 
-    public void setProductTotalPrice(Integer productTotalPrice) {
-        this.productTotalPrice = productTotalPrice;
+    public void setProductActualPrice(Integer productActualPrice) {
+        this.productActualPrice = productActualPrice;
     }
 
     public Date getPaymentTime() {
