@@ -251,7 +251,6 @@ public class OrderService {
 
     public PlatformRes<String> outFood(String cabinetNo, String outPassword) {
         Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
-        try {
             if (orders == null)
                 return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
             List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
@@ -260,37 +259,10 @@ public class OrderService {
             for (OrderGoods orderGood : orderGoods) {
                 //循环取餐
                 drawerDao.outFood(orderGood.getCabinetNo(), orderGood.getDrawerNo());
-                //保存order_log,一条商品记录一条
-                OrderLog orderLog = new OrderLog();
-                orderLog.setAreaId(orderGood.getAreaId());
-                orderLog.setCabinetNo(orderGood.getCabinetNo());
-                orderLog.setCabinetName(orders.getCabinetNo());
-                orderLog.setProductId(orderGood.getProductId());
-                orderLog.setProductName(orderGood.getProductName());
-                orderLog.setProductNum(1);
-                orderLog.setCreateTime(new Date());
-                if (StringUtils.isBlank(orders.getRedpacketId()))
-                    orderLog.setProductActualPrice(orderGood.getProductPrice());
-                else {
-                    //计算优惠金额
-                    Integer redpackgetMoney = orders.getPayMoney() - orders.getActualPayMoney();
-                    redpackgetMoney = redpackgetMoney / orderGoods.size();
-                    orderLog.setProductActualPrice(orderGood.getProductPrice() - redpackgetMoney);
-                }
-
-                orderLog.setProductPrice(orderGood.getProductPrice());
-                orderLog.setPaymentType(orders.getPaymentStatus());
-                orderLog.setPaymentTime(orders.getPaymentTime());
-                orderLogDao.insert(orderLog);
             }
-
             //订单更新状态为已取餐
             orders.setOrderStatus(3);
             ordersDao.update(orders);
-
-        } catch (Exception e) {
-            return PlatformRes.error("取餐异常:" + e.getMessage());
-        }
 
         return PlatformRes.success("取餐成功");
 
