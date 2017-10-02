@@ -12,7 +12,7 @@ public class CabinerDrawerHandler {
     private String areaId;
     private String drawerNo;
     private String drawerStatus;
-    private String oodStatus;
+    private String foodStatus;
 
     public String getCabinetNo() {
         return cabinetNo;
@@ -46,14 +46,13 @@ public class CabinerDrawerHandler {
         this.drawerStatus = drawerStatus;
     }
 
-    public String getOodStatus() {
-        return oodStatus;
+    public String getFoodStatus() {
+        return foodStatus;
     }
 
-    public void setOodStatus(String oodStatus) {
-        this.oodStatus = oodStatus;
+    public void setFoodStatus(String foodStatus) {
+        this.foodStatus = foodStatus;
     }
-
 
     public String getAreaName() {
         return areaName;

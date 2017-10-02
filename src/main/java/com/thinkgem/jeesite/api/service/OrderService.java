@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.mapper.OrderLogMapper;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
@@ -151,7 +152,7 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_ACTION);
 
         //柜子是否放餐,1.已放餐
-        if (!cabinerDrawerHandler.getDrawerStatus().equals("1"))
+        if (!cabinerDrawerHandler.getFoodStatus().equals("1"))
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_FOOD);
 
 
@@ -257,7 +258,7 @@ public class OrderService {
         Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
         if (orders == null)
             return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
-        if(orders.getOrderStatus() == null || orders.getOrderStatus()!=1)
+        if (orders.getOrderStatus() == null || orders.getOrderStatus() != 1)
             return PlatformRes.error(ResCodeMsgType.PUT_ORDER_MESSAGE_EXCEPTION);
         List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
         for (OrderGoods orderGood : orderGoods) {
@@ -287,7 +288,14 @@ public class OrderService {
             List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orderNo);
             if (orders != orderGoods || orderGoods.isEmpty())
                 throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
+
             for (OrderGoods ordergood : orderGoods) {
+                //付款成功以后要锁定当前抽屉
+                Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
+                //锁定抽屉
+                drawer.setFoodStatus(3 + "");
+                drawerDao.update(drawer);
+
                 orderLogService.saveOrderLog(orders, orderGoods.size(), ordergood);
             }
 
@@ -295,6 +303,10 @@ public class OrderService {
             //支付成功
             orders.setOrderStatus(1);
             ordersDao.update(orders);
+            //微信扫码付款,支付宝扫码付,需要通知柜子机器
+            if (orders.getPaymentStatus() == 0 || orders.getPaymentStatus() == 2) {
+
+            }
         } catch (Exception e) {
             if (orders != null) {
                 //支付失败咯

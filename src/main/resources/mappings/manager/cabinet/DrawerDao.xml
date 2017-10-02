@@ -178,4 +178,13 @@
         where cabinet.cabinet_nos=#{cabinetNo} and drawer.drawer_no=#{drawerNo};
     </select>
 
+    <select id="findCabinetAndDrawerNo" resultType="Drawer">
+        select
+        drawer.*
+        from cabinet cabinet
+        join drawer drawer on cabinet.cabinet_nos=drawer.cabinet_no
+        join sys_area area on area.id=cabinet.area
+        where cabinet.cabinet_nos=#{cabinetNo} and drawer.drawer_no=#{drawerNo};
+    </select>
+
 </mapper>
