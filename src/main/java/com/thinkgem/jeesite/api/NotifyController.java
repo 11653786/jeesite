@@ -2,6 +2,7 @@ package com.thinkgem.jeesite.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.config.AlipayConfig;
 import com.thinkgem.jeesite.config.WechatConfig;
 import com.thinkgem.jeesite.util.TenpayUtil;
@@ -33,6 +34,8 @@ public class NotifyController {
     private WechatConfig wechatConfig;
     @Autowired
     private AlipayConfig alipayConfig;
+    @Autowired
+    private OrderService orderService;
 
 
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -186,14 +189,14 @@ public class NotifyController {
     }
 
     /**
-     * 微信回调url
+     * 微信扫码付回调url
      *
      * @param request
      * @return
      */
-    @RequestMapping(value = "/wechatNotify")
+    @RequestMapping(value = "/wechatCardNotify")
     @ResponseBody
-    public String wechatNotify(HttpServletRequest request) {
+    public String wechatCardNotify(HttpServletRequest request) {
         //读取参数
         InputStream inputStream;
         StringBuffer sb = new StringBuffer();
@@ -254,6 +257,8 @@ public class NotifyController {
                     //////////执行自己的业务逻辑////////////////
 
                     logger.info("支付成功");
+                    //订单号，支付类型为微信扫码付
+                    orderService.wechatCardNotify(out_trade_no);
                     //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
                     resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                             + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";

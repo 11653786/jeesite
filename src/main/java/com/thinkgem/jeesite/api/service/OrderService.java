@@ -11,11 +11,13 @@ import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetP
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
+import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
+import com.thinkgem.jeesite.service.OrderLogService;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.vo.OrderLog;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +49,9 @@ public class OrderService {
     @Autowired
     private OrderGoodsDao orderGoodsDao;
     @Autowired
-    private OrderLogMapper orderLogDao;
+    private OrderGoodsService orderGoodsService;
+    @Autowired
+    private OrderLogService orderLogService;
 
 
     /**
@@ -251,21 +255,54 @@ public class OrderService {
 
     public PlatformRes<String> outFood(String cabinetNo, String outPassword) {
         Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
-            if (orders == null)
-                return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
-            List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
-            if (orderGoods == null || orderGoods.isEmpty())
-                return PlatformRes.error(ResCodeMsgType.OUT_FOOD_EXCEPTION);
-            for (OrderGoods orderGood : orderGoods) {
-                //循环取餐
-                drawerDao.outFood(orderGood.getCabinetNo(), orderGood.getDrawerNo());
-            }
-            //订单更新状态为已取餐
-            orders.setOrderStatus(3);
-            ordersDao.update(orders);
+        if (orders == null)
+            return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+        List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
+        for (OrderGoods orderGood : orderGoods) {
+            //循环取餐
+            drawerDao.outFood(orderGood.getCabinetNo(), orderGood.getDrawerNo());
+        }
+        //订单更新状态为已取餐
+        orders.setOrderStatus(3);
+        ordersDao.update(orders);
 
         return PlatformRes.success("取餐成功");
 
+    }
+
+    /**
+     * 微信扫码付回调修改订单逻辑
+     *
+     * @param orderNo
+     * @param paymentType
+     * @return
+     */
+    public PlatformRes<String> wechatCardNotify(String orderNo) {
+        Orders orders = null;
+        try {
+            orders = ordersDao.getOrdersByOrderNo(orderNo);
+            if (orders != null)
+                throw new RuntimeException(ResCodeMsgType.ORDERS_NOT_EXISTS.name());
+            List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orderNo);
+            if (orders != orderGoods || orderGoods.isEmpty())
+                throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
+            for (OrderGoods ordergood : orderGoods) {
+                orderLogService.saveOrderLog(orders, orderGoods.size(), ordergood);
+            }
+
+            orders.setPaymentTime(new Date());
+            //支付成功
+            orders.setOrderStatus(1);
+            ordersDao.update(orders);
+        } catch (Exception e) {
+            if (orders != null) {
+                //支付失败咯
+                orders.setOrderStatus(2);
+                ordersDao.update(orders);
+            }
+
+        }
+        return PlatformRes.success(null);
     }
 
 
