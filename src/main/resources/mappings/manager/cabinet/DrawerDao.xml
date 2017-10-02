@@ -140,7 +140,7 @@
          in_out_time = null,
          product_id=null,
          product_name=null
-         where drawer_no=#{drawerNo} and cabinet_no=#{cabinet_no}
+         where drawer_no=#{drawerNo} and cabinet_no=#{cabinetNo}
     </update>
 
     <update id="putFood">
