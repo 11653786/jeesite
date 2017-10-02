@@ -18,6 +18,7 @@ public enum ResCodeMsgType {
     REFUND_ERROR("113","退款失败"),
     OUT_FOOD_EXCEPTION("114","订单信息异常，子订单没有商品"),
     PUT_ORDER_MESSAGE_EXCEPTION("115","订单已经取餐或者未支付"),
+    DRAWER_CABINET_NOT_EMPTY("116","抽屉柜子不能为空"),
     FAIL("501", "失败");
 
     private String code;

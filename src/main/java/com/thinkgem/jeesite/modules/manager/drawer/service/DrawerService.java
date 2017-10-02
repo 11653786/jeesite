@@ -1,5 +1,7 @@
 package com.thinkgem.jeesite.modules.manager.drawer.service;
 
+import com.thinkgem.jeesite.api.entity.res.PlatformRes;
+import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -7,6 +9,7 @@ import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,9 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class DrawerService extends CrudService<DrawerDao, Drawer> {
+
+    @Autowired
+    private DrawerDao drawerDao;
 
     public Drawer get(String id) {
         Drawer drawer = super.get(id);
@@ -41,4 +47,15 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     public void delete(Drawer drawer) {
         super.delete(drawer);
     }
+
+
+    @Transactional(readOnly = false)
+    public PlatformRes<String> putFood(String cabinetNo,String drawerNo) {
+        if(StringUtils.isBlank(cabinetNo) || StringUtils.isBlank(drawerNo))
+            return PlatformRes.error(ResCodeMsgType.DRAWER_CABINET_NOT_EMPTY);
+
+        drawerDao.outFood(cabinetNo,drawerNo);
+        return PlatformRes.success("取餐成功！");
+    }
+
 }
