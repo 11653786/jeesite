@@ -267,6 +267,7 @@ public class OrderService {
                 orderLog.setCabinetName(orders.getCabinetNo());
                 orderLog.setProductId(orderGood.getProductId());
                 orderLog.setProductName(orderGood.getProductName());
+                orderLog.setProductNum(1);
                 orderLog.setCreateTime(new Date());
                 orderLog.setProductPrice(orderGood.getProductPrice());
                 orderLog.setPaymentType(orders.getPaymentStatus());
