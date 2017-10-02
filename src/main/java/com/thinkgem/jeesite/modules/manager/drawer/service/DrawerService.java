@@ -81,7 +81,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_PRODUCT);
 
         drawerDao.putFood(productId, product.getProductName(), cabinetNo, drawerNo);
-        return PlatformRes.success("取餐成功！");
+        return PlatformRes.success("放餐成功！");
     }
 
 }
