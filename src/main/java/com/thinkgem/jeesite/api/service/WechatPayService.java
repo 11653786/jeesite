@@ -207,7 +207,7 @@ public class WechatPayService {
         if (params.get("result_code").equalsIgnoreCase("SUCCESS")) {
             return PlatformRes.success(body);
         } else {
-            return PlatformRes.error(body);
+            return PlatformRes.error(params.get("err_code").toString());
         }
     }
 
