@@ -3,6 +3,7 @@
 <mapper namespace="com.thinkgem.jeesite.mapper.OrderLogMapper">
     <resultMap id="BaseResultMap" type="com.thinkgem.jeesite.vo.OrderLog">
         <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="order_no" property="orderNo" jdbcType="VARCHAR"/>
         <result column="area_id" property="areaId" jdbcType="VARCHAR"/>
         <result column="area_name" property="areName" jdbcType="VARCHAR"/>
         <result column="cabinet_no" property="cabinetNo" jdbcType="VARCHAR"/>
@@ -78,7 +79,7 @@
         </where>
     </sql>
     <sql id="Base_Column_List">
-    id, area_id,area_name, cabinet_no, cabinet_name, product_id, product_name, product_num,submit_order_type, product_price,
+    id, order_no,area_id,area_name, cabinet_no, cabinet_name, product_id, product_name, product_num,submit_order_type, product_price,
     product_total_price, payment_time, payment_type, create_time
   </sql>
     <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.thinkgem.jeesite.vo.OrderLogExample">
@@ -113,12 +114,12 @@
         </if>
     </delete>
     <insert id="insert" parameterType="com.thinkgem.jeesite.vo.OrderLog">
-    insert into order_log (id, area_id,area_name, cabinet_no,
+    insert into order_log (id,order_no, area_id,area_name, cabinet_no,
       cabinet_name, product_id, product_name, 
       product_num,submit_order_type, product_price, product_total_price,
       payment_time, payment_type, create_time
       )
-    values (#{id,jdbcType=INTEGER}, #{areaId,jdbcType=VARCHAR},#{areaName,jdbcType=VARCHAR}, #{cabinetNo,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER},#{orderNo,jdbcType=VARCHAR},#{areaId,jdbcType=VARCHAR},#{areaName,jdbcType=VARCHAR}, #{cabinetNo,jdbcType=VARCHAR},
       #{cabinetName,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, 
       #{productNum,jdbcType=INTEGER},#{submitOrderType,jdbcType=INTEGER}, #{productPrice,jdbcType=BIGINT}, #{productTotalPrice,jdbcType=BIGINT},
       #{paymentTime,jdbcType=TIMESTAMP}, #{paymentType,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}
@@ -129,6 +130,9 @@
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 id,
+            </if>
+            <if test="orderNo != null">
+                order_no,
             </if>
             <if test="areaId != null">
                 area_id,
@@ -174,6 +178,9 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 #{id,jdbcType=INTEGER},
+            </if>
+            <if test="orderNo != null">
+                #{orderNo,jdbcType=VARCHAR},
             </if>
             <if test="areaId != null">
                 #{areaId,jdbcType=VARCHAR},
@@ -228,6 +235,9 @@
             <if test="record.id != null">
                 id = #{record.id,jdbcType=INTEGER},
             </if>
+            <if test="record.orderNo != null">
+                order_no = #{record.orderNo,jdbcType=VARCHAR},
+            </if>
             <if test="record.areaId != null">
                 area_id = #{record.areaId,jdbcType=VARCHAR},
             </if>
@@ -272,6 +282,7 @@
     <update id="updateByExample" parameterType="map">
         update order_log
         set id = #{record.id,jdbcType=INTEGER},
+        order_no = #{record.orderNo,jdbcType=VARCHAR},
         area_id = #{record.areaId,jdbcType=VARCHAR},
         area_name = #{record.areaName,jdbcType=VARCHAR},
         cabinet_no = #{record.cabinetNo,jdbcType=VARCHAR},
@@ -292,6 +303,9 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.thinkgem.jeesite.vo.OrderLog">
         update order_log
         <set>
+            <if test="orderNo != null">
+                order_no = #{orderNo,jdbcType=VARCHAR},
+            </if>
             <if test="areaId != null">
                 area_id = #{areaId,jdbcType=VARCHAR},
             </if>
@@ -337,6 +351,7 @@
     <update id="updateByPrimaryKey" parameterType="com.thinkgem.jeesite.vo.OrderLog">
     update order_log
     set area_id = #{areaId,jdbcType=VARCHAR},
+      order_no = #{orderNo,jdbcType=VARCHAR},
       area_name = #{areaName,jdbcType=VARCHAR},
       cabinet_no = #{cabinetNo,jdbcType=VARCHAR},
       cabinet_name = #{cabinetName,jdbcType=VARCHAR},

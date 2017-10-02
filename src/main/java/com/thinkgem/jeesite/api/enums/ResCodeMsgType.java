@@ -10,12 +10,13 @@ public enum ResCodeMsgType {
     PRODUCT_NOT_USE("106", "无效商品"),
     CABINET_DRAWER_EXISTS("107","柜子或抽屉信息不存在"),
     DRAWER_NOT_ACTION("108","当前抽屉不可操作"),
-    DRAWER_HAVING_NOT_FOOD("109","当前抽屉没有放餐"),
+    DRAWER_NOT_PUT_FOOD("109","当前抽屉不可放餐"),
     DRAWER_NOT_PUT_PRODUCT("110","当前抽屉不可放当前商品"),
     PRODUCT_NUM_NOT_EMPTY("111","商品数量不能为空"),
     ORDERS_NOT_EXISTS("111","订单不存在"),
     REFUND_ORDERS_NOT_EXISTS("112","用户未发起退款或已成功退款!"),
     REFUND_ERROR("113","退款失败"),
+    OUT_FOOD_EXCEPTION("114","订单信息异常，子订单没有商品"),
     FAIL("501", "失败");
 
     private String code;

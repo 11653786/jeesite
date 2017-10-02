@@ -6,13 +6,19 @@ package com.thinkgem.jeesite.modules.manager.ordergoods.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * 订单详情DAO接口
+ *
  * @author yt
  * @version 2017-09-29
  */
 @MyBatisDao
 public interface OrderGoodsDao extends CrudDao<OrderGoods> {
-	
+
+    public List<OrderGoods> findListByOrderNo(@Param("orderNo") String orderNo);
+
 }

@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao;
@@ -38,6 +39,8 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     private OrderGoodsDao orderGoodsDao;
     @Autowired
     private UserRedpacketRelactionDao userRedpacketRelactionDao;
+    @Autowired
+    private DrawerDao drawerDao;
 
 
     public Orders get(String id) {
@@ -114,7 +117,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             orderGoods.setOrderNo(orderNo);
             orderGoods.setProductId(req.getProductId());
             orderGoods.setProductName(req.getProductName());
-            orderGoods.setProductActualPrice(req.getGetProductActualPrice());
+            orderGoods.setProductPrice(req.getGetProductActualPrice());
             orderGoods.setProductNum(req.getProductNum());
             orderGoods.setAreaId(req.getAreaId());
             orderGoods.setAreaName(req.getAreaName());
@@ -126,6 +129,9 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             //生成id
             orderGoods.preInsert();
             orderGoodsDao.insert(orderGoods);
+
+            //修改柜子编号
+            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
 
         }
 

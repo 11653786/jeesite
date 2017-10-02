@@ -133,7 +133,7 @@
 	</update>
 
     <!--取餐抽屉的操作-->
-    <update id="putFood">
+    <update id="outFood">
        UPDATE drawer SET
          food_status=0,
          in_time = null,
@@ -141,7 +141,7 @@
          where drawer_no=#{drawerNo} and cabinet_no=#{cabinet_no}
     </update>
 
-    <update id="outFood">
+    <update id="putFood">
       UPDATE
          drawer SET
          food_status=1,

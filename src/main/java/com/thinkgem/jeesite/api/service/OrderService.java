@@ -5,18 +5,23 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.mapper.OrderLogMapper;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
+import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
+import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
 import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
 import com.thinkgem.jeesite.util.TenpayUtil;
+import com.thinkgem.jeesite.vo.OrderLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +44,10 @@ public class OrderService {
     private CabinetProductRelactionDao cabinetProductRelactionDao;
     @Autowired
     private OrdersDao ordersDao;
+    @Autowired
+    private OrderGoodsDao orderGoodsDao;
+    @Autowired
+    private OrderLogMapper orderLogDao;
 
 
     /**
@@ -81,8 +90,7 @@ public class OrderService {
             Product product = productService.get(productReq.getProductId());
 
 
-
-            PlatformRes<String> validResult = validOrderInfo(productReq,product);
+            PlatformRes<String> validResult = validOrderInfo(productReq, product);
 
 
             if (!validResult.getCode().equals("0"))
@@ -115,7 +123,7 @@ public class OrderService {
     }
 
 
-    private PlatformRes<String> validOrderInfo(PreOrderReq productReq,Product product) {
+    private PlatformRes<String> validOrderInfo(PreOrderReq productReq, Product product) {
 
 
         if (product == null)
@@ -139,8 +147,8 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_ACTION);
 
         //柜子是否放餐,1.已放餐
-        if (!cabinerDrawerHandler.getDrawerStatus().equals("1"))
-            return PlatformRes.error(ResCodeMsgType.DRAWER_HAVING_NOT_FOOD);
+        if (!cabinerDrawerHandler.getDrawerStatus().equals("0"))
+            return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_FOOD);
 
 
         //设置区域信息给后面订单用,节省查询数据库次数
@@ -238,6 +246,44 @@ public class OrderService {
         } catch (Exception e) {
             return PlatformRes.error(e.getMessage());
         }
+
+    }
+
+    public PlatformRes<String> outFood(String cabinetNo, String outPassword) {
+        Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
+        try {
+            if (orders == null)
+                return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+            List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
+            if (orderGoods == null || orderGoods.isEmpty())
+                return PlatformRes.error(ResCodeMsgType.OUT_FOOD_EXCEPTION);
+            for (OrderGoods orderGood : orderGoods) {
+                //循环取餐
+                drawerDao.outFood(orderGood.getCabinetNo(), orderGood.getDrawerNo());
+                //保存order_log,一条商品记录一条
+                OrderLog orderLog = new OrderLog();
+                orderLog.setAreaId(orderGood.getAreaId());
+                orderLog.setCabinetNo(orderGood.getCabinetNo());
+                orderLog.setCabinetName(orders.getCabinetNo());
+                orderLog.setProductId(orderGood.getProductId());
+                orderLog.setProductName(orderGood.getProductName());
+                orderLog.setCreateTime(new Date());
+                orderLog.setProductPrice(orderGood.getProductPrice());
+                orderLog.setPaymentType(orders.getPaymentStatus());
+                orderLog.setPaymentTime(orders.getPaymentTime());
+                orderLogDao.insert(orderLog);
+            }
+
+            //订单更新状态为已取餐
+            orders.setOrderStatus(3);
+            ordersDao.update(orders);
+
+        } catch (Exception e) {
+            return PlatformRes.error("取餐异常:" + e.getMessage());
+        }
+
+        return PlatformRes.success("取餐成功");
+
 
     }
 

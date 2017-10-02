@@ -10,6 +10,8 @@ import java.util.Date;
 public class OrderLog {
     private Integer id;
 
+    private String orderNo; //订单号
+
     private String areaId;
 
     private String cabinetNo;
@@ -24,9 +26,9 @@ public class OrderLog {
 
     private Integer submitOrderType;
 
-    private Long productPrice;
+    private Integer productPrice;
     @ExcelField(title = "商品总金额", type = 1, align = 2, sort = 4)
-    private Long productTotalPrice;
+    private Integer productTotalPrice;
 
     private Date paymentTime;
 
@@ -90,19 +92,19 @@ public class OrderLog {
         this.productNum = productNum;
     }
 
-    public Long getProductPrice() {
+    public Integer getProductPrice() {
         return productPrice;
     }
 
-    public void setProductPrice(Long productPrice) {
+    public void setProductPrice(Integer productPrice) {
         this.productPrice = productPrice;
     }
 
-    public Long getProductTotalPrice() {
+    public Integer getProductTotalPrice() {
         return productTotalPrice;
     }
 
-    public void setProductTotalPrice(Long productTotalPrice) {
+    public void setProductTotalPrice(Integer productTotalPrice) {
         this.productTotalPrice = productTotalPrice;
     }
 
@@ -136,5 +138,14 @@ public class OrderLog {
 
     public void setSubmitOrderType(Integer submitOrderType) {
         this.submitOrderType = submitOrderType;
+    }
+
+
+    public String getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(String orderNo) {
+        this.orderNo = orderNo;
     }
 }

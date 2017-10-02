@@ -25,4 +25,10 @@ public interface OrdersDao extends CrudDao<Orders> {
      */
     Orders getOrdersByOrderNo(@Param("orderNo") String orderNo);
 
+    /**
+     *
+     * @param orderNo
+     * @return
+     */
+    Orders getOrdersByPassAndCabinetNo(@Param("cabinetNo") String cabinetNo,@Param("putPassword") String putPassword);
 }

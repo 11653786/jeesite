@@ -212,5 +212,12 @@
         WHERE a.order_no = #{orderNo}
     </select>
 
+    <select id="findListByOrderNo" resultType="Orders">
+        SELECT
+        <include refid="ordersColumns"/>
+        FROM orders a
+        WHERE a.cabinet_no = #{cabinetNo} and a.put_password=#{putPassword}
+    </select>
+
 
 </mapper>

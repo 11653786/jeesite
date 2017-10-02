@@ -21,7 +21,7 @@ public class OrderGoods extends DataEntity<OrderGoods> {
 	private String orderNo;		// 订单号
 	private String productId;		// 商品id
 	private String productName;		// 商品名称
-	private Integer productActualPrice;		// 商品价格
+	private Integer productPrice;		// 商品价格
 	private Integer productNum;		// 商品数量
 	private String areaId;		// 区域id
 	private String areaName;		// 区域名称
@@ -65,14 +65,14 @@ public class OrderGoods extends DataEntity<OrderGoods> {
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	
+
 	@NotNull(message="商品价格不能为空")
-	public Integer getProductActualPrice() {
-		return productActualPrice;
+	public Integer getProductPrice() {
+		return productPrice;
 	}
 
-	public void setProductActualPrice(Integer productActualPrice) {
-		this.productActualPrice = productActualPrice;
+	public void setProductPrice(Integer productPrice) {
+		this.productPrice = productPrice;
 	}
 	
 	@NotNull(message="商品数量不能为空")
