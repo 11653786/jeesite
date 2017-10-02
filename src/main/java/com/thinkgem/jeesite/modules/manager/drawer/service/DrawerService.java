@@ -9,6 +9,7 @@ import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
+import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.product.dao.ProductDao;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     private CabinetDao cabinetDao;
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private CabinetProductRelactionDao cabinetProductRelactionDao;
 
     public Drawer get(String id) {
         Drawer drawer = super.get(id);
@@ -51,6 +54,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
 
     @Transactional(readOnly = false)
     public void delete(Drawer drawer) {
+        cabinetProductRelactionDao.deleteByDrawerNo(drawer.getDrawerNo());
         super.delete(drawer);
     }
 
@@ -65,7 +69,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
         if (product == null)
             return PlatformRes.error(ResCodeMsgType.PRODUCT_NOT_USE);
 
-        drawerDao.putFood(productId,product.getProductName(),cabinetNo, drawerNo);
+        drawerDao.putFood(productId, product.getProductName(), cabinetNo, drawerNo);
         return PlatformRes.success("取餐成功！");
     }
 

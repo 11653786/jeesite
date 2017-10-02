@@ -147,4 +147,8 @@
         FROM cabinet_product_relaction a where a.drawer_no=#{drawerNo}
     </select>
 
+    <delete id="deleteByDrawerNo">
+        delete from cabinet_product_relaction where drawer_no=#{drawerNo}
+    </delete>
+
 </mapper>
