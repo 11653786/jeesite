@@ -70,10 +70,10 @@ public class DrawerController extends BaseController {
     @RequestMapping(value = "save")
     public String save(Drawer drawer, Model model, RedirectAttributes redirectAttributes) {
         if (!beanValidator(model, drawer)) {
-            Cabinet cabinet=cabinetService.get(drawer.getCabinetId());
-            drawer.setCabinetNo(cabinet.getCabinetNos());
             return form(drawer, model);
         }
+        Cabinet cabinet=cabinetService.get(drawer.getCabinetId());
+        drawer.setCabinetNo(cabinet.getCabinetNos());
         drawerService.save(drawer);
         addMessage(redirectAttributes, "保存快餐柜管理成功");
         return "redirect:" + Global.getAdminPath() + "/drawer/drawer/?repage";
