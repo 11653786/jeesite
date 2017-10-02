@@ -151,7 +151,7 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_ACTION);
 
         //柜子是否放餐,1.已放餐
-        if (!cabinerDrawerHandler.getDrawerStatus().equals("0"))
+        if (!cabinerDrawerHandler.getDrawerStatus().equals("1"))
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_FOOD);
 
 
@@ -276,7 +276,6 @@ public class OrderService {
      * 微信扫码付回调修改订单逻辑
      *
      * @param orderNo
-     * @param paymentType
      * @return
      */
     public PlatformRes<String> wechatCardNotify(String orderNo) {

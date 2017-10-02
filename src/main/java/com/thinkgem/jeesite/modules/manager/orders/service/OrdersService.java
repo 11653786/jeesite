@@ -129,9 +129,9 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             //生成id
             orderGoods.preInsert();
             orderGoodsDao.insert(orderGoods);
-
+ //
             //修改柜子编号
-            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
+//            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
 
         }
 
