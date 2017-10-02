@@ -36,8 +36,8 @@ public class ApiCabinetController {
 
     @RequestMapping(value = "/putFood")
     @ResponseBody
-    public PlatformRes<String> putFood(String foodPassword,String cabinetNo,String drawerNo) {
-        return drawerService.putFood(foodPassword,cabinetNo,drawerNo);
+    public PlatformRes<String> putFood(String productId,String foodPassword,String cabinetNo,String drawerNo) {
+        return drawerService.putFood(productId,foodPassword,cabinetNo,drawerNo);
     }
 
 }

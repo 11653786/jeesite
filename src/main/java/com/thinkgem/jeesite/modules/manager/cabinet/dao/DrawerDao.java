@@ -45,6 +45,6 @@ public interface DrawerDao extends CrudDao<Drawer> {
      * @param drawerNo
      * @return
      */
-    Integer putFood(@Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
+    Integer putFood(@Param("productId") String productId, @Param("productName") String productName, @Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
 
 }

@@ -9,6 +9,8 @@ import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
+import com.thinkgem.jeesite.modules.manager.product.dao.ProductDao;
+import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +28,8 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     private DrawerDao drawerDao;
     @Autowired
     private CabinetDao cabinetDao;
+    @Autowired
+    private ProductDao productDao;
 
     public Drawer get(String id) {
         Drawer drawer = super.get(id);
@@ -52,14 +56,16 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
 
 
     @Transactional(readOnly = false)
-    public PlatformRes<String> putFood(String foodPassword, String cabinetNo, String drawerNo) {
-        if (StringUtils.isBlank(cabinetNo) || StringUtils.isBlank(drawerNo) || StringUtils.isBlank(foodPassword))
+    public PlatformRes<String> putFood(String productId, String foodPassword, String cabinetNo, String drawerNo) {
+        if (StringUtils.isBlank(productId) || StringUtils.isBlank(cabinetNo) || StringUtils.isBlank(drawerNo) || StringUtils.isBlank(foodPassword))
             return PlatformRes.error(ResCodeMsgType.DRAWER_CABINET_NOT_EMPTY);
         //判断放餐人员密码是否输入正确！
         Cabinet cabinet = cabinetDao.getCabinetByFoodPass(cabinetNo, foodPassword);
+        Product product = productDao.get(productId);
+        if (product == null)
+            return PlatformRes.error(ResCodeMsgType.PRODUCT_NOT_USE);
 
-
-        drawerDao.putFood(cabinetNo, drawerNo);
+        drawerDao.putFood(productId,product.getProductName(),cabinetNo, drawerNo);
         return PlatformRes.success("取餐成功！");
     }
 
