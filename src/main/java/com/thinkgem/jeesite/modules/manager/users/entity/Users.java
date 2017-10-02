@@ -24,7 +24,8 @@ public class Users extends DataEntity<Users> {
 	private String openid;		// 微信标志
 	private String alipayid;		// 支付宝标志
 	private Integer integral;		// 积分
-	
+    private Integer saleTotalPrice; //消费总金额
+	private Integer saleTotalNum;   //消费总数量
 	public Users() {
 		super();
 	}
@@ -104,5 +105,20 @@ public class Users extends DataEntity<Users> {
 	public void setIntegral(Integer integral) {
 		this.integral = integral;
 	}
-	
+
+    public Integer getSaleTotalPrice() {
+        return saleTotalPrice;
+    }
+
+    public void setSaleTotalPrice(Integer saleTotalPrice) {
+        this.saleTotalPrice = saleTotalPrice;
+    }
+
+    public Integer getSaleTotalNum() {
+        return saleTotalNum;
+    }
+
+    public void setSaleTotalNum(Integer saleTotalNum) {
+        this.saleTotalNum = saleTotalNum;
+    }
 }
