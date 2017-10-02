@@ -257,6 +257,8 @@ public class OrderService {
         Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
         if (orders == null)
             return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+        if(orders.getOrderStatus() == null || orders.getOrderStatus()!=1)
+            return PlatformRes.error(ResCodeMsgType.PUT_ORDER_MESSAGE_EXCEPTION);
         List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
         for (OrderGoods orderGood : orderGoods) {
             //循环取餐

@@ -17,6 +17,7 @@ public enum ResCodeMsgType {
     REFUND_ORDERS_NOT_EXISTS("112","用户未发起退款或已成功退款!"),
     REFUND_ERROR("113","退款失败"),
     OUT_FOOD_EXCEPTION("114","订单信息异常，子订单没有商品"),
+    PUT_ORDER_MESSAGE_EXCEPTION("115","订单已经取餐或者未支付"),
     FAIL("501", "失败");
 
     private String code;
