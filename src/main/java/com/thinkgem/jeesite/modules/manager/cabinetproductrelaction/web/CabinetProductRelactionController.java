@@ -31,7 +31,7 @@ import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.service.Cabi
 import java.util.List;
 
 /**
- * 柜子商品关系配置Controller
+ * 抽屉商品关系配置Controller
  *
  * @author yt
  * @version 2017-08-19
@@ -74,8 +74,8 @@ public class CabinetProductRelactionController extends BaseController {
     @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:view")
     @RequestMapping(value = "form")
     public String form(String id, Model model) {
-        //修改或者配置柜子商品信息
-        //获取当前柜子信息
+        //修改或者配置抽屉商品信息
+        //获取当前抽屉信息
         Drawer drawer = drawerService.get(id);
         Cabinet cabinet = cabinetService.get(drawer.getCabinetId());
         List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findListByDrawerNo(drawer.getDrawerNo());
@@ -92,8 +92,8 @@ public class CabinetProductRelactionController extends BaseController {
 //    @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:view")
 //    @RequestMapping(value = "form1")
 //    public String form1(String id, Model model) {
-//        //修改或者配置柜子商品信息
-//        //获取当前柜子信息
+//        //修改或者配置抽屉商品信息
+//        //获取当前抽屉信息
 //        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionService.get(id);
 //        Cabinet cabinet = cabinetService.get(cabinetProductRelaction.getCabinetId());
 //        List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findList(new CabinetProductRelaction(cabinet.getId()));
@@ -124,7 +124,7 @@ public class CabinetProductRelactionController extends BaseController {
 
 
         cabinetProductRelactionService.save(product, drawer);
-        addMessage(redirectAttributes, "保存柜子商品配置成功");
+        addMessage(redirectAttributes, "保存抽屉商品配置成功");
         return "redirect:" + Global.getAdminPath() + "/cabinetproductrelaction/cabinetProductRelaction/?repage";
     }
 
@@ -132,8 +132,8 @@ public class CabinetProductRelactionController extends BaseController {
     @RequestMapping(value = "delete")
     public String delete(CabinetProductRelaction cabinetProductRelaction, RedirectAttributes redirectAttributes) {
         cabinetProductRelactionService.delete(cabinetProductRelaction);
-        addMessage(redirectAttributes, "删除柜子商品配置表成功");
-        return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
+        addMessage(redirectAttributes, "删除抽屉商品配置表成功");
+        return "redirect:" + Global.getAdminPath() + "/cabinetproductrelaction/cabinetproductrelaction/?repage";
     }
 
 }
