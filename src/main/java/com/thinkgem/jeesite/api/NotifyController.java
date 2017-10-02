@@ -197,6 +197,7 @@ public class NotifyController {
     @RequestMapping(value = "/wechatCardNotify")
     @ResponseBody
     public String wechatCardNotify(HttpServletRequest request) {
+        logger.info("微信扫码付回调-----------");
         //读取参数
         InputStream inputStream;
         StringBuffer sb = new StringBuffer();
@@ -227,6 +228,7 @@ public class NotifyController {
                     v = parameterValue.trim();
                 }
                 packageParams.put(parameter, v);
+                logger.info("扫码付回调url返回参数："+parameter+":"+v);
             }
 
 
@@ -253,7 +255,6 @@ public class NotifyController {
                     logger.info("is_subscribe:" + is_subscribe);
                     logger.info("out_trade_no:" + out_trade_no);
                     logger.info("total_fee:" + total_fee);
-
                     //////////执行自己的业务逻辑////////////////
 
                     logger.info("支付成功");
