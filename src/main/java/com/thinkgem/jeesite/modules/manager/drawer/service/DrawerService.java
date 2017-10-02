@@ -63,7 +63,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     @Transactional(readOnly = false)
     public PlatformRes<String> putFood(String productId, String foodPassword, String cabinetNo, String drawerNo) {
         if (StringUtils.isBlank(productId) || StringUtils.isBlank(cabinetNo) || StringUtils.isBlank(drawerNo) || StringUtils.isBlank(foodPassword))
-            return PlatformRes.error(ResCodeMsgType.DRAWER_CABINET_NOT_EMPTY);
+            return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
         //判断放餐人员密码是否输入正确！
         Cabinet cabinet = cabinetDao.getCabinetByFoodPass(cabinetNo, foodPassword);
         if (cabinet == null)

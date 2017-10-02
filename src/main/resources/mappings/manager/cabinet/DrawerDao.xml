@@ -151,7 +151,7 @@
          product_id=#{productId},
          product_name=#{productName},
          in_out_time = date_add(now(), interval 1 hour)
-         where drawer_no=#{drawerNo} and cabinet_no=#{cabinet_no}
+         where drawer_no=#{drawerNo} and cabinet_no=#{cabinetNo}
     </update>
 
     <update id="delete">
@@ -184,7 +184,17 @@
 
     <select id="findCabinetAndDrawerNo" resultType="Drawer">
         select
-        drawer.*
+        drawer.id AS "id",
+		drawer.drawer_no AS "drawerNo",
+		drawer.cabinet_id AS "cabinetId",
+		drawer.cabinet_no AS "cabinetNo",
+		drawer.drawer_status AS "drawerStatus",
+		drawer.food_status AS "foodStatus",
+		drawer.create_time AS "createTime",
+		drawer.product_id as "productId",
+		drawer.product_name as "productName",
+		drawer.in_time as "inTime",
+		drawer.in_out_time as "inOutTime"
         from cabinet cabinet
         join drawer drawer on cabinet.cabinet_nos=drawer.cabinet_no
         join sys_area area on area.id=cabinet.area
