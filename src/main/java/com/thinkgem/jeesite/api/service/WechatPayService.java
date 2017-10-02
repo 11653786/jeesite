@@ -61,7 +61,8 @@ public class WechatPayService {
             params.put("out_trade_no", orderNo);
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
-            params.put("total_fee", productTotalPrice + "");
+//            params.put("total_fee", productTotalPrice + "");
+            params.put("total_fee","1");
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
             params.put("product_id", "0");
