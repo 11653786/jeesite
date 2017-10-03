@@ -41,7 +41,7 @@
         <c:if test="${order.data!=null}">
             订单号：${order.data.orderNo},<br>
             订单状态：${fns:getDictLabel(order.data.orderStatus, 'order_status', '')}<br>
-            付款状态：${fns:getDictLabel(order.data.paymentStatus, 'payment_status', '')}<br>
+            付款渠道：${fns:getDictLabel(order.data.paymentStatus, 'payment_status', '')}<br>
             退款状态：    ${fns:getDictLabel(order.data.refundStatus, 'refund_status', '')}<br>
             订单金额：${order.data.payMoney},<br>
             订单实际支付金额：${order.data.actualPayMoney},<br>
