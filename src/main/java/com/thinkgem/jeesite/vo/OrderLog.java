@@ -13,6 +13,8 @@ public class OrderLog {
     private String orderNo; //订单号
 
     private String areaId;
+    @ExcelField(title = "区域", type = 1, align = 2, sort = 1)
+    private String areaName; //
 
     private String cabinetNo;
 
@@ -147,5 +149,13 @@ public class OrderLog {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
     }
 }
