@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * 给外部提供的订单接口
@@ -50,10 +51,9 @@ public class OrderService {
     @Autowired
     private OrderGoodsDao orderGoodsDao;
     @Autowired
-    private OrderGoodsService orderGoodsService;
-    @Autowired
     private OrderLogService orderLogService;
 
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     /**
      * @param products
@@ -313,6 +313,7 @@ public class OrderService {
 
             }
         } catch (Exception e) {
+            logger.info("下单回调失败： "+e.getMessage());
             if (orders != null) {
                 //支付失败咯
                 orders.setOrderStatus(2);
