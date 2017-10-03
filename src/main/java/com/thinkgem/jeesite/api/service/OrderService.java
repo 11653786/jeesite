@@ -259,11 +259,9 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
         if (StringUtils.isBlank(cabinetNo))
             return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
-        Orders orders = ordersDao.getOrdersByOrderNo(cabinetNo);
-        if (!orders.getPutPassword().equals(outPassword))
-            return PlatformRes.error(ResCodeMsgType.PUT_FOOD_PASS_ERROR);
+        Orders orders = ordersDao.getOrdersByPassAndCabinetNo(cabinetNo,outPassword);
         if (orders == null)
-            return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
+            return PlatformRes.error(ResCodeMsgType.ORDER_NOT_OUT);
 
         if (orders.getOrderStatus() == null || orders.getOrderStatus() != 1)
             return PlatformRes.error(ResCodeMsgType.PUT_ORDER_MESSAGE_EXCEPTION);

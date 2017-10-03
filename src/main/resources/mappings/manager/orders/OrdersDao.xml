@@ -212,11 +212,11 @@
         WHERE a.order_no = #{orderNo}
     </select>
 
-    <select id="findListByOrderNo" resultType="Orders">
+    <select id="getOrdersByPassAndCabinetNo" resultType="Orders">
         SELECT
         <include refid="ordersColumns"/>
         FROM orders a
-        WHERE a.cabinet_no = #{cabinetNo} and a.put_password=#{putPassword}
+        WHERE a.cabinet_no = #{cabinetNo} and a.put_password=#{putPassword} and a.order_status = 1
     </select>
 
 

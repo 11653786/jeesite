@@ -20,6 +20,7 @@ public enum ResCodeMsgType {
     PUT_ORDER_MESSAGE_EXCEPTION("115","订单已经取餐或者未支付"),
     DRAWER_CABINET_NOT_EMPTY("116","抽屉柜子不能为空"),
     PUT_FOOD_PASS_ERROR("117","取餐密码不正确"),
+    ORDER_NOT_OUT("118","当前订单不可取餐"),
     FAIL("501", "失败");
 
     private String code;

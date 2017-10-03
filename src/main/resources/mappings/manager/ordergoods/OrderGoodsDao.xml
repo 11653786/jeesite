@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao">
-    
-	<sql id="orderGoodsColumns">
+
+    <sql id="orderGoodsColumns">
 		a.id AS "id",
 		a.order_no AS "orderNo",
 		a.product_id AS "productId",
@@ -17,57 +17,57 @@
 		a.update_time AS "updateTime",
 		a.payment_time AS "paymentTime"
 	</sql>
-	
-	<sql id="orderGoodsJoins">
+
+    <sql id="orderGoodsJoins">
 		LEFT JOIN sys_area a7 ON a7.id = a.area_id
 	</sql>
-    
-	<select id="get" resultType="OrderGoods">
-		SELECT 
-			<include refid="orderGoodsColumns"/>
-		FROM order_goods a
-		<include refid="orderGoodsJoins"/>
-		WHERE a.id = #{id}
-	</select>
-	
-	<select id="findList" resultType="OrderGoods">
-		SELECT 
-			<include refid="orderGoodsColumns"/>
-		FROM order_goods a
-		<include refid="orderGoodsJoins"/>
-		<where>
-			
-			<if test="orderNo != null and orderNo != ''">
-				AND a.order_no = #{orderNo}
-			</if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<select id="findAllList" resultType="OrderGoods">
-		SELECT 
-			<include refid="orderGoodsColumns"/>
-		FROM order_goods a
-		<include refid="orderGoodsJoins"/>
-		<where>
-			
-		</where>		
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
-	
-	<insert id="insert">
+
+    <select id="get" resultType="OrderGoods">
+        SELECT
+        <include refid="orderGoodsColumns"/>
+        FROM order_goods a
+        <include refid="orderGoodsJoins"/>
+        WHERE a.id = #{id}
+    </select>
+
+    <select id="findList" resultType="OrderGoods">
+        SELECT
+        <include refid="orderGoodsColumns"/>
+        FROM order_goods a
+        <include refid="orderGoodsJoins"/>
+        <where>
+
+            <if test="orderNo != null and orderNo != ''">
+                AND a.order_no = #{orderNo}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="findAllList" resultType="OrderGoods">
+        SELECT
+        <include refid="orderGoodsColumns"/>
+        FROM order_goods a
+        <include refid="orderGoodsJoins"/>
+        <where>
+
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+    <insert id="insert">
 		INSERT INTO order_goods(
 			id,
 			order_no,
@@ -98,8 +98,8 @@
 			#{paymentTime}
 		)
 	</insert>
-	
-	<update id="update">
+
+    <update id="update">
 		UPDATE order_goods SET 	
 			order_no = #{orderNo},
 			product_id = #{productId},
@@ -115,10 +115,17 @@
 			payment_time = #{paymentTime}
 		WHERE id = #{id}
 	</update>
-	
-	<update id="delete">
+
+    <update id="delete">
 		DELETE FROM order_goods
 		WHERE id = #{id}
 	</update>
-	
+
+    <select id="findListByOrderNo" resultType="OrderGoods">
+        SELECT
+        <include refid="orderGoodsColumns"/>
+        FROM order_goods a
+        WHERE a.order_no = #{orderNo}
+    </select>
+
 </mapper>
