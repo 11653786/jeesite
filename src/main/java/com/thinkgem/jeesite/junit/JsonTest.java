@@ -14,10 +14,10 @@ public class JsonTest {
         List<PreOrderReq> products = new ArrayList<PreOrderReq>();
         PreOrderReq preOrderReq = new PreOrderReq();
 
-        preOrderReq.setProductId("719f18d663fe4b91aee96f7c39d77236");
+        preOrderReq.setProductId("be8b53dcd8ec4afd80deba294af7354f");
         preOrderReq.setCabinetNo("002");
         preOrderReq.setDrawerNo("1");
-
+        products.add(preOrderReq);
 
 
         String productsStr = JSONObject.toJSONString(products);

@@ -290,10 +290,10 @@ public class OrderService {
         Orders orders = null;
         try {
             orders = ordersDao.getOrdersByOrderNo(orderNo);
-            if (orders != null)
+            if (orders == null)
                 throw new RuntimeException(ResCodeMsgType.ORDERS_NOT_EXISTS.name());
             List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orderNo);
-            if (orders != orderGoods || orderGoods.isEmpty())
+            if (orderGoods == null || orderGoods.isEmpty())
                 throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
 
             for (OrderGoods ordergood : orderGoods) {
