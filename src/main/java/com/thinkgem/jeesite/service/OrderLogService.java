@@ -55,7 +55,9 @@ public class OrderLogService {
 
         //保存order_log,一条商品记录一条
         OrderLog orderLog = new OrderLog();
+        orderLog.setOrderNo(orders.getOrderNo());
         orderLog.setAreaId(orderGood.getAreaId());
+        orderLog.setAreaName(orderGood.getAreaName());
         orderLog.setCabinetNo(orderGood.getCabinetNo());
         orderLog.setCabinetName(orders.getCabinetNo());
         orderLog.setProductId(orderGood.getProductId());
