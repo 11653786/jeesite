@@ -16,7 +16,7 @@
 	</sql>
 	
 	<sql id="userRedpacketRelactionJoins">
-		LEFT JOIN sys_user u4 ON u4.id = a.user_id
+		LEFT JOIN users u4 ON u4.id = a.user_id
 	</sql>
     
 	<select id="get" resultType="UserRedpacketRelaction">
@@ -117,5 +117,13 @@
 		DELETE FROM user_redpacket_relaction
 		WHERE id = #{id}
 	</update>
+
+    <select id="findByUserId" resultType="UserRedpacketRelaction">
+        SELECT
+        <include refid="userRedpacketRelactionColumns"/>
+        FROM user_redpacket_relaction a
+        <include refid="userRedpacketRelactionJoins"/>
+        WHERE a.user_id = #{userId}
+    </select>
 	
 </mapper>

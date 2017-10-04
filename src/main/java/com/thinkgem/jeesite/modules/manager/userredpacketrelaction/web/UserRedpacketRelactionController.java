@@ -97,12 +97,12 @@ public class UserRedpacketRelactionController extends BaseController {
         return "redirect:" + Global.getAdminPath() + "/users/users/?repage";
     }
 
-//    @RequiresPermissions("userredpacketrelaction:userRedpacketRelaction:edit")
-//    @RequestMapping(value = "delete")
-//    public String delete(UserRedpacketRelaction userRedpacketRelaction, RedirectAttributes redirectAttributes) {
-//        userRedpacketRelactionService.delete(userRedpacketRelaction);
-//        addMessage(redirectAttributes, "删除用户红包关系管理成功");
-//        return "redirect:" + Global.getAdminPath() + "/userredpacketrelaction/userRedpacketRelaction/?repage";
-//    }
+    @RequiresPermissions("userredpacketrelaction:userRedpacketRelaction:edit")
+    @RequestMapping(value = "delete")
+    public String delete(UserRedpacketRelaction userRedpacketRelaction, RedirectAttributes redirectAttributes) {
+        userRedpacketRelactionService.delete(userRedpacketRelaction);
+        addMessage(redirectAttributes, "删除用户红包关系管理成功");
+        return "redirect:" + Global.getAdminPath() + "/userredpacketrelaction/userRedpacketRelaction/?repage";
+    }
 
 }

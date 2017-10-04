@@ -10,6 +10,7 @@ import com.thinkgem.jeesite.DictType;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.redpacket.entity.Redpacket;
 import com.thinkgem.jeesite.modules.manager.users.entity.Users;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,10 @@ import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpa
 @Service
 @Transactional(readOnly = true)
 public class UserRedpacketRelactionService extends CrudService<UserRedpacketRelactionDao, UserRedpacketRelaction> {
+
+    @Autowired
+    private UserRedpacketRelactionDao userRedpacketRelactionDao;
+
 
     public UserRedpacketRelaction get(String id) {
         return super.get(id);
@@ -63,6 +68,10 @@ public class UserRedpacketRelactionService extends CrudService<UserRedpacketRela
         userRedpacketRelaction.setUserName(users.getUserName());
         userRedpacketRelaction.setInUse(Integer.valueOf(DictType.dict_redpacket_in_use.getValue()));
         super.save(userRedpacketRelaction);
+    }
+
+    public UserRedpacketRelaction findByUserId(String userId) {
+        return userRedpacketRelactionDao.findByUserId(userId);
     }
 
 }

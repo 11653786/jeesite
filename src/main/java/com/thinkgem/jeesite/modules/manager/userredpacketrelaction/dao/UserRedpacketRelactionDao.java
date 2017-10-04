@@ -6,6 +6,7 @@ package com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户红包关系实体类DAO接口
@@ -14,5 +15,7 @@ import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRe
  */
 @MyBatisDao
 public interface UserRedpacketRelactionDao extends CrudDao<UserRedpacketRelaction> {
-	
+
+
+    public UserRedpacketRelaction findByUserId(@Param("userId")String userId);
 }

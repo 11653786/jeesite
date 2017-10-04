@@ -13,7 +13,9 @@
 		a.alipayid AS "alipayid",
 		a.integral AS "integral",
 		a.sale_total_price as "saleTotalPrice",
-	    a.sale_total_num as  "saleTotalNum"
+	    a.sale_total_num as  "saleTotalNum",
+	    a.create_time as "createTime",
+	    a.wechat_cancel as "wechatCancel"
 	</sql>
 
     <sql id="usersJoins">
@@ -87,8 +89,10 @@
 			openid,
 			alipayid,
 			integral,
-		saleTotalPrice,
-	    saleTotalNum
+		    sale_total_price,
+	        sale_total_num,
+	        create_time,
+            wechat_cancel
 		) VALUES (
 			#{id},
 			#{nikeName},
@@ -100,7 +104,9 @@
 			#{alipayid},
 			#{integral},
 			#{saleTotalPrice},
-	        #{saleTotalNum}
+	        #{saleTotalNum},
+            #{createTime},
+	        #{wechatCancel}
 		)
 	</insert>
 
@@ -115,7 +121,9 @@
 			alipayid = #{alipayid},
 			integral = #{integral},
             sale_total_price = #{saleTotalPrice},
-	        sale_total_num =#{saleTotalNum}
+	        sale_total_num =#{saleTotalNum},
+            create_time= #{createTime},
+	        wechat_cancel= #{wechatCancel}
 		WHERE id = #{id}
 	</update>
 
@@ -123,5 +131,11 @@
 		DELETE FROM users
 		WHERE id = #{id}
 	</delete>
+
+    <select id="findByOpenId" resultType="Users">
+        SELECT
+        <include refid="usersColumns"/>
+        FROM users a where a.openid=#{openId}
+    </select>
 
 </mapper>

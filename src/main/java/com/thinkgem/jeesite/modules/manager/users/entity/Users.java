@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
+import java.util.Date;
+
 /**
  * 客户实体类Entity
  * @author yt
@@ -26,6 +28,8 @@ public class Users extends DataEntity<Users> {
 	private Integer integral;		// 积分
     private Integer saleTotalPrice; //消费总金额
 	private Integer saleTotalNum;   //消费总数量
+    private Date createTime;        //注册时间
+    private Date wechatCancel;      //微信取关时间
 	public Users() {
 		super();
 	}
@@ -120,5 +124,21 @@ public class Users extends DataEntity<Users> {
 
     public void setSaleTotalNum(Integer saleTotalNum) {
         this.saleTotalNum = saleTotalNum;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getWechatCancel() {
+        return wechatCancel;
+    }
+
+    public void setWechatCancel(Date wechatCancel) {
+        this.wechatCancel = wechatCancel;
     }
 }

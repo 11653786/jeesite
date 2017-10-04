@@ -1,12 +1,17 @@
 package com.thinkgem.jeesite.api;
 
+import com.thinkgem.jeesite.api.service.WechatApiService;
 import com.thinkgem.jeesite.util.Decript;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,9 +22,12 @@ import java.util.Arrays;
 @RequestMapping(value = "/api/wx")
 public class ApiWxController {
 
+    @Autowired
+    private WechatApiService wechatApiService;
+
     private final String token = "niushangshan";
 
-    @RequestMapping(value = "/getMessage")
+    @RequestMapping(value = "/getMessage",method = RequestMethod.GET)
     public void getMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("开始签名校验");
         String signature = request.getParameter("signature");
@@ -47,6 +55,22 @@ public class ApiWxController {
 
     }
 
+
+    /**
+     * 接收来自微信发来的消息
+     *
+     * @param out
+     * @param request
+     * @param response
+     */
+    @RequestMapping(value = "/getMessage", method = RequestMethod.POST)
+    @ResponseBody
+    public void wechatServicePost(PrintWriter out, HttpServletRequest request) {
+        String responseMessage = wechatApiService.processRequest(request);
+        out.print(responseMessage);
+        out.flush();
+    }
+
     /**
      * 排序方法
      *
@@ -66,5 +90,7 @@ public class ApiWxController {
 
         return sbuilder.toString();
     }
+
+
 
 }

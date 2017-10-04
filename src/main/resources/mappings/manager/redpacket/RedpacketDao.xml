@@ -116,5 +116,13 @@
 		DELETE FROM redpacket
 		WHERE id = #{id}
 	</update>
+
+    <select id="findRedByName" resultType="Redpacket">
+        SELECT
+        <include refid="redpacketColumns"/>
+        FROM redpacket a
+        <include refid="redpacketJoins"/>
+        WHERE a.name = #{name}
+    </select>
 	
 </mapper>
