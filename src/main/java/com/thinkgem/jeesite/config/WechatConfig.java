@@ -40,6 +40,9 @@ public class WechatConfig {
     //微信退款订单查询
     @Value("${refund_order_query}")
     public String refund_order_query;
+    //微信公众号请求获取tokenurl
+    @Value("${token_url}")
+    public String token_url;
 
 
 }
