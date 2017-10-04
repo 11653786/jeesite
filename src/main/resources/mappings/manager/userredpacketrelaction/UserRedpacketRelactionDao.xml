@@ -10,6 +10,7 @@
 		a.user_name AS "userName",
 		a.redpacket_price AS "redpacketPrice",
 		a.create_time AS "createTime",
+		a.out_time AS "outTime",
 		a.redpacket_type AS "redpacketType",
 		a.discount_ratio AS "discountRatio",
 		a.in_use as "inUse"
@@ -82,6 +83,7 @@
 			user_name,
 			redpacket_price,
 			create_time,
+			out_create,
 			redpacket_type,
 			discount_ratio,
 			in_use
@@ -93,6 +95,7 @@
 			#{userName},
 			#{redpacketPrice},
 			#{createTime},
+			#{outTime},
 			#{redpacketType},
 			#{discountRatio},
 			#{inUse}
@@ -107,6 +110,7 @@
 			user_name = #{userName},
 			redpacket_price = #{redpacketPrice},
 			create_time = #{createTime},
+			out_time = #{out_time},
 			redpacket_type = #{redpacketType},
 			discount_ratio = #{discountRatio},
 			in_use=#{inUse}

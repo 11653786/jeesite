@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -67,11 +68,18 @@ public class UserRedpacketRelactionService extends CrudService<UserRedpacketRela
         userRedpacketRelaction.setUserid(users.getId());
         userRedpacketRelaction.setUserName(users.getUserName());
         userRedpacketRelaction.setInUse(Integer.valueOf(DictType.dict_redpacket_in_use.getValue()));
+        userRedpacketRelaction.setOutTime(getLimitDate(redpacket.getLimitDay()));
         super.save(userRedpacketRelaction);
     }
 
     public UserRedpacketRelaction findByUserId(String userId) {
         return userRedpacketRelactionDao.findByUserId(userId);
+    }
+
+    private Date getLimitDate(Integer limitDay) {
+        Calendar nowDate = Calendar.getInstance();
+        nowDate.add(Calendar.DATE, limitDay);
+        return nowDate.getTime();
     }
 
 }

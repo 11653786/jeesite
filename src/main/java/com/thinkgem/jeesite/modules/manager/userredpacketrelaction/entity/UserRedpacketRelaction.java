@@ -24,6 +24,7 @@ public class UserRedpacketRelaction extends DataEntity<UserRedpacketRelaction> {
 	private String userName;		// 用户名称
 	private Integer redpacketPrice;		// 优惠金额
 	private Date createTime;		// 领取时间
+    private Date outTime;           //过期时间
 	private String redpacketType;		// 红包类型
 	private String discountRatio;		// 折扣比例
 	private Date beginCreateTime;		// 开始 领取时间
@@ -133,4 +134,13 @@ public class UserRedpacketRelaction extends DataEntity<UserRedpacketRelaction> {
 	public void setInUse(Integer inUse) {
 		this.inUse = inUse;
 	}
+
+
+    public Date getOutTime() {
+        return outTime;
+    }
+
+    public void setOutTime(Date outTime) {
+        this.outTime = outTime;
+    }
 }
