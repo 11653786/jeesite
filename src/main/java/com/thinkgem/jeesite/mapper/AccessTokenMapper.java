@@ -1,10 +1,11 @@
 package com.thinkgem.jeesite.mapper;
 
+import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.vo.AccessToken;
 import com.thinkgem.jeesite.vo.AccessTokenExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
-
+@MyBatisDao
 public interface AccessTokenMapper {
     int countByExample(AccessTokenExample example);
 

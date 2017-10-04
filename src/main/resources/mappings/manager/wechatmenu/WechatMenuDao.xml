@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.manager.wechatmenu.dao.WechatMenuDao">
+    
+	<sql id="wechatMenuColumns">
+		a.id AS "id",
+		a.menu AS "menu"
+	</sql>
+	
+	<sql id="wechatMenuJoins">
+	</sql>
+    
+	<select id="get" resultType="WechatMenu">
+		SELECT 
+			<include refid="wechatMenuColumns"/>
+		FROM wechat_menu a
+		<include refid="wechatMenuJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="WechatMenu">
+		SELECT 
+			<include refid="wechatMenuColumns"/>
+		FROM wechat_menu a
+		<include refid="wechatMenuJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="WechatMenu">
+		SELECT 
+			<include refid="wechatMenuColumns"/>
+		FROM wechat_menu a
+		<include refid="wechatMenuJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO wechat_menu(
+			id,
+			menu
+		) VALUES (
+			#{id},
+			#{menu}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE wechat_menu SET 	
+			menu = #{menu}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM wechat_menu
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
