@@ -69,6 +69,7 @@ public class UserRedpacketRelactionService extends CrudService<UserRedpacketRela
         userRedpacketRelaction.setUserName(users.getUserName());
         userRedpacketRelaction.setInUse(Integer.valueOf(DictType.dict_redpacket_in_use.getValue()));
         userRedpacketRelaction.setOutTime(getLimitDate(redpacket.getLimitDay()));
+        userRedpacketRelaction.setRemark(redpacket.getRemark());
         super.save(userRedpacketRelaction);
     }
 

@@ -31,6 +31,8 @@ public class UserRedpacketRelaction extends DataEntity<UserRedpacketRelaction> {
 	private Date endCreateTime;		// 结束 领取时间
 
 	private Integer inUse;		//是否使用
+
+    private String remark;
 	
 	public UserRedpacketRelaction() {
 		super();
@@ -142,5 +144,13 @@ public class UserRedpacketRelaction extends DataEntity<UserRedpacketRelaction> {
 
     public void setOutTime(Date outTime) {
         this.outTime = outTime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

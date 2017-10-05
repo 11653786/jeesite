@@ -94,7 +94,7 @@
             </td>
             <shiro:hasPermission name="userredpacketrelaction:userRedpacketRelaction:edit">
                 <td>
-                    <a href="${ctx}/userredpacketrelaction/userRedpacketRelaction/form?id=${userRedpacketRelaction.id}">修改</a>
+                    <%--<a href="${ctx}/userredpacketrelaction/userRedpacketRelaction/form?id=${userRedpacketRelaction.id}">修改</a>--%>
                     <a href="${ctx}/userredpacketrelaction/userRedpacketRelaction/delete?id=${userRedpacketRelaction.id}"
                        onclick="return confirmx('确认要删除该用户红包吗？', this.href)">删除</a>
                 </td>

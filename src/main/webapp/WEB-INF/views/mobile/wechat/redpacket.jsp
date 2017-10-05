@@ -17,9 +17,9 @@
 
     <section class="mt-1">
         <div class="ps-lt">
-            <c:forEach items="${cabinets}" var="cabinet">
+            <c:forEach items="${redpacket}" var="red">
             <div class="lt-dsb">
-                <p>${cabinet.address}</p>
+                <p>${red.address}</p>
                 <i class="arr-right"></i>
             </div>
             </c:forEach>
