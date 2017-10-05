@@ -80,12 +80,13 @@ public class WechatMenuController extends BaseController {
         if (!beanValidator(model, wechatMenu)) {
             return form(wechatMenu, model);
         }
-        wechatMenu.setMenu(wechatMenu.getMenu().replace("&quot;","\""));
+        wechatMenu.setMenu(wechatMenu.getMenu().replace("&quot;", "\""));
+        wechatMenu.setMenu(wechatMenu.getMenu().replace("&amp;", "&"));
         AccessToken accessToken = wechatApiService.getWechatToken();
-        createMenu(accessToken.getAccess_token(), wechatMenu.getMenu());
+        String tips = createMenu(accessToken.getAccess_token(), wechatMenu.getMenu());
         wechatMenuService.save(wechatMenu);
 
-        addMessage(redirectAttributes, "保存微信菜单成功");
+        addMessage(redirectAttributes, "保存微信菜单成功:" + tips);
         return "redirect:" + Global.getAdminPath() + "/wechatmenu/wechatMenu/?repage";
     }
 

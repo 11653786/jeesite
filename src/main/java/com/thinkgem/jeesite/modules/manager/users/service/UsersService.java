@@ -75,9 +75,9 @@ public class UsersService extends CrudService<UsersDao, Users> {
             super.save(users);
             //查询当前用户是否有红包没有就送一个
             Redpacket redpacket = redpacketDao.findRedByName("关注红包");
-            UserRedpacketRelaction userRedpacketRelaction = userRedpacketRelactionService.findByUserId(users.getId());
+            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findByUserId(users.getId());
             //第一次关注就送红包
-            if (userRedpacketRelaction == null) {
+            if (userRedpacketRelaction == null || userRedpacketRelaction.isEmpty()) {
                 userRedpacketRelactionService.save(users, redpacket);
             }
         } else {
@@ -103,6 +103,10 @@ public class UsersService extends CrudService<UsersDao, Users> {
             usersDao.update(users);
         }
         return users;
+    }
+
+    public Users findByOpenId(String openId){
+        return usersDao.findByOpenId(openId);
     }
 
 }

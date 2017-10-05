@@ -72,7 +72,7 @@ public class UserRedpacketRelactionService extends CrudService<UserRedpacketRela
         super.save(userRedpacketRelaction);
     }
 
-    public UserRedpacketRelaction findByUserId(String userId) {
+    public List<UserRedpacketRelaction> findByUserId(String userId) {
         return userRedpacketRelactionDao.findByUserId(userId);
     }
 
