@@ -77,9 +77,9 @@ public class WechatApiService {
         String responseMessage = "success";
         //关注取关
         if(StringUtils.isNotBlank(event)){
-            logger.info("关注。。。。");
             //关注
             if (event.equalsIgnoreCase("subscribe")) {
+                logger.info("关注。。。。");
                 Users user = usersService.weChatRegister(fromUserName);
                 // 对消息进行处理
                 TextMessage textMessage = new TextMessage();
@@ -92,6 +92,9 @@ public class WechatApiService {
             } else if (event.equalsIgnoreCase("unsubscribe")) {  //取消关注
                 logger.info("取关。。。。");
                 usersService.weChatCancel(fromUserName);
+            }else if(event.equalsIgnoreCase("VIEW")){       //跳转url
+                String eventKey=map.get("EventKey");
+                logger.info("菜单点击");
             }
         }else{
             logger.info("文本消息");
