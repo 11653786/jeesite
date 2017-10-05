@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ public class ApiOrderController {
 
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private AreaService areaService;
 
 
     /**
@@ -34,7 +38,7 @@ public class ApiOrderController {
      * "data": "weixin://wxpay/bizpayurl?pr=hMnBust"
      * }
      *
-     * @param productsStr    商品信息
+     * @param productsStr 商品信息
      * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
      * @param repackgeId  红包id,公众号支付有用
      * @return
@@ -49,6 +53,12 @@ public class ApiOrderController {
             tradeType = "NATIVE";
         }
         return orderService.preorder(products, paymentType, tradeType, repackgeId);
+    }
+
+    @RequestMapping(value = "/getAreas", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<List<Area>> getAreas() {
+        return areaService.getAreaByParentId("61def47fe91c40708f3b0d13a5fd9fb6");
     }
 
 
