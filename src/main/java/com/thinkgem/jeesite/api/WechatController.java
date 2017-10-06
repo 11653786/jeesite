@@ -1,4 +1,4 @@
-package com.thinkgem.jeesite;
+package com.thinkgem.jeesite.api;
 
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
@@ -74,12 +74,7 @@ public class WechatController {
     @RequestMapping(value = "/redpacket")
     public String redpacket(HttpServletRequest request, Model model,String openid) {
         logger.info("传递过来的openid: "+openid);
-        Map<String, String> map = XMLUtil.xmlToMap(request);
-        for (String in : map.keySet()) {
-            String str = map.get(in);//得到每个key多对用value的值
-            logger.info(in + ":" + str);
-        }
-        Users users = usersService.findByOpenId(map.get("openid"));
+        Users users = usersService.findByOpenId(openid);
         if (users != null) {
             List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findByUserId(users.getId());
             if (userRedpacketRelaction != null && !userRedpacketRelaction.isEmpty())
