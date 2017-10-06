@@ -44,8 +44,8 @@ public class AreaService extends TreeService<AreaDao, Area> {
         UserUtils.removeCache(UserUtils.CACHE_AREA_LIST);
     }
 
-    public PlatformRes<List<Area>> getAreaByParentId(String parentId) {
-        return PlatformRes.success(areaDao.getAreaByParentId(parentId));
+    public List<Area> getAreaByParentId(String parentId) {
+        return areaDao.getAreaByParentId(parentId);
     }
 
 }

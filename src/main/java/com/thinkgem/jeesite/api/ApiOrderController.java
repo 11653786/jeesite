@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
+import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,8 @@ public class ApiOrderController {
     private OrderService orderService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private CabinetService cabinetService;
 
 
     /**
@@ -55,10 +59,26 @@ public class ApiOrderController {
         return orderService.preorder(products, paymentType, tradeType, repackgeId);
     }
 
+    /**
+     * 获取柜子信息
+     *
+     * @return
+     */
     @RequestMapping(value = "/getAreas", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PlatformRes<List<Area>> getAreas() {
-        return areaService.getAreaByParentId("61def47fe91c40708f3b0d13a5fd9fb6");
+        return PlatformRes.success(areaService.getAreaByParentId("61def47fe91c40708f3b0d13a5fd9fb6"));
+    }
+
+    /**
+     * 根据区域id获取柜子信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getCabinetByAreaId", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<List<Cabinet>> getCabinetByAreaId(String areaId) {
+        return PlatformRes.success(cabinetService.getCabinetByAreaId(areaId));
     }
 
 
