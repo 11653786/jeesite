@@ -8,12 +8,12 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
 <title>
-<c:if test="${type==1}" var="refund">
-问题反馈
+<c:if test="${type==1}" var="pingjia">
+评价
 </c:if>
 
-<c:if test="${!refund}">
-评价
+<c:if test="${!pingjia}">
+问题反馈
 </c:if>
 </title>
 <link href="${ctxStatic}/styles/style.css"     		rel="stylesheet" type="text/css">
@@ -29,11 +29,15 @@
 <body style="background:#ccc;">                                   
             <div style="margin-top:5px;margin-left:5px;" class="container no-bottom">
             	<div class="section-title">
-                	<h4>订单号：</h4>
-				    评价：
-					<textarea rows="3" cols="20" name="pingjia"></textarea> 
-					问题反馈：
-					<textarea rows="3" cols="20" name="program"></textarea> 
+                	<h4>订单号：${orders.orderNo}</h4>
+                    <c:if test="${type==1}" var="pingjia">
+                        评价
+                    </c:if>
+
+                    <c:if test="${!pingjia}">
+                        问题反馈
+                    </c:if>
+					<textarea rows="3" cols="20" name="remark"></textarea>
                 </div>
             </div>
                    
