@@ -259,7 +259,7 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
         if (StringUtils.isBlank(cabinetNo))
             return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
-        Orders orders = ordersDao.getOrdersByPassAndCabinetNo(cabinetNo,outPassword);
+        Orders orders = ordersDao.getOrdersByPassAndCabinetNo(cabinetNo, outPassword);
         if (orders == null)
             return PlatformRes.error(ResCodeMsgType.ORDER_NOT_OUT);
 
@@ -313,7 +313,7 @@ public class OrderService {
 
             }
         } catch (Exception e) {
-            logger.info("下单回调失败： "+e.getMessage());
+            logger.info("下单回调失败： " + e.getMessage());
             if (orders != null) {
                 //支付失败咯
                 orders.setOrderStatus(2);
@@ -322,6 +322,20 @@ public class OrderService {
 
         }
         return PlatformRes.success(null);
+    }
+
+
+    public List<Orders> getPayOrders(String openId) {
+        return ordersDao.getPayOrders(openId);
+    }
+
+
+    public List<Orders> getOrderDetail(String openId) {
+        return ordersDao.getOrderDetail(openId);
+    }
+
+    public Orders getOrderByOrderNo(String orderNo) {
+        return ordersDao.getOrdersByOrderNo(orderNo);
     }
 
 

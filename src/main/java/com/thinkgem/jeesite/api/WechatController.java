@@ -1,20 +1,21 @@
 package com.thinkgem.jeesite.api;
 
+import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
+import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
+import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
 import com.thinkgem.jeesite.modules.manager.users.entity.Users;
 import com.thinkgem.jeesite.modules.manager.users.service.UsersService;
-import com.thinkgem.jeesite.util.XMLUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -30,6 +31,10 @@ public class WechatController {
     private UserRedpacketRelactionService userRedpacketRelactionService;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private OrderGoodsService orderGoodsService;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -72,8 +77,8 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/redpacket")
-    public String redpacket(HttpServletRequest request, Model model,String openid) {
-        logger.info("传递过来的openid: "+openid);
+    public String redpacket(Model model, String openid) {
+        logger.info("传递过来的openid: " + openid);
         Users users = usersService.findByOpenId(openid);
         if (users != null) {
             List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findByUserId(users.getId());
@@ -82,4 +87,44 @@ public class WechatController {
         }
         return "wechat/redpacket";
     }
+
+    @RequestMapping(value = "/myorder")
+    public String myorder(Model model, String openid) {
+        logger.info("传递过来的openid: " + openid);
+        List<Orders> orders = orderService.getOrderDetail(openid);
+        model.addAttribute("orders", orders);
+        return "wechat/myorder";
+    }
+
+    /**
+     * 退款按钮
+     *
+     * @param model
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping(value = "/refundOrder")
+    public String refundOrder(Model model,Integer type,String orderNo) {
+        Orders orders = orderService.getOrderByOrderNo(orderNo);
+        model.addAttribute("orders", orders);
+        model.addAttribute("type",type);
+        return "wechat/refundpingjia";
+    }
+
+
+    /**
+     * 申请退款和评价
+     *
+     * @param model
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping(value = "/refundPingjia")
+    @ResponseBody
+    public String refundOrderSubmit(Model model, String orderNo, Integer type, String message) {
+
+        return "success";
+    }
+
+
 }

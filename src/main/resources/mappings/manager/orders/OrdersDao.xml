@@ -220,4 +220,41 @@
     </select>
 
 
+    <select id="getPayOrders" resultType="Orders">
+    SELECT
+    <include refid="ordersColumns"/>
+        <!--已取餐和已支付，微信公众号支付的-->
+    FROM orders a where a.openid=#{openId} and a.order_status in(1,3) and a.payment_status=1
+        order by a.order_status asc,payment_time desc
+    </select>
+
+
+    <select id="getOrderDetail" resultType="com.thinkgem.jeesite.modules.manager.orders.entity.Orders">
+        select
+        a.order_no AS "orderNo",
+        a.pay_money AS "payMoney",
+        a.actual_pay_money AS "actualPayMoney",
+        a.order_status AS "orderStatus",
+        a.payment_status as "paymentStatus",
+        a.wechat_trade_no AS "wechatTradeNo",
+        a.alipay_trade_no AS "alipayTradeNo",
+        a.create_time AS "createTime",
+        a.update_time AS "updateTime",
+        a.remark AS "remark",
+        a.payment_time AS "paymentTime",
+        a.openid AS "openid",
+        a.alipayid AS "alipayid",
+        a.user_id AS "userId",
+        a.cabinet_no AS "cabinetNo",
+        a.redpacket_id AS "redpacketId",
+        a.redpacket_price as "redpacketPrice",
+        a.redpacket_name as "redpacketName",
+        a.refund_No as "refundNo",
+        a.refund_status as "refundStatus",
+        a.refund_time as "refundTime",
+        a.put_password as "putPassword",
+        GROUP_CONCAT(CONCAT("商品:",goods.product_name),":",CONCAT(goods.product_num,"个")) as phone from order_goods goods join orders a on a.order_no=goods.order_no
+        where a.openid=#{openId}
+    </select>
+
 </mapper>

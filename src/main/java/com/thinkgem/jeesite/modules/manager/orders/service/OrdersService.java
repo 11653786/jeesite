@@ -41,6 +41,8 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     private UserRedpacketRelactionDao userRedpacketRelactionDao;
     @Autowired
     private DrawerDao drawerDao;
+    @Autowired
+    private OrdersDao ordersDao;
 
 
     public Orders get(String id) {
@@ -129,7 +131,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             //生成id
             orderGoods.preInsert();
             orderGoodsDao.insert(orderGoods);
- //
+            //
             //修改柜子编号
 //            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
 
@@ -139,6 +141,11 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
         super.save(orders);
 
         return orders;
+    }
+
+
+    public List<Orders> getOrderDetail(String openId) {
+        return ordersDao.getOrderDetail(openId);
     }
 
 }

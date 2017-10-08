@@ -8,6 +8,8 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 订单实体类DAO接口
  *
@@ -26,10 +28,18 @@ public interface OrdersDao extends CrudDao<Orders> {
     Orders getOrdersByOrderNo(@Param("orderNo") String orderNo);
 
     /**
-     *
-     * @param cabinetNo
-     * putPassword
+     * @param cabinetNo putPassword
      * @return
      */
-    Orders getOrdersByPassAndCabinetNo(@Param("cabinetNo") String cabinetNo,@Param("putPassword") String putPassword);
+    Orders getOrdersByPassAndCabinetNo(@Param("cabinetNo") String cabinetNo, @Param("putPassword") String putPassword);
+
+    /**
+     * 根据openId获取已支付id
+     *
+     * @param openId
+     * @return
+     */
+    List<Orders> getPayOrders(@Param("openId") String openId);
+
+    List<Orders> getOrderDetail(@Param("openId") String openId);
 }

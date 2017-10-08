@@ -21,4 +21,5 @@ public interface OrderGoodsDao extends CrudDao<OrderGoods> {
 
     public List<OrderGoods> findListByOrderNo(@Param("orderNo") String orderNo);
 
+
 }
