@@ -33,6 +33,25 @@
                         已取餐
                     </c:when>
                 </c:choose></em><br>
+            <c:if test="${order.remark!=null && order.remark!=''}">
+                <c:if test="${order.refundStatus!=null}">
+                    <em>反馈问题:
+                        <c:choose>
+                            <c:when test="${order.refundStatus==0}">
+                                已受理
+                            </c:when>
+                            <c:when test="${order.refundStatus==1}">
+                                受理成功
+                            </c:when>
+                            <c:when test="${order.refundStatus==2}">
+                                受理失败
+                            </c:when>
+                        </c:choose>
+                    </em>
+                </c:if>
+                <em>用户评论：${order.remark}</em><br>
+            </c:if>
+
 
             <c:if test="${order.redpacketPrice!=null}">
                 <em>红包优惠:${order.redpacketPrice/100}元</em><br>
