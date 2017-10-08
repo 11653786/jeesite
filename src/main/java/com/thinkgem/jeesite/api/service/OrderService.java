@@ -338,5 +338,22 @@ public class OrderService {
         return ordersDao.getOrdersByOrderNo(orderNo);
     }
 
+    public void updateRemark(String orderNo, Integer type, String remark) {
+        Orders orders = this.getOrderByOrderNo(orderNo);
+        orders.setRemark(remark);
+
+        if (orders != null) {
+            if (type == 1) {  //评价
+
+            } else if (type == 2) { //问题反馈
+                orders.setRefundStatus(0);
+                orders.setRefundNo(orderNo);
+                orders.setRefundTime(new Date());
+            }
+
+            ordersDao.update(orders);
+        }
+
+    }
 
 }

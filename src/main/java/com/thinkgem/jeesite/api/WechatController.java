@@ -4,6 +4,7 @@ import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
+import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -104,10 +106,10 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/refundOrder")
-    public String refundOrder(Model model,Integer type,String orderNo) {
+    public String refundOrder(Model model, Integer type, String orderNo) {
         Orders orders = orderService.getOrderByOrderNo(orderNo);
         model.addAttribute("orders", orders);
-        model.addAttribute("type",type);
+        model.addAttribute("type", type);
         return "wechat/refundpingjia";
     }
 
@@ -115,14 +117,13 @@ public class WechatController {
     /**
      * 申请退款和评价
      *
-     * @param model
      * @param orderNo
      * @return
      */
     @RequestMapping(value = "/refundPingjia")
     @ResponseBody
-    public String refundOrderSubmit(Model model, String orderNo, Integer type, String message) {
-
+    public String refundOrderSubmit(String orderNo, Integer type, String remark) {
+        orderService.updateRemark(orderNo, type, remark);
         return "success";
     }
 
