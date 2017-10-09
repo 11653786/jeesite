@@ -6,6 +6,8 @@ import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
+import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
+import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,8 @@ public class ApiOrderController {
     private AreaService areaService;
     @Autowired
     private CabinetService cabinetService;
+    @Autowired
+    private CabinetProductRelactionDao cabinetProductRelactionDao;
 
 
     /**
@@ -79,6 +83,18 @@ public class ApiOrderController {
     @ResponseBody
     public PlatformRes<List<Cabinet>> getCabinetByAreaId(String areaId) {
         return PlatformRes.success(cabinetService.getCabinetByAreaId(areaId));
+    }
+
+    /**
+     * 根据柜子id查询当前柜子的抽屉配置的商品信息
+     *
+     * @param cabinetId
+     * @return
+     */
+    @RequestMapping(value = "/getSaleProductByCabinetId", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<List<CabinetProductRelaction>> getSaleProductByCabinetId(String cabinetId) {
+        return PlatformRes.success(cabinetProductRelactionDao.getSaleProductByCabinetId(cabinetId));
     }
 
 

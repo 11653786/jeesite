@@ -129,15 +129,15 @@
 	</update>
 
     <select id="findBydrawerIdAndProductId" resultType="CabinetProductRelaction">
-		select
+        select
         <include refid="cabinetProductRelactionColumns"/>
-		 from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId};
-	</select>
+        from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId};
+    </select>
 
     <select id="findByDrawerNoAndProductId" resultType="CabinetProductRelaction">
         select
         <include refid="cabinetProductRelactionColumns"/>
-         from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_no=#{drawerNo};
+        from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_no=#{drawerNo};
     </select>
 
 
@@ -150,5 +150,31 @@
     <delete id="deleteByDrawerNo">
         delete from cabinet_product_relaction where drawer_no=#{drawerNo}
     </delete>
+
+
+    <select id="getSaleProductByCabinetId" resultType="com.thinkgem.jeesite.modules.manager.product.entity.Product">
+                SELECT
+          a.id AS "id",
+		a.product_name AS "productName",
+		a.product_price AS "productPrice",
+		a.product_actual_price AS "productActualPrice",
+		a.product_status AS "productStatus",
+		a.create_time AS "createTime",
+		a.remark AS "remark",
+		a.imgurl AS "imgurl"
+        FROM
+            (
+                SELECT
+                    cabinet_product_relaction.*
+                FROM
+                 cabinet_product_relaction cabinet_product_relaction
+                JOIN drawer drawer ON cabinet_product_relaction.drawer_id = drawer.id and drawer.food_status in(0,1)
+                AND cabinet_product_relaction.cabinet_id = #{cabinetId}
+            ) AS t1 join product a on t1.product_id=a.id
+        GROUP BY
+            product_id;
+
+    </select>
+
 
 </mapper>

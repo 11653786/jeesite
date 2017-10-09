@@ -128,4 +128,11 @@ public class WechatController {
     }
 
 
+
+    @RequestMapping(value = "/shopping")
+    public String shopping(String openId){
+        return "wechat/shopping";
+    }
+
+
 }

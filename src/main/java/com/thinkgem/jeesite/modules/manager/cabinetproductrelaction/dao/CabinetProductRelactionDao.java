@@ -27,4 +27,7 @@ public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelact
 
     Integer deleteByDrawerNo(@Param("drawerNo") String drawerNo);
 
+
+    List<CabinetProductRelaction> getSaleProductByCabinetId(@Param("cabinetId") String cabinetId);
+
 }
