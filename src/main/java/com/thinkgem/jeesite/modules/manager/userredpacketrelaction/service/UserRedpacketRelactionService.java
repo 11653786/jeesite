@@ -3,22 +3,20 @@
  */
 package com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import com.thinkgem.jeesite.DictType;
-import com.thinkgem.jeesite.modules.manager.product.entity.Product;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.manager.redpacket.entity.Redpacket;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.users.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
-import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户红包关系实体类Service

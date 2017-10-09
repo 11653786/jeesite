@@ -1,7 +1,6 @@
 package com.thinkgem.jeesite.junit;
 
 
-import com.thinkgem.jeesite.api.service.WechatPayService;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.WebRequestUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
