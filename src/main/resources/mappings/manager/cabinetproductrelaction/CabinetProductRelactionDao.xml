@@ -168,7 +168,7 @@
                     cabinet_product_relaction.*
                 FROM
                  cabinet_product_relaction cabinet_product_relaction
-                JOIN drawer drawer ON cabinet_product_relaction.drawer_id = drawer.id and drawer.food_status in(0,1)
+                JOIN drawer drawer ON cabinet_product_relaction.drawer_id = drawer.id and drawer.food_status in(0)
                 AND cabinet_product_relaction.cabinet_id = #{cabinetId}
             ) AS t1 join product a on t1.product_id=a.id
         GROUP BY

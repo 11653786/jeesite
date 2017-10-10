@@ -356,4 +356,20 @@ public class OrderService {
 
     }
 
+
+    public PlatformRes<String> validPreOrder(String ids, String nums,String cabinetId) {
+        String[] productIds = ids.split(",");
+        String[] productNums = nums.split(",");
+        for(int a=0;a<productIds.length;a++){
+            ValidCabinetProduct(productIds[a],Integer.valueOf(productNums[a]),cabinetId);
+        }
+
+    }
+
+
+    //
+    public PlatformRes<String> ValidCabinetProduct(String productId,Integer num,String cabinetId){
+
+    }
+
 }

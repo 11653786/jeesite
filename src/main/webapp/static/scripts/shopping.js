@@ -59,7 +59,7 @@ $(function () {
                     for (var a in list) {
 
                         products += "<li><div class=shop-info>" +
-                            "<input type=checkbox value="+list[a]['id']+" class='check goods-check goodsCheck'>" +
+                            "<input type=checkbox value=" + list[a]['id'] + " class='check goods-check goodsCheck'>" +
                             "<div class=shop-info-img><a href=#>" +
                             "<img src=" + path + "/static/images/computer.jpg/></a></div>" +
                             "<div class=shop-info-text>" +
@@ -177,15 +177,35 @@ $(function () {
 
 
         $(".settlement").click(function () {
-            $(this).find("input[type=checkbox]").each(function () { //循环店铺里面的商品
+            var ids = "";
+            var nums = "";
+            $("input[type=checkbox]").each(function () { //循环店铺里面的商品
                 if ($(this).is(":checked")) { //如果该商品被选中
                     var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
-                    var price = parseFloat($(this).parents(".shop-info").find(".price").text()); //得到商品的单价
-                    var total = price * num; //计算单个商品的总价
-                    oprice += total; //计算该店铺的总价
+                    var productId = $(this).val();
+                    ids = ids + "," + productId;
+                    nums = nums + "," + num;
                 }
-                $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice); //显示被选中商品的店铺总价
             });
+
+            var redpackgetId = $("input[type=radio]:checked").val();
+            var cabinetId = $("#cabinetId").val();
+
+            if (ids != '' && nums != '') {
+                //ajax验证是否可以下单这么多商品
+                $.ajax({
+                    type: "POST",
+                    url: path + "/api/order/validPreOrder",
+                    data: {"ids": ids, "nums": nums, "cabinetId": cabinetId},
+                    dataType: "json",
+                    success: function (data) {
+
+                    }
+                });
+
+
+            }
+
         });
 
     }

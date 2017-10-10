@@ -24,6 +24,7 @@
     <a href="#" class=""></a>
 </div>
 <!--头部结束-->
+<form >
 <div class="shopping">
 
     <div class="shop-group-item">
@@ -73,8 +74,9 @@
         <strong>实付金额：<i class="total" id="AllTotal">0.00</i></strong>
         <span>优惠金额：<i class="total" id="allfree">0.00</i></span>
     </div>
-    <a href="#" class="settlement">结算</a>
+    <input href="#" class="settlement">结算</input>
 </div>
+</form>
 </body>
 </html>
 
