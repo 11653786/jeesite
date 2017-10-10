@@ -4,7 +4,6 @@ import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
-import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
@@ -16,7 +15,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -128,9 +126,13 @@ public class WechatController {
     }
 
 
-
     @RequestMapping(value = "/shopping")
-    public String shopping(String openId){
+    public String shopping(String openid, Model model) {
+        List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
+        if(redpacketRelactions!=null && !redpacketRelactions.isEmpty()){
+            model.addAttribute("redpacketRelactions", redpacketRelactions);
+            model.addAttribute("openid",openid);
+        }
         return "wechat/shopping";
     }
 

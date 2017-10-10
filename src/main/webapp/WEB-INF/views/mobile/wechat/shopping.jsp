@@ -16,6 +16,7 @@
 </head>
 <body>
 <input type="hidden" id="path" value="${pageContext.request.contextPath}"/>
+<input type="hidden" id="openId" value="${openid}"/>
 <!--头部开始-->
 <div class="header">
     <h1>下单</h1>
@@ -27,7 +28,6 @@
 
     <div class="shop-group-item">
         <div class="shop-name">
-            <%--<input type="checkbox" class="check goods-check shopCheck">--%>
             <h4><a href="#">牛上山套餐</a></h4>&nbsp
             区域:<select id="areaId" style="width:100px;">
             <option value=''>请选择</option>
@@ -38,34 +38,40 @@
             <div id="address"></div>
         </div>
         <ul id="products">
-            <%--<li>--%>
-                <%--<div class="shop-info">--%>
-                    <%--<input type="checkbox" class="check goods-check goodsCheck">--%>
-                    <%--<div class="shop-info-img"><a href="#"><img src="${ctxStatic}/images/computer.jpg"/></a></div>--%>
-                    <%--<div class="shop-info-text">--%>
-                        <%--<h4>Apple MacBook Pro 13.3英寸笔记本电脑 银色(Core i5 处理器/8GB内存/128GB SSD闪存/Retina屏 MF839CH/A)</h4>--%>
-                        <%--<div class="shop-brief"><span>重量:3.3kg</span><span>颜色:标配版</span><span>版本:13.3英寸</span></div>--%>
-                        <%--<div class="shop-price">--%>
-                            <%--<div class="shop-pices">￥<b class="price">100.00</b></div>--%>
-                            <%--<div class="shop-arithmetic">--%>
-                                <%--<a  class="minus">-</a>--%>
-                                <%--<span class="num">1</span>--%>
-                                <%--<a  class="plus">+</a>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                    <%--</div>--%>
-                <%--</div>--%>
-            <%--</li>--%>
         </ul>
-        <div class="shopPrice">本店总计：￥<span class="shop-total-amount ShopTotal">0.00</span></div>
+        <div class="shopPrice">总计金额：￥<span class="shop-total-amount ShopTotal">0.00</span></div>
     </div>
 </div>
 
+<c:if test="${redpacketRelactions!=null}">
+<div class="red-shop-group-item">
+    <div class="shop-name">
+        <h4><a href="#">红包</a></h4>
+    </div>
+    <ul>
+        <c:forEach items="${redpacketRelactions}" var="redpacket">
+        <li>
+            <div class="shop-info">
+                <input value="${redpacket.id}" type="radio" name="red" class="check goods-check redCheck">
+                    <div class="shop-info-text">
+                        <h4>${redpacket.redpacketName}</h4>
+                        <div class="shop-brief">${redpacket.remark}</div>
+                        <div class="shop-price">
+                            <div class="shop-pices">红包金额:￥<b class="redprice">${redpacket.redpacketPrice/100}</b></div>
+                        </div>
+                    </div>
+            </div>
+        </li>
+        </c:forEach>
+    </ul>
+</div>
+</c:if>
+
+
 <div class="payment-bar">
-    <%--<div class="all-checkbox"><input type="checkbox" class="check goods-check" id="AllCheck">全选</div>--%>
     <div class="shop-total">
-        <strong>总价：<i class="total" id="AllTotal">0.00</i></strong>
-        <span>减免：123.00</span>
+        <strong>实付金额：<i class="total" id="AllTotal">0.00</i></strong>
+        <span>优惠金额：<i class="total" id="allfree">0.00</i></span>
     </div>
     <a href="#" class="settlement">结算</a>
 </div>

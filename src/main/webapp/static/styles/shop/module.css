@@ -6,6 +6,10 @@
 .shop-group-item ul li{border-bottom:1px solid #fff;}
 .shop-group-item ul li:last-child{border-bottom:none;}
 
+.red-shop-group-item{margin-bottom:5px;}
+.red-shop-group-item ul li{border-bottom:1px solid #fff;}
+.red-shop-group-item ul li:last-child{border-bottom:none;}
+
 .shop-name{background:#fff;height:35px;line-height:35px;padding:0 15px;position:relative;}
 .shop-name h4{float:left;font-size:14px;background:url(../../images/icon/icon-kin.png) no-repeat left center;background-size:20px 20px;padding-left:25px;margin-left: 28px;}
 .shop-name .coupons{float:right;}

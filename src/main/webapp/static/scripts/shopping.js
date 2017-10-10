@@ -59,20 +59,18 @@ $(function () {
                     for (var a in list) {
 
                         products += "<li><div class=shop-info>" +
-                            "<input type=checkbox class='check goods-check goodsCheck'>" +
+                            "<input type=checkbox value="+list[a]['id']+" class='check goods-check goodsCheck'>" +
                             "<div class=shop-info-img><a href=#>" +
-                            "<img src="+path+"/static/images/computer.jpg/></a></div>" +
+                            "<img src=" + path + "/static/images/computer.jpg/></a></div>" +
                             "<div class=shop-info-text>" +
-                            "<h4>"+list[a]['productName']+"</h4>" +
+                            "<h4>" + list[a]['productName'] + "</h4>" +
                             "<div class=shop-brief>" +
-                            "<span>价格:"+list[a]['remark']+"</span>" +
+                            "<span>价格:" + list[a]['remark'] + "</span>" +
                             "</div>" +
                             "<div class=shop-price>" +
-                            "<div class=shop-pices>￥<b class=price>"+list[a]['productActualPrice']/100+"</b></div>" + "<div class=shop-arithmetic>" +
+                            "<div class=shop-pices>￥<b class=price>" + list[a]['productActualPrice'] / 100 + "</b></div>" + "<div class=shop-arithmetic>" +
                             "<a  class=minus>-</a >" + "<span class=num>1</span><a  class=plus>+</a></div></div></div></div></li>";
                     }
-
-
 
 
                     $("#products").html(products);
@@ -84,34 +82,38 @@ $(function () {
     });
 
 
-
     // 数量减
-    $(".minus").live('click',function () {
+    $(".minus").live('click', function () {
         var t = $(this).parent().find('.num');
         t.text(parseInt(t.text()) - 1);
         if (t.text() <= 1) {
             t.text(1);
         }
+
+        if (t.text() >= 4) {
+            t.text(4);
+        }
         TotalPrice();
     });
 
 
-
-
-
-
     // 数量加
-    $(".plus").live('click',function () {
+    $(".plus").live('click', function () {
         var t = $(this).parent().find('.num');
         t.text(parseInt(t.text()) + 1);
         if (t.text() <= 1) {
             t.text(1);
         }
+        if (t.text() >= 4) {
+            t.text(4);
+        }
+
+
         TotalPrice();
     });
     /******------------分割线-----------------******/
     // 点击商品按钮
-    $(".goodsCheck").live('click',function () {
+    $(".goodsCheck").live('click', function () {
         var goods = $(this).closest(".shop-group-item").find(".goodsCheck"); //获取本店铺的所有商品
         var goodsC = $(this).closest(".shop-group-item").find(".goodsCheck:checked"); //获取本店铺所有被选中的商品
         var Shops = $(this).closest(".shop-group-item").find(".shopCheck"); //获取本店铺的全选按钮
@@ -132,39 +134,21 @@ $(function () {
             // 计算
         }
     });
-    // // 点击店铺按钮
-    // $(".shopCheck").click(function () {
-    //     if ($(this).prop("checked") == true) { //如果店铺按钮被选中
-    //         $(this).parents(".shop-group-item").find(".goods-check").prop('checked', true); //店铺内的所有商品按钮也被选中
-    //         if ($(".shopCheck").length == $(".shopCheck:checked").length) { //如果店铺被选中的数量等于所有店铺的数量
-    //             $("#AllCheck").prop('checked', true); //全选按钮被选中
-    //             TotalPrice();
-    //         } else {
-    //             $("#AllCheck").prop('checked', false); //else全选按钮不被选中
-    //             TotalPrice();
-    //         }
-    //     } else { //如果店铺按钮不被选中
-    //         $(this).parents(".shop-group-item").find(".goods-check").prop('checked', false); //店铺内的所有商品也不被全选
-    //         $("#AllCheck").prop('checked', false); //全选按钮也不被选中
-    //         TotalPrice();
-    //     }
-    // });
-    // 点击全选按钮
-    // $("#AllCheck").click(function () {
-    //     if ($(this).prop("checked") == true) { //如果全选按钮被选中
-    //         $(".goods-check").prop('checked', true); //所有按钮都被选中
-    //         TotalPrice();
-    //     } else {
-    //         $(".goods-check").prop('checked', false); //else所有按钮不全选
-    //         TotalPrice();
-    //     }
-    //     $(".shopCheck").change(); //执行店铺全选的操作
-    // });
+
+    //红包点击事件
+    $(".redCheck").live('click', function () {
+        var reds = $(this).closest(".red-shop-group-item").find(".redCheck"); //获取本店铺的所有商品
+        var redId = reds.val();
+        TotalPrice();
+    });
+
     //计算
     function TotalPrice() {
         var allprice = 0; //总价
+        var redprice = 0;  //见面金额
         $(".shop-group-item").each(function () { //循环每个店铺
             var oprice = 0.00; //店铺总价
+
             $(this).find("input[type=checkbox]").each(function () { //循环店铺里面的商品
                 if ($(this).is(":checked")) { //如果该商品被选中
                     var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
@@ -177,6 +161,32 @@ $(function () {
             var oneprice = parseFloat($(this).find(".ShopTotal").text()); //得到每个店铺的总价
             allprice += oneprice; //计算所有店铺的总价
         });
-        $("#AllTotal").text(allprice.toFixed(2)); //输出全部总价
+
+
+        //红包金额显示的问题
+        $(".red-shop-group-item").each(function () {
+            $(this).find("input[type=radio]").each(function () { //循环店铺里面的商品
+                if ($(this).is(":checked")) { //如果该商品被选中
+                    redprice = parseFloat($(this).parents(".shop-info").find(".redprice").text()); //得到商品的单价
+                    $("#allfree").text(redprice.toFixed(2));
+                }
+            });
+        });
+
+        $("#AllTotal").text((allprice - redprice).toFixed(2)); //输出全部总价
+
+
+        $(".settlement").click(function () {
+            $(this).find("input[type=checkbox]").each(function () { //循环店铺里面的商品
+                if ($(this).is(":checked")) { //如果该商品被选中
+                    var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
+                    var price = parseFloat($(this).parents(".shop-info").find(".price").text()); //得到商品的单价
+                    var total = price * num; //计算单个商品的总价
+                    oprice += total; //计算该店铺的总价
+                }
+                $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice); //显示被选中商品的店铺总价
+            });
+        });
+
     }
 });

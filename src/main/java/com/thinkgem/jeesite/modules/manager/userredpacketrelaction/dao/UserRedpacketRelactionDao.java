@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * 用户红包关系实体类DAO接口
+ *
  * @author yt
  * @version 2017-08-20
  */
@@ -19,5 +20,8 @@ import java.util.List;
 public interface UserRedpacketRelactionDao extends CrudDao<UserRedpacketRelaction> {
 
 
-    public List<UserRedpacketRelaction> findByUserId(@Param("userId")String userId);
+    public List<UserRedpacketRelaction> findByUserId(@Param("userId") String userId);
+
+
+    public List<UserRedpacketRelaction> findEnableRedpacket(@Param("openId") String openId);
 }

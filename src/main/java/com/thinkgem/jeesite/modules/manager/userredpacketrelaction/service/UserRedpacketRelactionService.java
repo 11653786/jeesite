@@ -75,6 +75,11 @@ public class UserRedpacketRelactionService extends CrudService<UserRedpacketRela
         return userRedpacketRelactionDao.findByUserId(userId);
     }
 
+
+    public List<UserRedpacketRelaction> findEnableRedpacket(String openId){
+        return userRedpacketRelactionDao.findEnableRedpacket(openId);
+    }
+
     private Date getLimitDate(Integer limitDay) {
         Calendar nowDate = Calendar.getInstance();
         nowDate.add(Calendar.DATE, limitDay);
