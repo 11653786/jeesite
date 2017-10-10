@@ -27,7 +27,7 @@
 
     <div class="shop-group-item">
         <div class="shop-name">
-            <input type="checkbox" class="check goods-check shopCheck">
+            <%--<input type="checkbox" class="check goods-check shopCheck">--%>
             <h4><a href="#">牛上山套餐</a></h4>&nbsp
             区域:<select id="areaId" style="width:100px;">
             <option value=''>请选择</option>
@@ -62,7 +62,7 @@
 </div>
 
 <div class="payment-bar">
-    <div class="all-checkbox"><input type="checkbox" class="check goods-check" id="AllCheck">全选</div>
+    <%--<div class="all-checkbox"><input type="checkbox" class="check goods-check" id="AllCheck">全选</div>--%>
     <div class="shop-total">
         <strong>总价：<i class="total" id="AllTotal">0.00</i></strong>
         <span>减免：123.00</span>

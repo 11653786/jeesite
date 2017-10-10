@@ -59,7 +59,7 @@ $(function () {
                     for (var a in list) {
 
                         products += "<li><div class=shop-info>" +
-                            "<input type=checkbox class=check goods-check goodsCheck>" +
+                            "<input type=checkbox class='check goods-check goodsCheck'>" +
                             "<div class=shop-info-img><a href=#>" +
                             "<img src="+path+"/static/images/computer.jpg/></a></div>" +
                             "<div class=shop-info-text>" +
@@ -111,7 +111,7 @@ $(function () {
     });
     /******------------分割线-----------------******/
     // 点击商品按钮
-    $(".goodsCheck").click(function () {
+    $(".goodsCheck").live('click',function () {
         var goods = $(this).closest(".shop-group-item").find(".goodsCheck"); //获取本店铺的所有商品
         var goodsC = $(this).closest(".shop-group-item").find(".goodsCheck:checked"); //获取本店铺所有被选中的商品
         var Shops = $(this).closest(".shop-group-item").find(".shopCheck"); //获取本店铺的全选按钮
@@ -164,15 +164,15 @@ $(function () {
     function TotalPrice() {
         var allprice = 0; //总价
         $(".shop-group-item").each(function () { //循环每个店铺
-            var oprice = 0; //店铺总价
-            $(this).find(".goodsCheck").each(function () { //循环店铺里面的商品
+            var oprice = 0.00; //店铺总价
+            $(this).find("input[type=checkbox]").each(function () { //循环店铺里面的商品
                 if ($(this).is(":checked")) { //如果该商品被选中
                     var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
                     var price = parseFloat($(this).parents(".shop-info").find(".price").text()); //得到商品的单价
                     var total = price * num; //计算单个商品的总价
                     oprice += total; //计算该店铺的总价
                 }
-                $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice.toFixed(2)); //显示被选中商品的店铺总价
+                $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice); //显示被选中商品的店铺总价
             });
             var oneprice = parseFloat($(this).find(".ShopTotal").text()); //得到每个店铺的总价
             allprice += oneprice; //计算所有店铺的总价
