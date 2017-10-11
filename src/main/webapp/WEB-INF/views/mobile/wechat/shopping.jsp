@@ -74,7 +74,7 @@
         <strong>实付金额：<i class="total" id="AllTotal">0.00</i></strong>
         <span>优惠金额：<i class="total" id="allfree">0.00</i></span>
     </div>
-    <input href="#" class="settlement">结算</input>
+    <a href="#" class="settlement">结算</a>
 </div>
 </form>
 </body>
