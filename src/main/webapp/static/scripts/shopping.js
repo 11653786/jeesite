@@ -59,7 +59,7 @@ $(function () {
                     for (var a in list) {
 
                         products += "<li><div class=shop-info>" +
-                            "<input type=checkbox value=" + list[a]['id'] + " class='check goods-check goodsCheck'>" +
+                            "<input type=checkbox name=ids value=" + list[a]['id'] + " class='check goods-check goodsCheck'>" +
                             "<div class=shop-info-img><a href=#>" +
                             "<img src=" + path + "/static/images/computer.jpg/></a></div>" +
                             "<div class=shop-info-text>" +
@@ -69,7 +69,7 @@ $(function () {
                             "</div>" +
                             "<div class=shop-price>" +
                             "<div class=shop-pices>￥<b class=price>" + list[a]['productActualPrice'] / 100 + "</b></div>" + "<div class=shop-arithmetic>" +
-                            "<a  class=minus>-</a >" + "<span class=num>1</span><a  class=plus>+</a></div></div></div></div></li>";
+                            "<a  class=minus>-</a >" + "<span class=num>1</span><a  class=plus>+</a><input type=hidden class=nums name=nums value=1 /></div></div></div></div></li>";
                     }
 
 
@@ -85,6 +85,7 @@ $(function () {
     // 数量减
     $(".minus").live('click', function () {
         var t = $(this).parent().find('.num');
+        var nums=$(this).parent().find('.nums');
         t.text(parseInt(t.text()) - 1);
         if (t.text() <= 1) {
             t.text(1);
@@ -93,6 +94,8 @@ $(function () {
         if (t.text() >= 4) {
             t.text(4);
         }
+
+        nums.val(t.text());
         TotalPrice();
     });
 
@@ -100,6 +103,7 @@ $(function () {
     // 数量加
     $(".plus").live('click', function () {
         var t = $(this).parent().find('.num');
+        var nums=$(this).parent().find('.nums');
         t.text(parseInt(t.text()) + 1);
         if (t.text() <= 1) {
             t.text(1);
@@ -108,7 +112,7 @@ $(function () {
             t.text(4);
         }
 
-
+        nums.val(t.text());
         TotalPrice();
     });
     /******------------分割线-----------------******/
@@ -175,38 +179,38 @@ $(function () {
 
         $("#AllTotal").text((allprice - redprice).toFixed(2)); //输出全部总价
 
-
-        $(".settlement").click(function () {
-            var ids = "";
-            var nums = "";
-            $("input[type=checkbox]").each(function () { //循环店铺里面的商品
-                if ($(this).is(":checked")) { //如果该商品被选中
-                    var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
-                    var productId = $(this).val();
-                    ids = ids + "," + productId;
-                    nums = nums + "," + num;
-                }
-            });
-
-            var redpackgetId = $("input[type=radio]:checked").val();
-            var cabinetId = $("#cabinetId").val();
-
-            if (ids != '' && nums != '') {
-                //ajax验证是否可以下单这么多商品
-                $.ajax({
-                    type: "POST",
-                    url: path + "/api/order/validPreOrder",
-                    data: {"ids": ids, "nums": nums, "cabinetId": cabinetId},
-                    dataType: "json",
-                    success: function (data) {
-
-                    }
-                });
-
-
-            }
-
-        });
-
     }
+
+    //$(".settlement").click(function () {
+    //    var ids = "";
+    //    var nums = "";
+    //    $("input[type=checkbox]").each(function () { //循环店铺里面的商品
+    //        if ($(this).is(":checked")) { //如果该商品被选中
+    //            var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
+    //            var productId = $(this).val();
+    //            ids = ids + "," + productId;
+    //            nums = nums + "," + num;
+    //        }
+    //    });
+    //
+    //    var redpackgetId = $("input[type=radio]:checked").val();
+    //    var cabinetId = $("#cabinetId").val();
+    //
+    //    if (ids != '' && nums != '') {
+    //        //ajax验证是否可以下单这么多商品
+    //        $.ajax({
+    //            type: "POST",
+    //            url: path + "/api/order/validPreOrder",
+    //            data: {"ids": ids, "nums": nums, "cabinetId": cabinetId},
+    //            dataType: "json",
+    //            success: function (data) {
+    //
+    //            }
+    //        });
+    //
+    //    }
+    //
+    //});
+
+
 });

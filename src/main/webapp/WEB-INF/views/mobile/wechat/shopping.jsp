@@ -16,7 +16,6 @@
 </head>
 <body>
 <input type="hidden" id="path" value="${pageContext.request.contextPath}"/>
-<input type="hidden" id="openId" value="${openid}"/>
 <!--头部开始-->
 <div class="header">
     <h1>下单</h1>
@@ -24,7 +23,8 @@
     <a href="#" class=""></a>
 </div>
 <!--头部结束-->
-<form >
+<form action="${pageContext.request.contextPath}/api/wechat/shopping" method="post">
+    <input type="hidden" id="openId" name="openid" value="${openid}"/>
 <div class="shopping">
 
     <div class="shop-group-item">
@@ -33,7 +33,7 @@
             区域:<select id="areaId" style="width:100px;">
             <option value=''>请选择</option>
         </select>&nbsp
-            柜子:<select id="cabinetId" style="width:100px;">
+            柜子:<select id="cabinetId" name="cabinetId" style="width:100px;">
             <option value=''>请选择</option>
         </select>
             <div id="address"></div>
@@ -74,7 +74,7 @@
         <strong>实付金额：<i class="total" id="AllTotal">0.00</i></strong>
         <span>优惠金额：<i class="total" id="allfree">0.00</i></span>
     </div>
-    <a href="#" class="settlement">结算</a>
+    <input type="submit"  class="settlement" value="结算" />
 </div>
 </form>
 </body>

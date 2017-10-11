@@ -16,6 +16,8 @@ import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
 import com.thinkgem.jeesite.service.OrderLogService;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +51,8 @@ public class OrderService {
     private OrderGoodsDao orderGoodsDao;
     @Autowired
     private OrderLogService orderLogService;
+    @Autowired
+    private UserRedpacketRelactionService userRedpacketRelactionService;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -354,14 +358,18 @@ public class OrderService {
     }
 
 
-    public PlatformRes<String> validPreOrder(String ids, String nums, String cabinetId) {
-        String[] productIds = ids.split(",");
-        String[] productNums = nums.split(",");
+    public PlatformRes<String> validPreOrder(String[] productIds, String[] nums, String cabinetId,String red) {
         for (int a = 0; a < productIds.length; a++) {
-            PlatformRes<String> result = validCabinetProduct(productIds[a], Integer.valueOf(productNums[a]), cabinetId);
+            PlatformRes<String> result = validCabinetProduct(productIds[a], Integer.valueOf(nums[a]), cabinetId);
             if (!result.getCode().equals("0")) {
                 return PlatformRes.error(result.getCode(), result.getData());
             }
+        }
+
+        if(StringUtils.isNotBlank(red)){
+            UserRedpacketRelaction userRedpacketRelaction= userRedpacketRelactionService.get(red);
+            if(userRedpacketRelaction==null)
+                return PlatformRes.error("优惠券无法使用");
         }
 
         return PlatformRes.success(null);

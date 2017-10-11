@@ -1,6 +1,8 @@
 package com.thinkgem.jeesite.api;
 
+import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -126,15 +129,33 @@ public class WechatController {
     }
 
 
-    @RequestMapping(value = "/shopping")
+    @RequestMapping(value = "/shopping", method = RequestMethod.GET)
     public String shopping(String openid, Model model) {
         List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
-        if(redpacketRelactions!=null && !redpacketRelactions.isEmpty()){
+        if (redpacketRelactions != null && !redpacketRelactions.isEmpty()) {
             model.addAttribute("redpacketRelactions", redpacketRelactions);
-            model.addAttribute("openid",openid);
+            model.addAttribute("openid", openid);
         }
         return "wechat/shopping";
     }
 
+
+    @RequestMapping(value = "/shopping", method = RequestMethod.POST)
+    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
+        PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
+        if (result.getCode().equals("0"))
+            //这里应该跳转到微信下单的controller里去
+            return "";
+        else {
+            model.addAttribute("message", result.getMessage());
+            return "redirect:/api/wechat/shopping?openid=" + openid;
+        }
+    }
+
+
+    @RequestMapping(value = "/validPreOrder", method = RequestMethod.POST)
+    public PlatformRes<String> validPreOrder(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
+        return orderService.validPreOrder(ids, nums, cabinetId, red);
+    }
 
 }
