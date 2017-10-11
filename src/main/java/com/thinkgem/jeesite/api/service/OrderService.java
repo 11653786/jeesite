@@ -5,14 +5,12 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.mapper.OrderLogMapper;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
-import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
@@ -20,7 +18,6 @@ import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
 import com.thinkgem.jeesite.service.OrderLogService;
 import com.thinkgem.jeesite.util.TenpayUtil;
-import com.thinkgem.jeesite.vo.OrderLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -357,19 +354,36 @@ public class OrderService {
     }
 
 
-    public PlatformRes<String> validPreOrder(String ids, String nums,String cabinetId) {
+    public PlatformRes<String> validPreOrder(String ids, String nums, String cabinetId) {
         String[] productIds = ids.split(",");
         String[] productNums = nums.split(",");
-        for(int a=0;a<productIds.length;a++){
-            ValidCabinetProduct(productIds[a],Integer.valueOf(productNums[a]),cabinetId);
+        for (int a = 0; a < productIds.length; a++) {
+            PlatformRes<String> result = validCabinetProduct(productIds[a], Integer.valueOf(productNums[a]), cabinetId);
+            if (!result.getCode().equals("0")) {
+                return PlatformRes.error(result.getCode(), result.getData());
+            }
         }
+
+        return PlatformRes.success(null);
 
     }
 
 
     //
-    public PlatformRes<String> ValidCabinetProduct(String productId,Integer num,String cabinetId){
+    public PlatformRes<String> validCabinetProduct(String productId, Integer num, String cabinetId) {
+        Product product = productService.get(productId);
+        if (product == null)
+            return PlatformRes.error("商品不存在");
 
+        List<CabinetProductRelaction> list = cabinetProductRelactionDao.findListByCabinetIdAndProductId(productId, cabinetId);
+        if (list == null || list.isEmpty())
+            return PlatformRes.error("当前套餐已卖完");
+        else {
+            if (list.size() < num)
+                return PlatformRes.error(product.getProductName() + ",套餐只剩" + list.size() + "份");
+            else
+                return PlatformRes.success(null);
+        }
     }
 
 }

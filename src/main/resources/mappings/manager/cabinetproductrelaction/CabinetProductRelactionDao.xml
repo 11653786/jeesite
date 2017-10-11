@@ -176,5 +176,22 @@
 
     </select>
 
+    <select id="findListByCabinetIdAndProductId" resultType="CabinetProductRelaction">
+         select
+        cabinet_product_relaction.id AS "id",
+		cabinet_product_relaction.cabinet_id AS "cabinetId",
+		cabinet_product_relaction.cabinet_no AS "cabinetNo",
+		cabinet_product_relaction.product_id AS "productId",
+		cabinet_product_relaction.cabinet_name AS "cabinetName",
+		cabinet_product_relaction.product_name AS "productName",
+		cabinet_product_relaction.cabinet_product_status AS "cabinetProductStatus",
+		cabinet_product_relaction.create_time AS "createTime",
+		cabinet_product_relaction.drawer_no as "drawerNo",
+		cabinet_product_relaction.drawer_id as "drawerId"
+          from drawer drawer
+        join cabinet_product_relaction cabinet_product_relaction on cabinet_product_relaction.drawer_no=drawer.drawer_no
+        where drawer.drawer_status=1 and drawer.food_status=0 and drawer.cabinet_id=#{cabinetId} and cabinet_product_relaction.product_id=#{productId}
+    </select>
+
 
 </mapper>

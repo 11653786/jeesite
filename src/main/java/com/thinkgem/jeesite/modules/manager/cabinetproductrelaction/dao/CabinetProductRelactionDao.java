@@ -21,7 +21,7 @@ public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelact
 
     CabinetProductRelaction findBydrawerIdAndProductId(@Param("drawerId") String drawerId, @Param("productId") String productId);
 
-    CabinetProductRelaction findByDrawerNoAndProductId(@Param("drawerNo") String drawerNo,@Param("productId") String productId);
+    CabinetProductRelaction findByDrawerNoAndProductId(@Param("drawerNo") String drawerNo, @Param("productId") String productId);
 
     List<CabinetProductRelaction> findListByDrawerNo(@Param("drawerNo") String drawerNo);
 
@@ -29,5 +29,8 @@ public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelact
 
 
     List<CabinetProductRelaction> getSaleProductByCabinetId(@Param("cabinetId") String cabinetId);
+
+
+    List<CabinetProductRelaction> findListByCabinetIdAndProductId(@Param("productId") String productId, @Param("cabinetId") String cabinetId);
 
 }

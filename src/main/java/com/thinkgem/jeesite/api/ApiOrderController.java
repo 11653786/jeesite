@@ -100,8 +100,8 @@ public class ApiOrderController {
 
     @RequestMapping(value = "/validPreOrder")
     @ResponseBody
-    public PlatformRes<String> validPreOrder(String ids,String nums,String cabinetId) {
-
+    public PlatformRes<String> validPreOrder(String ids, String nums, String cabinetId) {
+        return orderService.validPreOrder(ids, nums, cabinetId);
     }
 
 
