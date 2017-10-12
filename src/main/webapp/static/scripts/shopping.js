@@ -85,7 +85,7 @@ $(function () {
     // 数量减
     $(".minus").live('click', function () {
         var t = $(this).parent().find('.num');
-        var nums=$(this).parent().find('.nums');
+        var nums = $(this).parent().find('.nums');
         t.text(parseInt(t.text()) - 1);
         if (t.text() <= 1) {
             t.text(1);
@@ -103,7 +103,7 @@ $(function () {
     // 数量加
     $(".plus").live('click', function () {
         var t = $(this).parent().find('.num');
-        var nums=$(this).parent().find('.nums');
+        var nums = $(this).parent().find('.nums');
         t.text(parseInt(t.text()) + 1);
         if (t.text() <= 1) {
             t.text(1);
@@ -180,6 +180,25 @@ $(function () {
         $("#AllTotal").text((allprice - redprice).toFixed(2)); //输出全部总价
 
     }
+
+
+    $("#form").submit(function () {
+
+        var isTrue = true;
+
+        $.ajax({
+            type: "POST",
+            url: path + "/api/wechat/validPreOrder",
+            data: $("#form").serialize(),
+            dataType: "json",
+            async : false,
+            success: function (data) {
+                isTrue = false;
+            }
+        });
+        return isTrue;
+
+    });
 
     //$(".settlement").click(function () {
     //    var ids = "";

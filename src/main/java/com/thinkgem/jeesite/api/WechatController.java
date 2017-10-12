@@ -154,6 +154,7 @@ public class WechatController {
 
 
     @RequestMapping(value = "/validPreOrder", method = RequestMethod.POST)
+    @ResponseBody
     public PlatformRes<String> validPreOrder(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
         return orderService.validPreOrder(ids, nums, cabinetId, red);
     }
