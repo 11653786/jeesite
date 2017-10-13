@@ -5,7 +5,9 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
@@ -14,14 +16,17 @@ import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
 import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
+import com.thinkgem.jeesite.modules.manager.product.dao.ProductDao;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
+import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
 import com.thinkgem.jeesite.service.OrderLogService;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -53,8 +58,107 @@ public class OrderService {
     private OrderLogService orderLogService;
     @Autowired
     private UserRedpacketRelactionService userRedpacketRelactionService;
+    @Autowired
+    private ProductDao productDao;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
+
+
+    /**
+     * 微信公众号下单
+     *
+     * @return
+     */
+    @Transactional(readOnly = false)
+    public PlatformRes<Orders> wechatPublicPreorder(String[] ids, String[] nums, String cabinetId, String red, String openid) {
+
+        Orders orders = new Orders();
+
+        if (ids == null || nums == null || ids.length < 1 || nums.length < 1 || StringUtils.isBlank(cabinetId) || openid == null)
+            return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
+        List<Product> products = productDao.getProductByList(ids);
+
+        orders.setOpenid(openid);
+
+        UserRedpacketRelaction userRedpacketRelaction = null;
+        if (StringUtils.isNotBlank(red)) {
+            userRedpacketRelaction = userRedpacketRelactionService.get(red);
+        }
+
+        if (products != null && !products.isEmpty()) {
+            //查询当前柜子配置的所有商品
+
+            List<Drawer> list = null;
+            Integer totalPrice = 0;
+            for (int a = 0; a < products.size(); a++) {
+                Product product = products.get(a);
+                list = drawerDao.getDrawerBuy(product.getId(), cabinetId);
+                if (list.size() < Integer.valueOf(nums[a]))
+                    return PlatformRes.error("503", product.getProductName() + ",套餐只剩" + list.size() + "份");
+                else {
+                    totalPrice = totalPrice + product.getProductActualPrice();
+
+                }
+
+            }
+
+            // 微信公众号下单
+            String orderNo = TenpayUtil.getCurrTime();
+
+
+            orders.setOrderNo(orderNo);
+            //取餐密码设置
+            String putPassword = (int) ((Math.random() * 9 + 1) * 100000) + "";
+            orders.setPutPassword(putPassword);
+            orders.setPayMoney(totalPrice);
+            //使用红包,实付金额的判断
+            if (userRedpacketRelaction != null) {
+                orders.setActualPayMoney(totalPrice - userRedpacketRelaction.getRedpacketPrice());
+                orders.setRedpacketId(userRedpacketRelaction.getRedpacketId());
+                orders.setRedpacketName(userRedpacketRelaction.getRedpacketName());
+            } else
+                orders.setActualPayMoney(totalPrice);
+
+            orders.setOrderStatus(0);
+            // 0,微信扫码支付 1,微信公众号支付 2,支付宝
+            orders.setPaymentStatus(1);
+            orders.setCreateTime(new Date());
+            orders.setWechatTradeNo(orderNo);
+
+            for (int a = 0; a < products.size(); a++) {
+                Integer num = Integer.valueOf(nums[a]);
+                for (int b = 0; b < num; b++) {
+                    Product product = products.get(a);
+                    Drawer drawer = list.get(a);
+                    OrderGoods orderGoods = new OrderGoods();
+                    orderGoods.setOrderNo(orderNo);
+                    orderGoods.setProductId(product.getId());
+                    orderGoods.setProductName(product.getProductName());
+                    orderGoods.setProductPrice(product.getProductActualPrice());
+
+                    orderGoods.setProductNum(1);
+                    orderGoods.setAreaId(drawer.getAreaId());
+                    orderGoods.setAreaName(drawer.getCabinetAreaName());
+                    orderGoods.setCabinetNo(drawer.getCabinetNo());
+                    orderGoods.setDrawerNo(drawer.getDrawerNo());
+                    orderGoods.setCreateTime(new Date());
+                    //设置订单柜子信息
+                    orders.setCabinetNo(orderGoods.getCabinetNo());
+                    //生成id
+                    orderGoods.preInsert();
+                    orderGoodsDao.insert(orderGoods);
+                }
+
+            }
+            orders.preInsert();
+            ordersDao.insert(orders);
+
+        }
+
+        return PlatformRes.success(orders);
+
+    }
+
 
     /**
      * @param products
@@ -358,7 +462,10 @@ public class OrderService {
     }
 
 
-    public PlatformRes<String> validPreOrder(String[] productIds, String[] nums, String cabinetId,String red) {
+    public PlatformRes<String> validPreOrder(String[] productIds, String[] nums, String cabinetId, String red) {
+        if(productIds==null || nums==null || StringUtils.isBlank(cabinetId))
+            return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
+
         for (int a = 0; a < productIds.length; a++) {
             PlatformRes<String> result = validCabinetProduct(productIds[a], Integer.valueOf(nums[a]), cabinetId);
             if (!result.getCode().equals("0")) {
@@ -366,9 +473,9 @@ public class OrderService {
             }
         }
 
-        if(StringUtils.isNotBlank(red)){
-            UserRedpacketRelaction userRedpacketRelaction= userRedpacketRelactionService.get(red);
-            if(userRedpacketRelaction==null)
+        if (StringUtils.isNotBlank(red)) {
+            UserRedpacketRelaction userRedpacketRelaction = userRedpacketRelactionService.get(red);
+            if (userRedpacketRelaction == null)
                 return PlatformRes.error("优惠券无法使用");
         }
 

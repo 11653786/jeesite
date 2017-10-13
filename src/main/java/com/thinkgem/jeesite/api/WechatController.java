@@ -143,10 +143,16 @@ public class WechatController {
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
     public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
-        if (result.getCode().equals("0"))
-            //这里应该跳转到微信下单的controller里去
-            return "";
-        else {
+        if (result.getCode().equals("0")) {
+            //生成订单,这里应该跳转到微信下单的controller里去
+            PlatformRes<Orders> orders = orderService.wechatPublicPreorder(ids, nums, cabinetId, red, openid);
+            if (orders.getCode() == "0")
+                return "redirect:/api/wechat/submit?orderNo=" + orders.getData().getOrderNo();
+            else {
+                model.addAttribute("message", result.getMessage());
+                return "redirect:/api/wechat/shopping?openid=" + openid;
+            }
+        } else {
             model.addAttribute("message", result.getMessage());
             return "redirect:/api/wechat/shopping?openid=" + openid;
         }
@@ -158,5 +164,13 @@ public class WechatController {
     public PlatformRes<String> validPreOrder(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
         return orderService.validPreOrder(ids, nums, cabinetId, red);
     }
+
+    @RequestMapping(value = "/submit")
+    public String submit(String orderNo, Model model) {
+        Orders orders = orderService.getOrderByOrderNo(orderNo);
+        model.addAttribute("orders", orders);
+        return "wechat/submit";
+    }
+
 
 }

@@ -9,6 +9,8 @@ import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * 抽屉DAO接口
  *
@@ -47,4 +49,11 @@ public interface DrawerDao extends CrudDao<Drawer> {
      */
     Integer putFood(@Param("productId") String productId, @Param("productName") String productName, @Param("cabinetNo") String cabinetNo, @Param("drawerNo") String drawerNo);
 
+    /**
+     * 获取可以购买当前商品的柜子
+     * @param productId
+     * @param cabinetId
+     * @return
+     */
+    List<Drawer> getDrawerBuy(@Param("productId") String productId, @Param("cabinetId") String cabinetId);
 }

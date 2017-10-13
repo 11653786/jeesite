@@ -201,4 +201,16 @@
         where cabinet.cabinet_nos=#{cabinetNo} and drawer.drawer_no=#{drawerNo};
     </select>
 
+    <select id="getDrawerBuy" resultType="Drawer">
+        SELECT
+        <include refid="drawerColumns"/>
+        FROM
+        cabinet_product_relaction cabinet_product_relaction
+        JOIN drawer a ON a.drawer_no = cabinet_product_relaction.drawer_no
+        <include refid="drawerJoins"/>
+        WHERE
+        a.cabinet_id =#{cabinetId} AND a.product_id =#{productId} AND a.drawer_status=1 and a.food_status=0
+    </select>
+
+
 </mapper>

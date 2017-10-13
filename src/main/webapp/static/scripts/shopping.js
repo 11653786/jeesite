@@ -69,7 +69,7 @@ $(function () {
                             "</div>" +
                             "<div class=shop-price>" +
                             "<div class=shop-pices>￥<b class=price>" + list[a]['productActualPrice'] / 100 + "</b></div>" + "<div class=shop-arithmetic>" +
-                            "<a  class=minus>-</a >" + "<span class=num>1</span><a  class=plus>+</a><input type=hidden class=nums name=nums value=1 /></div></div></div></div></li>";
+                            "<a  class=minus>-</a >" + "<span class=num>1</span><a  class=plus>+</a><input type=hidden class=nums   value=1 /></div></div></div></div></li>";
                     }
 
 
@@ -118,25 +118,18 @@ $(function () {
     /******------------分割线-----------------******/
     // 点击商品按钮
     $(".goodsCheck").live('click', function () {
-        var goods = $(this).closest(".shop-group-item").find(".goodsCheck"); //获取本店铺的所有商品
-        var goodsC = $(this).closest(".shop-group-item").find(".goodsCheck:checked"); //获取本店铺所有被选中的商品
-        var Shops = $(this).closest(".shop-group-item").find(".shopCheck"); //获取本店铺的全选按钮
-        if (goods.length == goodsC.length) { //如果选中的商品等于所有商品
-            Shops.prop('checked', true); //店铺全选按钮被选中
-            if ($(".shopCheck").length == $(".shopCheck:checked").length) { //如果店铺被选中的数量等于所有店铺的数量
-                $("#AllCheck").prop('checked', true); //全选按钮被选中
-                TotalPrice();
-            } else {
-                $("#AllCheck").prop('checked', false); //else全选按钮不被选中
-                TotalPrice();
-            }
-        } else { //如果选中的商品不等于所有商品
-            Shops.prop('checked', false); //店铺全选按钮不被选中
-            $("#AllCheck").prop('checked', false); //全选按钮也不被选中
-            // 计算
-            TotalPrice();
-            // 计算
-        }
+       var checked= $(this).attr("checked");
+       if(checked==undefined || checked==null || checked==''){
+           $(this).parent().children(".shop-info-text").children(".shop-price").children(".shop-arithmetic").children(".nums").removeAttr("name");
+       }else {
+           //
+          $(this).parent().children(".shop-info-text").children(".shop-price").children(".shop-arithmetic").children(".nums").attr("name","nums");
+       }
+
+
+
+        // 计算
+        TotalPrice();
     });
 
     //红包点击事件
@@ -191,9 +184,13 @@ $(function () {
             url: path + "/api/wechat/validPreOrder",
             data: $("#form").serialize(),
             dataType: "json",
-            async : false,
+            async: false,      //取消異步通知
             success: function (data) {
-                isTrue = false;
+                if (data['code'] != '0') {
+                    alert(data['message']);
+                    isTrue = false;
+                }
+
             }
         });
         return isTrue;

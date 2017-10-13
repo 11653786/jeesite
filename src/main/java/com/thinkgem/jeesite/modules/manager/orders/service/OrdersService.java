@@ -89,8 +89,12 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             if (userRedpacketRelaction.getRedpacketType().equals("1")) {
                 Double actualPayMoney = Double.valueOf(productTotalPrice) - Double.valueOf(userRedpacketRelaction.getDiscountRatio()) * Double.valueOf(productTotalPrice);
                 orders.setActualPayMoney(actualPayMoney.intValue());
+                orders.setRedpacketId(userRedpacketRelaction.getRedpacketId());
+                orders.setRedpacketName(userRedpacketRelaction.getRedpacketName());
             } else if (userRedpacketRelaction.getRedpacketType().equals("2")) {
                 orders.setActualPayMoney(productTotalPrice - userRedpacketRelaction.getRedpacketPrice());
+                orders.setRedpacketId(userRedpacketRelaction.getRedpacketId());
+                orders.setRedpacketName(userRedpacketRelaction.getRedpacketName());
             } else if (userRedpacketRelaction.getRedpacketType().equals("3")) {
 
             }
