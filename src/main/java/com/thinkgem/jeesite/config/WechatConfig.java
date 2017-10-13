@@ -24,6 +24,9 @@ public class WechatConfig {
     //微信扫码付回调url
     @Value("${scan_pay_url}")
     public String scan_pay_url;
+    //微信公众号支付回调url
+    @Value("${js_pay_url}")
+    public String js_pay_url;
     @Value("${charset}")
     public String charset;
     @Value("${signType}")

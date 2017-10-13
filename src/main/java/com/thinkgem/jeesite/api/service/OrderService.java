@@ -60,6 +60,8 @@ public class OrderService {
     private UserRedpacketRelactionService userRedpacketRelactionService;
     @Autowired
     private ProductDao productDao;
+    @Autowired
+    private UserRedpacketRelactionDao userRedpacketRelactionDao;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -212,8 +214,16 @@ public class OrderService {
 
         //这里要创建订单,订单状态为0,等到回调通过以后更改状态,微信预约下单生成二维码
         PlatformRes<String> wechatPayResult = null;
+        UserRedpacketRelaction userRedpacketRelaction = null;
+        if (StringUtils.isNotBlank(repackgeId)) {
+            //这里判断下红包使用
+            userRedpacketRelaction = userRedpacketRelactionDao.get(repackgeId);
+        }
+
+
         if (paymentStatus == 0) {
-            wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType);
+            String remark = userRedpacketRelaction == null ? "" : "使用红包优惠: " + (userRedpacketRelaction.getRedpacketPrice()/100)+"元";
+            wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType, remark);
             //预支付id成功,生成订单
             if (!wechatPayResult.getCode().equals("0")) {
                 return wechatPayResult;
@@ -226,7 +236,7 @@ public class OrderService {
         }
 
         //------全部验证通过保存订单和订单明细--------------------------------------
-        ordersService.submitForOrder(orderNo, paymentStatus, products, productTotalPrice, repackgeId);
+        ordersService.submitForOrder(orderNo, paymentStatus, products, productTotalPrice, userRedpacketRelaction);
         return wechatPayResult;
 
 
@@ -463,7 +473,7 @@ public class OrderService {
 
 
     public PlatformRes<String> validPreOrder(String[] productIds, String[] nums, String cabinetId, String red) {
-        if(productIds==null || nums==null || StringUtils.isBlank(cabinetId))
+        if (productIds == null || nums == null || StringUtils.isBlank(cabinetId))
             return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
 
         for (int a = 0; a < productIds.length; a++) {

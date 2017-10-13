@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.api.service.WechatPayService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
@@ -34,6 +35,8 @@ public class ApiOrderController {
     private CabinetService cabinetService;
     @Autowired
     private CabinetProductRelactionDao cabinetProductRelactionDao;
+    @Autowired
+    private WechatPayService wechatPayService;
 
 
     /**
@@ -98,7 +101,12 @@ public class ApiOrderController {
     }
 
 
-
+    @RequestMapping(value = "/wechatJsPay", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<String> wechatJsPay(String orderNo, String productIds, Integer productTotalPrice, String tradeType, String remark) {
+        PlatformRes<String> wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType, remark);
+        return wechatPayResult;
+    }
 
 
 }

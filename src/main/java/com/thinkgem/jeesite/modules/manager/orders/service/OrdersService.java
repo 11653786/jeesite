@@ -68,7 +68,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     }
 
     @Transactional(readOnly = false)
-    public Orders submitForOrder(String orderNo, Integer paymentStatus, List<PreOrderReq> products, Integer productTotalPrice, String repackgeId) {
+    public Orders submitForOrder(String orderNo, Integer paymentStatus, List<PreOrderReq> products, Integer productTotalPrice, UserRedpacketRelaction userRedpacketRelaction) {
 
         Orders orders = new Orders();
         orders.setOrderNo(orderNo);
@@ -76,12 +76,6 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
         String putPassword = (int) ((Math.random() * 9 + 1) * 100000) + "";
         orders.setPutPassword(putPassword);
         orders.setPayMoney(productTotalPrice);
-
-        //这里判断下红包使用
-        UserRedpacketRelaction userRedpacketRelaction = null;
-        if (StringUtils.isNotBlank(repackgeId)) {
-            userRedpacketRelaction = userRedpacketRelactionDao.get(repackgeId);
-        }
 
         if (userRedpacketRelaction != null) {
 

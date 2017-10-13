@@ -48,7 +48,7 @@ public class WechatPayService {
      * @param productTotalPrice
      * @return
      */
-    public PlatformRes<String> unifiedorder(String orderNo, String productId, Integer productTotalPrice, String tradeType) {
+    public PlatformRes<String> unifiedorder(String orderNo, String productId, Integer productTotalPrice, String tradeType,String remark) {
         Map<String, String> resultMap = null;
         String prePayId = null;
         String result = null;
@@ -57,7 +57,7 @@ public class WechatPayService {
             Map<String, String> params = setWechatConfig();
 
             params.put("nonce_str", TenpayUtil.genNonceStr());
-            params.put("body", "测试订单" + Math.random());
+            params.put("body", remark);
             params.put("out_trade_no", orderNo);
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
@@ -66,7 +66,12 @@ public class WechatPayService {
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
             params.put("product_id", "0");
-            params.put("notify_url", wechatConfig.scan_pay_url);
+            if(tradeType.equals("NATIVE")){     //微信扫码付款
+                params.put("notify_url", wechatConfig.scan_pay_url);
+            }else if(tradeType.equals("JSAPI")){     //微信公众号付款
+                params.put("notify_url", wechatConfig.js_pay_url);
+            }
+
 
             String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
             params.put("sign", sign);
