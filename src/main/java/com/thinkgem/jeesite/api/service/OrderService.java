@@ -223,7 +223,7 @@ public class OrderService {
 
         if (paymentStatus == 0) {
             String remark = userRedpacketRelaction == null ? "" : "使用红包优惠: " + (userRedpacketRelaction.getRedpacketPrice()/100)+"元";
-            wechatPayResult = wechatPayService.unifiedorder(orderNo, productIds, productTotalPrice, tradeType, remark);
+            wechatPayResult = wechatPayService.unifiedorder(orderNo,null, productIds, productTotalPrice, tradeType, remark);
             //预支付id成功,生成订单
             if (!wechatPayResult.getCode().equals("0")) {
                 return wechatPayResult;

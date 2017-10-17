@@ -48,7 +48,7 @@ public class WechatPayService {
      * @param productTotalPrice
      * @return
      */
-    public PlatformRes<String> unifiedorder(String orderNo, String productId, Integer productTotalPrice, String tradeType,String remark) {
+    public PlatformRes<String> unifiedorder(String orderNo, String openid, String productId, Integer productTotalPrice, String tradeType, String remark) {
         Map<String, String> resultMap = null;
         String prePayId = null;
         String result = null;
@@ -62,13 +62,14 @@ public class WechatPayService {
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
 //            params.put("total_fee", productTotalPrice + "");
-            params.put("total_fee","1");
+            params.put("total_fee", "1");
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
             params.put("product_id", "0");
-            if(tradeType.equals("NATIVE")){     //微信扫码付款
+            if (tradeType.equals("NATIVE")) {     //微信扫码付款
                 params.put("notify_url", wechatConfig.scan_pay_url);
-            }else if(tradeType.equals("JSAPI")){     //微信公众号付款
+            } else if (tradeType.equals("JSAPI")) {     //微信公众号付款
+                params.put("openid", openid);
                 params.put("notify_url", wechatConfig.js_pay_url);
             }
 
@@ -81,7 +82,11 @@ public class WechatPayService {
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
                 //二维码图片
-                prePayId = resultMap.get("code_url");
+
+                if (tradeType.equals("NATIVE"))
+                    prePayId = resultMap.get("code_url");
+                else
+                    prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息
                 if (StringUtils.isBlank(prePayId))
                     return PlatformRes.error(resultMap.get("return_code"), resultMap.get("return_msg"));
