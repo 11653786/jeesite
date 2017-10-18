@@ -35,7 +35,7 @@ public class ApiCabinetController {
      * 取餐
      *
      * @param cabinetNo   柜子编号
-     * @param putPassword 取餐密码
+     * @param putPassword 取餐密码,用户订单取餐密码
      * @return
      */
     @RequestMapping(value = "/outFood")
@@ -44,6 +44,14 @@ public class ApiCabinetController {
         return orderService.outFood(cabinetNo, putPassword);
     }
 
+    /**
+     * 工作人员放餐
+     * @param productId
+     * @param foodPassword 工作人员放餐密码
+     * @param cabinetNo
+     * @param drawerNo
+     * @return
+     */
     @RequestMapping(value = "/putFood")
     @ResponseBody
     public PlatformRes<String> putFood(String productId, String foodPassword, String cabinetNo, String drawerNo) {
