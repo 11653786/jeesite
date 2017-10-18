@@ -145,8 +145,10 @@ public class WechatPayService {
                 //没有生成支付信息就返回微信给的信息
                 if (StringUtils.isBlank(prePayId))
                     return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
-                else
+                else {
+                    resultMap.put("prepay_id", "prepay_id=" + prePayId);
                     return PlatformRes.success(resultMap);
+                }
 
 
             } else
