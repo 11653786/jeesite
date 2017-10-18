@@ -394,7 +394,7 @@ public class OrderService {
     }
 
     /**
-     * 微信扫码付回调,支付宝扫码付回调修改订单逻辑
+     * 微信扫码付回调,微信公众号支付，支付宝扫码付回调修改订单逻辑
      *
      * @param orderNo
      * @return
@@ -412,9 +412,20 @@ public class OrderService {
             for (OrderGoods ordergood : orderGoods) {
                 //付款成功以后要锁定当前抽屉
                 Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
-                //锁定抽屉
-                drawer.setFoodStatus(3 + "");
-                drawerDao.update(drawer);
+                //微信扫码支付
+                if(orders.getPaymentStatus()==0){
+                    //设置放餐状态未放餐
+                    drawer.setFoodStatus(0 + "");
+                    drawerDao.update(drawer);
+                    //通知柜子开门
+                }else if(orders.getPaymentStatus()==1){  //微信公众号支付
+                    //已经支付，锁定抽屉
+                    drawer.setFoodStatus(3 + "");
+                    drawerDao.update(drawer);
+                    //通知柜子锁定。。。
+                }
+
+
 
                 orderLogService.saveOrderLog(orders, orderGoods.size(), ordergood);
             }
