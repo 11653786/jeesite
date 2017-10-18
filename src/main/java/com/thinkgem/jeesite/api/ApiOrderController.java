@@ -104,16 +104,8 @@ public class ApiOrderController {
 
     @RequestMapping(value = "/wechatJsPay", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
-    public PlatformRes<String> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
-        PlatformRes<String> wechatPayResult = wechatPayService.unifiedorder(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
-        return wechatPayResult;
+    public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
+        return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
     }
-
-    @RequestMapping(value = "/wechatJsPayParams", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public PlatformRes<Map<String, String>> wechatJsPayParams(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
-        return wechatPayService.getWechatJSPayParams(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
-    }
-
 
 }

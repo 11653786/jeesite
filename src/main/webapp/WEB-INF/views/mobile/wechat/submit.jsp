@@ -47,7 +47,7 @@
     var remark = "remark";
     var notifyUrL;
     function pay() {
-        var url = '${pageContext.request.contextPath}/api/order/wechatJsPayParams';
+        var url = '${pageContext.request.contextPath}/api/order/wechatJsPay';
         if ($("#actualPayMoney").val() != $("#productTotalPrice").val()) {
             remark = "红包优惠:" + $("#productTotalPrice").val() - $("#actualPayMoney").val();
         }
@@ -69,10 +69,11 @@
                     paySign = data.data.sign;
                     timeStamp = data.data.timestamp;
                     nonceStr = data.data.nonce_str;
-                    packageStr = data.data.nonce_str;
+                    packageStr = data.data.prepay_id;
                     signType = "MD5";
                     totalfee = data.data.total_fee;
                     notifyUrL = data.data.notify_url;
+                    alert(packageStr);
                     callpay();
                 } else {
                     alert(data.message);
@@ -89,17 +90,7 @@
                 "timeStamp": timeStamp, //时间戳，自1970年以来的秒数
                 "nonceStr": nonceStr, //随机串
                 "package": packageStr,  //预支付交易会话标识
-                "signType": signType,     //微信签名方式
-                "total_fee": totalfee,       //支付金额
-                "trade_type": "JSAPI",
-                "fee_type": "CNY",
-                "spbill_create_ip": "127.0.0.1",
-                "body": remark,
-                "out_trade_no": $("#orderNo").val(),
-                "product_id": "0",
-                "openid": $("#openId").val(),
-                "notify_url": ""
-
+                "signType": signType     //微信签名方式
 
             },
             function (res) {

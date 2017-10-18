@@ -110,6 +110,55 @@ public class WechatPayService {
         }
     }
 
+
+    public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productId, Integer actualPayMoney, String tradeType, String remark) {
+        Map<String, String> resultMap = null;
+        String prePayId = null;
+        String result = null;
+        try {
+            //xml格式字符串
+            Map<String, String> params = setWechatConfig();
+
+            params.put("nonce_str", TenpayUtil.genNonceStr());
+            params.put("body", remark);
+            params.put("out_trade_no", orderNo);
+            //货币类型
+            params.put("fee_type", wechatConfig.fee_type);
+//            params.put("total_fee", actualPayMoney + "");
+            params.put("total_fee", "1");
+            params.put("spbill_create_ip", "127.0.0.1");
+            params.put("trade_type", tradeType);
+            params.put("product_id", "0");
+            params.put("openid", openid);
+            params.put("notify_url", wechatConfig.js_pay_url);
+
+
+            String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+            params.put("sign", sign);
+            boolean isTrue = TenpayUtil.isTenpaySign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key);
+            if (isTrue) {
+                String body = XMLUtil.getXmlByMap(params);
+                result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
+                resultMap = XMLUtil.doXMLParse(result);
+                resultMap.put("timestamp", System.currentTimeMillis() + "");
+                prePayId = resultMap.get("prepay_id");
+                //没有生成支付信息就返回微信给的信息
+                if (StringUtils.isBlank(prePayId))
+                    return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
+                else
+                    return PlatformRes.success(resultMap);
+
+
+            } else
+                return PlatformRes.error(ResCodeMsgType.WECHAT_SIGN_ERROR);
+
+
+        } catch (Exception e) {
+            throw new RuntimeException("预下单失败: " + e.getMessage());
+        }
+    }
+
+
     public PlatformRes<String> orderQuery(String orderNo) {
         //查询订单
         Map<String, String> params = new HashMap<String, String>();
@@ -314,35 +363,6 @@ public class WechatPayService {
         httpPost.setEntity(se);
         response = httpclient.execute(httpPost);
         return response.getEntity();
-    }
-
-
-    public PlatformRes<Map<String,String>> getWechatJSPayParams(String orderNo, String openid, String productId, Integer actualPayMoney, String tradeType, String remark) {
-        //xml格式字符串
-        Map<String, String> params = setWechatConfig();
-
-        params.put("nonce_str", TenpayUtil.genNonceStr());
-        params.put("body", remark);
-        params.put("out_trade_no", orderNo);
-        //货币类型
-        params.put("fee_type", wechatConfig.fee_type);
-//            params.put("total_fee", actualPayMoney + "");
-        params.put("total_fee", "1");
-        params.put("spbill_create_ip", "127.0.0.1");
-        params.put("trade_type", tradeType);
-        params.put("product_id", productId);
-        params.put("openid", openid);
-        params.put("notify_url", wechatConfig.js_pay_url);
-        params.put("timestamp",System.currentTimeMillis()+"");
-
-
-        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
-        params.put("sign", sign);
-        boolean isTrue = TenpayUtil.isTenpaySign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key);
-        if (isTrue)
-            return PlatformRes.success(params);
-        else
-            return PlatformRes.error(null);
     }
 
 
