@@ -226,7 +226,7 @@ public class OrderService {
             wechatPayResult = wechatPayService.unifiedorder(orderNo,null, productIds, productTotalPrice, tradeType, remark);
             //预支付id成功,生成订单
             if (!wechatPayResult.getCode().equals("0")) {
-                return wechatPayResult;
+               return wechatPayResult;
             }
 
         } else if (paymentStatus == 1) { //公众号支付

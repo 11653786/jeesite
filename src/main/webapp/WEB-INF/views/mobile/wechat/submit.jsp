@@ -29,53 +29,14 @@
     <script type="text/javascript" src="${ctxStatic}/scripts/framework.launcher.js"></script>
 </head>
 <body>
-<div class="container-fluid">
-    <div class="slider-controls" data-snap-ignore="true">
-        <div>
-            <img src="${ctxStatic}/images/wechat/general-nature/3.jpg" class="responsive-image" alt="img">
-            <p class="title-slider-caption">
-                <strong>盒饭</strong>
-                <em>店主推荐</em>
-            </p>
-        </div>
-
-        <div>
-            <img src="${ctxStatic}/images/wechat/general-nature/2.jpg" class="responsive-image" alt="img">
-            <p class="title-slider-caption">
-                <strong>盒饭1</strong>
-                <em>店主推荐2</em>
-            </p>
-        </div>
-
-        <div>
-            <img src="${ctxStatic}/images/wechat/general-nature/1.jpg" class="responsive-image" alt="img">
-            <p class="title-slider-caption">
-                <strong>牛柳盖浇饭</strong>
-                <em>好吃!</em>
-            </p>
-        </div>
-    </div>
-    <a href="#" class="next-slider"></a>
-    <a href="#" class="prev-slider"></a>
-</div>
-
-<div class="decoration"></div>
-
-<div class="container no-bottom">
-    <div class="section-title">
-        <h4>套餐宣传!</h4>
-        <em>中华美食 健康你我。</em>
-        <strong><img src="${ctxStatic}/images/wechat/leaf.png" width="20" alt="img"></strong>
-    </div>
-    <p>。。。。。。。。。。。。。。。。</p>
-</div>
-
-<div class="decoration"></div>
-</div>
+<input type="text" id="openId" value="${orders.openid}"/>
+<input type="text" id="orderNo" value="${orders.orderNo}"/>
+<input type="text" id="actualPayMoney" value="${orders.actualPayMoney}"/>
+<input type="text" id="productTotalPrice" value="${orders.payMoney}"/>
+<input type="text" id="productId" value="0"/>
 </body>
 </html>
 <script type="text/javascript">
-    var prepay_id;
     var paySign;
     var appId;
     var timeStamp;
@@ -83,23 +44,34 @@
     var packageStr;
     var signType;
     function pay() {
-        var url = '${ctx}/wxpay/jsPay';
+        var url = '${pageContext.request.contextPath}/api/order/wechatJsPayParams';
+        var remark = "remark";
+        if ($("#actualPayMoney").val() != $("#productTotalPrice").val()) {
+            remark = "红包优惠:" + $("#productTotalPrice").val() - $("#actualPayMoney").val();
+        }
         $.ajax({
             type: "post",
             url: url,
             dataType: "json",
-            data: {openId: '${openId}'},
+            data: {
+                "openid": $("#openId").val(),
+                "productIds": "0",
+                "orderNo": $("#orderNo").val(),
+                "actualPayMoney": $("#actualPayMoney").val(),
+                "tradeType": "JSAPI",
+                "remark": remark
+            },
             success: function (data) {
-                if (data.resultCode == 'SUCCESS') {
-                    appId = data.appId;
-                    paySign = data.paySign;
-                    timeStamp = data.timeStamp;
-                    nonceStr = data.nonceStr;
-                    packageStr = data.packageStr;
-                    signType = data.signType;
+                if (data.code == '0') {
+                    appId = data.data.appid;
+                    paySign = data.data.sign;
+                    timeStamp = data.data.timestamp;
+                    nonceStr = data.data.nonce_str;
+                    packageStr = data.data.nonce_str;
+                    signType = "MD5";
                     callpay();
                 } else {
-                    alert("统一下单失败");
+                    alert(data.message);
                 }
             }
         });
@@ -127,6 +99,7 @@
             }
         );
     }
+
     function callpay() {
         if (typeof WeixinJSBridge == "undefined") {
             if (document.addEventListener) {
@@ -139,6 +112,9 @@
             onBridgeReady();
         }
     }
+
+
+    pay();
 </script>
 
 

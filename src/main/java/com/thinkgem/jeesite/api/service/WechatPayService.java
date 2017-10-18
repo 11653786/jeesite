@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.api.service;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -45,10 +46,10 @@ public class WechatPayService {
      *
      * @param orderNo
      * @param productId
-     * @param productTotalPrice
+     * @param actualPayMoney
      * @return
      */
-    public PlatformRes<String> unifiedorder(String orderNo, String openid, String productId, Integer productTotalPrice, String tradeType, String remark) {
+    public PlatformRes<String> unifiedorder(String orderNo, String openid, String productId, Integer actualPayMoney, String tradeType, String remark) {
         Map<String, String> resultMap = null;
         String prePayId = null;
         String result = null;
@@ -61,7 +62,7 @@ public class WechatPayService {
             params.put("out_trade_no", orderNo);
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
-//            params.put("total_fee", productTotalPrice + "");
+//            params.put("total_fee", actualPayMoney + "");
             params.put("total_fee", "1");
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
@@ -83,15 +84,23 @@ public class WechatPayService {
                 resultMap = XMLUtil.doXMLParse(result);
                 //二维码图片
 
-                if (tradeType.equals("NATIVE"))
+                if (tradeType.equals("NATIVE")) {
                     prePayId = resultMap.get("code_url");
-                else
+                    //没有生成支付信息就返回微信给的信息
+                    if (StringUtils.isBlank(prePayId))
+                        return PlatformRes.error(resultMap.get("return_code"), resultMap.get("return_msg"));
+                    else
+                        return PlatformRes.success(prePayId);
+                } else {
                     prePayId = resultMap.get("prepay_id");
-                //没有生成支付信息就返回微信给的信息
-                if (StringUtils.isBlank(prePayId))
-                    return PlatformRes.error(resultMap.get("return_code"), resultMap.get("return_msg"));
-                else
-                    return PlatformRes.success(prePayId);
+                    //没有生成支付信息就返回微信给的信息
+                    if (StringUtils.isBlank(prePayId))
+                        return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
+                    else
+                        return PlatformRes.success(JSONObject.toJSONString(resultMap));
+                }
+
+
             } else
                 return PlatformRes.error(ResCodeMsgType.WECHAT_SIGN_ERROR);
 
@@ -305,6 +314,35 @@ public class WechatPayService {
         httpPost.setEntity(se);
         response = httpclient.execute(httpPost);
         return response.getEntity();
+    }
+
+
+    public PlatformRes<Map<String,String>> getWechatJSPayParams(String orderNo, String openid, String productId, Integer actualPayMoney, String tradeType, String remark) {
+        //xml格式字符串
+        Map<String, String> params = setWechatConfig();
+
+        params.put("nonce_str", TenpayUtil.genNonceStr());
+        params.put("body", remark);
+        params.put("out_trade_no", orderNo);
+        //货币类型
+        params.put("fee_type", wechatConfig.fee_type);
+//            params.put("total_fee", actualPayMoney + "");
+        params.put("total_fee", "1");
+        params.put("spbill_create_ip", "127.0.0.1");
+        params.put("trade_type", tradeType);
+        params.put("product_id", productId);
+        params.put("openid", openid);
+        params.put("notify_url", wechatConfig.js_pay_url);
+        params.put("timestamp",System.currentTimeMillis()+"");
+
+
+        String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+        params.put("sign", sign);
+        boolean isTrue = TenpayUtil.isTenpaySign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key);
+        if (isTrue)
+            return PlatformRes.success(params);
+        else
+            return PlatformRes.error(null);
     }
 
 
