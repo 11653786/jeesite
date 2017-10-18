@@ -12,7 +12,7 @@
     <link type="text/css" rel="stylesheet" href="${ctxStatic}/styles/shop/module.css"/>
 </head>
 
-<body style="background: #5c9ccc">
+<body style="background: #f0f6e4">
 
 <div class="shopping">
 
