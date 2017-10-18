@@ -145,9 +145,9 @@ public class WechatPayService {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
-                logger.info("公众号支付返回结果:" + JSONObject.toJSONString(resultMap));
                 String timestamp = String.valueOf(new Date().getTime()/1000);
                 resultMap.put("timestamp", timestamp);
+                resultMap.put("signType","MD5");
 
                 prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息
@@ -155,6 +155,7 @@ public class WechatPayService {
                     return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
                 else {
                     resultMap.put("prepay_id", "prepay_id=" + prePayId);
+                    logger.info("公众号支付返回结果:" + JSONObject.toJSONString(resultMap));
                     return PlatformRes.success(resultMap);
                 }
 

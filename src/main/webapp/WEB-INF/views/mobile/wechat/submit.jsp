@@ -43,9 +43,7 @@
     var nonceStr;
     var packageStr;
     var signType;
-    var totalfee
     var remark = "remark";
-    var notifyUrL;
     function pay() {
         var url = '${pageContext.request.contextPath}/api/order/wechatJsPay';
         if ($("#actualPayMoney").val() != $("#productTotalPrice").val()) {
@@ -70,10 +68,10 @@
                     timeStamp = data.data.timestamp;
                     nonceStr = data.data.nonce_str;
                     packageStr = data.data.prepay_id;
-                    signType = "MD5";
+                    signType = data.data.signType;
                     callpay();
                 } else {
-                    alert(data.message);
+                    alert("提示信息："+data.message);
                 }
             }
         });
