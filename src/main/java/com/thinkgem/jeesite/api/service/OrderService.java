@@ -90,11 +90,10 @@ public class OrderService {
         if (products != null && !products.isEmpty()) {
             //查询当前柜子配置的所有商品
 
-            List<Drawer> list = null;
             Integer totalPrice = 0;
             for (int a = 0; a < products.size(); a++) {
                 Product product = products.get(a);
-                list = drawerDao.getDrawerBuy(product.getId(), cabinetId);
+                List<Drawer> list = drawerDao.getDrawerBuy(product.getId(), cabinetId);
                 if (list.size() < Integer.valueOf(nums[a]))
                     return PlatformRes.error("503", product.getProductName() + ",套餐只剩" + list.size() + "份");
                 else {
@@ -131,6 +130,7 @@ public class OrderService {
                 Integer num = Integer.valueOf(nums[a]);
                 for (int b = 0; b < num; b++) {
                     Product product = products.get(a);
+                    List<Drawer> list = drawerDao.getDrawerBuy(product.getId(), cabinetId);
                     Drawer drawer = list.get(a);
                     OrderGoods orderGoods = new OrderGoods();
                     orderGoods.setOrderNo(orderNo);
@@ -222,11 +222,11 @@ public class OrderService {
 
 
         if (paymentStatus == 0) {
-            String remark = userRedpacketRelaction == null ? "" : "使用红包优惠: " + (userRedpacketRelaction.getRedpacketPrice()/100)+"元";
-            wechatPayResult = wechatPayService.unifiedorder(orderNo,null, productIds, productTotalPrice, tradeType, remark);
+            String remark = userRedpacketRelaction == null ? "" : "使用红包优惠: " + (userRedpacketRelaction.getRedpacketPrice() / 100) + "元";
+            wechatPayResult = wechatPayService.unifiedorder(orderNo, null, productIds, productTotalPrice, tradeType, remark);
             //预支付id成功,生成订单
             if (!wechatPayResult.getCode().equals("0")) {
-               return wechatPayResult;
+                return wechatPayResult;
             }
 
         } else if (paymentStatus == 1) { //公众号支付

@@ -36,8 +36,6 @@ public class WechatController {
     private UsersService usersService;
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private OrderGoodsService orderGoodsService;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
