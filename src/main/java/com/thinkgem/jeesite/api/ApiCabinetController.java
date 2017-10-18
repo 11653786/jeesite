@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.api;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Created by Administrator on 2017/10/2.
@@ -20,6 +22,8 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/api/cabinet")
 public class ApiCabinetController {
+
+    Logger logger = Logger.getLogger(this.getClass().getName());
 
     @Autowired
     private OrderService orderService;
@@ -46,6 +50,7 @@ public class ApiCabinetController {
 
     /**
      * 工作人员放餐
+     *
      * @param productId
      * @param foodPassword 工作人员放餐密码
      * @param cabinetNo
@@ -85,6 +90,19 @@ public class ApiCabinetController {
         CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
         cabinetProductRelaction.setCabinetNo(cabinetNo);
         return cabinetProductRelactionService.findList(cabinetProductRelaction);
+    }
+
+    /**
+     * 根据柜子编号获取当前柜子抽屉和商品的关系
+     *
+     * @param data
+     * @return
+     */
+    @RequestMapping(value = "/test")
+    @ResponseBody
+    public String test(String data) {
+        logger.info("data: " + data);
+        return data;
     }
 
 
