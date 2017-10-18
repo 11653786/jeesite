@@ -69,7 +69,7 @@
                     paySign = data.data.sign;
                     timeStamp = data.data.timestamp;
                     nonceStr = data.data.nonce_str;
-                    packageStr = data.data.prepay_id;
+                    packageStr = "prepay_id="+data.data.prepay_id;
                     signType = "MD5";
                     callpay();
                 } else {
