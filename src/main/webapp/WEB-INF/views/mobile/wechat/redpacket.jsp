@@ -27,7 +27,10 @@
                             </h4>
                             <div class="shop-brief">
                                 优惠金额:${red.redpacketPrice/100}元<br>
+                                <c:if test="${red.in_use==1}">未使用</c:if>
+                                <c:if test="${red.in_use==2}">已使用</c:if><br>
                                 过期时间:<fmt:formatDate value="${red.outTime}" pattern="yyyy-MM-dd"/>
+
                             </div>
                         </div>
                     </div>
