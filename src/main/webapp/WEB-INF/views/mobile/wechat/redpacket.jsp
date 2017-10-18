@@ -8,40 +8,33 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>会员福利</title>
-    <link rel="stylesheet" type="text/css" href="${ctxStatic}/styles/style_cabinet.css">
+    <link type="text/css" rel="stylesheet" href="${ctxStatic}/styles/shop/base.css"/>
+    <link type="text/css" rel="stylesheet" href="${ctxStatic}/styles/shop/module.css"/>
 </head>
 
-<body>
+<body style="background: #5c9ccc">
 
-<div id="_centent">
+<div class="shopping">
 
-    <section class="mt-1">
-        <div class="ps-lt">
-            <c:forEach items="${redpacket}" var="red">
-            <div class="lt-dsb">
-                <p>${red.address}</p>
-                <i class="arr-right"></i>
-            </div>
+    <div class="shop-group-item">
+        <ul>
+            <c:forEach items="${redpackgets}" var="red">
+                <li style="border-bottom:1px greenyellow dashed;">
+                    <div style="margin:5px 0px 10px 0px">
+                        <div>
+                            <h4>
+                                <b>${red.redpacketName}</b>
+                            </h4>
+                            <div class="shop-brief">
+                                优惠金额:${red.redpacketPrice/100}元<br>
+                                过期时间:<fmt:formatDate value="${red.outTime}" pattern="yyyy-MM-dd"/>
+                            </div>
+                        </div>
+                    </div>
+                </li>
             </c:forEach>
-
-
-    </section>
-    <div class="jg"></div>
+        </ul>
+    </div>
 </div>
-<script>
-    (function (doc, win) {
-        var docEl = doc.documentElement,
-                resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
-                recalc = function () {
-                    var clientWidth = docEl.clientWidth;
-                    if (!clientWidth) return;
-                    docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
-                };
-
-        if (!doc.addEventListener) return;
-        win.addEventListener(resizeEvt, recalc, false);
-        doc.addEventListener('DOMContentLoaded', recalc, false);
-    })(document, window);
-</script>
 </body>
 </html>

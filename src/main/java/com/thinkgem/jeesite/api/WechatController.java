@@ -84,7 +84,7 @@ public class WechatController {
         logger.info("传递过来的openid: " + openid);
         Users users = usersService.findByOpenId(openid);
         if (users != null) {
-            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findByUserId(users.getId());
+            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findEnableRedpacket(users.getOpenid());
             if (userRedpacketRelaction != null && !userRedpacketRelaction.isEmpty())
                 model.addAttribute("redpackgets", userRedpacketRelaction);
         }
