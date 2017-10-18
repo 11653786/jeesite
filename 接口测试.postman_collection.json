@@ -1,0 +1,127 @@
+{
+	"id": "e8fe72fa-9a70-fa02-450f-6b8e69d93b3e",
+	"name": "接口测试",
+	"description": "",
+	"order": [
+		"9eaadc56-63c9-6f9b-0ea9-7d7ed89adc1a",
+		"21333579-97a4-c441-97b4-977f98abfdfe",
+		"18a4aea5-0764-0a73-8641-785e27c8ec58"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1506860522177,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "18a4aea5-0764-0a73-8641-785e27c8ec58",
+			"headers": "",
+			"headerData": [],
+			"url": "http://47.95.114.60/jeesite/api/cabinet/putFood",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "drawerNo",
+					"value": "1",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "productId",
+					"value": "be8b53dcd8ec4afd80deba294af7354f",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "cabinetNo",
+					"value": "002",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "foodPassword",
+					"value": "111111",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506971279737,
+			"name": "放入餐柜",
+			"description": "",
+			"collectionId": "e8fe72fa-9a70-fa02-450f-6b8e69d93b3e",
+			"responses": []
+		},
+		{
+			"id": "21333579-97a4-c441-97b4-977f98abfdfe",
+			"headers": "",
+			"headerData": [],
+			"url": "http://47.95.114.60/jeesite/api/wx/getMessage",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "e8fe72fa-9a70-fa02-450f-6b8e69d93b3e",
+			"data": [],
+			"dataMode": "params",
+			"name": "微信消息通道",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1506956169946,
+			"version": 2,
+			"responses": [],
+			"tests": "[{\"cabinetNo\":\"002\",\"drawerNo\":\"1\",\"productId\":\"be8b53dcd8ec4afd80deba294af7354f\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"2\",\"productId\":\"719f18d663fe4b91aee96f7c39d77236\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"3\",\"productId\":\"719f18d663fe4b91aee96f7c39d77236\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"4\",\"productId\":\"be8b53dcd8ec4afd80deba294af7354f\"}]\r\n",
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "9eaadc56-63c9-6f9b-0ea9-7d7ed89adc1a",
+			"headers": "",
+			"headerData": [],
+			"url": "http://47.95.114.60/jeesite/api/order/preorder",
+			"queryParams": [],
+			"preRequestScript": null,
+			"pathVariables": {},
+			"pathVariableData": [],
+			"method": "POST",
+			"data": [
+				{
+					"key": "paymentType",
+					"value": "0",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "productsStr",
+					"value": "[{\"cabinetNo\":\"002\",\"drawerNo\":\"1\",\"productId\":\"be8b53dcd8ec4afd80deba294af7354f\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"2\",\"productId\":\"719f18d663fe4b91aee96f7c39d77236\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"3\",\"productId\":\"719f18d663fe4b91aee96f7c39d77236\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"4\",\"productId\":\"be8b53dcd8ec4afd80deba294af7354f\"}]\n",
+					"description": "",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "params",
+			"tests": "[{\"cabinetNo\":\"002\",\"drawerNo\":\"1\",\"productId\":\"be8b53dcd8ec4afd80deba294af7354f\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"2\",\"productId\":\"719f18d663fe4b91aee96f7c39d77236\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"3\",\"productId\":\"719f18d663fe4b91aee96f7c39d77236\"},{\"cabinetNo\":\"002\",\"drawerNo\":\"4\",\"productId\":\"be8b53dcd8ec4afd80deba294af7354f\"}]\r\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1506956070379,
+			"name": "创建订单",
+			"description": "",
+			"collectionId": "e8fe72fa-9a70-fa02-450f-6b8e69d93b3e",
+			"responses": []
+		}
+	]
+}
