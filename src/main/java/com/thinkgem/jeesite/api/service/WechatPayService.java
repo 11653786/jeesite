@@ -20,6 +20,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.jdom.JDOMException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,8 @@ public class WechatPayService {
 
     @Autowired
     private WechatConfig wechatConfig;
+
+    private static final Logger logger = LoggerFactory.getLogger(WechatPayService.class);
 
 
     /**
@@ -140,7 +144,9 @@ public class WechatPayService {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
+                logger.info("公众号支付返回结果:"+JSONObject.toJSONString(resultMap));
                 resultMap.put("timestamp", System.currentTimeMillis() + "");
+
                 prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息
                 if (StringUtils.isBlank(prePayId))
