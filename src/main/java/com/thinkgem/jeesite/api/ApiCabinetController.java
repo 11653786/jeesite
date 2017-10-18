@@ -100,8 +100,8 @@ public class ApiCabinetController {
      */
     @RequestMapping(value = "/test")
     @ResponseBody
-    public String test(String data) {
-        logger.info("data: " + data);
+    public String test(String data,String data1) {
+        logger.info("data: " + data+",data1"+data1);
         return data;
     }
 
