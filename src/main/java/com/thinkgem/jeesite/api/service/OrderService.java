@@ -381,15 +381,17 @@ public class OrderService {
         if (orders.getOrderStatus() == null || orders.getOrderStatus() != 1)
             return PlatformRes.error(ResCodeMsgType.PUT_ORDER_MESSAGE_EXCEPTION);
         List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
+        String drawerNo = "";
         for (OrderGoods orderGood : orderGoods) {
             //循环取餐
+            drawerNo = drawerNo + "," + orderGood.getDrawerNo();
             drawerDao.outFood(orderGood.getCabinetNo(), orderGood.getDrawerNo());
         }
         //订单更新状态为已取餐
         orders.setOrderStatus(3);
         ordersDao.update(orders);
 
-        return PlatformRes.success("取餐成功");
+        return PlatformRes.success(drawerNo);
 
     }
 
@@ -413,18 +415,17 @@ public class OrderService {
                 //付款成功以后要锁定当前抽屉
                 Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
                 //微信扫码支付
-                if(orders.getPaymentStatus()==0){
+                if (orders.getPaymentStatus() == 0) {
                     //设置放餐状态未放餐
                     drawer.setFoodStatus(0 + "");
                     drawerDao.update(drawer);
                     //通知柜子开门
-                }else if(orders.getPaymentStatus()==1){  //微信公众号支付
+                } else if (orders.getPaymentStatus() == 1) {  //微信公众号支付
                     //已经支付，锁定抽屉
                     drawer.setFoodStatus(3 + "");
                     drawerDao.update(drawer);
                     //通知柜子锁定。。。
                 }
-
 
 
                 orderLogService.saveOrderLog(orders, orderGoods.size(), ordergood);
