@@ -12,7 +12,11 @@
 
     <link type="text/css" rel="stylesheet" href="${ctxStatic}/styles/shop/base.css"/>
     <link type="text/css" rel="stylesheet" href="${ctxStatic}/styles/shop/module.css"/>
-
+    <style type="text/css">
+        input{
+            background: transparent
+        }
+    </style>
 </head>
 <body>
 <input type="hidden" id="path" value="${pageContext.request.contextPath}"/>
@@ -29,7 +33,6 @@
 
         <div class="shop-group-item">
             <div class="shop-name">
-                <h4><a href="#">牛上山套餐</a></h4>&nbsp
                 区域:<select id="areaId" style="width:100px;">
                 <option value=''>请选择</option>
             </select>&nbsp

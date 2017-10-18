@@ -43,9 +43,11 @@
     var nonceStr;
     var packageStr;
     var signType;
+    var totalfee
+    var remark = "remark";
+    var notifyUrL;
     function pay() {
         var url = '${pageContext.request.contextPath}/api/order/wechatJsPayParams';
-        var remark = "remark";
         if ($("#actualPayMoney").val() != $("#productTotalPrice").val()) {
             remark = "红包优惠:" + $("#productTotalPrice").val() - $("#actualPayMoney").val();
         }
@@ -69,6 +71,8 @@
                     nonceStr = data.data.nonce_str;
                     packageStr = data.data.nonce_str;
                     signType = "MD5";
+                    totalfee = data.data.total_fee;
+                    notifyUrL = data.data.notify_url;
                     callpay();
                 } else {
                     alert(data.message);
@@ -85,7 +89,18 @@
                 "timeStamp": timeStamp, //时间戳，自1970年以来的秒数
                 "nonceStr": nonceStr, //随机串
                 "package": packageStr,  //预支付交易会话标识
-                "signType": signType     //微信签名方式
+                "signType": signType,     //微信签名方式
+                "total_fee": totalfee,       //支付金额
+                "trade_type": "JSAPI",
+                "fee_type": "CNY",
+                "spbill_create_ip": "127.0.0.1",
+                "body": remark,
+                "out_trade_no": $("#orderNo").val(),
+                "product_id": "0",
+                "openid": $("#openId").val(),
+                "notify_url": ""
+
+
             },
             function (res) {
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
@@ -97,7 +112,8 @@
                     alert('支付失败');
                 } //使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
             }
-        );
+        )
+        ;
     }
 
     function callpay() {

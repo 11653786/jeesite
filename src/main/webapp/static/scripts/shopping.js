@@ -69,7 +69,7 @@ $(function () {
                             "</div>" +
                             "<div class=shop-price>" +
                             "<div class=shop-pices>￥<b class=price>" + list[a]['productActualPrice'] / 100 + "</b></div>" + "<div class=shop-arithmetic>" +
-                            "<a  class=minus>-</a >" + "<span class=num>1</span><a  class=plus>+</a><input type=hidden class=nums   value=1 /></div></div></div></div></li>";
+                            "<input type='button' value=-  class=minus>" + "<span class=num>1</span><input type='button' value=+  class=plus></a><input type=hidden class=nums   value=1 /></div></div></div></div></li>";
                     }
 
 
@@ -118,14 +118,13 @@ $(function () {
     /******------------分割线-----------------******/
     // 点击商品按钮
     $(".goodsCheck").live('click', function () {
-       var checked= $(this).attr("checked");
-       if(checked==undefined || checked==null || checked==''){
-           $(this).parent().children(".shop-info-text").children(".shop-price").children(".shop-arithmetic").children(".nums").removeAttr("name");
-       }else {
-           //
-          $(this).parent().children(".shop-info-text").children(".shop-price").children(".shop-arithmetic").children(".nums").attr("name","nums");
-       }
-
+        var checked = $(this).attr("checked");
+        if (checked == undefined || checked == null || checked == '') {
+            $(this).parent().children(".shop-info-text").children(".shop-price").children(".shop-arithmetic").children(".nums").removeAttr("name");
+        } else {
+            //
+            $(this).parent().children(".shop-info-text").children(".shop-price").children(".shop-arithmetic").children(".nums").attr("name", "nums");
+        }
 
 
         // 计算
