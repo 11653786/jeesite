@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.security.KeyStore;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -145,7 +146,8 @@ public class WechatPayService {
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
                 logger.info("公众号支付返回结果:" + JSONObject.toJSONString(resultMap));
-                resultMap.put("timestamp", System.currentTimeMillis() + "".substring(0, 10));
+                String timestamp = String.valueOf(new Date().getTime()/1000);
+                resultMap.put("timestamp", timestamp);
 
                 prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息
