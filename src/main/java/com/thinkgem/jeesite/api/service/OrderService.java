@@ -131,7 +131,7 @@ public class OrderService {
                 for (int b = 0; b < num; b++) {
                     Product product = products.get(a);
                     List<Drawer> list = drawerDao.getDrawerBuy(product.getId(), cabinetId);
-                    Drawer drawer = list.get(a);
+                    Drawer drawer = list.get(b);
                     OrderGoods orderGoods = new OrderGoods();
                     orderGoods.setOrderNo(orderNo);
                     orderGoods.setProductId(product.getId());
