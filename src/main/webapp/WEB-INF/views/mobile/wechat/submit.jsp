@@ -71,9 +71,6 @@
                     nonceStr = data.data.nonce_str;
                     packageStr = data.data.prepay_id;
                     signType = "MD5";
-                    totalfee = data.data.total_fee;
-                    notifyUrL = data.data.notify_url;
-                    alert(packageStr);
                     callpay();
                 } else {
                     alert(data.message);
