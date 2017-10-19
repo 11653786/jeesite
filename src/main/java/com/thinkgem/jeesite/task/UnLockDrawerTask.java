@@ -1,16 +1,20 @@
 package com.thinkgem.jeesite.task;
 
+import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
 import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +25,9 @@ import java.util.List;
 @EnableScheduling
 public class UnLockDrawerTask {
 
+
+
+    private static Logger logger = LoggerFactory.getLogger(UnLockDrawerTask.class);
 
     @Autowired
     private OrdersService ordersService;
@@ -33,9 +40,9 @@ public class UnLockDrawerTask {
     /**
      * 微信公众号未支付订单,并且超过5分钟的处理
      */
-    @Scheduled(cron = "* 0/3 * * * ? ") // 间隔3分钟执行
+    @Scheduled(cron = "0 0/3 * * * ?") // 间隔3分钟执行
     public void work() {
-        System.out.println("使用SpringMVC框架配置定时任务");
+        logger.info("UnLockDrawerTask執行時間: "+ DateUtils.formatDateTime(new Date()));
         List<Orders> orders = ordersService.getWechatRepayOrder();
         if (orders != null && !orders.isEmpty()) {
             for (Orders order : orders) {
