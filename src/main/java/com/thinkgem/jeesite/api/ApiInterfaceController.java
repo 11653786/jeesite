@@ -35,33 +35,58 @@ public class ApiInterfaceController {
     @Autowired
     private CabinetProductRelactionService cabinetProductRelactionService;
 
+    @RequestMapping(value = "/getInterface", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<String> PlatgetInterface(Integer data,
+                                                String productsStr, Integer paymentType, String repackgeId,
+                                                String cabinetNo, String putPassword,
+                                                String productId, String foodPassword, String drawerNo) {
+        if (data == 1) {  //柜子下单,生成二维码
+            String tradeType = null;
+            List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
+
+            if (paymentType == 0) {
+                tradeType = "NATIVE";
+            }
+            return orderService.preorder(products, paymentType, tradeType, repackgeId);
+        } else if (data == 2) {
+            //微信公众号下单取餐
+            return orderService.outFood(cabinetNo, putPassword);
+        } else if (data == 3) {  //获取商品列表
+            Product product = new Product();
+            product.setProductStatus(1 + "");
+            return PlatformRes.success(JSONObject.toJSONString(productService.findList(product)));
+        } else if (data == 4) {   //工作人员放餐
+            return drawerService.putFood(productId, foodPassword, cabinetNo, drawerNo);
+        } else if (data == 5) {
+            CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
+            cabinetProductRelaction.setCabinetNo(cabinetNo);
+            return PlatformRes.success(JSONObject.toJSONString(cabinetProductRelactionService.findList(cabinetProductRelaction)));
+        }
+
+        return PlatformRes.error("没有访问接口");
+
+    }
+
 
     /**
-     * localhost:8080/api/order/preorder?productId=1&productPrice=300&paymentType=0
-     * 微信预下单生成二维码,生成订单返回二维码
-     * <p/>
-     * {
-     * "code": "0",
-     * "message": "成功",
-     * "data": "weixin://wxpay/bizpayurl?pr=hMnBust"
-     * }
      *
      * @param productsStr 商品信息
      * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
      * @param repackgeId  红包id,公众号支付有用
      * @return
      */
-    @RequestMapping(value = "/preorder", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public PlatformRes<String> preorder(String productsStr, Integer paymentType, String repackgeId) {
-        String tradeType = null;
-        List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
-
-        if (paymentType == 0) {
-            tradeType = "NATIVE";
-        }
-        return orderService.preorder(products, paymentType, tradeType, repackgeId);
-    }
+//    @RequestMapping(value = "/preorder", method = {RequestMethod.GET, RequestMethod.POST})
+//    @ResponseBody
+//    public PlatformRes<String> preorder(String productsStr, Integer paymentType, String repackgeId) {
+//        String tradeType = null;
+//        List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
+//
+//        if (paymentType == 0) {
+//            tradeType = "NATIVE";
+//        }
+//        return orderService.preorder(products, paymentType, tradeType, repackgeId);
+//    }
 
 
     /**
@@ -71,11 +96,11 @@ public class ApiInterfaceController {
      * @param putPassword 取餐密码,用户订单取餐密码
      * @return
      */
-    @RequestMapping(value = "/outFood")
-    @ResponseBody
-    public PlatformRes<String> outFood(String cabinetNo, String putPassword) {
-        return orderService.outFood(cabinetNo, putPassword);
-    }
+//    @RequestMapping(value = "/outFood")
+//    @ResponseBody
+//    public PlatformRes<String> outFood(String cabinetNo, String putPassword) {
+//        return orderService.outFood(cabinetNo, putPassword);
+//    }
 
     /**
      * 工作人员放餐
@@ -86,11 +111,11 @@ public class ApiInterfaceController {
      * @param drawerNo
      * @return
      */
-    @RequestMapping(value = "/putFood")
-    @ResponseBody
-    public PlatformRes<String> putFood(String productId, String foodPassword, String cabinetNo, String drawerNo) {
-        return drawerService.putFood(productId, foodPassword, cabinetNo, drawerNo);
-    }
+//    @RequestMapping(value = "/putFood")
+//    @ResponseBody
+//    public PlatformRes<String> putFood(String productId, String foodPassword, String cabinetNo, String drawerNo) {
+//        return drawerService.putFood(productId, foodPassword, cabinetNo, drawerNo);
+//    }
 
 
     /**
@@ -98,13 +123,13 @@ public class ApiInterfaceController {
      *
      * @return
      */
-    @RequestMapping(value = "/getProductList")
-    @ResponseBody
-    public List<Product> getProductList() {
-        Product product = new Product();
-        product.setProductStatus(1 + "");
-        return productService.findList(product);
-    }
+//    @RequestMapping(value = "/getProductList")
+//    @ResponseBody
+//    public List<Product> getProductList() {
+//        Product product = new Product();
+//        product.setProductStatus(1 + "");
+//        return productService.findList(product);
+//    }
 
 
     /**
@@ -113,13 +138,13 @@ public class ApiInterfaceController {
      * @param cabinetNo
      * @return
      */
-    @RequestMapping(value = "/getDrawerProductRelactionByCabinetNo")
-    @ResponseBody
-    public List<CabinetProductRelaction> getDrawerProductRelactionByCabinetNo(String cabinetNo) {
-        CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
-        cabinetProductRelaction.setCabinetNo(cabinetNo);
-        return cabinetProductRelactionService.findList(cabinetProductRelaction);
-    }
+//    @RequestMapping(value = "/getDrawerProductRelactionByCabinetNo")
+//    @ResponseBody
+//    public List<CabinetProductRelaction> getDrawerProductRelactionByCabinetNo(String cabinetNo) {
+//        CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
+//        cabinetProductRelaction.setCabinetNo(cabinetNo);
+//        return cabinetProductRelactionService.findList(cabinetProductRelaction);
+//    }
 
     /**
      * 根据柜子编号获取当前柜子抽屉和商品的关系
@@ -129,8 +154,8 @@ public class ApiInterfaceController {
      */
     @RequestMapping(value = "/test")
     @ResponseBody
-    public String test(String data) {
-        logger.info("data: " + data);
+    public String test(String data, String data1) {
+        logger.info("data: " + data + ",data1: " + data1);
         return data;
     }
 
