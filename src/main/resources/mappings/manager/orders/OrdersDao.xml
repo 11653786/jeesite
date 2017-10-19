@@ -286,4 +286,33 @@
                 from orders a where a.create_time &gt; date_sub(now(), interval 5 MINUTE) and a.order_status=0 and a.payment_status=2
 	</select>
 
+    <select id="getPayOutTimeOrders">
+        select
+				a.id AS "id",
+                a.order_no AS "orderNo",
+                a.pay_money AS "payMoney",
+                a.actual_pay_money AS "actualPayMoney",
+                a.order_status AS "orderStatus",
+                a.payment_status as "paymentStatus",
+                a.wechat_trade_no AS "wechatTradeNo",
+                a.alipay_trade_no AS "alipayTradeNo",
+                a.create_time AS "createTime",
+                a.update_time AS "updateTime",
+                a.remark AS "remark",
+                a.payment_time AS "paymentTime",
+                a.openid AS "openid",
+                a.alipayid AS "alipayid",
+                a.user_id AS "userId",
+                a.phone AS "phone",
+                a.cabinet_no AS "cabinetNo",
+                a.redpacket_id AS "redpacketId",
+                a.redpacket_price as "redpacketPrice",
+                a.redpacket_name as "redpacketName",
+                a.refund_No as "refundNo",
+                a.refund_status as "refundStatus",
+                a.refund_time as "refundTime",
+                a.put_password as "putPassword"
+                from orders a where a.create_time &gt; date_sub(now(), interval 2 HOUR) and a.order_status=1
+    </select>
+
 </mapper>

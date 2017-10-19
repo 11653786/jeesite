@@ -37,7 +37,7 @@ public class CabinetHttpStatusTask {
         List<Cabinet> cabinetList = cabinetService.findList(new Cabinet());
         for (Cabinet cabinet : cabinetList) {
             CabinetHttpLog cabinetHttpLog = cabinetHttpLogService.findLogByCabinetNo(cabinet.getCabinetNos());
-            //超過兩個小時就算通信異常
+            //超過5個小時就算通信異常
             if (cabinetHttpLog != null) {
                 if (DateUtils.getBeteenHour(new Date(), cabinetHttpLog.getCreatetime()) > 5) {
                     cabinet.setCabinetStatus("2");

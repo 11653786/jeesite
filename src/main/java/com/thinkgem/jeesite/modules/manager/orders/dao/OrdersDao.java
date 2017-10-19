@@ -48,4 +48,10 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     List<Orders> getWechatRepayOrder();
+
+    /**
+     * 獲取支付超時的訂單
+     * @return
+     */
+    List<Orders> getPayOutTimeOrders();
 }

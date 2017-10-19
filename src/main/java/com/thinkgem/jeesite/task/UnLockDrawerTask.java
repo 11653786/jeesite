@@ -1,6 +1,5 @@
 package com.thinkgem.jeesite.task;
 
-import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
+ * 微信公衆號下單，未支付鎖定訂單解鎖
  * Created by yangtao on 2017/10/19.
  */
 @Component
@@ -62,7 +62,6 @@ public class UnLockDrawerTask {
             }
         }
     }
-
 
 
 }
