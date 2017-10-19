@@ -1,6 +1,7 @@
 package com.thinkgem.jeesite.api;
 
-import com.google.common.annotations.VisibleForTesting;
+import com.alibaba.fastjson.JSONObject;
+import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
@@ -11,20 +12,20 @@ import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Created by Administrator on 2017/10/2.
+ * Created by yangtao on 2017/8/18.
  */
 @Controller
-@RequestMapping(value = "/api/cabinet")
-public class ApiCabinetController {
+@RequestMapping(value = "/api/interface")
+public class ApiInterfaceController {
 
     Logger logger = Logger.getLogger(this.getClass().getName());
-
     @Autowired
     private OrderService orderService;
     @Autowired
@@ -33,6 +34,34 @@ public class ApiCabinetController {
     private ProductService productService;
     @Autowired
     private CabinetProductRelactionService cabinetProductRelactionService;
+
+
+    /**
+     * localhost:8080/api/order/preorder?productId=1&productPrice=300&paymentType=0
+     * 微信预下单生成二维码,生成订单返回二维码
+     * <p/>
+     * {
+     * "code": "0",
+     * "message": "成功",
+     * "data": "weixin://wxpay/bizpayurl?pr=hMnBust"
+     * }
+     *
+     * @param productsStr 商品信息
+     * @param paymentType 支付类型: 0,微信扫码支付 1,微信公众号支付 2,支付宝
+     * @param repackgeId  红包id,公众号支付有用
+     * @return
+     */
+    @RequestMapping(value = "/preorder", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<String> preorder(String productsStr, Integer paymentType, String repackgeId) {
+        String tradeType = null;
+        List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
+
+        if (paymentType == 0) {
+            tradeType = "NATIVE";
+        }
+        return orderService.preorder(products, paymentType, tradeType, repackgeId);
+    }
 
 
     /**
@@ -107,6 +136,3 @@ public class ApiCabinetController {
 
 
 }
-
-
-
