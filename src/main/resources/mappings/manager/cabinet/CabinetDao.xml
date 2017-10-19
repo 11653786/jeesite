@@ -204,4 +204,22 @@
     </select>
 
 
+    <select id="getCabinetByCabinetNo" resultType="Cabinet">
+		select
+			a.id AS "id",
+			a.cabinet_name AS "cabinetName",
+			a.province AS "province",
+			a.city AS "city",
+			a.area AS "area",
+			a.address AS "address",
+			a.cabinet_status AS "cabinetStatus",
+			a.create_time AS "createTime",
+			a.cabinet_nos AS "cabinetNos",
+			a.cabinet_replace_num as "cabinetReplaceNum",
+			a.cabinet_full_num as "cabinetFullNum",
+			a.food_password as "foodPassword",
+			a.sys_password as "sysPassword"
+			from cabinet a where a.cabinet_nos=#{cabinetNo}
+    </select>
+
 </mapper>

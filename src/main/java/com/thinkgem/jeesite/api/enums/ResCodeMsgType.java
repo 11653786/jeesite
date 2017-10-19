@@ -21,6 +21,7 @@ public enum ResCodeMsgType {
     DRAWER_CABINET_NOT_EMPTY("116","抽屉柜子不能为空"),
     PUT_FOOD_PASS_ERROR("117","取餐密码不正确"),
     ORDER_NOT_OUT("118","当前订单不可取餐"),
+    HTTP_LOG_ERROR("119","通信操作失败"),
     FAIL("501", "失败");
 
     private String code;

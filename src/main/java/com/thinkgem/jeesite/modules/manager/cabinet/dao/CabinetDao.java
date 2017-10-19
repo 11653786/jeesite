@@ -53,4 +53,6 @@ public interface CabinetDao extends CrudDao<Cabinet> {
 
     public Cabinet getCabinetByFoodPass(@Param("cabinetNo") String cabinetNo, @Param("foodPass") String foodPass);
 
+    public Cabinet getCabinetByCabinetNo(@Param("cabinetNo") String cabinetNo);
+
 }
