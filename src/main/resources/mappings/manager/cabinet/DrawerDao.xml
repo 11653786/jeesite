@@ -213,7 +213,7 @@
     </select>
 
 
-    <update id="lockStatus">
+    <update id="lockOrUnlockStatus">
         UPDATE drawer set food_status=#{foodStatus} where drawer_no=#{drawerNo}
     </update>
 
