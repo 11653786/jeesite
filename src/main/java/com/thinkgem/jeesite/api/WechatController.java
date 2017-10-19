@@ -89,6 +89,12 @@ public class WechatController {
         return "wechat/redpacket";
     }
 
+    /**
+     * 我的订单
+     * @param model
+     * @param openid
+     * @return
+     */
     @RequestMapping(value = "/myorder")
     public String myorder(Model model, String openid) {
         logger.info("传递过来的openid: " + openid);
@@ -98,7 +104,7 @@ public class WechatController {
     }
 
     /**
-     * 退款按钮
+     * 退款和评价页面
      *
      * @param model
      * @param orderNo
@@ -114,7 +120,7 @@ public class WechatController {
 
 
     /**
-     * 申请退款和评价
+     * 申请退款和评价提交
      *
      * @param orderNo
      * @return
@@ -127,6 +133,12 @@ public class WechatController {
     }
 
 
+    /**
+     * 微信公众号下单页面
+     * @param openid
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/shopping", method = RequestMethod.GET)
     public String shopping(String openid, Model model) {
         List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
@@ -138,6 +150,16 @@ public class WechatController {
     }
 
 
+    /**
+     * 微信公众号下单提交
+     * @param ids
+     * @param nums
+     * @param cabinetId
+     * @param red
+     * @param openid
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
     public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
@@ -157,12 +179,28 @@ public class WechatController {
     }
 
 
+    /**
+     * 微信公众号验证下单
+     * @param ids
+     * @param nums
+     * @param cabinetId
+     * @param red
+     * @param openid
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/validPreOrder", method = RequestMethod.POST)
     @ResponseBody
     public PlatformRes<String> validPreOrder(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
         return orderService.validPreOrder(ids, nums, cabinetId, red);
     }
 
+    /**
+     * 微信公众号生成以后跳转支付页面!
+     * @param orderNo
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/submit")
     public String submit(String orderNo, Model model) {
         Orders orders = orderService.getOrderByOrderNo(orderNo);

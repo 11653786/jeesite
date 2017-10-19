@@ -1,0 +1,71 @@
+
+{
+    "button": [
+        {
+            "name": "快乐美食", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "品牌宣传", 
+                    "url": "http://www.51hefan.net/jeesite/api/wechat/brand"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "套餐宣传", 
+                    "url": "http://www.51hefan.net/jeesite/api/wechat/food"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "附近的快餐柜", 
+                    "url": "http://www.51hefan.net/jeesite/api/wechat/allcabinet"
+                }
+            ]
+        }, 
+         {
+            "name": "订单中心", 
+            "sub_button": [
+                {
+                    "type": "view", 
+                    "name": "我的订单", 
+                    "url": "http://www.51hefan.net/jeesite/api/wechat/brand"
+                }, 
+                {
+                    "type": "view", 
+                    "name": "下单", 
+                    "url": "http://www.51hefan.net/jeesite/api/wechat/allcabinet"
+                }
+            ]
+        }, 
+        {
+            "type": "view", 
+            "name": "会员福利", 
+            "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx3bb5180e192011f3&redirect_uri=http://www.51hefan.net/jeesite/api/wechat/redpacket&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
+        }
+    ]
+}
+
+联调接口
+
+
+--------------
+微信公众号下单
+ 用户下单锁定抽屉5分钟接口(服务通知柜子)
+ 定时器5分钟解锁未支付订单(服务通知柜子)
+ 用户成功付款设置支付成功,锁定柜子(服务通知柜子)
+ 用户成功支付,通过订单密码取餐(柜子请求服务)
+
+
+----------
+柜子获取商品列表(柜子请求服务)
+后台商品修改价格(服务通知柜子)
+工作人员放餐(柜子请求服务)
+后台给抽屉配置商品(服务通知柜子)
+获取当前柜子商品配置情况(抽屜请求服务)
+通过柜子下单,下单接口(柜子请求服务)
+通过柜子下单成功,开抽屉(服务通知柜子)
+
+柜子定期通知服务通信状态正常(柜子请求服务)
+订单成功下单,未取餐订单超时,修改抽屉状态为超时未取餐(服务通知柜子)
+
+ 
+ 
