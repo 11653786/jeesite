@@ -213,4 +213,8 @@
     </select>
 
 
+    <update id="lockStatus">
+        UPDATE drawer set food_status=#{foodStatus} where drawer_no=#{drawerNo}
+    </update>
+
 </mapper>

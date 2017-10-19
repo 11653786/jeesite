@@ -51,9 +51,18 @@ public interface DrawerDao extends CrudDao<Drawer> {
 
     /**
      * 获取可以购买当前商品的柜子
+     *
      * @param productId
      * @param cabinetId
      * @return
      */
     List<Drawer> getDrawerBuy(@Param("productId") String productId, @Param("cabinetId") String cabinetId);
+
+    /**
+     * 微信公众号支付用来锁定抽屉,定时器默认锁定5分钟
+     * @param drawerNo
+     * @param foodStatus
+     * @return
+     */
+    Integer lockStatus(@Param("drawerNo") String drawerNo, @Param("foodStatus") Integer foodStatus);
 }
