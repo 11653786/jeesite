@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao">
 
-	<sql id="ordersColumns">
+    <sql id="ordersColumns">
 		a.id AS "id",
 		a.order_no AS "orderNo",
 		a.pay_money AS "payMoney",
@@ -31,94 +31,94 @@
 
 	</sql>
 
-	<sql id="ordersJoins">
-	</sql>
+    <sql id="ordersJoins">
+    </sql>
 
-	<select id="get" resultType="Orders">
-		SELECT
-			<include refid="ordersColumns"/>
-		FROM orders a
-		<include refid="ordersJoins"/>
-		WHERE a.id = #{id}
-	</select>
+    <select id="get" resultType="Orders">
+        SELECT
+        <include refid="ordersColumns"/>
+        FROM orders a
+        <include refid="ordersJoins"/>
+        WHERE a.id = #{id}
+    </select>
 
-	<select id="findList" resultType="Orders">
-		SELECT
-			<include refid="ordersColumns"/>
-		FROM orders a
-		<include refid="ordersJoins"/>
-		<where>
+    <select id="findList" resultType="Orders">
+        SELECT
+        <include refid="ordersColumns"/>
+        FROM orders a
+        <include refid="ordersJoins"/>
+        <where>
 
-			<if test="orderNo != null and orderNo != ''">
-				AND a.order_no = #{orderNo}
-			</if>
-			<if test="orderStatus != null and orderStatus != ''">
-				AND a.order_status = #{orderStatus}
-			</if>
-			<if test="wechatTradeNo != null and wechatTradeNo != ''">
-				AND a.wechat_trade_no = #{wechatTradeNo}
-			</if>
-			<if test="alipayTradeNo != null and alipayTradeNo != ''">
-				AND a.alipay_trade_no = #{alipayTradeNo}
-			</if>
-			<if test="beginPaymentTime != null and endPaymentTime != null and beginPaymentTime != '' and endPaymentTime != ''">
-				AND a.payment_time BETWEEN #{beginPaymentTime} AND #{endPaymentTime}
-			</if>
-			<if test="openid != null and openid != ''">
-				AND a.openid = #{openid}
-			</if>
-			<if test="alipayid != null and alipayid != ''">
-				AND a.alipayid = #{alipayid}
-			</if>
-			<if test="phone != null and phone != ''">
-				AND a.phone = #{phone}
-			</if>
-			<if test="paymentStatus != null and paymentStatus != ''">
-				AND a.payment_status = #{paymentStatus}
-			</if>
+            <if test="orderNo != null and orderNo != ''">
+                AND a.order_no = #{orderNo}
+            </if>
+            <if test="orderStatus != null and orderStatus != ''">
+                AND a.order_status = #{orderStatus}
+            </if>
+            <if test="wechatTradeNo != null and wechatTradeNo != ''">
+                AND a.wechat_trade_no = #{wechatTradeNo}
+            </if>
+            <if test="alipayTradeNo != null and alipayTradeNo != ''">
+                AND a.alipay_trade_no = #{alipayTradeNo}
+            </if>
+            <if test="beginPaymentTime != null and endPaymentTime != null and beginPaymentTime != '' and endPaymentTime != ''">
+                AND a.payment_time BETWEEN #{beginPaymentTime} AND #{endPaymentTime}
+            </if>
+            <if test="openid != null and openid != ''">
+                AND a.openid = #{openid}
+            </if>
+            <if test="alipayid != null and alipayid != ''">
+                AND a.alipayid = #{alipayid}
+            </if>
+            <if test="phone != null and phone != ''">
+                AND a.phone = #{phone}
+            </if>
+            <if test="paymentStatus != null and paymentStatus != ''">
+                AND a.payment_status = #{paymentStatus}
+            </if>
             <if test="refundNo != null and refundNo != ''">
                 AND a.refund_No = #{refundNo}
             </if>
-			<if test="refundStatus != null and refundStatus != ''">
-				AND a.refund_status = #{refundStatus}
-			</if>
-			<if test="refundTime != null and refundTime != ''">
-				AND a.refund_time = #{refundTime}
-			</if>
-			<if test="cabinetNo != null and cabinetNo != ''">
-				AND a.cabinet_name LIKE
-					<if test="dbName == 'oracle'">'%'||#{cabinetNo}||'%'</if>
-					<if test="dbName == 'mssql'">'%'+#{cabinetNo}+'%'</if>
-					<if test="dbName == 'mysql'">concat('%',#{cabinetNo},'%')</if>
-			</if>
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
+            <if test="refundStatus != null and refundStatus != ''">
+                AND a.refund_status = #{refundStatus}
+            </if>
+            <if test="refundTime != null and refundTime != ''">
+                AND a.refund_time = #{refundTime}
+            </if>
+            <if test="cabinetNo != null and cabinetNo != ''">
+                AND a.cabinet_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{cabinetNo}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{cabinetNo}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{cabinetNo},'%')</if>
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
 
-	<select id="findAllList" resultType="Orders">
-		SELECT
-			<include refid="ordersColumns"/>
-		FROM orders a
-		<include refid="ordersJoins"/>
-		<where>
+    <select id="findAllList" resultType="Orders">
+        SELECT
+        <include refid="ordersColumns"/>
+        FROM orders a
+        <include refid="ordersJoins"/>
+        <where>
 
-		</where>
-		<choose>
-			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
-				ORDER BY ${page.orderBy}
-			</when>
-			<otherwise>
-			</otherwise>
-		</choose>
-	</select>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
 
-	<insert id="insert">
+    <insert id="insert">
 		INSERT INTO orders(
 			id,
 			order_no,
@@ -172,7 +172,7 @@
 		)
 	</insert>
 
-	<update id="update">
+    <update id="update">
 		UPDATE orders SET 	
 			order_no = #{orderNo},
 			pay_money = #{payMoney},
@@ -200,7 +200,7 @@
 		WHERE id = #{id}
 	</update>
 
-	<update id="delete">
+    <update id="delete">
 		DELETE FROM orders
 		WHERE id = #{id}
 	</update>
@@ -221,10 +221,10 @@
 
 
     <select id="getPayOrders" resultType="Orders">
-    SELECT
-    <include refid="ordersColumns"/>
+        SELECT
+        <include refid="ordersColumns"/>
         <!--已取餐和已支付，微信公众号支付的-->
-    FROM orders a where a.openid=#{openId} and a.order_status in(1,3) and a.payment_status=1
+        FROM orders a where a.openid=#{openId} and a.order_status in(1,3) and a.payment_status=1
         order by a.order_status asc,payment_time desc
     </select>
 
@@ -256,5 +256,34 @@
         GROUP_CONCAT(CONCAT("商品:",goods.product_name),":",CONCAT(goods.product_num,"个")) as phone from order_goods goods join orders a on a.order_no=goods.order_no
         where a.openid=#{openId} and a.order_status in(1,3) GROUP BY goods.order_no
     </select>
+
+    <select id="getWechatRepayOrder" resultType="com.thinkgem.jeesite.modules.manager.orders.entity.Orders">
+		select
+				a.id AS "id",
+                a.order_no AS "orderNo",
+                a.pay_money AS "payMoney",
+                a.actual_pay_money AS "actualPayMoney",
+                a.order_status AS "orderStatus",
+                a.payment_status as "paymentStatus",
+                a.wechat_trade_no AS "wechatTradeNo",
+                a.alipay_trade_no AS "alipayTradeNo",
+                a.create_time AS "createTime",
+                a.update_time AS "updateTime",
+                a.remark AS "remark",
+                a.payment_time AS "paymentTime",
+                a.openid AS "openid",
+                a.alipayid AS "alipayid",
+                a.user_id AS "userId",
+                a.phone AS "phone",
+                a.cabinet_no AS "cabinetNo",
+                a.redpacket_id AS "redpacketId",
+                a.redpacket_price as "redpacketPrice",
+                a.redpacket_name as "redpacketName",
+                a.refund_No as "refundNo",
+                a.refund_status as "refundStatus",
+                a.refund_time as "refundTime",
+                a.put_password as "putPassword"
+                from orders a where a.create_time &gt; date_sub(now(), interval 5 MINUTE) and a.order_status=0 and a.payment_status=2
+	</select>
 
 </mapper>

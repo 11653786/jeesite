@@ -149,7 +149,7 @@ public class OrderService {
                     orderGoodsDao.insert(orderGoods);
 
                     //锁定柜子5分钟
-                     drawerDao.lockStatus(drawer.getDrawerNo(),4);
+                     drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(),4);
 
 
                 }
@@ -157,6 +157,8 @@ public class OrderService {
             }
             orders.preInsert();
             ordersDao.insert(orders);
+
+            //这里要下单通知微信锁定5分钟
 
         }
 

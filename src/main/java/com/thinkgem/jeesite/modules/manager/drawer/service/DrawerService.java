@@ -35,9 +35,35 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     @Autowired
     private CabinetProductRelactionDao cabinetProductRelactionDao;
 
+
+    public void unlockStatus(String drawerNo) {
+        drawerDao.lockOrUnlockStatus(drawerNo, 1);
+    }
+
     public Drawer get(String id) {
         Drawer drawer = super.get(id);
         return drawer;
+    }
+
+    /**
+     * 根据柜子和抽屉编号获取抽屉
+     *
+     * @param cabinetNo
+     * @param drawerNo
+     * @return
+     */
+    public Drawer getDrawerByDrawerNo(String cabinetNo, String drawerNo) {
+        Drawer drawer = new Drawer();
+        drawer.setDrawerNo(drawerNo);
+        drawer.setCabinetNo(cabinetNo);
+        //抽屉可用
+        drawer.setDrawerStatus("1");
+        List<Drawer> drawers = drawerDao.findList(drawer);
+        if (drawers == null || drawers.isEmpty())
+            return null;
+        else
+            return drawers.get(0);
+
     }
 
     public List<Drawer> findList(Drawer drawer) {
@@ -76,7 +102,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
         if (drawer == null)
             return PlatformRes.error(ResCodeMsgType.CABINET_DRAWER_EXISTS);
         //柜子如果放餐了
-        if(drawer.getFoodStatus().equals("1"))
+        if (drawer.getFoodStatus().equals("1"))
             return PlatformRes.error(ResCodeMsgType.CABINET_DRAWER_EXISTS);
 
 

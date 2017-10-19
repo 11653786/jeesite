@@ -44,6 +44,10 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     @Autowired
     private OrdersDao ordersDao;
 
+    public void update(Orders orders) {
+        ordersDao.update(orders);
+    }
+
 
     public Orders get(String id) {
         return super.get(id);
@@ -139,6 +143,15 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
         super.save(orders);
 
         return orders;
+    }
+
+    /**
+     * 获取新建订单
+     *
+     * @return
+     */
+    public List<Orders> getWechatRepayOrder() {
+        return ordersDao.getWechatRepayOrder();
     }
 
 
