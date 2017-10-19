@@ -4,13 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
-import com.thinkgem.jeesite.api.service.WechatPayService;
-import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
-import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
-import com.thinkgem.jeesite.modules.sys.entity.Area;
-import com.thinkgem.jeesite.modules.sys.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,26 +13,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by yangtao on 2017/8/18.
  */
 @Controller
-@RequestMapping(value = "/api/order")
+@RequestMapping(value = "/api/inter")
 public class ApiOrderController {
 
 
     @Autowired
     private OrderService orderService;
-    @Autowired
-    private AreaService areaService;
-    @Autowired
-    private CabinetService cabinetService;
-    @Autowired
-    private CabinetProductRelactionDao cabinetProductRelactionDao;
-    @Autowired
-    private WechatPayService wechatPayService;
 
 
     /**
@@ -65,47 +51,6 @@ public class ApiOrderController {
             tradeType = "NATIVE";
         }
         return orderService.preorder(products, paymentType, tradeType, repackgeId);
-    }
-
-    /**
-     * 获取柜子信息
-     *
-     * @return
-     */
-    @RequestMapping(value = "/getAreas", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public PlatformRes<List<Area>> getAreas() {
-        return PlatformRes.success(areaService.getAreaByParentId("61def47fe91c40708f3b0d13a5fd9fb6"));
-    }
-
-    /**
-     * 根据区域id获取柜子信息
-     *
-     * @return
-     */
-    @RequestMapping(value = "/getCabinetByAreaId", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public PlatformRes<List<Cabinet>> getCabinetByAreaId(String areaId) {
-        return PlatformRes.success(cabinetService.getCabinetByAreaId(areaId));
-    }
-
-    /**
-     * 根据柜子id查询当前柜子的抽屉配置的商品信息
-     *
-     * @param cabinetId
-     * @return
-     */
-    @RequestMapping(value = "/getSaleProductByCabinetId", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public PlatformRes<List<CabinetProductRelaction>> getSaleProductByCabinetId(String cabinetId) {
-        return PlatformRes.success(cabinetProductRelactionDao.getSaleProductByCabinetId(cabinetId));
-    }
-
-
-    @RequestMapping(value = "/wechatJsPay", method = {RequestMethod.GET, RequestMethod.POST})
-    @ResponseBody
-    public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
-        return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
     }
 
 }

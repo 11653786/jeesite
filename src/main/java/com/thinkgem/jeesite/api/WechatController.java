@@ -2,15 +2,19 @@ package com.thinkgem.jeesite.api;
 
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
-import com.thinkgem.jeesite.common.config.Global;
+import com.thinkgem.jeesite.api.service.WechatPayService;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
+import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
+import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
 import com.thinkgem.jeesite.modules.manager.users.entity.Users;
 import com.thinkgem.jeesite.modules.manager.users.service.UsersService;
+import com.thinkgem.jeesite.modules.sys.entity.Area;
+import com.thinkgem.jeesite.modules.sys.service.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 /**
@@ -36,6 +41,15 @@ public class WechatController {
     private UsersService usersService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private AreaService areaService;
+    @Autowired
+    private WechatPayService wechatPayService;
+    @Autowired
+    private CabinetProductRelactionDao cabinetProductRelactionDao;
+
+
+
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -133,6 +147,7 @@ public class WechatController {
     }
 
 
+
     /**
      * 微信公众号下单页面
      * @param openid
@@ -207,6 +222,67 @@ public class WechatController {
         model.addAttribute("orders", orders);
         return "wechat/submit";
     }
+
+
+
+
+    /**
+     * 获取西安市地区信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getAreas", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<List<Area>> getAreas() {
+        return PlatformRes.success(areaService.getAreaByParentId("61def47fe91c40708f3b0d13a5fd9fb6"));
+    }
+
+
+    /**
+     * 根据区域id获取当前区域的柜子信息
+     *
+     * @return
+     */
+    @RequestMapping(value = "/getCabinetByAreaId", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<List<Cabinet>> getCabinetByAreaId(String areaId) {
+        return PlatformRes.success(cabinetService.getCabinetByAreaId(areaId));
+    }
+
+
+
+    /**
+     * 根据柜子id查询当前柜子的抽屉配置的商品信息
+     *
+     * @param cabinetId
+     * @return
+     */
+    @RequestMapping(value = "/getSaleProductByCabinetId", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<List<CabinetProductRelaction>> getSaleProductByCabinetId(String cabinetId) {
+        return PlatformRes.success(cabinetProductRelactionDao.getSaleProductByCabinetId(cabinetId));
+    }
+
+
+    /**
+     * 微信支付
+     * @param orderNo
+     * @param openid
+     * @param productIds
+     * @param actualPayMoney
+     * @param tradeType
+     * @param remark
+     * @return
+     */
+    @RequestMapping(value = "/wechatJsPay", method = {RequestMethod.GET, RequestMethod.POST})
+    @ResponseBody
+    public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
+        return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
+    }
+
+
+
+
 
 
 }

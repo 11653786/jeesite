@@ -5,7 +5,7 @@ $(function () {
     //填充区域列表,获取西安市的列表信息
     $.ajax({
         type: "POST",
-        url: path + "/api/order/getAreas",
+        url: path + "/api/wechat/getAreas",
         data: {},
         dataType: "json",
         success: function (data) {
@@ -27,7 +27,7 @@ $(function () {
         var areaId = $("#areaId").val();
         $.ajax({
             type: "POST",
-            url: path + "/api/order/getCabinetByAreaId",
+            url: path + "/api/wechat/getCabinetByAreaId",
             data: {"areaId": areaId},
             dataType: "json",
             success: function (data) {
@@ -49,7 +49,7 @@ $(function () {
         var cabinetId = $("#cabinetId").val();
         $.ajax({
             type: "POST",
-            url: path + "/api/order/getSaleProductByCabinetId",
+            url: path + "/api/wechat/getSaleProductByCabinetId",
             data: {"cabinetId": cabinetId},
             dataType: "json",
             success: function (data) {
