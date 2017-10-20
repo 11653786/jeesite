@@ -3,7 +3,7 @@ package com.thinkgem.jeesite.mina;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.mina.core.future.ConnectFuture;
-import org.apache.mina.core.service.IoConnector;
+import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.filter.logging.LoggingFilter;
@@ -21,7 +21,7 @@ public class App {
     private static final Log log = LogFactory.getLog(App.class);
 
     private static final String IP = "127.0.0.1";
-    private static final int PORT = 8808;
+    private static final int PORT = 8888;
 
     public static void main(String[] args) {
         log.debug("打开客户端...");
@@ -33,8 +33,10 @@ public class App {
         ConnectFuture connectFuture = connector.connect(new InetSocketAddress(IP, PORT));//建立连接
         connectFuture.awaitUninterruptibly();//等待连接创建完成
 
-        connectFuture.getSession().write("哈哈");//发送消息
-
+        IoSession session = connectFuture.getSession();
+        session.write("哈哈1");//发送消息
+        session.close(true);
+        session.getCloseFuture().awaitUninterruptibly();//等待连接断开
 //        connectFuture.getSession().close(true);
 //        connectFuture.getSession().getCloseFuture().awaitUninterruptibly();//等待连接断开
 //        connector.dispose();
