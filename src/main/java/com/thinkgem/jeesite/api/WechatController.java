@@ -9,6 +9,8 @@ import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetP
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
+import com.thinkgem.jeesite.modules.manager.product.entity.Product;
+import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.service.UserRedpacketRelactionService;
 import com.thinkgem.jeesite.modules.manager.users.entity.Users;
@@ -47,8 +49,8 @@ public class WechatController {
     private WechatPayService wechatPayService;
     @Autowired
     private CabinetProductRelactionDao cabinetProductRelactionDao;
-
-
+    @Autowired
+    private ProductService productService;
 
 
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -60,7 +62,10 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/food")
-    public String food() {
+    public String food(Model model) {
+        Product product = new Product();
+        product.setProductStatus(1 + "");
+        model.addAttribute("products", productService.findList(product));
         return "wechat/food";
     }
 
@@ -105,6 +110,7 @@ public class WechatController {
 
     /**
      * 我的订单
+     *
      * @param model
      * @param openid
      * @return
@@ -147,9 +153,9 @@ public class WechatController {
     }
 
 
-
     /**
      * 微信公众号下单页面
+     *
      * @param openid
      * @param model
      * @return
@@ -167,6 +173,7 @@ public class WechatController {
 
     /**
      * 微信公众号下单提交
+     *
      * @param ids
      * @param nums
      * @param cabinetId
@@ -196,6 +203,7 @@ public class WechatController {
 
     /**
      * 微信公众号验证下单
+     *
      * @param ids
      * @param nums
      * @param cabinetId
@@ -212,6 +220,7 @@ public class WechatController {
 
     /**
      * 微信公众号生成以后跳转支付页面!
+     *
      * @param orderNo
      * @param model
      * @return
@@ -222,8 +231,6 @@ public class WechatController {
         model.addAttribute("orders", orders);
         return "wechat/submit";
     }
-
-
 
 
     /**
@@ -250,7 +257,6 @@ public class WechatController {
     }
 
 
-
     /**
      * 根据柜子id查询当前柜子的抽屉配置的商品信息
      *
@@ -266,6 +272,7 @@ public class WechatController {
 
     /**
      * 微信支付
+     *
      * @param orderNo
      * @param openid
      * @param productIds
@@ -279,10 +286,6 @@ public class WechatController {
     public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
         return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
     }
-
-
-
-
 
 
 }
