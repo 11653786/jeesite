@@ -36,7 +36,7 @@
                             <img src="/${product.imgurl}" class="responsive-image" alt="img">
                             <p class="title-slider-caption">
                                 <strong>${product.productName}</strong>
-                                <em>${product.remark},<img src="" /></em>
+                                <em>${product.remark}</em>
                             </p>
                         </div>
                     </c:forEach>
