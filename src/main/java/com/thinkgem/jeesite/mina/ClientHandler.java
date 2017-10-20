@@ -6,6 +6,9 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
+/**
+ * mina可以做服务端也可以做客户端
+ */
 public class ClientHandler extends IoHandlerAdapter {
 
     private static final Log log = LogFactory.getLog(ClientHandler.class);
