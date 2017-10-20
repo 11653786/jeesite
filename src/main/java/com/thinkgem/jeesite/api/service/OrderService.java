@@ -5,9 +5,7 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.utils.StringUtils;
-import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
-import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
@@ -149,11 +147,18 @@ public class OrderService {
                     //生成id
                     orderGoods.preInsert();
                     orderGoodsDao.insert(orderGoods);
+
+                    //锁定柜子5分钟
+                     drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(),4);
+
+
                 }
 
             }
             orders.preInsert();
             ordersDao.insert(orders);
+
+            //这里要下单通知微信锁定5分钟
 
         }
 

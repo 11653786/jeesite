@@ -3,26 +3,22 @@
  */
 package com.thinkgem.jeesite.modules.manager.orders.service;
 
-import java.util.Date;
-import java.util.List;
-
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
-import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.common.persistence.Page;
+import com.thinkgem.jeesite.common.service.CrudService;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.DrawerDao;
+import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
 import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
 import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
-import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.dao.UserRedpacketRelactionDao;
+import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
+import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.userredpacketrelaction.entity.UserRedpacketRelaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thinkgem.jeesite.common.persistence.Page;
-import com.thinkgem.jeesite.common.service.CrudService;
-import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
-import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
-
-import javax.swing.*;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 订单实体类Service
@@ -38,11 +34,13 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     @Autowired
     private OrderGoodsDao orderGoodsDao;
     @Autowired
-    private UserRedpacketRelactionDao userRedpacketRelactionDao;
+    private OrdersDao ordersDao;
     @Autowired
     private DrawerDao drawerDao;
-    @Autowired
-    private OrdersDao ordersDao;
+
+    public void update(Orders orders) {
+        ordersDao.update(orders);
+    }
 
 
     public Orders get(String id) {
@@ -141,9 +139,33 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
         return orders;
     }
 
+    /**
+     * 获取新建订单
+     *
+     * @return
+     */
+    public List<Orders> getWechatRepayOrder() {
+        return ordersDao.getWechatRepayOrder();
+    }
+
 
     public List<Orders> getOrderDetail(String openId) {
         return ordersDao.getOrderDetail(openId);
+    }
+
+    public void drawerOutTimeProcess() {
+        //查詢已經支付并且超過兩小時的訂單
+        List<Orders> ordersList = ordersDao.getPayOutTimeOrders();
+        for (Orders orders : ordersList) {
+            List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orders.getOrderNo());
+            for (OrderGoods orderGood : orderGoods) {
+                Drawer drawer = drawerDao.findCabinetAndDrawerNo(orderGood.getCabinetNo(), orderGood.getDrawerNo());
+                if (drawer != null) {
+                    drawer.setFoodStatus("2");
+                    drawerDao.update(drawer);
+                }
+            }
+        }
     }
 
 }

@@ -42,4 +42,16 @@ public interface OrdersDao extends CrudDao<Orders> {
     List<Orders> getPayOrders(@Param("openId") String openId);
 
     List<Orders> getOrderDetail(@Param("openId") String openId);
+
+    /**
+     * 微信公众号未支付,并且超过5分钟的订单
+     * @return
+     */
+    List<Orders> getWechatRepayOrder();
+
+    /**
+     * 獲取支付超時的訂單
+     * @return
+     */
+    List<Orders> getPayOutTimeOrders();
 }

@@ -63,7 +63,7 @@ public class WechatPayService {
             Map<String, String> params = setWechatConfig();
 
             params.put("nonce_str", TenpayUtil.genNonceStr());
-            params.put("body", remark);
+            params.put("body", StringUtils.isBlank(remark) ? "remark" : remark);
             params.put("out_trade_no", orderNo);
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
@@ -145,9 +145,9 @@ public class WechatPayService {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
-                String timestamp = String.valueOf(new Date().getTime()/1000);
+                String timestamp = String.valueOf(new Date().getTime() / 1000);
                 resultMap.put("timestamp", timestamp);
-                resultMap.put("signType","MD5");
+                resultMap.put("signType", "MD5");
 
                 prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息

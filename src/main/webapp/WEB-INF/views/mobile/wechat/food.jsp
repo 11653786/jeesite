@@ -30,30 +30,17 @@
 </head>
 <body>       
             <div class="container-fluid">
-                <div class="slider-controls" data-snap-ignore="true">                
-                    <div>
-                        <img src="${ctxStatic}/images/wechat/general-nature/3.jpg" class="responsive-image" alt="img">
-                        <p class="title-slider-caption">
-                            <strong>盒饭</strong>
-                            <em>店主推荐</em>
-                        </p>
-                    </div>
-                
-                      <div>
-                        <img src="${ctxStatic}/images/wechat/general-nature/2.jpg" class="responsive-image" alt="img">
-                        <p class="title-slider-caption">
-                            <strong>盒饭1</strong>
-                            <em>店主推荐2</em>
-                        </p>
-                    </div>
-						
-                    <div>
-                        <img src="${ctxStatic}/images/wechat/general-nature/1.jpg" class="responsive-image" alt="img">
-                        <p class="title-slider-caption">
-                            <strong>牛柳盖浇饭</strong>
-                            <em>好吃!</em>
-                        </p>
-                    </div>
+                <div class="slider-controls" data-snap-ignore="true">
+                    <c:forEach items="${products}" var="product">
+                        <div>
+                            <img src="/${product.imgurl}" class="responsive-image" alt="img">
+                            <p class="title-slider-caption">
+                                <strong>${product.productName}</strong>
+                                <em>${product.remark}</em>
+                            </p>
+                        </div>
+                    </c:forEach>
+
                 </div>
                 <a href="#" class="next-slider"></a>
                 <a href="#" class="prev-slider"></a>

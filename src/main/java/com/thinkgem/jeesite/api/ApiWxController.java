@@ -27,6 +27,12 @@ public class ApiWxController {
 
     private final String token = "niushangshan";
 
+    /**
+     * 微信消息接收!
+     * @param request
+     * @param response
+     * @throws IOException
+     */
     @RequestMapping(value = "/getMessage",method = RequestMethod.GET)
     public void getMessage(HttpServletRequest request, HttpServletResponse response) throws IOException {
         System.out.println("开始签名校验");

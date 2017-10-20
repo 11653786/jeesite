@@ -74,6 +74,16 @@ public class ProductController extends BaseController {
         if (!beanValidator(model, product)) {
             return form(product, model);
         }
+
+
+        if (StringUtils.isNotBlank(product.getImgurl())) {
+            product.setImgurl(product.getImgurl().replace("|", ""));
+            if (product.getImgurl().substring(0, 1).equals("/")) {
+                product.setImgurl(product.getImgurl().substring(1));
+            }
+        }
+
+
         productService.save(product);
         addMessage(redirectAttributes, "保存商品管理成功");
         return "redirect:" + Global.getAdminPath() + "/product/product/?repage";

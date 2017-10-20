@@ -28,13 +28,13 @@ public class FilterServletOutputStream extends ServletOutputStream {
 	}
 
 
-    @Override
-    public boolean isReady() {
-        return false;
-    }
+	@Override
+	public boolean isReady() {
+		return false;
+	}
 
-    @Override
-    public void setWriteListener(WriteListener writeListener) {
+	@Override
+	public void setWriteListener(WriteListener writeListener) {
 
-    }
+	}
 }

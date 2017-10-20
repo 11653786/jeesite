@@ -45,7 +45,7 @@
     var signType;
     var remark = "remark";
     function pay() {
-        var url = '${pageContext.request.contextPath}/api/order/wechatJsPay';
+        var url = '${pageContext.request.contextPath}/api/wechat/wechatJsPay';
         if ($("#actualPayMoney").val() != $("#productTotalPrice").val()) {
             remark = "红包优惠:" + $("#productTotalPrice").val() - $("#actualPayMoney").val();
         }
