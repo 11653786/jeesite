@@ -286,7 +286,7 @@
                 from orders a where a.create_time &gt; date_sub(now(), interval 5 MINUTE) and a.order_status=0 and a.payment_status=2
 	</select>
 
-    <select id="getPayOutTimeOrders">
+    <select id="getPayOutTimeOrders" resultType="com.thinkgem.jeesite.modules.manager.orders.entity.Orders">
         select
 				a.id AS "id",
                 a.order_no AS "orderNo",
