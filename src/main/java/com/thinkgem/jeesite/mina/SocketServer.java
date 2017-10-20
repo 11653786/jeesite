@@ -10,7 +10,7 @@ public class SocketServer {
             ServerSocket ss = new ServerSocket(8888);
             System.out.println("启动服务器....");
             Socket s = ss.accept();
-            System.out.println("客户端:" + s.getInetAddress().getLocalHost() + "已连接到服务器");
+            System.out.println("客户端:" + s.getInetAddress().getLocalHost() + ":" + s.getPort() + "已连接到服务器");
 
             BufferedReader br = new BufferedReader(new InputStreamReader(s.getInputStream()));
             //读取客户端发送来的消息

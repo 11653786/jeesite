@@ -20,8 +20,8 @@ public class App {
 
     private static final Log log = LogFactory.getLog(App.class);
 
-    private static final String IP = "127.0.0.1";
-    private static final int PORT = 8888;
+    private static final String IP = "47.95.114.60";
+    private static final int PORT = 8808;
 
     public static void main(String[] args) {
         log.debug("打开客户端...");
@@ -34,9 +34,9 @@ public class App {
         connectFuture.awaitUninterruptibly();//等待连接创建完成
 
         IoSession session = connectFuture.getSession();
-        session.write("哈哈1");//发送消息
+        session.write("哈哈woaile");//发送消息
         session.close(true);
-        session.getCloseFuture().awaitUninterruptibly();//等待连接断开
+//        session.getCloseFuture().awaitUninterruptibly();//等待连接断开
 //        connectFuture.getSession().close(true);
 //        connectFuture.getSession().getCloseFuture().awaitUninterruptibly();//等待连接断开
 //        connector.dispose();
