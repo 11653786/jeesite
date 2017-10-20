@@ -22,6 +22,7 @@ public enum ResCodeMsgType {
     PUT_FOOD_PASS_ERROR("117","取餐密码不正确"),
     ORDER_NOT_OUT("118","当前订单不可取餐"),
     HTTP_LOG_ERROR("119","通信操作失败"),
+    DRAWER_HAS_FOOD("120","当前抽屉已经放餐"),
     FAIL("501", "失败");
 
     private String code;

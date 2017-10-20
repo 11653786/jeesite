@@ -103,7 +103,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
             return PlatformRes.error(ResCodeMsgType.CABINET_DRAWER_EXISTS);
         //柜子如果放餐了
         if (drawer.getFoodStatus().equals("1"))
-            return PlatformRes.error(ResCodeMsgType.CABINET_DRAWER_EXISTS);
+            return PlatformRes.error(ResCodeMsgType.DRAWER_HAS_FOOD);
 
 
         CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findBydrawerIdAndProductId(drawer.getId(), productId);
