@@ -73,7 +73,7 @@ public class ApiInterfaceController {
             if (isSuccess == 0)
                 return PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc());
             else
-                return PlatformRes.success(null);
+                return PlatformRes.success("http通信操作成功");
         }
 
         return PlatformRes.error("没有访问接口");
