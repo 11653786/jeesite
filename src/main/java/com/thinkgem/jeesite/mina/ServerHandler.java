@@ -1,6 +1,5 @@
 package com.thinkgem.jeesite.mina;
 
-import com.thinkgem.jeesite.common.utils.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -8,7 +7,6 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
 import java.net.InetSocketAddress;
-import java.util.Date;
 
 
 public class ServerHandler extends IoHandlerAdapter {
