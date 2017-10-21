@@ -9,19 +9,24 @@ import java.net.Socket;
 
 public class SocketServer {
 
-    private static int port=8888;
+    private static int port = 8888;
 
     private static final Log log = LogFactory.getLog(SocketServer.class);
 
     public static void main(String[] args) {
+        getInstance();
+    }
+
+
+    public static void getInstance() {
         try {
-            ServerSocket server = new ServerSocket(8888);
-            log.info("启动Socket: "+server.getInetAddress().getHostAddress()+":"+server.getLocalPort());
+            ServerSocket server = new ServerSocket(port);
+            log.info("启动Socket: " + server.getInetAddress().getHostAddress() + ":" + server.getLocalPort());
 
 
             while (true) {
                 Socket client = server.accept();
-                if(client!=null){
+                if (client != null) {
                     log.info("客户端:" + client.getInetAddress().getLocalHost() + ":" + client.getPort() + "已连接到服务器");
                     //读取客户端发送来的消息
                     BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -36,6 +41,21 @@ public class SocketServer {
 
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private class SocketThread extends Thread {
+
+        private Socket client;
+
+        public SocketThread(Socket client) {
+            this.client = client;
+        }
+
+        @Override
+        public void run() {
+
+            super.run();
         }
     }
 }

@@ -10,9 +10,7 @@ public class SocketListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        //初始化socket
-//        Server socketServer=new Server();
-//        socketServer.init();
+                SocketServer.getInstance();
     }
 
     @Override
