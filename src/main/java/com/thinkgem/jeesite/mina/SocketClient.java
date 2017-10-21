@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 public class SocketClient {
     public static void main(String[] args) {
         try {
-            Socket s = new Socket("47.95.114.60", 8888);
+            Socket s = new Socket("localhost", 8888);
 
             //构建IO
             InputStream is = s.getInputStream();
@@ -15,7 +15,7 @@ public class SocketClient {
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
             //向服务器端发送一条消息
-            bw.write("测试客户端和服务器通信，服务器接收到消息返回到客户端\n");
+            bw.write("1\n");
             bw.flush();
 
             //读取服务器返回的消息
