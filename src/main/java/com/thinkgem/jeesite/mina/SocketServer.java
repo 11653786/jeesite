@@ -21,13 +21,13 @@ public class SocketServer {
     public static void getInstance() {
         try {
             ServerSocket server = new ServerSocket(port);
-            log.info("启动Socket: " + server.getInetAddress().getHostAddress() + ":" + server.getLocalPort());
+            log.info("启动Socket: " + server.getInetAddress().getHostName() + ":" + server.getLocalPort());
 
 
             while (true) {
                 Socket client = server.accept();
                 if (client != null) {
-                    log.info("客户端:" + client.getInetAddress().getLocalHost() + ":" + client.getPort() + "已连接到服务器");
+                    log.info("客户端:" + client.getInetAddress().getHostAddress() + ":" + client.getPort() + "已连接到服务器");
                     //读取客户端发送来的消息
                     BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
                     String mess = br.readLine();
