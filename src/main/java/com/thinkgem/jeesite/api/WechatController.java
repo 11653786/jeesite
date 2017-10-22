@@ -2,7 +2,9 @@ package com.thinkgem.jeesite.api;
 
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.api.service.WechatApiService;
 import com.thinkgem.jeesite.api.service.WechatPayService;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
@@ -51,6 +53,8 @@ public class WechatController {
     private CabinetProductRelactionDao cabinetProductRelactionDao;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private WechatApiService wechatApiService;
 
 
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -116,10 +120,15 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/myorder")
-    public String myorder(Model model, String openid) {
-        logger.info("传递过来的openid: " + openid);
-        List<Orders> orders = orderService.getOrderDetail(openid);
-        model.addAttribute("orders", orders);
+    public String myorder(Model model, String code) {
+        logger.info("传递过来的code: " + code);
+        if (StringUtils.isNotBlank(code)) {
+            String openid = wechatApiService.getOpenIdByCode(code);
+            logger.info("获取的openid: " + openid);
+            List<Orders> orders = orderService.getOrderDetail(openid);
+            model.addAttribute("orders", orders);
+        }
+
         return "wechat/myorder";
     }
 

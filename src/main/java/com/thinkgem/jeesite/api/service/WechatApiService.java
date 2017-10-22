@@ -11,6 +11,7 @@ import com.thinkgem.jeesite.util.HttpUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
 import com.thinkgem.jeesite.vo.AccessToken;
 import com.thinkgem.jeesite.vo.AccessTokenExample;
+import com.thinkgem.jeesite.vo.UserToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ import java.util.logging.Logger;
 @Service
 public class WechatApiService {
 
+
+
     @Autowired
     private AccessTokenMapper accessTokenMapper;
     @Autowired
@@ -36,6 +39,18 @@ public class WechatApiService {
     private UsersService usersService;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
+
+    public String getOpenIdByCode(String code) {
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + wechatConfig.app_id + "&secret=" + wechatConfig.app_sercet + "&code=" + code + "&grant_type=authorization_code";
+        String result = HttpUtil.httpRequest(url);
+        logger.info("用户授权返回信息： "+result);
+        UserToken userToken = JSONObject.parseObject(result, UserToken.class);
+        if (userToken != null) {
+            return userToken.getOpenid();
+        }
+        return null;
+
+    }
 
     public AccessToken getWechatToken() {
         Date now = new Date();
@@ -59,6 +74,7 @@ public class WechatApiService {
 
     /**
      * 微信消息处理
+     *
      * @param request
      * @return
      */
@@ -76,7 +92,7 @@ public class WechatApiService {
         // 默认回复一个"success"
         String responseMessage = "success";
         //关注取关
-        if(StringUtils.isNotBlank(event)){
+        if (StringUtils.isNotBlank(event)) {
             //关注
             if (event.equalsIgnoreCase("subscribe")) {
                 logger.info("关注。。。。");
@@ -92,11 +108,11 @@ public class WechatApiService {
             } else if (event.equalsIgnoreCase("unsubscribe")) {  //取消关注
                 logger.info("取关。。。。");
                 usersService.weChatCancel(fromUserName);
-            }else if(event.equalsIgnoreCase("VIEW")){       //跳转url
-                String eventKey=map.get("EventKey");
+            } else if (event.equalsIgnoreCase("VIEW")) {       //跳转url
+                String eventKey = map.get("EventKey");
                 logger.info("菜单点击");
             }
-        }else{
+        } else {
             logger.info("文本消息");
             TextMessage textMessage = new TextMessage();
             textMessage.setMsgType(XMLUtil.MESSAGE_TEXT);

@@ -14,9 +14,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -81,6 +79,49 @@ public class HttpUtil {
      */
     public static String sendPostRequest(String reqURL, String sendData, boolean isEncoder) {
         return sendPostRequest(reqURL, sendData, isEncoder, null, null);
+    }
+
+
+
+
+    /**
+     * 发起http请求获取返回结果
+     * @param req_url 请求地址
+     * @return
+     */
+    public static String httpRequest(String req_url) {
+        StringBuffer buffer = new StringBuffer();
+        try {
+            URL url = new URL(req_url);
+            HttpURLConnection httpUrlConn = (HttpURLConnection) url.openConnection();
+
+            httpUrlConn.setDoOutput(false);
+            httpUrlConn.setDoInput(true);
+            httpUrlConn.setUseCaches(false);
+
+            httpUrlConn.setRequestMethod("GET");
+            httpUrlConn.connect();
+
+            // 将返回的输入流转换成字符串
+            InputStream inputStream = httpUrlConn.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "utf-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            String str = null;
+            while ((str = bufferedReader.readLine()) != null) {
+                buffer.append(str);
+            }
+            bufferedReader.close();
+            inputStreamReader.close();
+            // 释放资源
+            inputStream.close();
+            inputStream = null;
+            httpUrlConn.disconnect();
+
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+        return buffer.toString();
     }
 
 
