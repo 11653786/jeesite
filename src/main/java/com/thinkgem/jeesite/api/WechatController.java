@@ -174,7 +174,10 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.GET)
-    public String shopping(String openid, Model model) {
+    public String shopping(String code, Model model) {
+        logger.info("下单取的code: " + code);
+        String openid = wechatApiService.getOpenIdByCode(code);
+        logger.info("下单获取的openId: " + code);
         List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
         if (redpacketRelactions != null && !redpacketRelactions.isEmpty()) {
             model.addAttribute("redpacketRelactions", redpacketRelactions);
@@ -191,15 +194,12 @@ public class WechatController {
      * @param nums
      * @param cabinetId
      * @param red
-     * @param code
+     * @param openid
      * @param model
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
-    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String code, Model model) {
-        logger.info("下单取的code: " + code);
-        String openid = wechatApiService.getOpenIdByCode(code);
-        logger.info("下单获取的openId: " + code);
+    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
         if (result.getCode().equals("0")) {
             //生成订单,这里应该跳转到微信下单的controller里去
