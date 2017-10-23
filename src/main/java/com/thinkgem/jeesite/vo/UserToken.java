@@ -1,41 +1,64 @@
 package com.thinkgem.jeesite.vo;
 
-import java.io.Serializable;
+import java.util.Date;
 
-/**
- * Created by Administrator on 2017/10/22.
- */
-public class UserToken implements Serializable{
+public class UserToken {
+    private Integer id;
 
-    private String access_token;
-    private String expires_in;
-    private String refresh_token;
+    private String code;
+
+    private String accessToken;
+
+    private String expiresIn;
+
+    private String refreshToken;
+
     private String openid;
+
     private String scope;
 
+    private Date inTime;
 
-    public String getAccess_token() {
-        return access_token;
+    private Date inOutTime;
+
+    public Integer getId() {
+        return id;
     }
 
-    public void setAccess_token(String access_token) {
-        this.access_token = access_token;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getExpires_in() {
-        return expires_in;
+    public String getCode() {
+        return code;
     }
 
-    public void setExpires_in(String expires_in) {
-        this.expires_in = expires_in;
+    public void setCode(String code) {
+        this.code = code == null ? null : code.trim();
     }
 
-    public String getRefresh_token() {
-        return refresh_token;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setRefresh_token(String refresh_token) {
-        this.refresh_token = refresh_token;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken == null ? null : accessToken.trim();
+    }
+
+    public String getExpiresIn() {
+        return expiresIn;
+    }
+
+    public void setExpiresIn(String expiresIn) {
+        this.expiresIn = expiresIn == null ? null : expiresIn.trim();
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken == null ? null : refreshToken.trim();
     }
 
     public String getOpenid() {
@@ -43,7 +66,7 @@ public class UserToken implements Serializable{
     }
 
     public void setOpenid(String openid) {
-        this.openid = openid;
+        this.openid = openid == null ? null : openid.trim();
     }
 
     public String getScope() {
@@ -51,6 +74,22 @@ public class UserToken implements Serializable{
     }
 
     public void setScope(String scope) {
-        this.scope = scope;
+        this.scope = scope == null ? null : scope.trim();
+    }
+
+    public Date getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(Date inTime) {
+        this.inTime = inTime;
+    }
+
+    public Date getInOutTime() {
+        return inOutTime;
+    }
+
+    public void setInOutTime(Date inOutTime) {
+        this.inOutTime = inOutTime;
     }
 }

@@ -5,6 +5,7 @@ import com.thinkgem.jeesite.api.entity.handler.TextMessage;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.config.WechatConfig;
 import com.thinkgem.jeesite.mapper.AccessTokenMapper;
+import com.thinkgem.jeesite.mapper.UserTokenMapper;
 import com.thinkgem.jeesite.modules.manager.users.entity.Users;
 import com.thinkgem.jeesite.modules.manager.users.service.UsersService;
 import com.thinkgem.jeesite.util.HttpUtil;
@@ -12,6 +13,8 @@ import com.thinkgem.jeesite.util.XMLUtil;
 import com.thinkgem.jeesite.vo.AccessToken;
 import com.thinkgem.jeesite.vo.AccessTokenExample;
 import com.thinkgem.jeesite.vo.UserToken;
+import com.thinkgem.jeesite.vo.UserTokenExample;
+import org.apache.commons.collections.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,24 +33,38 @@ import java.util.logging.Logger;
 public class WechatApiService {
 
 
-
     @Autowired
     private AccessTokenMapper accessTokenMapper;
     @Autowired
     private WechatConfig wechatConfig;
     @Autowired
     private UsersService usersService;
+    @Autowired
+    private UserTokenMapper userTokenMapper;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
     public String getOpenIdByCode(String code) {
-        String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + wechatConfig.app_id + "&secret=" + wechatConfig.app_sercet + "&code=" + code + "&grant_type=authorization_code";
-        String result = HttpUtil.httpRequest(url);
-        logger.info("用户授权返回信息： "+result);
-        UserToken userToken = JSONObject.parseObject(result, UserToken.class);
-        if (userToken != null) {
-            return userToken.getOpenid();
+        UserTokenExample example = new UserTokenExample();
+        UserTokenExample.Criteria query = example.createCriteria();
+        query.andCodeEqualTo(code).andInOutTimeGreaterThan(new Date());
+        List<UserToken> list = userTokenMapper.selectByExample(example);
+        if (list != null && !list.isEmpty()) {
+            return list.get(0).getOpenid();
+        } else {
+            String url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" + wechatConfig.app_id + "&secret=" + wechatConfig.app_sercet + "&code=" + code + "&grant_type=authorization_code";
+            String result = HttpUtil.httpRequest(url);
+            logger.info("用户授权返回信息： " + result);
+            UserToken userToken = JSONObject.parseObject(result, UserToken.class);
+            Date now = new Date();
+            userToken.setInTime(now);
+            userToken.setInOutTime(getTwoHoursDate(now));
+            userTokenMapper.insert(userToken);
+            if (userToken != null) {
+                return userToken.getOpenid();
+            }
         }
+
         return null;
 
     }
