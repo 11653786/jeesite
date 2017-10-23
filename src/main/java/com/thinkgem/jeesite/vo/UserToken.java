@@ -7,11 +7,11 @@ public class UserToken {
 
     private String code;
 
-    private String accessToken;
+    private String access_token;
 
-    private String expiresIn;
+    private String expires_in;
 
-    private String refreshToken;
+    private String refresh_token;
 
     private String openid;
 
@@ -20,6 +20,7 @@ public class UserToken {
     private Date inTime;
 
     private Date inOutTime;
+
 
     public Integer getId() {
         return id;
@@ -34,31 +35,31 @@ public class UserToken {
     }
 
     public void setCode(String code) {
-        this.code = code == null ? null : code.trim();
+        this.code = code;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getAccess_token() {
+        return access_token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken == null ? null : accessToken.trim();
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
     }
 
-    public String getExpiresIn() {
-        return expiresIn;
+    public String getExpires_in() {
+        return expires_in;
     }
 
-    public void setExpiresIn(String expiresIn) {
-        this.expiresIn = expiresIn == null ? null : expiresIn.trim();
+    public void setExpires_in(String expires_in) {
+        this.expires_in = expires_in;
     }
 
-    public String getRefreshToken() {
-        return refreshToken;
+    public String getRefresh_token() {
+        return refresh_token;
     }
 
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken == null ? null : refreshToken.trim();
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
     }
 
     public String getOpenid() {
@@ -66,7 +67,7 @@ public class UserToken {
     }
 
     public void setOpenid(String openid) {
-        this.openid = openid == null ? null : openid.trim();
+        this.openid = openid;
     }
 
     public String getScope() {
@@ -74,7 +75,7 @@ public class UserToken {
     }
 
     public void setScope(String scope) {
-        this.scope = scope == null ? null : scope.trim();
+        this.scope = scope;
     }
 
     public Date getInTime() {

@@ -4,9 +4,9 @@
   <resultMap id="BaseResultMap" type="com.thinkgem.jeesite.vo.UserToken" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="code" property="code" jdbcType="VARCHAR" />
-    <result column="access_token" property="accessToken" jdbcType="VARCHAR" />
-    <result column="expires_in" property="expiresIn" jdbcType="VARCHAR" />
-    <result column="refresh_token" property="refreshToken" jdbcType="VARCHAR" />
+    <result column="access_token" property="access_token" jdbcType="VARCHAR" />
+    <result column="expires_in" property="expires_in" jdbcType="VARCHAR" />
+    <result column="refresh_token" property="refresh_token" jdbcType="VARCHAR" />
     <result column="openid" property="openid" jdbcType="VARCHAR" />
     <result column="scope" property="scope" jdbcType="VARCHAR" />
     <result column="in_time" property="inTime" jdbcType="TIMESTAMP" />
@@ -109,8 +109,8 @@
       expires_in, refresh_token, openid, 
       scope, in_time, in_out_time
       )
-    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{accessToken,jdbcType=VARCHAR}, 
-      #{expiresIn,jdbcType=VARCHAR}, #{refreshToken,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}, #{access_token,jdbcType=VARCHAR},
+      #{expires_in,jdbcType=VARCHAR}, #{refresh_token,jdbcType=VARCHAR}, #{openid,jdbcType=VARCHAR},
       #{scope,jdbcType=VARCHAR}, #{inTime,jdbcType=TIMESTAMP}, #{inOutTime,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -123,13 +123,13 @@
       <if test="code != null" >
         code,
       </if>
-      <if test="accessToken != null" >
+      <if test="access_token != null" >
         access_token,
       </if>
-      <if test="expiresIn != null" >
+      <if test="expires_in != null" >
         expires_in,
       </if>
-      <if test="refreshToken != null" >
+      <if test="refresh_token != null" >
         refresh_token,
       </if>
       <if test="openid != null" >
@@ -152,14 +152,14 @@
       <if test="code != null" >
         #{code,jdbcType=VARCHAR},
       </if>
-      <if test="accessToken != null" >
-        #{accessToken,jdbcType=VARCHAR},
+      <if test="access_token != null" >
+        #{access_token,jdbcType=VARCHAR},
       </if>
-      <if test="expiresIn != null" >
-        #{expiresIn,jdbcType=VARCHAR},
+      <if test="expires_in != null" >
+        #{expires_in,jdbcType=VARCHAR},
       </if>
-      <if test="refreshToken != null" >
-        #{refreshToken,jdbcType=VARCHAR},
+      <if test="refresh_token != null" >
+        #{refresh_token,jdbcType=VARCHAR},
       </if>
       <if test="openid != null" >
         #{openid,jdbcType=VARCHAR},
@@ -190,14 +190,14 @@
       <if test="record.code != null" >
         code = #{record.code,jdbcType=VARCHAR},
       </if>
-      <if test="record.accessToken != null" >
-        access_token = #{record.accessToken,jdbcType=VARCHAR},
+      <if test="record.access_token != null" >
+        access_token = #{record.access_token,jdbcType=VARCHAR},
       </if>
-      <if test="record.expiresIn != null" >
-        expires_in = #{record.expiresIn,jdbcType=VARCHAR},
+      <if test="record.expires_in != null" >
+        expires_in = #{record.expires_in,jdbcType=VARCHAR},
       </if>
-      <if test="record.refreshToken != null" >
-        refresh_token = #{record.refreshToken,jdbcType=VARCHAR},
+      <if test="record.refresh_token != null" >
+        refresh_token = #{record.refresh_token,jdbcType=VARCHAR},
       </if>
       <if test="record.openid != null" >
         openid = #{record.openid,jdbcType=VARCHAR},
@@ -220,9 +220,9 @@
     update user_token
     set id = #{record.id,jdbcType=INTEGER},
       code = #{record.code,jdbcType=VARCHAR},
-      access_token = #{record.accessToken,jdbcType=VARCHAR},
-      expires_in = #{record.expiresIn,jdbcType=VARCHAR},
-      refresh_token = #{record.refreshToken,jdbcType=VARCHAR},
+      access_token = #{record.access_token,jdbcType=VARCHAR},
+      expires_in = #{record.expires_in,jdbcType=VARCHAR},
+      refresh_token = #{record.refresh_token,jdbcType=VARCHAR},
       openid = #{record.openid,jdbcType=VARCHAR},
       scope = #{record.scope,jdbcType=VARCHAR},
       in_time = #{record.inTime,jdbcType=TIMESTAMP},
@@ -237,14 +237,14 @@
       <if test="code != null" >
         code = #{code,jdbcType=VARCHAR},
       </if>
-      <if test="accessToken != null" >
-        access_token = #{accessToken,jdbcType=VARCHAR},
+      <if test="access_token != null" >
+        access_token = #{access_token,jdbcType=VARCHAR},
       </if>
-      <if test="expiresIn != null" >
-        expires_in = #{expiresIn,jdbcType=VARCHAR},
+      <if test="expires_in != null" >
+        expires_in = #{expires_in,jdbcType=VARCHAR},
       </if>
-      <if test="refreshToken != null" >
-        refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      <if test="refresh_token != null" >
+        refresh_token = #{refresh_token,jdbcType=VARCHAR},
       </if>
       <if test="openid != null" >
         openid = #{openid,jdbcType=VARCHAR},
@@ -264,9 +264,9 @@
   <update id="updateByPrimaryKey" parameterType="com.thinkgem.jeesite.vo.UserToken" >
     update user_token
     set code = #{code,jdbcType=VARCHAR},
-      access_token = #{accessToken,jdbcType=VARCHAR},
-      expires_in = #{expiresIn,jdbcType=VARCHAR},
-      refresh_token = #{refreshToken,jdbcType=VARCHAR},
+      access_token = #{access_token,jdbcType=VARCHAR},
+      expires_in = #{expires_in,jdbcType=VARCHAR},
+      refresh_token = #{refresh_token,jdbcType=VARCHAR},
       openid = #{openid,jdbcType=VARCHAR},
       scope = #{scope,jdbcType=VARCHAR},
       in_time = #{inTime,jdbcType=TIMESTAMP},

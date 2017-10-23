@@ -209,7 +209,7 @@
         JOIN drawer a ON a.drawer_no = cabinet_product_relaction.drawer_no
         <include refid="drawerJoins"/>
         WHERE
-        a.cabinet_id =#{cabinetId} AND a.product_id =#{productId} AND a.drawer_status=1 and a.food_status=0
+        a.cabinet_id =#{cabinetId} AND cabinet_product_relaction.product_id =#{productId} AND a.drawer_status=1 and a.food_status=0
     </select>
 
 

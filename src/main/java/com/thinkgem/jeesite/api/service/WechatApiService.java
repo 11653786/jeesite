@@ -56,13 +56,18 @@ public class WechatApiService {
             String result = HttpUtil.httpRequest(url);
             logger.info("用户授权返回信息： " + result);
             UserToken userToken = JSONObject.parseObject(result, UserToken.class);
-            Date now = new Date();
-            userToken.setInTime(now);
-            userToken.setInOutTime(getTwoHoursDate(now));
-            userTokenMapper.insert(userToken);
-            if (userToken != null) {
-                return userToken.getOpenid();
+            if (userToken != null && StringUtils.isNotBlank(userToken.getOpenid())) {
+                userToken.setCode(code);
+                Date now = new Date();
+                userToken.setInTime(now);
+                userToken.setInOutTime(getTwoHoursDate(now));
+                userTokenMapper.insert(userToken);
+                if (userToken != null) {
+                    return userToken.getOpenid();
+                }
             }
+
+
         }
 
         return null;
