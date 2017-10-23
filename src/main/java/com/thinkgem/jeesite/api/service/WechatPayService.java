@@ -123,8 +123,8 @@ public class WechatPayService {
         try {
             //xml格式字符串
             Map<String, String> params = setWechatConfig();
-
-            params.put("nonce_str", TenpayUtil.genNonceStr());
+            String nonce_str = TenpayUtil.genNonceStr();
+            params.put("nonce_str", nonce_str);
             params.put("body", remark);
             params.put("out_trade_no", orderNo);
             //货币类型
@@ -145,18 +145,29 @@ public class WechatPayService {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
-                String timestamp = String.valueOf(new Date().getTime() / 1000);
-                resultMap.put("timestamp", timestamp);
-                resultMap.put("signType", "MD5");
+
+
+                //
+                Map<String, String> jsresultMap = new HashMap<String, String>();
 
                 prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息
                 if (StringUtils.isBlank(prePayId))
                     return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
                 else {
-                    resultMap.put("prepay_id", "prepay_id=" + prePayId);
-                    logger.info("公众号支付返回结果:" + JSONObject.toJSONString(resultMap));
-                    return PlatformRes.success(resultMap);
+                    String timestamp = String.valueOf(new Date().getTime() / 1000);
+                    //生成预支付请求参数列表
+                    jsresultMap.put("appId", wechatConfig.app_id);
+                    jsresultMap.put("timeStamp", timestamp);
+                    jsresultMap.put("nonceStr", nonce_str);
+                    jsresultMap.put("package","prepay_id="+prePayId);
+                    jsresultMap.put("signType", "MD5");
+
+                    String paySign = TenpayUtil.createSign(jsresultMap, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+                    jsresultMap.put("paySign", paySign);
+
+                    logger.info("公众号支付返回结果:" + JSONObject.toJSONString(jsresultMap));
+                    return PlatformRes.success(jsresultMap);
                 }
 
 

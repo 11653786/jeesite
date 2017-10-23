@@ -63,11 +63,11 @@
             },
             success: function (data) {
                 if (data.code == '0') {
-                    appId = data.data.appid;
-                    paySign = data.data.sign;
-                    timeStamp = data.data.timestamp;
-                    nonceStr = data.data.nonce_str;
-                    packageStr = data.data.prepay_id;
+                    appId = data.data.appId;
+                    paySign = data.data.paySign;
+                    timeStamp = data.data.timeStamp;
+                    nonceStr = data.data.nonceStr;
+                    packageStr = data.data.package;
                     signType = data.data.signType;
                     callpay();
                 } else {
