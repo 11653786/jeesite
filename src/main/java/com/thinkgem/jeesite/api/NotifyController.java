@@ -300,7 +300,7 @@ public class NotifyController {
     @RequestMapping(value = "/wechatJsPayNotify")
     @ResponseBody
     public String wechatJsPayNotify(HttpServletRequest request) {
-        logger.info("微信公众号回调-----------");
+        logger.info("微信公众号支付回调-----------");
         //读取参数
         InputStream inputStream;
         StringBuffer sb = new StringBuffer();
