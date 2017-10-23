@@ -28,7 +28,6 @@
             $("#submit").click(function () {
                 //Ajax调用处理
                 var orderNo =${orders.orderNo};
-                alert(orderNo);
                 var type =${type};
                 var remark = $("#remark").val();
                 if (remark == undefined || remark == null || remark == "") {

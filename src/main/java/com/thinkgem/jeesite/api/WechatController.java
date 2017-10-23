@@ -101,8 +101,10 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/redpacket")
-    public String redpacket(Model model, String openid) {
-        logger.info("传递过来的openid: " + openid);
+    public String redpacket(Model model, String code) {
+        logger.info("我的红包获取的code: " + code);
+        String openid = wechatApiService.getOpenIdByCode(code);
+        logger.info("我的红包获取的openId: " + code);
         Users users = usersService.findByOpenId(openid);
         if (users != null) {
             List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findEnableRedpacket(users.getOpenid());
@@ -116,7 +118,7 @@ public class WechatController {
      * 我的订单
      *
      * @param model
-     * @param openid
+     * @param code
      * @return
      */
     @RequestMapping(value = "/myorder")
@@ -189,12 +191,15 @@ public class WechatController {
      * @param nums
      * @param cabinetId
      * @param red
-     * @param openid
+     * @param code
      * @param model
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
-    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
+    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String code, Model model) {
+        logger.info("下单取的code: " + code);
+        String openid = wechatApiService.getOpenIdByCode(code);
+        logger.info("下单获取的openId: " + code);
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
         if (result.getCode().equals("0")) {
             //生成订单,这里应该跳转到微信下单的controller里去
