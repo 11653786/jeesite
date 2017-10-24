@@ -488,10 +488,10 @@ public class OrderService {
                 Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
                 //支付类型:公众号支付
                 if (orders.getPaymentStatus() == 1) {
-                    //未放餐预定
+                    //未放餐
                     if (StringUtils.isBlank(drawer.getProductId())) {
                         drawer.setFoodStatus(0 + "");
-                    } else {
+                    } else {//已放餐
                         drawer.setFoodStatus(1 + "");
                     }
                     drawerDao.update(drawer);
