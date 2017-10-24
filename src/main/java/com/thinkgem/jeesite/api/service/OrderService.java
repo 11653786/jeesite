@@ -113,7 +113,7 @@ public class OrderService {
             //使用红包,实付金额的判断
             if (userRedpacketRelaction != null) {
                 orders.setActualPayMoney(totalPrice - userRedpacketRelaction.getRedpacketPrice());
-                orders.setRedpacketId(userRedpacketRelaction.getRedpacketId());
+                orders.setRedpacketId(userRedpacketRelaction.getId());
                 orders.setRedpacketName(userRedpacketRelaction.getRedpacketName());
             } else
                 orders.setActualPayMoney(totalPrice);
@@ -149,7 +149,7 @@ public class OrderService {
                     orderGoodsDao.insert(orderGoods);
 
                     //锁定柜子5分钟
-                     drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(),4);
+                    drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(), 4);
 
 
                 }
@@ -415,6 +415,17 @@ public class OrderService {
             List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orderNo);
             if (orderGoods == null || orderGoods.isEmpty())
                 throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
+
+            UserRedpacketRelaction userRedpacketRelaction = null;
+            //微信公众号支付,使用红包就让红包成已使用
+            if (orders.getPaymentStatus() == 1) {
+                userRedpacketRelaction = userRedpacketRelactionDao.get(orders.getRedpacketId());
+                if(userRedpacketRelaction!=null){
+                    userRedpacketRelaction.setInUse(1);
+                    userRedpacketRelactionDao.update(userRedpacketRelaction);
+                }
+            }
+
 
             for (OrderGoods ordergood : orderGoods) {
                 //付款成功以后要锁定当前抽屉
