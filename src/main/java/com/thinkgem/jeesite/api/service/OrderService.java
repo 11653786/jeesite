@@ -420,7 +420,7 @@ public class OrderService {
             //微信公众号支付,使用红包就让红包成已使用
             if (orders.getPaymentStatus() == 1) {
                 userRedpacketRelaction = userRedpacketRelactionDao.get(orders.getRedpacketId());
-                if(userRedpacketRelaction!=null){
+                if (userRedpacketRelaction != null) {
                     userRedpacketRelaction.setInUse(1);
                     userRedpacketRelactionDao.update(userRedpacketRelaction);
                 }
@@ -465,6 +465,52 @@ public class OrderService {
 
         }
         return PlatformRes.success(null);
+    }
+
+
+    /**
+     * 取消订单
+     *
+     * @return
+     */
+    public PlatformRes<String> cancelOrder(String orderNo) {
+        Orders orders = null;
+        try {
+            orders = ordersDao.getOrdersByOrderNo(orderNo);
+            if (orders == null)
+                throw new RuntimeException(ResCodeMsgType.ORDERS_NOT_EXISTS.name());
+            List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orderNo);
+            if (orderGoods == null || orderGoods.isEmpty())
+                throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
+
+            for (OrderGoods ordergood : orderGoods) {
+                //付款成功以后要锁定当前抽屉
+                Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
+                //支付类型:公众号支付
+                if (orders.getPaymentStatus() == 1) {
+                    //未放餐预定
+                    if (StringUtils.isBlank(drawer.getProductId())) {
+                        drawer.setFoodStatus(0 + "");
+                    } else {
+                        drawer.setFoodStatus(1 + "");
+                    }
+                    drawerDao.update(drawer);
+                    //通知柜子开门
+                } else {
+                    return PlatformRes.error(null);
+                }
+
+
+            }
+            //支付取消
+            orders.setOrderStatus(5);
+            ordersDao.update(orders);
+            return PlatformRes.success(null);
+        } catch (Exception e) {
+            return PlatformRes.error("501", e.getMessage());
+        }
+
+
     }
 
 
@@ -522,7 +568,6 @@ public class OrderService {
     }
 
 
-    //
     public PlatformRes<String> validCabinetProduct(String productId, Integer num, String cabinetId) {
         Product product = productService.get(productId);
         if (product == null)

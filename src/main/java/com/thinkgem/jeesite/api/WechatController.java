@@ -304,4 +304,15 @@ public class WechatController {
     }
 
 
+    /**
+     * 微信公众号取消订单
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping(value = "cancelOrder")
+    @ResponseBody
+    public PlatformRes<String> cancelOrder(String orderNo) {
+        return orderService.cancelOrder(orderNo);
+    }
+
 }

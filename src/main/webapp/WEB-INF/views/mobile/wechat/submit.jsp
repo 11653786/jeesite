@@ -29,11 +29,12 @@
     <script type="text/javascript" src="${ctxStatic}/scripts/framework.launcher.js"></script>
 </head>
 <body>
-<input type="text" id="openId" value="${orders.openid}"/>
-<input type="text" id="orderNo" value="${orders.orderNo}"/>
-<input type="text" id="actualPayMoney" value="${orders.actualPayMoney}"/>
-<input type="text" id="productTotalPrice" value="${orders.payMoney}"/>
-<input type="text" id="productId" value="0"/>
+<input type="hidden" id="openId" value="${orders.openid}"/>
+<input type="hidden" id="orderNo" value="${orders.orderNo}"/>
+<input type="hidden" id="actualPayMoney" value="${orders.actualPayMoney}"/>
+<input type="hidden" id="productTotalPrice" value="${orders.payMoney}"/>
+<input type="hidden" id="productId" value="0"/>
+<div id="content" style="display:none;"></div>
 </body>
 </html>
 <script type="text/javascript">
@@ -71,7 +72,7 @@
                     signType = data.data.signType;
                     callpay();
                 } else {
-                    alert("提示信息："+data.message);
+                    alert("提示信息：" + data.message);
                 }
             }
         });
@@ -91,11 +92,31 @@
             function (res) {
                 if (res.err_msg == "get_brand_wcpay_request:ok") {
                     //window.location.replace("index.html");
-                    alert('支付成功');
+//                    alert('支付成功');
+                    location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=http://www.51hefan.net/jeesite/api/wechat/myorder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
                 } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-                    alert('支付取消');
+//                    alert('支付取消');
+                    //先取消锁定柜子在返回上一页
+                    $.ajax({
+                        type: "post",
+                        url: "${pageContext.request.contextPath}/api/wechat/cancelOrder",
+                        dataType: "json",
+                        data: {
+                            "orderNo": $("#orderNo").val()
+                        },
+                        success: function (data) {
+                            if (data.code == '0') {
+                                location.href = history.back();
+                            }
+                        }
+                    });
+
+
                 } else if (res.err_msg == "get_brand_wcpay_request:fail") {
                     alert('支付失败');
+                    $("#content").html("支付失败,请重新发起支付");
+                    $("#content").css("display", "block");
+
                 } //使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
             }
         )
