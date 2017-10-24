@@ -190,7 +190,7 @@
 		cabinet_product_relaction.drawer_id as "drawerId"
           from drawer drawer
         join cabinet_product_relaction cabinet_product_relaction on cabinet_product_relaction.drawer_no=drawer.drawer_no
-        where drawer.drawer_status=1 and drawer.food_status=0 and drawer.cabinet_id=#{cabinetId} and cabinet_product_relaction.product_id=#{productId}
+        where drawer.drawer_status=1 and drawer.food_status in (0,1) and drawer.cabinet_id=#{cabinetId} and cabinet_product_relaction.product_id=#{productId}
     </select>
 
 
