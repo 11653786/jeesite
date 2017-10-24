@@ -142,6 +142,17 @@
         WHERE  users.openid=#{openId} and a.in_use=1 and a.create_time &lt; now() and a.out_time &gt; now()
     </select>
 
+    <select id="findMyRedpacket" resultType="UserRedpacketRelaction">
+        SELECT
+        <include refid="userRedpacketRelactionColumns"/>
+        FROM user_redpacket_relaction a join users users on a.user_id=users.id
+        <include refid="userRedpacketRelactionJoins"/>
+        WHERE  users.openid=#{openId} order by a.create_time asc
+    </select>
+
+
+
+
 
 
 </mapper>

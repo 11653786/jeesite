@@ -107,7 +107,7 @@ public class WechatController {
         logger.info("我的红包获取的openId: " + code);
         Users users = usersService.findByOpenId(openid);
         if (users != null) {
-            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findEnableRedpacket(users.getOpenid());
+            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findMyRedpacket(users.getOpenid());
             if (userRedpacketRelaction != null && !userRedpacketRelaction.isEmpty())
                 model.addAttribute("redpackgets", userRedpacketRelaction);
         }
@@ -169,7 +169,7 @@ public class WechatController {
     /**
      * 微信公众号下单页面
      *
-     * @param openid
+     * @param code
      * @param model
      * @return
      */
@@ -200,7 +200,7 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
-    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model,String code) {
+    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model, String code) {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
         if (result.getCode().equals("0")) {
             //生成订单,这里应该跳转到微信下单的controller里去
@@ -307,6 +307,7 @@ public class WechatController {
 
     /**
      * 微信公众号取消订单
+     *
      * @param orderNo
      * @return
      */
