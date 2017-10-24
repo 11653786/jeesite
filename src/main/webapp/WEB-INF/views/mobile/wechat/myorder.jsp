@@ -59,7 +59,7 @@
             <em>订单详情：${order.phone}</em><br>
 
             <em style="float:right;margin-right:5px;">
-                <c:if test="${order.orderStatus==1 || order.orderStatus=3}">
+                <c:if test="${order.orderStatus==1 || order.orderStatus==3}">
                     <c:if test="${order.remark==null && order.remark==''}">
                         <a style="color:#000000;"
                            href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=1&orderNo=${order.orderNo}">评价</a>
