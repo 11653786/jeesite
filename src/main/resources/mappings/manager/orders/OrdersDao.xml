@@ -91,6 +91,17 @@
                 <if test="dbName == 'mssql'">'%'+#{cabinetNo}+'%'</if>
                 <if test="dbName == 'mysql'">concat('%',#{cabinetNo},'%')</if>
             </if>
+
+            <if test="payOrderStatus != null and payOrderStatus != ''">
+                and a.order_status in(1,3)
+            </if>
+
+            <if test="refundOrderStatus != null and refundOrderStatus != '' and refundStatus!=null and refundStatus!=''">
+                and a.refund_status is not null
+            </if>
+
+
+
         </where>
         <choose>
             <when test="page !=null and page.orderBy != null and page.orderBy != ''">

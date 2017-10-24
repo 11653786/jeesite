@@ -97,29 +97,44 @@ public class OrdersController extends BaseController {
         return "redirect:" + Global.getAdminPath() + "/orders/orders/?repage";
     }
 
-    @RequiresPermissions("orders:orders:queryorder")
-    @RequestMapping(value = "queryorder")
-    public String queryOrderList(String orderNo, Integer queryType, Model model) {
-        if (StringUtils.isNotBlank(orderNo)) {
-            model.addAttribute("orderNo", orderNo);
-        }
 
-        if (queryType != null)
-            model.addAttribute("queryType", queryType);
+    @RequiresPermissions("orders:orders:refund")
+    @RequestMapping(value = "refund")
+    public String refund(Orders orders, HttpServletRequest request, HttpServletResponse response, Model model) {
+        //状态为已支付,或者已取餐的
+        orders.setPayOrderStatus("1,3");
+        //退款的
+        orders.setRefundOrderStatus("is not null");
 
-        if (queryType != null) {
-            if (queryType == 0) {
-                PlatformRes<Orders> orders = orderService.queryOrder(orderNo);
-                model.addAttribute("order", orders);
-            } else if (queryType == 1) {
-                PlatformRes<String> orders = orderService.refundOrder(orderNo);
-                model.addAttribute("order", orders);
-            } else if (queryType == 2) {
-                PlatformRes<String> orders = orderService.queryRefundOrder(orderNo);
-                model.addAttribute("order", orders);
-            }
-        }
-        return "manager/orders/queryorder";
+        Page<Orders> page = ordersService.findPage(new Page<Orders>(request, response), orders);
+        model.addAttribute("page", page);
+        return "manager/orders/ordersRefundList";
     }
+
+
+//    @RequiresPermissions("orders:orders:queryorder")
+//    @RequestMapping(value = "queryorder")
+//    public String queryOrderList(String orderNo, Integer queryType, Model model) {
+//        if (StringUtils.isNotBlank(orderNo)) {
+//            model.addAttribute("orderNo", orderNo);
+//        }
+//
+//        if (queryType != null)
+//            model.addAttribute("queryType", queryType);
+//
+//        if (queryType != null) {
+//            if (queryType == 0) {
+//                PlatformRes<Orders> orders = orderService.queryOrder(orderNo);
+//                model.addAttribute("order", orders);
+//            } else if (queryType == 1) {
+//                PlatformRes<String> orders = orderService.refundOrder(orderNo);
+//                model.addAttribute("order", orders);
+//            } else if (queryType == 2) {
+//                PlatformRes<String> orders = orderService.queryRefundOrder(orderNo);
+//                model.addAttribute("order", orders);
+//            }
+//        }
+//        return "manager/orders/queryorder";
+//    }
 
 }
