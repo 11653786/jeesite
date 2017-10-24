@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
+import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +26,8 @@ import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.orders.service.OrdersService;
 
+import java.util.List;
+
 /**
  * 订单实体类Controller
  *
@@ -38,6 +42,8 @@ public class OrdersController extends BaseController {
     private OrdersService ordersService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderGoodsService orderGoodsService;
 
     @ModelAttribute
     public Orders get(@RequestParam(required = false) String id) {
@@ -54,6 +60,10 @@ public class OrdersController extends BaseController {
     @RequiresPermissions("orders:orders:view")
     @RequestMapping(value = {"list", ""})
     public String list(Orders orders, HttpServletRequest request, HttpServletResponse response, Model model) {
+        if (orders.getOrderStatus() == null) {
+            orders.setOrderStatus(1);
+        }
+
         Page<Orders> page = ordersService.findPage(new Page<Orders>(request, response), orders);
         model.addAttribute("page", page);
         return "manager/orders/ordersList";
@@ -62,7 +72,9 @@ public class OrdersController extends BaseController {
     @RequiresPermissions("orders:orders:view")
     @RequestMapping(value = "form")
     public String form(Orders orders, Model model) {
+        List<OrderGoods> orderGoods = orderGoodsService.getOrderGoodsByOrderNo(orders.getOrderNo());
         model.addAttribute("orders", orders);
+        model.addAttribute("orderGoods", orderGoods);
         return "manager/orders/ordersForm";
     }
 

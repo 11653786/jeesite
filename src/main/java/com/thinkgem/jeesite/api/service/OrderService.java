@@ -115,6 +115,7 @@ public class OrderService {
                 orders.setActualPayMoney(totalPrice - userRedpacketRelaction.getRedpacketPrice());
                 orders.setRedpacketId(userRedpacketRelaction.getId());
                 orders.setRedpacketName(userRedpacketRelaction.getRedpacketName());
+                orders.setRedpacketPrice(userRedpacketRelaction.getRedpacketPrice());
             } else
                 orders.setActualPayMoney(totalPrice);
 
