@@ -150,7 +150,7 @@
 			#{payMoney},
 			#{actualPayMoney},
 			#{orderStatus},
-			#{orderStatus},
+			#{paymentStatus},
 			#{wechatTradeNo},
 			#{alipayTradeNo},
 			#{createTime},
