@@ -182,6 +182,7 @@ public class WechatController {
         if (redpacketRelactions != null && !redpacketRelactions.isEmpty()) {
             model.addAttribute("redpacketRelactions", redpacketRelactions);
             model.addAttribute("openid", openid);
+            model.addAttribute("code", code);
         }
         return "wechat/shopping";
     }
@@ -199,7 +200,7 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
-    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
+    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model,String code) {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
         if (result.getCode().equals("0")) {
             //生成订单,这里应该跳转到微信下单的controller里去
@@ -208,11 +209,11 @@ public class WechatController {
                 return "redirect:/api/wechat/submit?orderNo=" + orders.getData().getOrderNo();
             else {
                 model.addAttribute("message", result.getMessage());
-                return "redirect:/api/wechat/shopping?openid=" + openid;
+                return "redirect:/api/wechat/shopping?code=" + code;
             }
         } else {
             model.addAttribute("message", result.getMessage());
-            return "redirect:/api/wechat/shopping?openid=" + openid;
+            return "redirect:/api/wechat/shopping?code=" + code;
         }
     }
 
