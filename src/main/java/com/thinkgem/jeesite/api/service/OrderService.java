@@ -421,7 +421,7 @@ public class OrderService {
             if (orders.getPaymentStatus() == 1) {
                 userRedpacketRelaction = userRedpacketRelactionDao.get(orders.getRedpacketId());
                 if (userRedpacketRelaction != null) {
-                    userRedpacketRelaction.setInUse(1);
+                    userRedpacketRelaction.setInUse(2);
                     userRedpacketRelactionDao.update(userRedpacketRelaction);
                 }
             }
