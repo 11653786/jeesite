@@ -113,7 +113,7 @@
 			user_name = #{userName},
 			redpacket_price = #{redpacketPrice},
 			create_time = #{createTime},
-			out_time = #{out_time},
+			out_time = #{outTime},
 			redpacket_type = #{redpacketType},
 			discount_ratio = #{discountRatio},
 			in_use=#{inUse},

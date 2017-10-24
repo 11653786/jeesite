@@ -95,6 +95,7 @@
 //                    alert('支付成功');
                     location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" + appId + "&redirect_uri=http://www.51hefan.net/jeesite/api/wechat/myorder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
                 } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                    alert("支付取消");
 //                    alert('支付取消');
                     //先取消锁定柜子在返回上一页
                     $.ajax({
@@ -105,6 +106,7 @@
                             "orderNo": $("#orderNo").val()
                         },
                         success: function (data) {
+                            alert(data.code);
                             if (data.code == '0') {
                                 location.href = history.back();
                             }
