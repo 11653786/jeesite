@@ -112,29 +112,29 @@ public class OrdersController extends BaseController {
     }
 
 
-//    @RequiresPermissions("orders:orders:queryorder")
-//    @RequestMapping(value = "queryorder")
-//    public String queryOrderList(String orderNo, Integer queryType, Model model) {
-//        if (StringUtils.isNotBlank(orderNo)) {
-//            model.addAttribute("orderNo", orderNo);
-//        }
-//
-//        if (queryType != null)
-//            model.addAttribute("queryType", queryType);
-//
-//        if (queryType != null) {
-//            if (queryType == 0) {
-//                PlatformRes<Orders> orders = orderService.queryOrder(orderNo);
-//                model.addAttribute("order", orders);
-//            } else if (queryType == 1) {
-//                PlatformRes<String> orders = orderService.refundOrder(orderNo);
-//                model.addAttribute("order", orders);
-//            } else if (queryType == 2) {
-//                PlatformRes<String> orders = orderService.queryRefundOrder(orderNo);
-//                model.addAttribute("order", orders);
-//            }
-//        }
-//        return "manager/orders/queryorder";
-//    }
+    @RequiresPermissions("orders:orders:refund")
+    @RequestMapping(value = "queryorder")
+    public String queryOrderList(String orderNo, Integer queryType, Model model) {
+        if (StringUtils.isNotBlank(orderNo)) {
+            model.addAttribute("orderNo", orderNo);
+        }
+
+        if (queryType != null)
+            model.addAttribute("queryType", queryType);
+
+        if (queryType != null) {
+            if (queryType == 0) {
+                PlatformRes<Orders> orders = orderService.queryOrder(orderNo);
+                model.addAttribute("order", orders);
+            } else if (queryType == 1) {
+                PlatformRes<String> orders = orderService.refundOrder(orderNo);
+                model.addAttribute("order", orders);
+            } else if (queryType == 2) {
+                PlatformRes<String> orders = orderService.queryRefundOrder(orderNo);
+                model.addAttribute("order", orders);
+            }
+        }
+        return "manager/orders/queryorder";
+    }
 
 }

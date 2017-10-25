@@ -324,11 +324,11 @@ public class OrderService {
         Orders orders = ordersDao.getOrdersByOrderNo(orderNo);
         if (orders == null)
             return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
-        if (StringUtils.isBlank(orders.getWechatTradeNo())) {
+        if (StringUtils.isBlank(orders.getWechatTradeNo()) && StringUtils.isNotBlank(orders.getAlipayTradeNo())) {
             //支付宝订单查询
             return null;
         } else {
-            if (orders.getRefundStatus() != null && (orders.getRefundStatus().equals("0") || orders.getRefundStatus().equals("2"))) {
+            if (orders.getRefundStatus() != null && (orders.getRefundStatus() == 0 || orders.getRefundStatus() == 2)) {
                 String refundOrderNo = StringUtils.isBlank(orders.getRefundNo()) ? TenpayUtil.getCurrTime() : orders.getRefundNo();
                 PlatformRes<String> result = wechatPayService.wechatRefundFee(orderNo, refundOrderNo, orders.getActualPayMoney(), orders.getActualPayMoney());
                 orders.setRefundNo(refundOrderNo);

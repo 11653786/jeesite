@@ -52,7 +52,7 @@
             <if test="orderNo != null and orderNo != ''">
                 AND a.order_no = #{orderNo}
             </if>
-            <if test="orderStatus != null and orderStatus != ''">
+            <if test="orderStatus != null">
                 AND a.order_status = #{orderStatus}
             </if>
             <if test="wechatTradeNo != null and wechatTradeNo != ''">
@@ -73,13 +73,13 @@
             <if test="phone != null and phone != ''">
                 AND a.phone = #{phone}
             </if>
-            <if test="paymentStatus != null and paymentStatus != ''">
+            <if test="paymentStatus != null">
                 AND a.payment_status = #{paymentStatus}
             </if>
             <if test="refundNo != null and refundNo != ''">
                 AND a.refund_No = #{refundNo}
             </if>
-            <if test="refundStatus != null and refundStatus != ''">
+            <if test="refundStatus != null">
                 AND a.refund_status = #{refundStatus}
             </if>
             <if test="refundTime != null and refundTime != ''">
@@ -96,7 +96,7 @@
                 and a.order_status in(1,3)
             </if>
 
-            <if test="refundOrderStatus != null and refundOrderStatus != '' and refundStatus!=null and refundStatus!=''">
+            <if test="refundOrderStatus != null and refundOrderStatus != ''">
                 and a.refund_status is not null
             </if>
 
