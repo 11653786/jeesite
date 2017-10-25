@@ -247,18 +247,20 @@ public class WechatPayService {
             //拼装参数
             String body = setRefundParams(orderNo, refundOrderNo, orderTotalFee, orderRefundFee);
             //发送http获取结果
-            HttpEntity entity = getHttpEntity(httpclient, response, body);
-            if (entity != null) {
+            response = getHttpEntity(httpclient, body);
+            if (response.getEntity() != null) {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
                     throw new RuntimeException("微信退款失败,请求参数:" + body);
                 }
+                String jsonStr =  EntityUtils.toString(response.getEntity(), "UTF-8");
+                logger.info("微信退款返回数据: " + jsonStr);
+                if (response.getEntity() != null)
 
-                if (entity != null)
-                    result = XMLUtil.doXMLParse(EntityUtils.toString(response.getEntity(), "UTF-8"));
+                    result = XMLUtil.doXMLParse(jsonStr);
 
             }
-            EntityUtils.consume(entity);
+            EntityUtils.consume(response.getEntity());
         } catch (Exception e) {
             e.getMessage();
         } finally {
@@ -361,8 +363,10 @@ public class WechatPayService {
         params.put("nonce_str", nonce_str);
         params.put("out_trade_no", orderNo);
         params.put("out_refund_no", refundOrderNo);
+//        params.put("total_fee", orderTotalFee + "");
+//        params.put("refund_fee", orderRefundFee + "");
         params.put("total_fee", test_fee);
-        params.put("refund_fee", orderRefundFee + "");
+        params.put("refund_fee", test_fee);
         String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
         params.put("sign", sign);
 
@@ -374,21 +378,17 @@ public class WechatPayService {
      * 获取微信退款http请求结果
      *
      * @param httpclient
-     * @param response
      * @throws IOException
      */
-    private HttpEntity getHttpEntity(CloseableHttpClient httpclient,
-                                     CloseableHttpResponse response, String xmlbody) throws IOException {
+    private CloseableHttpResponse getHttpEntity(CloseableHttpClient httpclient, String xmlbody) throws IOException {
         HttpPost httpPost = new HttpPost(wechatConfig.refund_order_url);
         //设置请求参数,并且请求
 
         StringEntity se = new StringEntity(xmlbody, "utf-8");
         se.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         httpPost.setEntity(se);
-        response = httpclient.execute(httpPost);
-        String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
-        logger.info("微信退款: " + jsonStr);
-        return response.getEntity();
+        CloseableHttpResponse response = httpclient.execute(httpPost);
+        return response;
     }
 
 
