@@ -46,6 +46,8 @@ public class WechatPayService {
     private static final Logger logger = LoggerFactory.getLogger(WechatPayService.class);
 
 
+    public static String test_fee = "1";
+
     /**
      * 微信统一下单
      *
@@ -68,7 +70,7 @@ public class WechatPayService {
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
 //            params.put("total_fee", actualPayMoney + "");
-            params.put("total_fee", "1");
+            params.put("total_fee", test_fee);
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
             params.put("product_id", "0");
@@ -160,7 +162,7 @@ public class WechatPayService {
                     jsresultMap.put("appId", wechatConfig.app_id);
                     jsresultMap.put("timeStamp", timestamp);
                     jsresultMap.put("nonceStr", nonce_str);
-                    jsresultMap.put("package","prepay_id="+prePayId);
+                    jsresultMap.put("package", "prepay_id=" + prePayId);
                     jsresultMap.put("signType", "MD5");
 
                     String paySign = TenpayUtil.createSign(jsresultMap, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
@@ -359,7 +361,7 @@ public class WechatPayService {
         params.put("nonce_str", nonce_str);
         params.put("out_trade_no", orderNo);
         params.put("out_refund_no", refundOrderNo);
-        params.put("total_fee", orderTotalFee + "");
+        params.put("total_fee", test_fee);
         params.put("refund_fee", orderRefundFee + "");
         String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
         params.put("sign", sign);
@@ -384,6 +386,8 @@ public class WechatPayService {
         se.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         httpPost.setEntity(se);
         response = httpclient.execute(httpPost);
+        String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+        logger.info("微信退款: " + jsonStr);
         return response.getEntity();
     }
 
