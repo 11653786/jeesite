@@ -28,7 +28,6 @@
             $("#submit").click(function () {
                 //Ajax调用处理
                 var orderNo =${orders.orderNo};
-                alert(orderNo);
                 var type =${type};
                 var remark = $("#remark").val();
                 if (remark == undefined || remark == null || remark == "") {
@@ -51,7 +50,7 @@
 
     </script>
 </head>
-<body style="background:#ccc;">
+<body style="background:#fadfdd;">
 <div style="margin-top:5px;margin-left:5px;" class="container no-bottom">
     <div class="section-title">
         <h4>订单号：${orders.orderNo}</h4>
@@ -63,13 +62,41 @@
             问题反馈
         </c:if>
         <textarea rows="3" cols="20" id="remark" name="remark"></textarea>
-        <button type="button" id="submit">提交</button>
+        <button class="file" type="button" id="submit">提交</button>
         <div id="tips"></div>
     </div>
 </div>
 
 </body>
 </html>
+<style type="text/css">
+    .file {
+        position: relative;
+        display: inline-block;
+        background: #D0EEFF;
+        border: 1px solid #99D3F5;
+        border-radius: 4px;
+        padding: 4px 12px;
+        overflow: hidden;
+        color: #1E88C7;
+        text-decoration: none;
+        text-indent: 0;
+        line-height: 20px;
+    }
+    .file input {
+        position: absolute;
+        font-size: 100px;
+        right: 0;
+        top: 0;
+        opacity: 0;
+    }
+    .file:hover {
+        background: #AADFFD;
+        border-color: #78C3F3;
+        color: #004974;
+        text-decoration: none;
+    }
+</style>
 
 
 

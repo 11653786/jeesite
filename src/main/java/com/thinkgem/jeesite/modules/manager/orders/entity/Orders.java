@@ -52,6 +52,11 @@ public class Orders extends DataEntity<Orders> {
     //
     private String putPassword; //取餐密码
 
+    //后台退款订单查询使用
+    private String payOrderStatus;
+
+    //后台退款订单查询使用
+    private String refundOrderStatus;
 
     public Orders() {
         super();
@@ -279,5 +284,22 @@ public class Orders extends DataEntity<Orders> {
 
     public void setPutPassword(String putPassword) {
         this.putPassword = putPassword;
+    }
+
+    public String getPayOrderStatus() {
+        return payOrderStatus;
+    }
+
+    public void setPayOrderStatus(String payOrderStatus) {
+        this.payOrderStatus = payOrderStatus;
+    }
+
+
+    public String getRefundOrderStatus() {
+        return refundOrderStatus;
+    }
+
+    public void setRefundOrderStatus(String refundOrderStatus) {
+        this.refundOrderStatus = refundOrderStatus;
     }
 }

@@ -1,18 +1,42 @@
 package com.thinkgem.jeesite.vo;
 
-import java.io.Serializable;
+import java.util.Date;
 
-/**
- * Created by Administrator on 2017/10/22.
- */
-public class UserToken implements Serializable{
+public class UserToken {
+    private Integer id;
+
+    private String code;
 
     private String access_token;
+
     private String expires_in;
+
     private String refresh_token;
+
     private String openid;
+
     private String scope;
 
+    private Date inTime;
+
+    private Date inOutTime;
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
 
     public String getAccess_token() {
         return access_token;
@@ -52,5 +76,21 @@ public class UserToken implements Serializable{
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public Date getInTime() {
+        return inTime;
+    }
+
+    public void setInTime(Date inTime) {
+        this.inTime = inTime;
+    }
+
+    public Date getInOutTime() {
+        return inOutTime;
+    }
+
+    public void setInOutTime(Date inOutTime) {
+        this.inOutTime = inOutTime;
     }
 }

@@ -11,28 +11,28 @@
     </script>
 </head>
 <body>
-<ul class="ul-form">
-    <form id="searchForm" action="${ctx}/orders/orders/queryorder" method="post" class="breadcrumb form-search">
+<%--<ul class="ul-form">--%>
+    <%--<form id="searchForm" action="${ctx}/orders/orders/queryorder" method="post" class="breadcrumb form-search">--%>
 
 
-        <ul class="ul-form">
-            <li><label>订单号：</label>
-                <input value="${orderNo}" name="orderNo" htmlEscape="false" maxlength="40" class="input-medium"/>
-            </li>
-            <li><label>订单状态：</label>
-                <select id="queryType" name="queryType">
-                    <option value="0">查询订单</option>
-                    <option value="1">退款</option>
-                    <option value="2">退款查询</option>
-                </select>
-            </li>
-            <li class="btns">
-                <input type="submit" class="btn btn-primary" value="查询">
-            </li>
-            <li class="clearfix"></li>
-        </ul>
-    </form>
-</ul>
+        <%--<ul class="ul-form">--%>
+            <%--<li><label>订单号：</label>--%>
+                <%--<input value="${orderNo}" name="orderNo" htmlEscape="false" maxlength="40" class="input-medium"/>--%>
+            <%--</li>--%>
+            <%--<li><label>订单状态：</label>--%>
+                <%--<select id="queryType" name="queryType">--%>
+                    <%--<option value="0">查询订单</option>--%>
+                    <%--<option value="1">退款</option>--%>
+                    <%--<option value="2">退款查询</option>--%>
+                <%--</select>--%>
+            <%--</li>--%>
+            <%--<li class="btns">--%>
+                <%--<input type="submit" class="btn btn-primary" value="查询">--%>
+            <%--</li>--%>
+            <%--<li class="clearfix"></li>--%>
+        <%--</ul>--%>
+    <%--</form>--%>
+<%--</ul>--%>
 
 <c:if test="${order!=null && order!=''}">
     code:${order.code},<br>

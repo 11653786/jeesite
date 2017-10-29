@@ -113,8 +113,9 @@ public class OrderService {
             //使用红包,实付金额的判断
             if (userRedpacketRelaction != null) {
                 orders.setActualPayMoney(totalPrice - userRedpacketRelaction.getRedpacketPrice());
-                orders.setRedpacketId(userRedpacketRelaction.getRedpacketId());
+                orders.setRedpacketId(userRedpacketRelaction.getId());
                 orders.setRedpacketName(userRedpacketRelaction.getRedpacketName());
+                orders.setRedpacketPrice(userRedpacketRelaction.getRedpacketPrice());
             } else
                 orders.setActualPayMoney(totalPrice);
 
@@ -149,7 +150,7 @@ public class OrderService {
                     orderGoodsDao.insert(orderGoods);
 
                     //锁定柜子5分钟
-                     drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(),4);
+                    drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(), 4);
 
 
                 }
@@ -323,11 +324,11 @@ public class OrderService {
         Orders orders = ordersDao.getOrdersByOrderNo(orderNo);
         if (orders == null)
             return PlatformRes.error(ResCodeMsgType.ORDERS_NOT_EXISTS);
-        if (StringUtils.isBlank(orders.getWechatTradeNo())) {
+        if (StringUtils.isBlank(orders.getWechatTradeNo()) && StringUtils.isNotBlank(orders.getAlipayTradeNo())) {
             //支付宝订单查询
             return null;
         } else {
-            if (orders.getRefundStatus() != null && (orders.getRefundStatus().equals("0") || orders.getRefundStatus().equals("2"))) {
+            if (orders.getRefundStatus() != null && (orders.getRefundStatus() == 0 || orders.getRefundStatus() == 2)) {
                 String refundOrderNo = StringUtils.isBlank(orders.getRefundNo()) ? TenpayUtil.getCurrTime() : orders.getRefundNo();
                 PlatformRes<String> result = wechatPayService.wechatRefundFee(orderNo, refundOrderNo, orders.getActualPayMoney(), orders.getActualPayMoney());
                 orders.setRefundNo(refundOrderNo);
@@ -416,6 +417,17 @@ public class OrderService {
             if (orderGoods == null || orderGoods.isEmpty())
                 throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
 
+            UserRedpacketRelaction userRedpacketRelaction = null;
+            //微信公众号支付,使用红包就让红包成已使用
+            if (orders.getPaymentStatus() == 1) {
+                userRedpacketRelaction = userRedpacketRelactionDao.get(orders.getRedpacketId());
+                if (userRedpacketRelaction != null) {
+                    userRedpacketRelaction.setInUse(2);
+                    userRedpacketRelactionDao.update(userRedpacketRelaction);
+                }
+            }
+
+
             for (OrderGoods ordergood : orderGoods) {
                 //付款成功以后要锁定当前抽屉
                 Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
@@ -454,6 +466,52 @@ public class OrderService {
 
         }
         return PlatformRes.success(null);
+    }
+
+
+    /**
+     * 取消订单
+     *
+     * @return
+     */
+    public PlatformRes<String> cancelOrder(String orderNo) {
+        Orders orders = null;
+        try {
+            orders = ordersDao.getOrdersByOrderNo(orderNo);
+            if (orders == null)
+                throw new RuntimeException(ResCodeMsgType.ORDERS_NOT_EXISTS.name());
+            List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(orderNo);
+            if (orderGoods == null || orderGoods.isEmpty())
+                throw new RuntimeException(ResCodeMsgType.OUT_FOOD_EXCEPTION.name());
+
+            for (OrderGoods ordergood : orderGoods) {
+                //付款成功以后要锁定当前抽屉
+                Drawer drawer = drawerDao.findCabinetAndDrawerNo(ordergood.getCabinetNo(), ordergood.getDrawerNo());
+                //支付类型:公众号支付
+                if (orders.getPaymentStatus() == 1) {
+                    //未放餐
+                    if (StringUtils.isBlank(drawer.getProductId())) {
+                        drawer.setFoodStatus(0 + "");
+                    } else {//已放餐
+                        drawer.setFoodStatus(1 + "");
+                    }
+                    drawerDao.update(drawer);
+                    //通知柜子开门
+                } else {
+                    return PlatformRes.error(null);
+                }
+
+
+            }
+            //支付取消
+            orders.setOrderStatus(5);
+            ordersDao.update(orders);
+            return PlatformRes.success(null);
+        } catch (Exception e) {
+            return PlatformRes.error("501", e.getMessage());
+        }
+
+
     }
 
 
@@ -511,7 +569,6 @@ public class OrderService {
     }
 
 
-    //
     public PlatformRes<String> validCabinetProduct(String productId, Integer num, String cabinetId) {
         Product product = productService.get(productId);
         if (product == null)

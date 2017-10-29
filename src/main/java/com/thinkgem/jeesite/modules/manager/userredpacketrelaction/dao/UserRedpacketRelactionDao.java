@@ -24,4 +24,7 @@ public interface UserRedpacketRelactionDao extends CrudDao<UserRedpacketRelactio
 
 
     public List<UserRedpacketRelaction> findEnableRedpacket(@Param("openId") String openId);
+
+    public List<UserRedpacketRelaction> findMyRedpacket(@Param("openId") String openId);
+
 }

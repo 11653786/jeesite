@@ -46,6 +46,8 @@ public class WechatPayService {
     private static final Logger logger = LoggerFactory.getLogger(WechatPayService.class);
 
 
+    public static String test_fee = "1";
+
     /**
      * 微信统一下单
      *
@@ -68,7 +70,7 @@ public class WechatPayService {
             //货币类型
             params.put("fee_type", wechatConfig.fee_type);
 //            params.put("total_fee", actualPayMoney + "");
-            params.put("total_fee", "1");
+            params.put("total_fee", test_fee);
             params.put("spbill_create_ip", "127.0.0.1");
             params.put("trade_type", tradeType);
             params.put("product_id", "0");
@@ -123,8 +125,8 @@ public class WechatPayService {
         try {
             //xml格式字符串
             Map<String, String> params = setWechatConfig();
-
-            params.put("nonce_str", TenpayUtil.genNonceStr());
+            String nonce_str = TenpayUtil.genNonceStr();
+            params.put("nonce_str", nonce_str);
             params.put("body", remark);
             params.put("out_trade_no", orderNo);
             //货币类型
@@ -145,18 +147,29 @@ public class WechatPayService {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
                 resultMap = XMLUtil.doXMLParse(result);
-                String timestamp = String.valueOf(new Date().getTime() / 1000);
-                resultMap.put("timestamp", timestamp);
-                resultMap.put("signType", "MD5");
+
+
+                //
+                Map<String, String> jsresultMap = new HashMap<String, String>();
 
                 prePayId = resultMap.get("prepay_id");
                 //没有生成支付信息就返回微信给的信息
                 if (StringUtils.isBlank(prePayId))
                     return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
                 else {
-                    resultMap.put("prepay_id", "prepay_id=" + prePayId);
-                    logger.info("公众号支付返回结果:" + JSONObject.toJSONString(resultMap));
-                    return PlatformRes.success(resultMap);
+                    String timestamp = String.valueOf(new Date().getTime() / 1000);
+                    //生成预支付请求参数列表
+                    jsresultMap.put("appId", wechatConfig.app_id);
+                    jsresultMap.put("timeStamp", timestamp);
+                    jsresultMap.put("nonceStr", nonce_str);
+                    jsresultMap.put("package", "prepay_id=" + prePayId);
+                    jsresultMap.put("signType", "MD5");
+
+                    String paySign = TenpayUtil.createSign(jsresultMap, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
+                    jsresultMap.put("paySign", paySign);
+
+                    logger.info("公众号支付返回结果:" + JSONObject.toJSONString(jsresultMap));
+                    return PlatformRes.success(jsresultMap);
                 }
 
 
@@ -234,18 +247,20 @@ public class WechatPayService {
             //拼装参数
             String body = setRefundParams(orderNo, refundOrderNo, orderTotalFee, orderRefundFee);
             //发送http获取结果
-            HttpEntity entity = getHttpEntity(httpclient, response, body);
-            if (entity != null) {
+            response = getHttpEntity(httpclient, body);
+            if (response.getEntity() != null) {
                 int statusCode = response.getStatusLine().getStatusCode();
                 if (statusCode != HttpStatus.SC_OK) {
                     throw new RuntimeException("微信退款失败,请求参数:" + body);
                 }
+                String jsonStr =  EntityUtils.toString(response.getEntity(), "UTF-8");
+                logger.info("微信退款返回数据: " + jsonStr);
+                if (response.getEntity() != null)
 
-                if (entity != null)
-                    result = XMLUtil.doXMLParse(EntityUtils.toString(response.getEntity(), "UTF-8"));
+                    result = XMLUtil.doXMLParse(jsonStr);
 
             }
-            EntityUtils.consume(entity);
+            EntityUtils.consume(response.getEntity());
         } catch (Exception e) {
             e.getMessage();
         } finally {
@@ -348,8 +363,10 @@ public class WechatPayService {
         params.put("nonce_str", nonce_str);
         params.put("out_trade_no", orderNo);
         params.put("out_refund_no", refundOrderNo);
-        params.put("total_fee", orderTotalFee + "");
-        params.put("refund_fee", orderRefundFee + "");
+//        params.put("total_fee", orderTotalFee + "");
+//        params.put("refund_fee", orderRefundFee + "");
+        params.put("total_fee", test_fee);
+        params.put("refund_fee", test_fee);
         String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
         params.put("sign", sign);
 
@@ -361,19 +378,17 @@ public class WechatPayService {
      * 获取微信退款http请求结果
      *
      * @param httpclient
-     * @param response
      * @throws IOException
      */
-    private HttpEntity getHttpEntity(CloseableHttpClient httpclient,
-                                     CloseableHttpResponse response, String xmlbody) throws IOException {
+    private CloseableHttpResponse getHttpEntity(CloseableHttpClient httpclient, String xmlbody) throws IOException {
         HttpPost httpPost = new HttpPost(wechatConfig.refund_order_url);
         //设置请求参数,并且请求
 
         StringEntity se = new StringEntity(xmlbody, "utf-8");
         se.setContentType("application/x-www-form-urlencoded;charset=UTF-8");
         httpPost.setEntity(se);
-        response = httpclient.execute(httpPost);
-        return response.getEntity();
+        CloseableHttpResponse response = httpclient.execute(httpPost);
+        return response;
     }
 
 

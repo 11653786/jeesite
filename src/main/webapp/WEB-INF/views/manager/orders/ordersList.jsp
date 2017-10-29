@@ -33,6 +33,12 @@
 					<form:options items="${fns:getDictList('order_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
+			<li><label>支付渠道：</label>
+				<form:select path="paymentStatus" class="input-medium">
+					<form:option value="" label=""/>
+					<form:options items="${fns:getDictList('payment_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
+				</form:select>
+			</li>
 			<li><label>微信流水：</label>
 				<form:input path="wechatTradeNo" htmlEscape="false" maxlength="100" class="input-medium"/>
 			</li>

@@ -9,7 +9,6 @@ import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao.CabinetProductRelactionDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
-import com.thinkgem.jeesite.modules.manager.ordergoods.service.OrderGoodsService;
 import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.modules.manager.product.entity.Product;
 import com.thinkgem.jeesite.modules.manager.product.service.ProductService;
@@ -26,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -101,11 +101,13 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/redpacket")
-    public String redpacket(Model model, String openid) {
-        logger.info("传递过来的openid: " + openid);
+    public String redpacket(Model model, String code) {
+        logger.info("我的红包获取的code: " + code);
+        String openid = wechatApiService.getOpenIdByCode(code);
+        logger.info("我的红包获取的openId: " + code);
         Users users = usersService.findByOpenId(openid);
         if (users != null) {
-            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findEnableRedpacket(users.getOpenid());
+            List<UserRedpacketRelaction> userRedpacketRelaction = userRedpacketRelactionService.findMyRedpacket(users.getOpenid());
             if (userRedpacketRelaction != null && !userRedpacketRelaction.isEmpty())
                 model.addAttribute("redpackgets", userRedpacketRelaction);
         }
@@ -116,18 +118,20 @@ public class WechatController {
      * 我的订单
      *
      * @param model
-     * @param openid
+     * @param code
      * @return
      */
     @RequestMapping(value = "/myorder")
     public String myorder(Model model, String code) {
+        List<Orders> orders = new ArrayList<Orders>();
         logger.info("传递过来的code: " + code);
         if (StringUtils.isNotBlank(code)) {
             String openid = wechatApiService.getOpenIdByCode(code);
             logger.info("获取的openid: " + openid);
-            List<Orders> orders = orderService.getOrderDetail(openid);
-            model.addAttribute("orders", orders);
+            orders = orderService.getOrderDetail(openid);
         }
+
+        model.addAttribute("orders", orders);
 
         return "wechat/myorder";
     }
@@ -165,16 +169,20 @@ public class WechatController {
     /**
      * 微信公众号下单页面
      *
-     * @param openid
+     * @param code
      * @param model
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.GET)
-    public String shopping(String openid, Model model) {
+    public String shopping(String code, Model model) {
+        logger.info("下单取的code: " + code);
+        String openid = wechatApiService.getOpenIdByCode(code);
+        logger.info("下单获取的openId: " + code);
         List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
         if (redpacketRelactions != null && !redpacketRelactions.isEmpty()) {
             model.addAttribute("redpacketRelactions", redpacketRelactions);
             model.addAttribute("openid", openid);
+            model.addAttribute("code", code);
         }
         return "wechat/shopping";
     }
@@ -192,7 +200,7 @@ public class WechatController {
      * @return
      */
     @RequestMapping(value = "/shopping", method = RequestMethod.POST)
-    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model) {
+    public String shopping(String[] ids, String[] nums, String cabinetId, String red, String openid, Model model, String code) {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
         if (result.getCode().equals("0")) {
             //生成订单,这里应该跳转到微信下单的controller里去
@@ -201,11 +209,11 @@ public class WechatController {
                 return "redirect:/api/wechat/submit?orderNo=" + orders.getData().getOrderNo();
             else {
                 model.addAttribute("message", result.getMessage());
-                return "redirect:/api/wechat/shopping?openid=" + openid;
+                return "redirect:/api/wechat/shopping?code=" + code;
             }
         } else {
             model.addAttribute("message", result.getMessage());
-            return "redirect:/api/wechat/shopping?openid=" + openid;
+            return "redirect:/api/wechat/shopping?code=" + code;
         }
     }
 
@@ -296,5 +304,17 @@ public class WechatController {
         return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
     }
 
+
+    /**
+     * 微信公众号取消订单
+     *
+     * @param orderNo
+     * @return
+     */
+    @RequestMapping(value = "cancelOrder")
+    @ResponseBody
+    public PlatformRes<String> cancelOrder(String orderNo) {
+        return orderService.cancelOrder(orderNo);
+    }
 
 }
