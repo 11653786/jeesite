@@ -28,20 +28,34 @@ public class SocketServer {
                 Socket client = server.accept();
                 if (client != null) {
                     log.info("客户端:" + client.getInetAddress().getHostAddress() + ":" + client.getPort() + "已连接到服务器");
-                    //读取客户端发送来的消息
-                    BufferedReader br = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                    String mess = br.readLine();
-                    log.info("客户端发来的消息：" + mess);
-                    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(client.getOutputStream()));
-                    bw.write(mess + "\n");
-                    log.info("服务返回消息：" + mess);
-                    bw.flush();
+                    receiveMessage(client);
                 }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void receiveMessage(Socket socket) throws IOException {
+        String receive = "";
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(64000);
+        byte[] buffer = new byte[12800];
+        int length;
+        InputStream inputStream = socket.getInputStream();
+
+        // read()会一直阻塞
+        while((length = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, length);
+            // 转码后读取数据
+            receive = byteArrayOutputStream.toString("UTF-8");
+            log.info("客户端发送消息：" + receive);
+            OutputStream socketWriter = socket.getOutputStream();
+            socketWriter.write(receive.getBytes());
+            socketWriter.flush();
+        }
+
+
     }
 
     private class SocketThread extends Thread {
