@@ -41,7 +41,7 @@ public class ServerHandler extends IoHandlerAdapter {
 //            return;
 //        }
 //        //回复服务器接收到的时间
-        session.write(DateUtils.formatDate(new Date(), DateUtils.parsePatterns[1]));
+        session.write(content);
         super.messageReceived(session, message);
     }
 

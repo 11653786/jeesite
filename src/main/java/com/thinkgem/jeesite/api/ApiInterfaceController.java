@@ -7,7 +7,6 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.api.service.OrderService;
-import com.thinkgem.jeesite.mina.SocketServer;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.service.CabinetProductRelactionService;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
@@ -169,7 +168,6 @@ public class ApiInterfaceController {
     @ResponseBody
     public String test(String data, String data1) {
         logger.info("data: " + data + ",data1: " + data1);
-        SocketServer.getInstance();
         return data;
     }
 
