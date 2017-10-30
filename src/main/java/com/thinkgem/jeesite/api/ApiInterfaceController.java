@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.api.service.OrderService;
+import com.thinkgem.jeesite.mina.SessionMap;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.service.CabinetProductRelactionService;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
@@ -59,14 +60,14 @@ public class ApiInterfaceController {
         } else if (data == 3) {  //获取商品列表
             Product product = new Product();
             product.setProductStatus(1 + "");
-            Gson gson=new Gson();
+            Gson gson = new Gson();
             return PlatformRes.success(gson.toJson(productService.findList(product)));
         } else if (data == 4) {   //工作人员放餐接口
             return drawerService.putFood(productId, foodPassword, cabinetNo, drawerNo);
         } else if (data == 5) { //根据柜子编号获取当前柜子抽屉和商品的关系
             CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
             cabinetProductRelaction.setCabinetNo(cabinetNo);
-            Gson gson=new Gson();
+            Gson gson = new Gson();
             return PlatformRes.success(gson.toJson(cabinetProductRelactionService.findList(cabinetProductRelaction)));
         } else if (data == 6) { //柜子通信是否正常接口
             Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
@@ -168,6 +169,14 @@ public class ApiInterfaceController {
     @ResponseBody
     public String test(String data, String data1) {
         logger.info("data: " + data + ",data1: " + data1);
+        return data;
+    }
+
+    @RequestMapping(value = "/test1")
+    @ResponseBody
+    public String test1(String data, String data1) {
+        String[] str = {"1"};
+        SessionMap.sendMessage(str, "address");
         return data;
     }
 

@@ -43,6 +43,9 @@ public class ServerHandler extends IoHandlerAdapter {
 //        //回复服务器接收到的时间
         session.write(content);
         super.messageReceived(session, message);
+        //保存客户端的会话session
+        SessionMap sessionMap = SessionMap.newInstance();
+        sessionMap.addSession("1", session);
     }
 
 
