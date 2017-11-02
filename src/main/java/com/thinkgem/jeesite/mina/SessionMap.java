@@ -80,4 +80,15 @@ public class SessionMap {
     }
 
 
+    public static void sendMessage(String key, Object message) {
+            IoSession session = getSession(key);
+
+            log.debug("反向发送消息到客户端Session---key=" + key + "----------消息=" + message);
+            if (session == null) {
+                return;
+            }
+            session.write(message);
+
+    }
+
 }

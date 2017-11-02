@@ -2,11 +2,15 @@ package com.thinkgem.jeesite.mina;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
+@Component
 public class SocketServer {
 
     private static int port = 8888;
@@ -45,11 +49,21 @@ public class SocketServer {
         InputStream inputStream = socket.getInputStream();
 
         // read()会一直阻塞
-        while((length = inputStream.read(buffer)) != -1) {
+        while ((length = inputStream.read(buffer)) != -1) {
             byteArrayOutputStream.write(buffer, 0, length);
             // 转码后读取数据
             receive = byteArrayOutputStream.toString("UTF-8");
             log.info("客户端发送消息：" + receive);
+            receive = receive.replace("Host:47.95.114.60", "");
+            Map<String, Object> params = getMap(receive);
+            //判断当前map
+            if (params != null && params.size() > 0) {
+                if (params.get("data").equals("0")) {  //首次注册
+                    String cabinetNo = params.get("cabinetNo").toString();
+                }
+            }
+
+
             OutputStream socketWriter = socket.getOutputStream();
             socketWriter.write(receive.getBytes());
             socketWriter.flush();
@@ -71,5 +85,17 @@ public class SocketServer {
 
             super.run();
         }
+    }
+
+    private static Map<String, Object> getMap(String receive) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        if (null != receive) {
+            String[] param = receive.split("&");
+            for (int i = 0; i < param.length; i++) {
+                int index = param[i].indexOf('=');
+                params.put(param[i].substring(0, index), param[i].substring((index + 1)));
+            }
+        }
+        return params;
     }
 }
