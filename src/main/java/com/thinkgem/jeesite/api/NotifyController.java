@@ -2,22 +2,34 @@ package com.thinkgem.jeesite.api;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
+import com.google.gson.Gson;
+import com.thinkgem.jeesite.api.entity.res.PaymentRes;
+import com.thinkgem.jeesite.api.entity.res.PlatformRes;
+import com.thinkgem.jeesite.api.enums.SocketResMsgType;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.config.AlipayConfig;
 import com.thinkgem.jeesite.config.WechatConfig;
+import com.thinkgem.jeesite.mina.SessionMap;
+import com.thinkgem.jeesite.modules.manager.ordergoods.dao.OrderGoodsDao;
+import com.thinkgem.jeesite.modules.manager.ordergoods.entity.OrderGoods;
+import com.thinkgem.jeesite.modules.manager.orders.dao.OrdersDao;
+import com.thinkgem.jeesite.modules.manager.orders.entity.Orders;
 import com.thinkgem.jeesite.util.TenpayUtil;
 import com.thinkgem.jeesite.util.XMLUtil;
+import javafx.application.Platform;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -36,6 +48,8 @@ public class NotifyController {
     private AlipayConfig alipayConfig;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private OrderGoodsDao orderGoodsDao;
 
 
     Logger logger = Logger.getLogger(this.getClass().getName());
@@ -228,7 +242,7 @@ public class NotifyController {
                     v = parameterValue.trim();
                 }
                 packageParams.put(parameter, v);
-                logger.info("扫码付回调url返回参数："+parameter+":"+v);
+                logger.info("扫码付回调url返回参数：" + parameter + ":" + v);
             }
 
 
@@ -263,6 +277,20 @@ public class NotifyController {
                     //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
                     resXml = "<xml>" + "<return_code><![CDATA[SUCCESS]]></return_code>"
                             + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
+
+                    List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(out_trade_no);
+                    logger.info("扫码付成功,下发消息： 子订单数量： " + orderGoods.size());
+                    String cabinetNo = null;
+                    String drawerNos = "";
+                    for (OrderGoods orderGood : orderGoods) {
+                        cabinetNo = orderGood.getCabinetNo();
+                        drawerNos = drawerNos + "," + orderGood.getDrawerNo();
+                    }
+
+                    SessionMap sessionMap = SessionMap.newInstance();
+                    Gson gson = new Gson();
+                    logger.info("下发消息：cabinetNo: " + cabinetNo + "drawerNos" + drawerNos);
+                    SessionMap.sendMessage(cabinetNo, gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.WECHAT_PAYMENT_TYPE.code()))));
 
                 } else {
                     logger.info("支付失败,错误信息：" + packageParams.get("err_code"));
@@ -331,7 +359,7 @@ public class NotifyController {
                     v = parameterValue.trim();
                 }
                 packageParams.put(parameter, v);
-                logger.info("微信公众号回调url返回参数："+parameter+":"+v);
+                logger.info("微信公众号回调url返回参数：" + parameter + ":" + v);
             }
 
 
@@ -392,8 +420,6 @@ public class NotifyController {
 
 
     }
-
-
 
 
 }
