@@ -93,7 +93,7 @@ public class SessionMap {
             log.info("mina,session消息异常");
                 return;
             }
-            session.write(message);
+            session.write(message+"@@@");
 
     }
 

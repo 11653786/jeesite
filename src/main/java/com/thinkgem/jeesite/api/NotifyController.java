@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.api;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.google.gson.Gson;
+import com.thinkgem.jeesite.api.entity.req.PlatformReq;
 import com.thinkgem.jeesite.api.entity.res.PaymentRes;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.SocketResMsgType;
@@ -290,7 +291,8 @@ public class NotifyController {
                     SessionMap sessionMap = SessionMap.newInstance();
                     Gson gson = new Gson();
                     logger.info("下发消息：cabinetNo: " + cabinetNo + "drawerNos" + drawerNos);
-                    SessionMap.sendMessage(cabinetNo, gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.WECHAT_PAYMENT_TYPE.code()))));
+                    String notifyMessage=gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.WECHAT_PAYMENT_TYPE.code())));
+                            SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
 
                 } else {
                     logger.info("支付失败,错误信息：" + packageParams.get("err_code"));

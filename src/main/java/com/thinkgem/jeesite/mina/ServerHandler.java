@@ -3,6 +3,7 @@ package com.thinkgem.jeesite.mina;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.thinkgem.jeesite.api.entity.req.PlatformReq;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.req.PutFoodReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
@@ -86,8 +87,7 @@ public class ServerHandler extends IoHandlerAdapter {
                         tradeType = "NATIVE";
                     }
 
-                    PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);
-                    result = JSONObject.toJSONString(results);
+                    PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);result = JSONObject.toJSONString(results);
                 } else if (data.equals("2")) {    //取餐,通过订单密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     String putPassword = params.get("putPassword").toString();
@@ -126,9 +126,9 @@ public class ServerHandler extends IoHandlerAdapter {
             }
         } catch (Exception e) {
             log.info("接口请求异常：" + e.getMessage());
-            result = gson.toJson(PlatformRes.error("500", "消息异常：" + e.getMessage()));
+            result = gson.toJson(PlatformRes.error("500", "消息异常：" + e.getMessage())+PlatformReq.aite);
         }
-        session.write(result);
+        session.write(result+ PlatformReq.aite);
         super.messageReceived(session, message);
 
     }

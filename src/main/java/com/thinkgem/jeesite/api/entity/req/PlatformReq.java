@@ -4,6 +4,8 @@ package com.thinkgem.jeesite.api.entity.req;
  * Created by yangtao on 2017/8/18.
  */
 public class PlatformReq<T> {
+
+    public static String aite="@@@";
     //1.0
     private String version;
     //pc,android
