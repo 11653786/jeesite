@@ -80,13 +80,13 @@ public class ServerHandler extends IoHandlerAdapter {
                     String tradeType = null;
                     String productsStr = params.get("productStr").toString();
                     Integer paymentType = Integer.valueOf(params.get("paymentType").toString());
-                    String repackgeId = params.get("repackgeId").toString();
+//                    String repackgeId = params.get("repackgeId").toString();
                     List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
                     if (paymentType == 0) {
                         tradeType = "NATIVE";
                     }
 
-                    result = gson.toJson(orderService.preorder(products, paymentType, tradeType, repackgeId));
+                    result = gson.toJson(orderService.preorder(products, paymentType, tradeType, null));
                 } else if (data.equals("2")) {    //取餐,通过订单密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     String putPassword = params.get("putPassword").toString();
