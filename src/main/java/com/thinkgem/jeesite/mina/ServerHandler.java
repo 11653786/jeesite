@@ -86,7 +86,8 @@ public class ServerHandler extends IoHandlerAdapter {
                         tradeType = "NATIVE";
                     }
 
-                    result = gson.toJson(orderService.preorder(products, paymentType, tradeType, null));
+                    PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);
+                    result = StringUtils.isNotBlank(results.getData())?results.getData():results.getCode();
                 } else if (data.equals("2")) {    //取餐,通过订单密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     String putPassword = params.get("putPassword").toString();
