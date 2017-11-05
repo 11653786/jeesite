@@ -59,6 +59,11 @@ public class CabinetHttpLogService {
                 cabinet.setCabinetStatus("1");
                 isSuccess = cabinetDao.update(cabinet);
             }
+        } else {
+            cabinet = new Cabinet();
+            cabinet.setCabinetNos(cabinetNo);
+            cabinet.preInsert();
+            cabinetDao.insert(cabinet);
         }
 
         return isSuccess;

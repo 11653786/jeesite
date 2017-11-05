@@ -60,6 +60,8 @@ public class SocketServer {
             if (params != null && params.size() > 0) {
                 if (params.get("data").equals("0")) {  //首次注册
                     String cabinetNo = params.get("cabinetNo").toString();
+                }else if(params.get("data").equals("1")){
+
                 }
             }
 

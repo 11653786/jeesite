@@ -1,12 +1,15 @@
 package com.thinkgem.jeesite.mina;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
+import com.thinkgem.jeesite.api.entity.req.PutFoodReq;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.service.CabinetProductRelactionService;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
@@ -19,6 +22,7 @@ import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 import java.util.Date;
@@ -26,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+@Component
 public class ServerHandler extends IoHandlerAdapter {
 
     private static final Log log = LogFactory.getLog(ServerHandler.class);
@@ -62,60 +66,70 @@ public class ServerHandler extends IoHandlerAdapter {
         String ip = address.getAddress().getHostAddress();
         String ips = ip + ":" + port;
         log.debug("柜子ip:" + ips + "服务端接收到的数据为: " + content);
+        String result = null;
+        Gson gson = new Gson();
+        SessionMap sessionMap = SessionMap.newInstance();
+        try {
+            content = content.replace("Host:47.95.114.60", "");
+            Map<String, Object> params = getMap(content);
+            String data = params.get("data").toString();
 
+            //判断当前map
+            if (params != null && params.size() > 0) {
+                if (data.equals("1")) { //下单
+                    String tradeType = null;
+                    String productsStr = params.get("productsStr").toString();
+                    Integer paymentType = Integer.valueOf(params.get("paymentType").toString());
+                    String repackgeId = params.get("repackgeId").toString();
+                    List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
+                    if (paymentType == 0) {
+                        tradeType = "NATIVE";
+                    }
 
-        content = content.replace("Host:47.95.114.60", "");
-        Map<String, Object> params = getMap(content);
-        String data = params.get("data").toString();
-        //判断当前map
-        if (params != null && params.size() > 0) {
-            if (data.equals("0")) {  //首次注册
-                String cabinetNo = params.get("cabinetNo").toString();
-            } else if (data.equals("1")) { //下单
-                String tradeType = null;
-                String productsStr = params.get("productsStr").toString();
-                Integer paymentType = Integer.valueOf(params.get("paymentType").toString());
-                String repackgeId = params.get("repackgeId").toString();
-                List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
-                if (paymentType == 0) {
-                    tradeType = "NATIVE";
+                    result = gson.toJson(orderService.preorder(products, paymentType, tradeType, repackgeId));
+                } else if (data.equals("2")) {    //取餐,通过订单密码
+                    String cabinetNo = params.get("cabinetNo").toString();
+                    String putPassword = params.get("putPassword").toString();
+                    result = gson.toJson(orderService.outFood(cabinetNo, putPassword));
+                } else if (data.equals("3")) {  //获取商品列表
+                    Product product = new Product();
+                    product.setProductStatus(1 + "");
+                    result = gson.toJson(PlatformRes.success(productService.findList(product)));
+                } else if (data.equals("4")) {   //工作人员放餐接口
+                    String putFoodReqs = params.get("list").toString();
+                    List<PutFoodReq> list = gson.fromJson(putFoodReqs, new TypeToken<List<PutFoodReq>>() {
+                    }.getType());
+                    for (PutFoodReq req : list) {
+                        result = gson.toJson(drawerService.putFood(req.getProductId(), req.getFoodPassword(), req.getCabinetNo(), req.getDrawerNo()));
+                    }
+
+                } else if (data.equals("5")) { //根据柜子编号获取当前柜子抽屉和商品的关系
+                    String cabinetNo = params.get("cabinetNo").toString();
+                    CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
+                    cabinetProductRelaction.setCabinetNo(cabinetNo);
+                    result = gson.toJson(PlatformRes.success(cabinetProductRelactionService.findList(cabinetProductRelaction)));
+                } else if (data.equals("6")) { //柜子通信是否正常接口
+                    String cabinetNo = params.get("cabinetNo").toString();
+                    Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
+                    if (StringUtils.isBlank(cabinetNo)) {
+                        cabinetNo = "1";
+                    }
+                    if (isSuccess == 0) {
+                        result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc()));
+                        SessionMap.removeSession(cabinetNo);
+                    } else {   //保存客户端的会话session
+                        sessionMap.addSession(cabinetNo, session);
+                        result = gson.toJson(PlatformRes.success("http通信操作成功"));
+                    }
                 }
-                orderService.preorder(products, paymentType, tradeType, repackgeId);
-            } else if (data.equals("2")) {    //取餐,通过订单密码
-                String cabinetNo = params.get("cabinetNo").toString();
-                String putPassword = params.get("putPassword").toString();
-                orderService.outFood(cabinetNo, putPassword);
-            } else if (data.equals("3")) {  //获取商品列表
-                Product product = new Product();
-                product.setProductStatus(1 + "");
-                Gson gson = new Gson();
-                PlatformRes.success(gson.toJson(productService.findList(product)));
-            } else if (data.equals("4")) {   //工作人员放餐接口
-                String cabinetNo = params.get("cabinetNo").toString();
-                String drawerNo = params.get("drawerNo").toString();
-                String productId = params.get("productId").toString();
-                String foodPassword = params.get("foodPassword").toString();
-                drawerService.putFood(productId, foodPassword, cabinetNo, drawerNo);
-            } else if (data.equals("5")) { //根据柜子编号获取当前柜子抽屉和商品的关系
-                String cabinetNo = params.get("cabinetNo").toString();
-                CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
-                cabinetProductRelaction.setCabinetNo(cabinetNo);
-                Gson gson = new Gson();
-                PlatformRes.success(gson.toJson(cabinetProductRelactionService.findList(cabinetProductRelaction)));
-            } else if (data.equals("6")) { //柜子通信是否正常接口
-                String cabinetNo = params.get("cabinetNo").toString();
-                Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
-                if (isSuccess == 0)
-                    PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc());
-                else
-                    PlatformRes.success("http通信操作成功");
             }
-            session.write(content);
-            super.messageReceived(session, message);
-            //保存客户端的会话session
-            SessionMap sessionMap = SessionMap.newInstance();
-            sessionMap.addSession("1", session);
+        } catch (Exception e) {
+            log.info("接口请求异常：" + e.getMessage());
+            result = gson.toJson(PlatformRes.error("500", "消息异常：" + e.getMessage()));
         }
+        session.write(result);
+        super.messageReceived(session, message);
+
     }
 
 
@@ -164,11 +178,13 @@ public class ServerHandler extends IoHandlerAdapter {
 
     private static Map<String, Object> getMap(String receive) {
         Map<String, Object> params = new HashMap<String, Object>();
-        if (null != receive) {
-            String[] param = receive.split("&");
-            for (int i = 0; i < param.length; i++) {
-                int index = param[i].indexOf('=');
-                params.put(param[i].substring(0, index), param[i].substring((index + 1)));
+        if (StringUtils.isNotBlank(receive)) {
+            if (null != receive) {
+                String[] param = receive.split("&");
+                for (int i = 0; i < param.length; i++) {
+                    int index = param[i].indexOf('=');
+                    params.put(param[i].substring(0, index), param[i].substring((index + 1)));
+                }
             }
         }
         return params;

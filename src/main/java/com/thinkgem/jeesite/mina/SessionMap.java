@@ -61,6 +61,11 @@ public class SessionMap {
         return map.get(key);
     }
 
+    public static IoSession removeSession(String key) {
+        log.debug("获取会话从SessionMap单例---key=" + key);
+        return map.remove(key);
+    }
+
     /**
      * @Description: 发送消息到客户端
      * @author whl
