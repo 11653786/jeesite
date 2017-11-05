@@ -78,7 +78,7 @@ public class ServerHandler extends IoHandlerAdapter {
             if (params != null && params.size() > 0) {
                 if (data.equals("1")) { //下单
                     String tradeType = null;
-                    String productsStr = params.get("productsStr").toString();
+                    String productsStr = params.get("productStr").toString();
                     Integer paymentType = Integer.valueOf(params.get("paymentType").toString());
                     String repackgeId = params.get("repackgeId").toString();
                     List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
