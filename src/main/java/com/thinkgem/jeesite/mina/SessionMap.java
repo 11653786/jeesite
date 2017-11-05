@@ -75,8 +75,9 @@ public class SessionMap {
         for (String key : keys) {
             IoSession session = getSession(key);
 
-            log.debug("反向发送消息到客户端Session---key=" + key + "----------消息=" + message);
+            log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
             if (session == null) {
+                log.info("mina,session消息异常");
                 return;
             }
             session.write(message);
@@ -87,9 +88,9 @@ public class SessionMap {
 
     public static void sendMessage(String key, Object message) {
             IoSession session = getSession(key);
-
-            log.debug("反向发送消息到客户端Session---key=" + key + "----------消息=" + message);
-            if (session == null) {
+            log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
+        if (session == null) {
+            log.info("mina,session消息异常");
                 return;
             }
             session.write(message);
