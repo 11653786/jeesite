@@ -8,6 +8,7 @@ import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.common.web.BaseController;
+import com.thinkgem.jeesite.mina.SessionMap;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
@@ -113,6 +114,7 @@ public class CabinetController extends BaseController {
     public String updatePasswordForm(Cabinet cabinet, String sysPassword, String foodPassword,RedirectAttributes redirectAttributes) {
         PlatformRes<String> result = cabinetService.updatePassword(cabinet, sysPassword, foodPassword);
         addMessage(redirectAttributes, result.getMessage());
+//        SessionMap sessionMap=SessionMap.sendMessage(cabinet.getCabinetNos(),);
         return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
     }
 

@@ -152,7 +152,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     public List<Orders> getOrderDetail(String openId) {
         return ordersDao.getOrderDetail(openId);
     }
-
+    @Transactional(readOnly = false)
     public void drawerOutTimeProcess() {
         //查詢已經支付并且超過兩小時的訂單
         List<Orders> ordersList = ordersDao.getPayOutTimeOrders();
