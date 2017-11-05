@@ -174,9 +174,8 @@ public class ApiInterfaceController {
 
     @RequestMapping(value = "/test1")
     @ResponseBody
-    public String test1(String data, String data1) {
-        String[] str = {"1"};
-        SessionMap.sendMessage(str, "address");
+    public String test1(String data) {
+        SessionMap.sendMessage(data, "address");
         return data;
     }
 

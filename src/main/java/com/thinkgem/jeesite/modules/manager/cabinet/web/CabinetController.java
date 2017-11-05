@@ -3,7 +3,10 @@
  */
 package com.thinkgem.jeesite.modules.manager.cabinet.web;
 
+import com.alibaba.fastjson.JSONObject;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
+import com.thinkgem.jeesite.api.entity.res.UpdateCabinetPassRes;
+import com.thinkgem.jeesite.api.enums.SocketResMsgType;
 import com.thinkgem.jeesite.common.config.Global;
 import com.thinkgem.jeesite.common.persistence.Page;
 import com.thinkgem.jeesite.common.utils.StringUtils;
@@ -111,9 +114,14 @@ public class CabinetController extends BaseController {
 
     @RequiresPermissions("cabinet:cabinet:edit")
     @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
-    public String updatePasswordForm(Cabinet cabinet, String sysPassword, String foodPassword,RedirectAttributes redirectAttributes) {
+    public String updatePasswordForm(Cabinet cabinet, String sysPassword, String foodPassword, RedirectAttributes redirectAttributes) {
         PlatformRes<String> result = cabinetService.updatePassword(cabinet, sysPassword, foodPassword);
         addMessage(redirectAttributes, result.getMessage());
+        if (result.getCode().equals("0")) {
+            UpdateCabinetPassRes updateCabinetPassRes = new UpdateCabinetPassRes(result.getCode(), result.getMessage(), SocketResMsgType.UPDATE_CABINET_PASS.code(), foodPassword, sysPassword);
+            String message = JSONObject.toJSONString(updateCabinetPassRes);
+            SessionMap.sendMessage(cabinet.getCabinetNos(), message);
+        }
 //        SessionMap sessionMap=SessionMap.sendMessage(cabinet.getCabinetNos(),);
         return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
     }
