@@ -290,9 +290,9 @@ public class NotifyController {
 
                     SessionMap sessionMap = SessionMap.newInstance();
                     Gson gson = new Gson();
-                    logger.info("下发消息：cabinetNo: " + cabinetNo + "drawerNos" + drawerNos);
                     String notifyMessage=gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.WECHAT_PAYMENT_TYPE.code())));
-                            SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
+                    logger.info("下发消息："+notifyMessage);
+                    SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
 
                 } else {
                     logger.info("支付失败,错误信息：" + packageParams.get("err_code"));

@@ -7,15 +7,15 @@ public class PaymentRes {
 
     private String cabinetNo;
     private String drawerNo;
-    private String data;
+    private String result;
 
     public PaymentRes() {
     }
 
-    public PaymentRes(String cabinetNo, String drawerNo, String data) {
+    public PaymentRes(String cabinetNo, String drawerNo, String result) {
         this.cabinetNo = cabinetNo;
         this.drawerNo = drawerNo;
-        this.data = data;
+        this.result = result;
     }
 
     public String getCabinetNo() {
@@ -34,11 +34,11 @@ public class PaymentRes {
         this.drawerNo = drawerNo;
     }
 
-    public String getData() {
-        return data;
+    public String getResult() {
+        return result;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setResult(String result) {
+        this.result = result;
     }
 }

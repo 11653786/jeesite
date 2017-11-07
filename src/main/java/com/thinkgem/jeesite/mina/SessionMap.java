@@ -7,6 +7,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.mina.core.session.IoSession;
 
+import javax.mail.Session;
+
 
 /**
  * @author whl
@@ -40,6 +42,17 @@ public class SessionMap {
         return sessionMap;
     }
 
+    public static void  removeSession(IoSession ioSession) {
+        for (String key : map.keySet()) {
+            //map.keySet()返回的是所有key的值
+            IoSession saveIosession = map.get(key);//得到每个key多对用value的值
+            if (saveIosession == ioSession) {
+                map.remove(key);
+                log.info("删除iossession： " + key);
+            }
+        }
+    }
+
 
     /**
      * @Description: 保存session会话
@@ -47,7 +60,7 @@ public class SessionMap {
      * @date 2014-9-29 下午1:31:05
      */
     public void addSession(String key, IoSession session) {
-        log.debug("保存会话到SessionMap单例---key=" + key);
+        log.info("保存会话到SessionMap单例---key=" + key);
         this.map.put(key, session);
     }
 
@@ -87,13 +100,13 @@ public class SessionMap {
 
 
     public static void sendMessage(String key, Object message) {
-            IoSession session = getSession(key);
-            log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
+        IoSession session = getSession(key);
+        log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
         if (session == null) {
             log.info("mina,session消息异常");
-                return;
-            }
-            session.write(message+"@@@");
+            return;
+        }
+        session.write(message + "@@@");
 
     }
 

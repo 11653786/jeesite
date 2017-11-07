@@ -87,7 +87,8 @@ public class ServerHandler extends IoHandlerAdapter {
                         tradeType = "NATIVE";
                     }
 
-                    PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);result = JSONObject.toJSONString(results);
+                    PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);
+                    result = JSONObject.toJSONString(results);
                 } else if (data.equals("2")) {    //取餐,通过订单密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     String putPassword = params.get("putPassword").toString();
@@ -119,16 +120,18 @@ public class ServerHandler extends IoHandlerAdapter {
                         result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc()));
                         SessionMap.removeSession(cabinetNo);
                     } else {   //保存客户端的会话session
-                        sessionMap.addSession(cabinetNo, session);
+                        if (SessionMap.getSession(cabinetNo) == null) {
+                            sessionMap.addSession(cabinetNo, session);
+                        }
                         result = gson.toJson(PlatformRes.success("http通信操作成功"));
                     }
                 }
             }
         } catch (Exception e) {
             log.info("接口请求异常：" + e.getMessage());
-            result = gson.toJson(PlatformRes.error("500", "消息异常：" + e.getMessage())+PlatformReq.aite);
+            result = gson.toJson(PlatformRes.error("500", "消息异常：" + e.getMessage()) + PlatformReq.aite);
         }
-        session.write(result+ PlatformReq.aite);
+        session.write(result + PlatformReq.aite);
         super.messageReceived(session, message);
 
     }
@@ -168,6 +171,7 @@ public class ServerHandler extends IoHandlerAdapter {
     @Override
     public void sessionClosed(IoSession session) throws Exception {
         log.debug("服务端与客户端连接关闭...");
+        SessionMap.removeSession(session);
         super.sessionClosed(session);
     }
 
