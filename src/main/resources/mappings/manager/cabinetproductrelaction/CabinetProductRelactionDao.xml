@@ -144,7 +144,7 @@
     <select id="findListByDrawerNo" resultType="CabinetProductRelaction">
         SELECT
         <include refid="cabinetProductRelactionColumns"/>
-        FROM cabinet_product_relaction a where a.drawer_no=#{drawerNo}
+        FROM cabinet_product_relaction a where a.drawer_no=#{drawerNo} and a.cabinet_no=#{cabinetNo}
     </select>
 
     <delete id="deleteByDrawerNo">
