@@ -118,7 +118,9 @@ public class ServerHandler extends IoHandlerAdapter {
                     }
                     if (isSuccess == 0) {
                         result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc()));
-                        SessionMap.removeSession(cabinetNo);
+                        if (SessionMap.getSession(cabinetNo) != null) {
+                            SessionMap.removeSession(cabinetNo);
+                        }
                     } else {   //保存客户端的会话session
                         if (SessionMap.getSession(cabinetNo) == null) {
                             sessionMap.addSession(cabinetNo, session);

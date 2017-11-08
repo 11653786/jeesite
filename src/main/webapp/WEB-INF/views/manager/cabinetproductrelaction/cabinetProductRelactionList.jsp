@@ -84,7 +84,7 @@
 					<fmt:formatDate value="${cabinetProductRelaction.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<shiro:hasPermission name="cabinetproductrelaction:cabinetProductRelaction:edit"><td>
-    				<a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/form1?id=${cabinetProductRelaction.id}">修改</a>
+    				<%--<a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/form1?id=${cabinetProductRelaction.id}">修改</a>--%>
 					<a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/delete?id=${cabinetProductRelaction.id}" onclick="return confirmx('确认要删除该柜子商品配置表吗？', this.href)">删除</a>
 				</td></shiro:hasPermission>
 			</tr>

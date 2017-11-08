@@ -107,9 +107,9 @@ public class CabinetProductRelactionController extends BaseController {
 
     @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:edit")
     @RequestMapping(value = "save")
-    public String save(String drawerId, String productId, RedirectAttributes redirectAttributes) {
+    public String save(String drawerId, String cabinetId, String productId, RedirectAttributes redirectAttributes) {
 
-        if (StringUtils.isBlank(productId) || StringUtils.isBlank(drawerId)) {
+        if (StringUtils.isBlank(productId) || StringUtils.isBlank(drawerId) || StringUtils.isBlank(cabinetId)) {
             addMessage(redirectAttributes, "传入参数异常");
             return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
         }
@@ -122,10 +122,15 @@ public class CabinetProductRelactionController extends BaseController {
             return "manager/cabinetproductrelaction/cabinetProductRelactionForm";
         }
 
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionService.findByCabinetIdAndDrawerId(cabinetId, drawerId);
+        if (cabinetProductRelaction == null) {
+            cabinetProductRelactionService.save(product, drawer);
+        } else {
+            cabinetProductRelactionService.updateProduct(cabinetProductRelaction.getId(), productId,product.getProductName());
+        }
 
-        cabinetProductRelactionService.save(product, drawer);
         addMessage(redirectAttributes, "保存抽屉商品配置成功");
-        return "redirect:" + Global.getAdminPath() + "/cabinetproductrelaction/cabinetProductRelaction/?repage";
+        return "redirect:" + Global.getAdminPath() + "/drawer/drawer/?repage";
     }
 
     @RequiresPermissions("cabinetproductrelaction:cabinetProductRelaction:edit")

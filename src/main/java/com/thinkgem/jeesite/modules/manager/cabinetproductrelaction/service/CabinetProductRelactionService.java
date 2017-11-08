@@ -77,10 +77,24 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
 
     }
 
+
+    @Transactional(readOnly = false)
+    public void updateProduct(String id,String productId,String productName) {
+        cabinetProductRelactionDao.updateProduct(id,productId,productName);
+    }
+
+
+
     @Transactional(readOnly = false)
     public void save(CabinetProductRelaction cabinetProductRelaction) {
         super.save(cabinetProductRelaction);
     }
+
+    @Transactional(readOnly = false)
+    public CabinetProductRelaction findByCabinetIdAndDrawerId(String cabinetId, String drawerId) {
+        return cabinetProductRelactionDao.findByCabinetIdAndDrawerId(cabinetId, drawerId);
+    }
+
 
     @Transactional(readOnly = false)
     public void delete(CabinetProductRelaction cabinetProductRelaction) {
