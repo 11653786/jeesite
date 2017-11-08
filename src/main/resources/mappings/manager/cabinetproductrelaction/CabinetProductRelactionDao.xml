@@ -131,7 +131,7 @@
     <select id="findBydrawerIdAndProductId" resultType="CabinetProductRelaction">
         select
         <include refid="cabinetProductRelactionColumns"/>
-        from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId};
+        from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId} and a.cabinet_no=#{cabinetNo}
     </select>
 
     <select id="findByDrawerNoAndProductId" resultType="CabinetProductRelaction">

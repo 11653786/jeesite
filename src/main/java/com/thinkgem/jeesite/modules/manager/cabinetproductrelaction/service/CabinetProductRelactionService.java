@@ -71,7 +71,7 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
         cabinetProductRelaction.setCreateTime(new Date());
         cabinetProductRelaction.setProductId(product.getId());
         cabinetProductRelaction.setProductName(product.getProductName());
-        CabinetProductRelaction existsEntity = cabinetProductRelactionDao.findBydrawerIdAndProductId(drawer.getId(), product.getId());
+        CabinetProductRelaction existsEntity = cabinetProductRelactionDao.findBydrawerIdAndProductId(cabinet.getCabinetNos(),drawer.getId(), product.getId());
         if (existsEntity == null)
             super.save(cabinetProductRelaction);
 
