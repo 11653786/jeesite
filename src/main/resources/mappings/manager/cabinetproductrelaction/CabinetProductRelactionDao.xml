@@ -194,4 +194,20 @@
     </select>
 
 
+    <select id="findByCabinetIdAndDrawerId" parameterType="CabinetProductRelaction" resultType="CabinetProductRelaction">
+
+        SELECT
+        <include refid="cabinetProductRelactionColumns"/>
+        FROM cabinet_product_relaction a
+        <include refid="cabinetProductRelactionJoins"/>
+        WHERE a.cabinet_id = #{cabinetId} and drawer_id=#{drawerId}
+
+    </select>
+    <update id="updateProduct" parameterType="CabinetProductRelaction" >
+        update cabinet_product_relaction set product_id=#{productId},product_name=#{productName} where id=#{id}
+    </update>
+
+
+
+
 </mapper>

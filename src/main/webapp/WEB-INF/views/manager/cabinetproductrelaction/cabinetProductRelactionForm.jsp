@@ -58,7 +58,7 @@
 </head>
 <body>
 <ul class="nav nav-tabs">
-    <li><a href="${ctx}/cabinet/cabinet/">快餐柜管理列表</a></li>
+    <li><a href="${ctx}/drawer/drawer/">抽屉管理</a></li>
     <shiro:hasPermission name="cabinetproductrelaction:cabinetProductRelaction:edit">
         <li class="active">
             <a href="${ctx}/cabinetproductrelaction/cabinetProductRelaction/form?id=${cabinet.id}">配置商品</a>
@@ -69,6 +69,7 @@
 <form:form id="inputForm" modelAttribute="cabinetProductRelactionList"
            action="${ctx}/cabinetproductrelaction/cabinetProductRelaction/save" method="post" class="form-horizontal">
     <input type="hidden" name="drawerId" value="${drawer.id}">
+    <input type="hidden" name="cabinetId" value="${drawer.cabinetId}">
     <sys:message content="${message}"/>
 
     <div class="control-group">

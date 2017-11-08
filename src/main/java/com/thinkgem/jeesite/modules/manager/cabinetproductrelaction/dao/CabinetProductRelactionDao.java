@@ -33,4 +33,8 @@ public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelact
 
     List<CabinetProductRelaction> findListByCabinetIdAndProductId(@Param("productId") String productId, @Param("cabinetId") String cabinetId);
 
+    CabinetProductRelaction findByCabinetIdAndDrawerId(@Param("cabinetId") String cabinetId, @Param("drawerId") String drawerId);
+
+    Integer updateProduct(@Param("id") String id, @Param("productId") String productId, @Param("productName") String productName);
+
 }
