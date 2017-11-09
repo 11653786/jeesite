@@ -28,9 +28,19 @@
 
     <select id="findList" resultType="CabinetProductRelaction">
         SELECT
-        <include refid="cabinetProductRelactionColumns"/>
+        a.id AS "id",
+        a.cabinet_id AS "cabinetId",
+        a.cabinet_no AS "cabinetNo",
+        a.product_id AS "productId",
+        a.cabinet_name AS "cabinetName",
+        a.product_name AS "productName",
+        a.cabinet_product_status AS "cabinetProductStatus",
+        a.create_time AS "createTime",
+        a.drawer_no as "drawerNo",
+        a.drawer_id as "drawerId",
+        drawer.food_status as "foodStatus"
         FROM cabinet_product_relaction a
-        <include refid="cabinetProductRelactionJoins"/>
+        join drawer drawer on drawer.id=a.drawer_id
         <where>
 
             <if test="cabinetNo != null and cabinetNo != ''">

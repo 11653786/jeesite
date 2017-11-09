@@ -27,6 +27,9 @@ public class CabinetProductRelaction extends DataEntity<CabinetProductRelaction>
 	private String productName;		// 商品名称
 	private String cabinetProductStatus;		// 启用状态
 	private Date createTime;		// 创建时间
+
+
+	private String foodStatus;		//放餐状态
 	
 	public CabinetProductRelaction() {
 		super();
@@ -120,4 +123,12 @@ public class CabinetProductRelaction extends DataEntity<CabinetProductRelaction>
     public void setDrawerNo(String drawerNo) {
         this.drawerNo = drawerNo;
     }
+
+	public String getFoodStatus() {
+		return foodStatus;
+	}
+
+	public void setFoodStatus(String foodStatus) {
+		this.foodStatus = foodStatus;
+	}
 }
