@@ -78,7 +78,7 @@ public class CabinetProductRelactionController extends BaseController {
         //获取当前抽屉信息
         Drawer drawer = drawerService.get(id);
         Cabinet cabinet = cabinetService.get(drawer.getCabinetId());
-        List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findListByDrawerNo(drawer.getDrawerNo());
+        List<CabinetProductRelaction> cabinetProductRelactionList = cabinetProductRelactionService.findListByDrawerNo(cabinet.getCabinetNos(),drawer.getDrawerNo());
         //
         model.addAttribute("cabinet", cabinet);
         model.addAttribute("drawer", drawer);

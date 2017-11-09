@@ -19,11 +19,11 @@ import java.util.List;
 @MyBatisDao
 public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelaction> {
 
-    CabinetProductRelaction findBydrawerIdAndProductId(@Param("drawerId") String drawerId, @Param("productId") String productId);
+    CabinetProductRelaction findBydrawerIdAndProductId(@Param("cabinetNo")String cabinetNo,@Param("drawerId") String drawerId, @Param("productId") String productId);
 
     CabinetProductRelaction findByDrawerNoAndProductId(@Param("drawerNo") String drawerNo, @Param("productId") String productId);
 
-    List<CabinetProductRelaction> findListByDrawerNo(@Param("drawerNo") String drawerNo);
+    List<CabinetProductRelaction> findListByDrawerNo(@Param("cabinetNo") String cabinetNo,@Param("drawerNo") String drawerNo);
 
     Integer deleteByDrawerNo(@Param("drawerNo") String drawerNo);
 
