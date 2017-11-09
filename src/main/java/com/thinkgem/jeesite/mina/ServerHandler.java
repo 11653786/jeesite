@@ -113,9 +113,6 @@ public class ServerHandler extends IoHandlerAdapter {
                 } else if (data.equals("6")) { //柜子通信是否正常接口
                     String cabinetNo = params.get("cabinetNo").toString();
                     Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
-                    if (StringUtils.isBlank(cabinetNo)) {
-                        cabinetNo = "1";
-                    }
                     if (isSuccess == 0) {
                         result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc()));
                         if (SessionMap.getSession(cabinetNo) != null) {
