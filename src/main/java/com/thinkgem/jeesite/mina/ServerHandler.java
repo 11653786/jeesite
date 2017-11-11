@@ -120,15 +120,16 @@ public class ServerHandler extends IoHandlerAdapter {
                         }
                     } else {   //保存客户端的会话session
                         if (SessionMap.getSession(cabinetNo) == null) {
-                            sessionMap.addSession(cabinetNo, session);
+                            sessionMap.removeSession(cabinetNo);
                         }
+                        sessionMap.addSession(cabinetNo, session);
                         result = gson.toJson(PlatformRes.success("http通信操作成功"));
                     }
                 }
             }
         } catch (Exception e) {
             log.info("接口请求异常：" + e.getMessage());
-            result = gson.toJson(PlatformRes.error("501", "接口请求异常：" + e.getMessage()))+PlatformReq.aite;
+            result = gson.toJson(PlatformRes.error("501", "接口请求异常：" + e.getMessage())) + PlatformReq.aite;
         }
         session.write(result + PlatformReq.aite);
         super.messageReceived(session, message);
