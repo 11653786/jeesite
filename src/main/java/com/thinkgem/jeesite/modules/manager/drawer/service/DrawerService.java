@@ -106,7 +106,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
             return PlatformRes.error(ResCodeMsgType.DRAWER_HAS_FOOD);
 
 
-        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findBydrawerNoAndProductId(cabinetNo,drawer.getDrawerNo(), productId);
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findByDrawerNoAndProductId(cabinetNo,drawer.getDrawerNo(), productId);
         if (cabinetProductRelaction == null)
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_PRODUCT);
 
