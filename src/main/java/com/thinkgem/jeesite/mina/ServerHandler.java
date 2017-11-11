@@ -128,7 +128,7 @@ public class ServerHandler extends IoHandlerAdapter {
             }
         } catch (Exception e) {
             log.info("接口请求异常：" + e.getMessage());
-            result = gson.toJson(PlatformRes.error("500", "消息异常：" + e.getMessage()) + PlatformReq.aite);
+            result = gson.toJson(PlatformRes.error("501", "接口请求异常：" + e.getMessage()))+PlatformReq.aite;
         }
         session.write(result + PlatformReq.aite);
         super.messageReceived(session, message);

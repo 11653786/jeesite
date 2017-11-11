@@ -283,7 +283,7 @@ public class OrderService {
         productReq.setProductName(product.getProductName());
         productReq.setProductNum(1);
         //判断当前柜子是否可以放当前的商品
-        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findByDrawerNoAndProductId(productReq.getDrawerNo(), productReq.getProductId());
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findBydrawerIdAndProductId(productReq.getCabinetNo(),productReq.getDrawerNo(), productReq.getProductId());
         if (cabinetProductRelaction == null)
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_PRODUCT);
 
