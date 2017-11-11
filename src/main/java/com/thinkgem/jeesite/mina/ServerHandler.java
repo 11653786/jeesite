@@ -119,7 +119,7 @@ public class ServerHandler extends IoHandlerAdapter {
                             SessionMap.removeSession(cabinetNo);
                         }
                     } else {   //保存客户端的会话session
-                        if (SessionMap.getSession(cabinetNo) == null) {
+                        if (SessionMap.getSession(cabinetNo) != null) {
                             sessionMap.removeSession(cabinetNo);
                         }
                         sessionMap.addSession(cabinetNo, session);
