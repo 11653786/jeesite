@@ -81,7 +81,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
 
     @Transactional(readOnly = false)
     public void delete(Drawer drawer) {
-        cabinetProductRelactionDao.deleteByDrawerNo(drawer.getDrawerNo());
+        cabinetProductRelactionDao.deleteByDrawerNo(drawer.getCabinetNo(),drawer.getDrawerNo());
         super.delete(drawer);
     }
 
