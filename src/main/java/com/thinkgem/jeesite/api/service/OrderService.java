@@ -450,7 +450,12 @@ public class OrderService {
 
             orders.setPaymentTime(new Date());
             //支付成功
-            orders.setOrderStatus(1);
+            if(orders.getPaymentStatus()==0){  //微信公众号支付成功预订订单
+                orders.setOrderStatus(1);
+            }else if(orders.getPaymentStatus()==1){  //扫码付当面取餐
+                orders.setOrderStatus(3);
+            }
+
             ordersDao.update(orders);
             //微信扫码付款,支付宝扫码付,需要通知柜子机器
             if (orders.getPaymentStatus() == 0 || orders.getPaymentStatus() == 2) {
