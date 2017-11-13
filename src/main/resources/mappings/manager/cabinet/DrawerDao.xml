@@ -80,6 +80,7 @@
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
+                order by a.cabinet_no desc,a.drawer_no asc
             </otherwise>
         </choose>
     </select>
