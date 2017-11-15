@@ -28,7 +28,7 @@
 </div>
 <!--头部结束-->
 <form id="form" action="${pageContext.request.contextPath}/api/wechat/shopping" method="post">
-    <input type="hidden" id="openId" name="openid" value="${openid}"/>
+    <input type="text" id="openId" name="openid" value="${openid}"/>
     <div class="shopping">
 
         <div class="shop-group-item">
