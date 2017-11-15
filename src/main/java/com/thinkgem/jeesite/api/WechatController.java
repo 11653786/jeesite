@@ -177,7 +177,6 @@ public class WechatController {
     public String shopping(String code, Model model) {
         logger.info("下单取的code: " + code);
         String openid = wechatApiService.getOpenIdByCode(code);
-        logger.info("下单获取的openId: " + code);
         List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
         if (redpacketRelactions != null && !redpacketRelactions.isEmpty()) {
             model.addAttribute("redpacketRelactions", redpacketRelactions);
@@ -204,6 +203,7 @@ public class WechatController {
         PlatformRes<String> result = orderService.validPreOrder(ids, nums, cabinetId, red);
         if (result.getCode().equals("0")) {
             //生成订单,这里应该跳转到微信下单的controller里去
+            logger.info("下单openId:"+openid);
             PlatformRes<Orders> orders = orderService.wechatPublicPreorder(ids, nums, cabinetId, red, openid);
             if (orders.getCode() == "0")
                 return "redirect:/api/wechat/submit?orderNo=" + orders.getData().getOrderNo();
@@ -301,7 +301,6 @@ public class WechatController {
     @RequestMapping(value = "/wechatJsPay", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
-        logger.info("微信扫码付接口进入-------------");
         return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
     }
 

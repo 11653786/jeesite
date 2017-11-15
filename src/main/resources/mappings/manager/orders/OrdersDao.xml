@@ -323,7 +323,7 @@
                 a.refund_status as "refundStatus",
                 a.refund_time as "refundTime",
                 a.put_password as "putPassword"
-                from orders a where a.create_time &gt; date_sub(now(), interval 3 HOUR) and a.order_status=1 and a.payment_type=0
+                from orders a where a.create_time &gt; date_sub(now(), interval 3 HOUR) and a.order_status=1 and a.payment_status=0
     </select>
 
 </mapper>
