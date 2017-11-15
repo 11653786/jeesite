@@ -301,6 +301,7 @@ public class WechatController {
     @RequestMapping(value = "/wechatJsPay", method = {RequestMethod.GET, RequestMethod.POST})
     @ResponseBody
     public PlatformRes<Map<String, String>> wechatJsPay(String orderNo, String openid, String productIds, Integer actualPayMoney, String tradeType, String remark) {
+        logger.info("微信扫码付接口进入-------------");
         return wechatPayService.wechatJsPay(orderNo, openid, productIds, actualPayMoney, tradeType, remark);
     }
 
