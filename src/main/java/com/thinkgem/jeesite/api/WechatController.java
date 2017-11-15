@@ -180,9 +180,11 @@ public class WechatController {
         List<UserRedpacketRelaction> redpacketRelactions = userRedpacketRelactionService.findEnableRedpacket(openid);
         if (redpacketRelactions != null && !redpacketRelactions.isEmpty()) {
             model.addAttribute("redpacketRelactions", redpacketRelactions);
-            model.addAttribute("openid", openid);
-            model.addAttribute("code", code);
+
         }
+        logger.info("下单传递的openId: "+openid);
+        model.addAttribute("openid", openid);
+        model.addAttribute("code", code);
         return "wechat/shopping";
     }
 
