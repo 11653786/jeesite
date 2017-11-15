@@ -154,10 +154,12 @@ public class WechatPayService {
                 Map<String, String> jsresultMap = new HashMap<String, String>();
 
                 prePayId = resultMap.get("prepay_id");
-                logger.info("预支付id: "+prePayId);
+                logger.info("预支付返回信息: "+JSONObject.toJSONString(resultMap));
                 //没有生成支付信息就返回微信给的信息
-                if (StringUtils.isBlank(prePayId))
+                if (StringUtils.isBlank(prePayId)){
+                    logger.info("微信扫码付预支付id为空,错误信息: "+resultMap.get("err_code")+","+resultMap.get("err_code_des"));
                     return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
+                }
                 else {
                     String timestamp = String.valueOf(new Date().getTime() / 1000);
                     //生成预支付请求参数列表
