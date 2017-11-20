@@ -137,12 +137,14 @@ public class WechatPayService {
             params.put("trade_type", tradeType);
             params.put("product_id", "0");
             params.put("openid", openid);
-            params.put("notify_url", wechatConfig.js_pay_url);
 
+            params.put("notify_url", wechatConfig.js_pay_url);
+            logger.info("微信扫码付请求参数: "+JSONObject.toJSONString(params));
 
             String sign = TenpayUtil.createSign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key).toUpperCase();
             params.put("sign", sign);
             boolean isTrue = TenpayUtil.isTenpaySign(params, wechatConfig.charset, wechatConfig.signType, wechatConfig.app_key);
+            logger.info("微信扫码付下单: 签名验证结果: " + isTrue);
             if (isTrue) {
                 String body = XMLUtil.getXmlByMap(params);
                 result = WebRequestUtil.getResponseString(wechatConfig.unifiedorder_url, body, false);
@@ -153,9 +155,11 @@ public class WechatPayService {
                 Map<String, String> jsresultMap = new HashMap<String, String>();
 
                 prePayId = resultMap.get("prepay_id");
+                logger.info("预支付返回信息: "+JSONObject.toJSONString(resultMap));
                 //没有生成支付信息就返回微信给的信息
                 if (StringUtils.isBlank(prePayId))
                     return PlatformRes.error(resultMap.get("err_code"), resultMap.get("err_code_des"));
+
                 else {
                     String timestamp = String.valueOf(new Date().getTime() / 1000);
                     //生成预支付请求参数列表

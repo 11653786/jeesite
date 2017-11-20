@@ -80,6 +80,7 @@
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
+                order by a.cabinet_no desc,a.drawer_no asc
             </otherwise>
         </choose>
     </select>
@@ -150,7 +151,7 @@
          in_time = now(),
          product_id=#{productId},
          product_name=#{productName},
-         in_out_time = date_add(now(), interval 1 hour)
+         in_out_time = date_add(now(), interval 3 hour)
          where drawer_no=#{drawerNo} and cabinet_no=#{cabinetNo}
     </update>
 
