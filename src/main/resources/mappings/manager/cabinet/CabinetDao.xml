@@ -222,4 +222,11 @@
 			from cabinet a where a.cabinet_nos=#{cabinetNo}
     </select>
 
+    <select id="getPassByCabinetNo" resultType="com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes">
+        	select
+			a.food_password as "foodPassword",
+			a.sys_password as "sysPassword"
+			from cabinet a where a.cabinet_nos=#{cabinetNo}
+    </select>
+
 </mapper>

@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.manager.cabinet.dao;
 
+import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
@@ -54,5 +55,7 @@ public interface CabinetDao extends CrudDao<Cabinet> {
     public Cabinet getCabinetByFoodPass(@Param("cabinetNo") String cabinetNo, @Param("foodPass") String foodPass);
 
     public Cabinet getCabinetByCabinetNo(@Param("cabinetNo") String cabinetNo);
+
+    public CabinetPasswordRes getPassByCabinetNo(@Param("cabinetNo") String cabinetNo);
 
 }

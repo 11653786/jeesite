@@ -6,11 +6,13 @@ import com.google.gson.Gson;
 import com.thinkgem.jeesite.api.entity.req.PlatformReq;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.req.PutFoodReq;
+import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.api.service.OrderService;
 import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
+import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.service.CabinetProductRelactionService;
 import com.thinkgem.jeesite.modules.manager.drawer.service.DrawerService;
@@ -47,6 +49,8 @@ public class ServerHandler extends IoHandlerAdapter {
     private CabinetProductRelactionService cabinetProductRelactionService;
     @Autowired
     private CabinetHttpLogService cabinetHttpLogService;
+    @Autowired
+    private CabinetService cabinetService;
 
 
     /**
@@ -125,6 +129,10 @@ public class ServerHandler extends IoHandlerAdapter {
                         sessionMap.addSession(cabinetNo, session);
                         result = gson.toJson(PlatformRes.success("http通信操作成功"));
                     }
+                } else if (data.equals("7")) {
+                    String cabinetNo = params.get("cabinetNo").toString();
+                    CabinetPasswordRes cabinetPasswordRes = cabinetService.getPassByCabinetNo(cabinetNo);
+                    result = gson.toJson(PlatformRes.success(cabinetPasswordRes));
                 }
             }
         } catch (Exception e) {

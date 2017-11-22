@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.manager.cabinet.service;
 
+import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -106,9 +107,14 @@ public class CabinetService extends CrudService<CabinetDao, Cabinet> {
     }
 
 
-    public List<Cabinet> getCabinetByAreaId(String areaId){
-       return cabinetDao.getCabinetByAreaId(areaId);
+    public List<Cabinet> getCabinetByAreaId(String areaId) {
+        return cabinetDao.getCabinetByAreaId(areaId);
     }
 
+
+    public CabinetPasswordRes getPassByCabinetNo(String cabinetNo) {
+        return cabinetDao.getPassByCabinetNo(cabinetNo);
+
+    }
 
 }
