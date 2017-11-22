@@ -51,10 +51,10 @@
             <div class="container no-bottom">
             	<div class="section-title">
                 	<h4>套餐宣传!</h4>
-                    <em>中华美食 健康你我。</em>
+                    <em>牛上山是一家现代化，中餐西做的公司，致力于成为顾客最营养，最快捷的用餐方式。</em>
                     <strong><img src="${ctxStatic}/images/wechat/leaf.png" width="20" alt="img"></strong>
                 </div>
-                <p>。。。。。。。。。。。。。。。。</p>
+                <%--<p>。。。。。。。。。。。。。。。。</p>--%>
             </div>
             
             <div class="decoration"></div>  
