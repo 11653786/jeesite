@@ -57,17 +57,21 @@
                 <em>红包优惠:${order.redpacketPrice/100}元</em><br>
             </c:if>
             <em>订单详情：${order.phone}</em><br>
+            <em> 实付金额：${order.actualPayMoney/100}元</em><br>
+            <em style="margin-right:5px;">
 
-            <em style="float:right;margin-right:5px;">
                 <c:if test="${order.orderStatus==1 || order.orderStatus==3}">
                     <c:if test="${order.remark==null || order.remark==''}">
-                        <a
-                           href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=1&orderNo=${order.orderNo}">评价</a>
-                        <a
-                           href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=2&orderNo=${order.orderNo}">问题反馈</a>
+
+                        <a style="float:left;"
+                                href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=2&orderNo=${order.orderNo}">申请退款</a>
+
+                        <a style="float:right;"
+                           href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=1&orderNo=${order.orderNo}">评价快餐</a>
+
                     </c:if>
                 </c:if>
-                实付金额：${order.actualPayMoney/100}元
+
             </em>
         </div>
     </div>

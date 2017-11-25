@@ -52,7 +52,7 @@
 </head>
 <body style="background:#fadfdd;">
 <div style="margin-top:5px;margin-left:5px;" class="container no-bottom">
-    <div class="section-title">
+    <div class="section-title" style="font-size: 14px;">
         <h4>订单号：${orders.orderNo}</h4>
         <c:if test="${type==1}" var="pingjia">
             评价
@@ -61,8 +61,10 @@
         <c:if test="${!pingjia}">
             问题反馈
         </c:if>
-        <textarea rows="3" cols="20" id="remark" name="remark"></textarea>
-        <button class="file" type="button" id="submit">提交</button>
+        <textarea rows="5" cols="100" id="remark" name="remark"></textarea>
+        <div style="text-align: center;margin-top:5px;">
+            <button  class="file" type="button" id="submit">提交</button>
+        </div>
         <div id="tips"></div>
     </div>
 </div>
