@@ -131,7 +131,7 @@ public class ServerHandler extends IoHandlerAdapter {
                 } else if (data.equals("7")) { //获取柜子密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetPasswordRes cabinetPasswordRes = cabinetService.getPassByCabinetNo(cabinetNo);
-                    result = gson.toJson(PlatformRes.success(cabinetPasswordRes));
+                    result = gson.toJson(PlatformRes.success(data,cabinetPasswordRes));
                 } else if (data.equals("8")) {  //获取柜子工作时间
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetWorkTimeRes cabinetWorkTimeRes = cabinetService.getWorkTimeByCabinetNo(cabinetNo);
