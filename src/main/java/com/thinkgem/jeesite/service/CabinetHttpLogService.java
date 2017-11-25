@@ -65,6 +65,8 @@ public class CabinetHttpLogService {
             cabinet.preInsert();
             cabinet.setSysPassword("111111");
             cabinet.setFoodPassword("111111");
+            cabinet.setWorkStartTime("08:00");
+            cabinet.setWorkEndTime("20:00");
             isSuccess= cabinetDao.insert(cabinet);
         }
 
