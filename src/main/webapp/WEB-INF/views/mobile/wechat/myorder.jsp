@@ -32,6 +32,9 @@
                     <c:when test="${order.orderStatus==3}">
                         已取餐
                     </c:when>
+                    <c:when test="${order.orderStatus==5}">
+                        超时未取餐
+                    </c:when>
                 </c:choose></em><br>
             <c:if test="${order.remark!=null && order.remark!=''}">
                 <c:if test="${order.refundStatus!=null}">

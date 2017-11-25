@@ -265,7 +265,7 @@
         a.refund_time as "refundTime",
         a.put_password as "putPassword",
         GROUP_CONCAT(CONCAT("商品:",goods.product_name),":",CONCAT(goods.product_num,"个")) as phone from order_goods goods join orders a on a.order_no=goods.order_no
-        where a.openid=#{openId} and a.order_status in(1,3,5) GROUP BY goods.order_no
+        where a.openid=#{openId} and a.order_status in(1,3,5) GROUP BY goods.order_no order by a.payment_time desc,a.order_status asc
     </select>
 
     <select id="getWechatRepayOrder" resultType="com.thinkgem.jeesite.modules.manager.orders.entity.Orders">
