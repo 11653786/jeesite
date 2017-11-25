@@ -45,6 +45,9 @@ public class Drawer extends DataEntity<Drawer> {
     private String areaId;    //区id
     private String cabinetAreaName; //柜子所在区域
 
+
+    private String configProductName;  //商品配置表的商品名称
+
     public Drawer() {
         super();
     }
@@ -203,5 +206,13 @@ public class Drawer extends DataEntity<Drawer> {
 
     public void setInOutTime(Date inOutTime) {
         this.inOutTime = inOutTime;
+    }
+
+    public String getConfigProductName() {
+        return configProductName;
+    }
+
+    public void setConfigProductName(String configProductName) {
+        this.configProductName = configProductName;
     }
 }

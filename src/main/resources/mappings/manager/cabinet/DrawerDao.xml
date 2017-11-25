@@ -40,9 +40,30 @@
 
     <select id="findList" resultType="Drawer">
         SELECT
-        <include refid="drawerColumns"/>
+        a.id AS "id",
+        a.drawer_no AS "drawerNo",
+        a.cabinet_id AS "cabinetId",
+        a.cabinet_no AS "cabinetNo",
+        a.drawer_status AS "drawerStatus",
+        a.food_status AS "foodStatus",
+        a.create_time AS "createTime",
+        a.product_id as "productId",
+        a.product_name as "productName",
+        a.in_time as "inTime",
+        a.in_out_time as "inOutTime",
+        areaProvince.id as "provinceId",
+        areaProvince.name as "cabinetProvinceName",
+        areaCity.id as "cityId",
+        areaCity.name as "cabinetCityName",
+        area.id as "areaId",
+        area.name as  "cabinetAreaName",
+       cpr.product_name as "configProductName"
         FROM drawer a
-        <include refid="drawerJoins"/>
+        LEFT JOIN cabinet b ON b.id = a.cabinet_id
+        left join sys_area areaProvince on areaProvince.id=b.province
+        left join sys_area areaCity on areaCity.id=b.city
+        left join sys_area area on area.id=b.area
+        left join cabinet_product_relaction cpr on cpr.drawer_id=a.id
         <where>
 
             <if test="cabinet != null and cabinet != ''">
