@@ -165,6 +165,8 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
                     drawerDao.update(drawer);
                 }
             }
+            orders.setOrderStatus(5);
+            ordersDao.update(orders);
         }
     }
 

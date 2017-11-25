@@ -37,7 +37,7 @@ public class CabinetHttpStatusTask {
     /**
      * http获取柜子状态是否正常
      */
-    @Scheduled(cron = "0 0 0/1 * * ?") // 间隔1小時执行
+    @Scheduled(cron = "0 0/1 * * * ?") // 间隔30分钟执行
     public void work() {
         logger.info("CabinetHttpStatusTask執行時間: "+ DateUtils.formatDateTime(new Date()));
         List<Cabinet> cabinetList = cabinetService.findList(new Cabinet());
@@ -45,7 +45,7 @@ public class CabinetHttpStatusTask {
             CabinetHttpLog cabinetHttpLog = cabinetHttpLogService.findLogByCabinetNo(cabinet.getCabinetNos());
             //超過5個小時就算通信異常
             if (cabinetHttpLog != null) {
-                if (DateUtils.getBeteenHour(new Date(), cabinetHttpLog.getCreatetime()) > 5) {
+                if (DateUtils.getBeteenHour(new Date(), cabinetHttpLog.getCreatetime()) < 1) {
                     cabinet.setCabinetStatus("2");
                     cabinetDao.update(cabinet);
                 }
