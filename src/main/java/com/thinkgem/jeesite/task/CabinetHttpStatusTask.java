@@ -37,7 +37,7 @@ public class CabinetHttpStatusTask {
     /**
      * http获取柜子状态是否正常
      */
-    @Scheduled(cron = "0 0/1 * * * ?") // 间隔30分钟执行
+    @Scheduled(cron = "0 0/30 * * * ?") // 间隔30分钟执行
     public void work() {
         logger.info("CabinetHttpStatusTask執行時間: "+ DateUtils.formatDateTime(new Date()));
         List<Cabinet> cabinetList = cabinetService.findList(new Cabinet());
