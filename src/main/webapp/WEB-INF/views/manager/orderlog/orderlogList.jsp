@@ -38,13 +38,25 @@
                     if (v == "ok") {
                         $("#searchForm").attr("action", "${ctx}/orderlog/orderlog/export");
                         var areaName = $("#areaName").val();
-                        if (areaName == null || areaName == undefined || areaName=='') {
+                        if (areaName == null || areaName == undefined || areaName == '') {
                             alert("请选择区域");
                             return false;
                         }
                         $("#searchForm").submit();
                     }
                 }, {buttonsFocus: 1});
+                top.$('.jbox-body .jbox-icon').css('top', '55px');
+            });
+
+            //查询
+            $("#btnExport1").click(function () {
+                $("#searchForm").attr("action", "${ctx}/orderlog/orderlog");
+                var areaName = $("#areaName").val();
+                if (areaName == null || areaName == undefined || areaName == '') {
+                    alert("请选择区域");
+                    return false;
+                }
+                $("#searchForm").submit();
                 top.$('.jbox-body .jbox-icon').css('top', '55px');
             });
 
@@ -55,13 +67,15 @@
 <body>
 <form id="searchForm" modelAttribute="orders" action="${ctx}/orderlog/orderlog/export" method="post"
       class="breadcrumb form-search">
+    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
+    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
     <li>
         <label>时间区域：</label>
         <input name="startTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-               value="<fmt:formatDate value="${orders.beginPaymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+               value="<fmt:formatDate value="${startTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/> -
         <input name="endTime" type="text" readonly="readonly" maxlength="20" class="input-medium Wdate"
-               value="<fmt:formatDate value="${orders.endPaymentTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
+               value="<fmt:formatDate value="${endTime}" pattern="yyyy-MM-dd HH:mm:ss"/>"
                onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',isShowClear:false});"/>
     <li><label>区：</label>
         <sys:treeselect id="area" name="areaId" value="" labelName="" labelValue=""
@@ -80,7 +94,45 @@
         </select>
     </li>
     <input id="btnExport" class="btn btn-primary" type="button" value="导出"/>
+    <input id="btnExport1" class="btn btn-primary" type="button" value="查询"/>
 </form>
 <sys:message content="${message}"/>
+<table id="contentTable" class="table table-striped table-bordered table-condensed">
+<thead>
+<tr>
+    <th>区域名称</th>
+    <th>柜子编号</th>
+    <th>菜品价格统计</th>
+    <th>菜品数量统计</th>
+    <th>总数量</th>
+    <th>总金额</th>
+</tr>
+</thead>
+<tbody>
+<c:forEach items="${page.list}" var="orderLog">
+    <tr>
+        <td>
+                ${orderLog.areaName}
+        </td>
+        <td>
+                ${orderLog.cabinetNo}
+        </td>
+        <td>
+                ${orderLog.totalPrice}
+        </td>
+        <td>
+                ${orderLog.productNum}
+        </td>
+        <td>
+                ${orderLog.productTotalPrice}
+        </td>
+        <td>
+                ${orderLog.totalProductNum}
+        </td>
+    </tr>
+</c:forEach>
+</tbody>
+</table>
+<div class="pagination">${page}</div>
 </body>
 </html>

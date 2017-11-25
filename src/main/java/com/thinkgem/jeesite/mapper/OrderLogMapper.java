@@ -44,7 +44,8 @@ public interface OrderLogMapper {
      * @param submitOrderType 下单类型0,非会员下单,1会员下单
      * @return
      */
-    List<OrderLogHandler> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo, @Param("startTime") Date startTime, @Param("endTime") Date endTime,@Param("submitOrderType")Integer submitOrderType);
+    List<OrderLogHandler> groupByProductNameByAreaId(@Param("areaId") String areaId, @Param("cabinetNo") String cabinetNo, @Param("startTime") Date startTime, @Param("endTime") Date endTime,
+                                                     @Param("submitOrderType")Integer submitOrderType, @Param("page")Integer page, @Param("pageSize")Integer pageSize);
 
     /**
      * 统计总数量和金额

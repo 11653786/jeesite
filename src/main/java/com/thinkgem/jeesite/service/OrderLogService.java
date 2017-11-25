@@ -31,8 +31,8 @@ public class OrderLogService {
      * @param cabinetNo
      * @return
      */
-    public List<OrderLogHandler> groupByProductNameByAreaId(Date startTime, Date endTime, String areaId, String cabinetNo,Integer submitOrderType) {
-        return orderLogMapper.groupByProductNameByAreaId(areaId, cabinetNo, startTime, endTime,submitOrderType);
+    public List<OrderLogHandler> groupByProductNameByAreaId(Date startTime, Date endTime, String areaId, String cabinetNo,Integer submitOrderType,Integer page,Integer pageSize) {
+        return orderLogMapper.groupByProductNameByAreaId(areaId, cabinetNo, startTime, endTime,submitOrderType,page,pageSize);
     }
 
     /**

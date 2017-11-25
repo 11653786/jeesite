@@ -374,7 +374,7 @@
         cabinetNo,
         GROUP_CONCAT(productName,":",productActualPrice) as totalPrice,
         GROUP_CONCAT(productName,":",productNum) as productNum,
-        sum(productActualPrice) as productActualPrice,
+        sum(productActualPrice) as productTotalPrice,
         sum(productNum) as totalProductNum
         FROM
         (
@@ -416,7 +416,12 @@
         area_id,
         cabinet_no
         ) AS t1
-        group by areaName,cabinetNo;
+        group by areaName,cabinetNo
+
+        <if test="page!=null and pageSize!=null">
+            limit #{page},#{pageSize}
+        </if>
+
     </select>
 
 
