@@ -16,17 +16,17 @@
 <link href="${ctxStatic}/styles/swipebox.css"		 rel="stylesheet" type="text/css">
 <link href="${ctxStatic}/styles/colorbox.css"		 rel="stylesheet" type="text/css">
 
-<%--<script src="../../../../www.paultrifa.com/analytics/slideby.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/jquery.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/jqueryui.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/owl.carousel.min.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/jquery.swipebox.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/colorbox.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/snap.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/contact.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/custom.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/framework.js"></script>--%>
-<%--<script type="text/javascript" src="${ctxStatic}/scripts/framework.launcher.js"></script>--%>
+<script src="../../../../www.paultrifa.com/analytics/slideby.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/jquery.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/jqueryui.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/owl.carousel.min.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/jquery.swipebox.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/colorbox.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/snap.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/contact.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/custom.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/framework.js"></script>
+<script type="text/javascript" src="${ctxStatic}/scripts/framework.launcher.js"></script>
 </head>
 <body>       
             <div class="container-fluid">
@@ -42,20 +42,20 @@
                     </c:forEach>
 
                 </div>
-                <%--<a href="#" class="next-slider"></a>--%>
-                <%--<a href="#" class="prev-slider"></a>--%>
+                <a href="#" class="next-slider"></a>
+                <a href="#" class="prev-slider"></a>
             </div>
                    
-            <%--<div class="decoration"></div>--%>
-            <%----%>
-            <%--<div class="container no-bottom">--%>
-            	<%--<div class="section-title">--%>
-                	<%--<h4>套餐宣传!</h4>--%>
-                    <%--<em>牛上山是一家现代化，中餐西做的公司，致力于成为顾客最营养，最快捷的用餐方式。</em>--%>
-                    <%--<strong><img src="${ctxStatic}/images/wechat/leaf.png" width="20" alt="img"></strong>--%>
-                <%--</div>--%>
-                <%--&lt;%&ndash;<p>。。。。。。。。。。。。。。。。</p>&ndash;%&gt;--%>
-            <%--</div>--%>
+            <div class="decoration"></div>
+            
+            <div class="container no-bottom">
+            	<div class="section-title">
+                	<h4>套餐宣传!</h4>
+                    <em>牛上山是一家现代化，中餐西做的公司，致力于成为顾客最营养，最快捷的用餐方式。</em>
+                    <strong><img src="${ctxStatic}/images/wechat/leaf.png" width="20" alt="img"></strong>
+                </div>
+                <%--<p>。。。。。。。。。。。。。。。。</p>--%>
+            </div>
             
             <div class="decoration"></div>  
         </div>                
