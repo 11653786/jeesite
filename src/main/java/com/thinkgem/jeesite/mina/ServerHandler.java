@@ -128,11 +128,11 @@ public class ServerHandler extends IoHandlerAdapter {
                         sessionMap.addSession(cabinetNo, session);
                         result = gson.toJson(PlatformRes.success("http通信操作成功"));
                     }
-                } else if (data.equals("7")) {
+                } else if (data.equals("7")) { //获取柜子密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetPasswordRes cabinetPasswordRes = cabinetService.getPassByCabinetNo(cabinetNo);
                     result = gson.toJson(PlatformRes.success(cabinetPasswordRes));
-                } else if (data.equals("8")) {
+                } else if (data.equals("8")) {  //获取柜子工作时间
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetWorkTimeRes cabinetWorkTimeRes = cabinetService.getWorkTimeByCabinetNo(cabinetNo);
                     result = gson.toJson(PlatformRes.success(data,cabinetWorkTimeRes));
