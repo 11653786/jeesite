@@ -24,27 +24,27 @@
             <div class="container-fluid">
                 <div class="slider-controls" data-snap-ignore="true">                
                     <div>
-                        <img src="${ctxStatic}/images/wechat/general-nature/3.jpg" class="responsive-image" alt="img">
-                        <p class="title-slider-caption">
-                            <strong>牛上山</strong>
-                            <em>特色饮食文化</em>
-                        </p>
+                        <img src="${ctxStatic}/images/wechat/brand.jpg" class="responsive-image" alt="img">
+                        <%--<p class="title-slider-caption">--%>
+                            <%--<strong>牛上山</strong>--%>
+                            <%--<em>特色饮食文化</em>--%>
+                        <%--</p>--%>
                     </div>
                 </div>
  
             </div>
                    
-            <div class="decoration"></div>
+            <%--<div class="decoration"></div>--%>
             
-            <div class="container no-bottom">
-            	<div class="section-title">
-                	<h4>牛上山</h4>
-                    <em>牛上山是一家现代化，中餐西做的公司，致力于成为顾客最营养，最快捷的用餐方式。</em>
-                </div>
-                <%--<p>。。。。。。。。。。。。。。。。</p>--%>
-            </div>
-            
-            <div class="decoration"></div>  
+            <%--<div class="container no-bottom">--%>
+            	<%--<div class="section-title">--%>
+                	<%--<h4>牛上山</h4>--%>
+                    <%--<em>牛上山是一家现代化，中餐西做的公司，致力于成为顾客最营养，最快捷的用餐方式。</em>--%>
+                <%--</div>--%>
+                <%--&lt;%&ndash;<p>。。。。。。。。。。。。。。。。</p>&ndash;%&gt;--%>
+            <%--</div>--%>
+            <%----%>
+            <%--<div class="decoration"></div>  --%>
         </div>                
 </body>
 </html>

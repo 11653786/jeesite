@@ -29,7 +29,7 @@
 <!--头部结束-->
 <form id="form" action="${pageContext.request.contextPath}/api/wechat/shopping" method="post">
     <input type="hidden" id="openId" name="openid" value="${openid}"/>
-    <div class="shopping">
+    <div class="shopping" style="font-size:14px;">
 
         <div class="shop-group-item">
             <div class="shop-name">
