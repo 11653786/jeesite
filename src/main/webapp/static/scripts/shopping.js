@@ -61,11 +61,11 @@ $(function () {
                         products += "<li><div class=shop-info>" +
                             "<input type=checkbox name=ids value=" + list[a]['id'] + " class='check goods-check goodsCheck'>" +
                             "<div class=shop-info-img><a href=#>" +
-                            "<img src=" + path+"/"+list[a]['imgUrl']+" /></a></div>" +
+                            "<img src=" + path+"/"+list[a]['imgurl']+" /></a></div>" +
                             "<div class=shop-info-text>" +
                             "<h4>" + list[a]['productName'] + "</h4>" +
                             "<div class=shop-brief>" +
-                            "<span>菜品介绍:" + list[a]['remark'] + "</span>" +
+                            "<span>" + list[a]['remark'] + "</span>" +
                             "</div>" +
                             "<div class=shop-price>" +
                             "<div class=shop-pices>￥<b class=price>" + list[a]['productActualPrice'] / 100 + "</b></div>" + "<div class=shop-arithmetic>" +

@@ -33,10 +33,10 @@
 
         <div class="shop-group-item">
             <div class="shop-name">
-                区域:<select id="areaId" style="width:100px;">
+                区域:<select  id="areaId" style="width:100px;font-size:14px;">
                 <option value=''>请选择</option>
             </select>&nbsp
-                柜子:<select id="cabinetId" name="cabinetId" style="width:100px;">
+                柜子:<select id="cabinetId" name="cabinetId" style="width:50%;font-size: 14px;">
                 <option value=''>请选择</option>
             </select>
                 <div id="address"></div>

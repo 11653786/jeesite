@@ -18,8 +18,8 @@
     <section class="mt-1">
         <div class="ps-lt">
             <c:forEach items="${cabinets}" var="cabinet">
-            <div class="lt-dsb">
-                <p>${cabinet.address}</p>
+            <div class="lt-dsb" >
+                <p style="font-size: 14px;"><b>${cabinet.address}</b></p>
                 <i class="arr-right"></i>
             </div>
             </c:forEach>

@@ -66,6 +66,7 @@
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
+				order by create_time desc
             </otherwise>
         </choose>
     </select>
@@ -179,7 +180,8 @@
     <select id="getCabinetByAreaId" resultType="Cabinet">
        select id AS "id",
         cabinet_nos as "cabinetNos",
-		cabinet_name AS "cabinetName"
+		cabinet_name AS "cabinetName",
+		address as "address"
 		from cabinet where area=#{areaId}
     </select>
 
