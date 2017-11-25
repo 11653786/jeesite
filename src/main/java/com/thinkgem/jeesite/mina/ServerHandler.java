@@ -7,10 +7,10 @@ import com.thinkgem.jeesite.api.entity.req.PlatformReq;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.req.PutFoodReq;
 import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
+import com.thinkgem.jeesite.api.entity.res.CabinetWorkTimeRes;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.api.service.OrderService;
-import com.thinkgem.jeesite.common.utils.DateUtils;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.manager.cabinet.service.CabinetService;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +99,7 @@ public class ServerHandler extends IoHandlerAdapter {
                 } else if (data.equals("3")) {  //获取商品列表
                     Product product = new Product();
                     product.setProductStatus(1 + "");
-                    result = gson.toJson(PlatformRes.success(productService.findList(product)));
+                    result = gson.toJson(PlatformRes.success(data,productService.findList(product)));
                 } else if (data.equals("4")) {   //工作人员放餐接口
                     String putFoodReqs = params.get("list").toString();
                     List<PutFoodReq> list = gson.fromJson(putFoodReqs, new TypeToken<List<PutFoodReq>>() {
@@ -113,7 +112,7 @@ public class ServerHandler extends IoHandlerAdapter {
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
                     cabinetProductRelaction.setCabinetNo(cabinetNo);
-                    result = gson.toJson(PlatformRes.success(cabinetProductRelactionService.findList(cabinetProductRelaction)));
+                    result = gson.toJson(PlatformRes.success(data,cabinetProductRelactionService.findList(cabinetProductRelaction)));
                 } else if (data.equals("6")) { //柜子通信是否正常接口
                     String cabinetNo = params.get("cabinetNo").toString();
                     Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
@@ -133,6 +132,10 @@ public class ServerHandler extends IoHandlerAdapter {
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetPasswordRes cabinetPasswordRes = cabinetService.getPassByCabinetNo(cabinetNo);
                     result = gson.toJson(PlatformRes.success(cabinetPasswordRes));
+                } else if (data.equals("8")) {
+                    String cabinetNo = params.get("cabinetNo").toString();
+                    CabinetWorkTimeRes cabinetWorkTimeRes = cabinetService.getWorkTimeByCabinetNo(cabinetNo);
+                    result = gson.toJson(PlatformRes.success(data,cabinetWorkTimeRes));
                 }
             }
         } catch (Exception e) {

@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.manager.cabinet.service;
 
 import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
+import com.thinkgem.jeesite.api.entity.res.CabinetWorkTimeRes;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
 import com.thinkgem.jeesite.api.enums.ResCodeMsgType;
 import com.thinkgem.jeesite.common.persistence.Page;
@@ -115,6 +116,16 @@ public class CabinetService extends CrudService<CabinetDao, Cabinet> {
     public CabinetPasswordRes getPassByCabinetNo(String cabinetNo) {
         return cabinetDao.getPassByCabinetNo(cabinetNo);
 
+    }
+
+    @Transactional(readOnly = false)
+    public Integer setWorkTime(String id, String workStartTime, String workStartEndTime) {
+        return cabinetDao.setWorkTime(id,workStartTime,workStartEndTime);
+    }
+
+
+    public CabinetWorkTimeRes getWorkTimeByCabinetNo(String cabinetNo){
+        return cabinetDao.getWorkTimeByCabinetNo(cabinetNo);
     }
 
 }

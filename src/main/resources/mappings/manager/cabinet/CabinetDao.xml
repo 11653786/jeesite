@@ -18,7 +18,9 @@
 		a.cabinet_replace_num as "cabinetReplaceNum",
 		a.cabinet_full_num as "cabinetFullNum",
 		a.food_password as "foodPassword",
-		a.sys_password as "sysPassword"
+		a.sys_password as "sysPassword",
+		a.start_time as "workStartTime",
+		a.end_time as "workEndTime"
 	</sql>
 
     <sql id="cabinetJoins">
@@ -66,7 +68,7 @@
                 ORDER BY ${page.orderBy}
             </when>
             <otherwise>
-				order by create_time desc
+                order by create_time desc
             </otherwise>
         </choose>
     </select>
@@ -102,7 +104,9 @@
 			create_time,
 			cabinet_nos,
 			food_password,
-			sys_password
+			sys_password,
+			start_time,
+			end_time
 		) VALUES (
 			#{id},
 			#{cabinetName},
@@ -116,7 +120,9 @@
 			#{createTime},
 			#{cabinetNos},
 			#{foodPassword},
-			#{sysPassword}
+			#{sysPassword},
+			#{workStartTime},
+			#{workEndTime}
 		)
 	</insert>
 
@@ -131,7 +137,9 @@
 			create_time = #{createTime},
 			cabinet_nos = #{cabinetNos},
 		  	cabinet_replace_num=#{cabinetReplaceNum},
-			cabinet_full_num=#{cabinetFullNum}
+			cabinet_full_num=#{cabinetFullNum},
+			start_time=#{workStartTime},
+			end_time=#{workEndTime}
 		WHERE id = #{id}
 	</update>
 
@@ -156,10 +164,10 @@
     </update>
 
 
-    <update id="delete">
+    <delete id="delete">
 		DELETE FROM cabinet
 		WHERE id = #{id}
-	</update>
+	</delete>
 
 
     <select id="groupByProductNameTotal" resultType="Cabinet">
@@ -230,6 +238,20 @@
 			a.food_password as "foodPassword",
 			a.sys_password as "sysPassword"
 			from cabinet a where a.cabinet_nos=#{cabinetNo}
+    </select>
+
+
+    <update id="setWorkTime">
+		UPDATE cabinet SET
+		start_time=#{workStartTime},
+		end_time=#{workEndTime}
+		WHERE id = #{cabinetId}
+	</update>
+
+
+    <select id="getWorkTimeByCabinetNo" resultType="com.thinkgem.jeesite.api.entity.res.CabinetWorkTimeRes">
+        select start_time as "workStartTime",end_time as "workEndTime" from cabinet where cabinet_no=#{cabinetNo}
+
     </select>
 
 </mapper>

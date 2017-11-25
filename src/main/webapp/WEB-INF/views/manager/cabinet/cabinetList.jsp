@@ -159,6 +159,7 @@
             <td>
                 <a href="${ctx}/cabinet/cabinet/form?id=${cabinet.id}">修改</a>
                 <a href="${ctx}/cabinet/cabinet/updatePassword?id=${cabinet.id}">设置密码</a>
+                <a href="${ctx}/cabinet/cabinet/setWorkTime?id=${cabinet.id}">工作时间设置</a>
                 <a href="${ctx}/cabinet/cabinet/delete?id=${cabinet.id}"
                    onclick="return confirmx('确认要删除该快餐柜管理吗？', this.href)">删除</a>
                 </shiro:hasPermission>

@@ -54,6 +54,14 @@ public class PlatformRes<T> {
         return new PlatformRes<T>(ResCodeMsgType.SUCCESS_.code(), ResCodeMsgType.SUCCESS_.desc(), t);
     }
 
+    public static <T> PlatformRes<T> success(String code,String message,T t) {
+        return new PlatformRes<T>(code, message, t);
+    }
+
+    public static <T> PlatformRes<T> success(String message,T t) {
+        return new PlatformRes<T>(ResCodeMsgType.SUCCESS_.code(), message, t);
+    }
+
     public static <T> PlatformRes<T> fail() {
         return new PlatformRes<T>(ResCodeMsgType.FAIL.code(), ResCodeMsgType.FAIL.desc());
     }

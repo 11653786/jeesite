@@ -100,7 +100,7 @@ public class CabinetController extends BaseController {
     @RequestMapping(value = "delete")
     public String delete(Cabinet cabinet, RedirectAttributes redirectAttributes) {
         cabinetService.delete(cabinet);
-        addMessage(redirectAttributes, "删除快餐柜管理成功");
+        addMessage(redirectAttributes, "删除快餐成功");
         return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
     }
 
@@ -112,6 +112,7 @@ public class CabinetController extends BaseController {
         return "manager/cabinet/cabinetUpdatePass";
     }
 
+
     @RequiresPermissions("cabinet:cabinet:edit")
     @RequestMapping(value = "updatePassword", method = RequestMethod.POST)
     public String updatePasswordForm(Cabinet cabinet, String sysPassword, String foodPassword, RedirectAttributes redirectAttributes) {
@@ -121,6 +122,34 @@ public class CabinetController extends BaseController {
             UpdateCabinetPassRes updateCabinetPassRes = new UpdateCabinetPassRes(result.getCode(), result.getMessage(), SocketResMsgType.UPDATE_CABINET_PASS.code(), foodPassword, sysPassword);
             String message = JSONObject.toJSONString(updateCabinetPassRes);
             SessionMap.sendMessage(cabinet.getCabinetNos(), message);
+        }
+//        SessionMap sessionMap=SessionMap.sendMessage(cabinet.getCabinetNos(),);
+        return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
+    }
+
+    /**
+     * 设置快餐柜工作时间
+     *
+     * @param cabinet
+     * @param model
+     * @return
+     */
+    @RequiresPermissions("cabinet:cabinet:edit")
+    @RequestMapping(value = "setWorkTime", method = RequestMethod.GET)
+    public String setWorkTime(Cabinet cabinet, Model model) {
+
+        model.addAttribute("cabinet", cabinet);
+        return "manager/cabinet/cabinetsettime";
+    }
+
+    @RequiresPermissions("cabinet:cabinet:edit")
+    @RequestMapping(value = "setWorkTime", method = RequestMethod.POST)
+    public String setWorkTimeForm(Cabinet cabinet, RedirectAttributes redirectAttributes) {
+        Integer isSuccess = cabinetService.setWorkTime(cabinet.getId(), cabinet.getWorkStartTime(), cabinet.getWorkEndTime());
+        if (isSuccess == 0) {
+            addMessage(redirectAttributes, "操作失败");
+        } else {
+            addMessage(redirectAttributes, "操作成功");
         }
 //        SessionMap sessionMap=SessionMap.sendMessage(cabinet.getCabinetNos(),);
         return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";

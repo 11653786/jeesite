@@ -4,6 +4,7 @@
 package com.thinkgem.jeesite.modules.manager.cabinet.dao;
 
 import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
+import com.thinkgem.jeesite.api.entity.res.CabinetWorkTimeRes;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
@@ -58,4 +59,9 @@ public interface CabinetDao extends CrudDao<Cabinet> {
 
     public CabinetPasswordRes getPassByCabinetNo(@Param("cabinetNo") String cabinetNo);
 
+
+    public Integer setWorkTime(@Param("cabinetId") String cabinetId, @Param("workStartTime") String workStartTime, @Param("workEndTime") String workEndTime);
+
+
+    public CabinetWorkTimeRes getWorkTimeByCabinetNo(@Param("cabinetNo") String cabinetNo);
 }

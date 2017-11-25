@@ -41,6 +41,10 @@ public class Cabinet extends DataEntity<Cabinet> {
 	//帮助字段
 	private Integer total;
 
+	//工作休息时间
+	private String workStartTime;
+	private String workEndTime;
+
 	public Cabinet() {
 		super();
 	}
@@ -194,5 +198,21 @@ public class Cabinet extends DataEntity<Cabinet> {
 
 	public void setSysPassword(String sysPassword) {
 		this.sysPassword = sysPassword;
+	}
+
+	public String getWorkStartTime() {
+		return workStartTime;
+	}
+
+	public void setWorkStartTime(String workStartTime) {
+		this.workStartTime = workStartTime;
+	}
+
+	public String getWorkEndTime() {
+		return workEndTime;
+	}
+
+	public void setWorkEndTime(String workEndTime) {
+		this.workEndTime = workEndTime;
 	}
 }
