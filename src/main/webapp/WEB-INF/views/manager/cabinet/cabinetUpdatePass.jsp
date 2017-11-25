@@ -64,6 +64,15 @@
 	<form:form id="inputForm" modelAttribute="cabinet" action="${ctx}/cabinet/cabinet/updatePassword" method="post" class="form-horizontal">
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>
+
+        <div class="control-group">
+            <label class="control-label">系统密码：</label>
+            <div class="controls">
+                <form:input path="sysPassword" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
+                <span class="help-inline"><font color="red">*</font> </span>
+            </div>
+        </div>
+
 		<div class="control-group">
 			<label class="control-label">取餐密码：</label>
 			<div class="controls">
@@ -72,13 +81,6 @@
 			</div>
 		</div>
 
-		<div class="control-group">
-			<label class="control-label">系统密码：</label>
-			<div class="controls">
-				<form:input path="sysPassword" htmlEscape="false" maxlength="255" class="input-xlarge required"/>
-				<span class="help-inline"><font color="red">*</font> </span>
-			</div>
-		</div>
 
 		<div class="form-actions">
 			<shiro:hasPermission name="cabinet:cabinet:edit"><input id="btnSubmit" class="btn btn-primary" type="submit" value="保 存"/>&nbsp;</shiro:hasPermission>
