@@ -35,7 +35,7 @@ $(function () {
                     var list = data['data'];
                     var cabinetValue = "<option value=''>请选择</option>";
                     for (var a in list) {
-                        cabinetValue += "<option value=" + list[a]['id'] + ">" + list[a]['cabinetName'] + "</option>";
+                        cabinetValue += "<option value=" + list[a]['id'] + ">" + list[a]['address'] + "</option>";
                     }
 
                     $("#cabinetId").html(cabinetValue);

@@ -115,7 +115,7 @@
 			#{createTime},
 			#{cabinetNos},
 			#{foodPassword},
-			#{sysPassword},
+			#{sysPassword}
 		)
 	</insert>
 

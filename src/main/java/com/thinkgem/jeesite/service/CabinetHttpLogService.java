@@ -63,6 +63,8 @@ public class CabinetHttpLogService {
             cabinet = new Cabinet();
             cabinet.setCabinetNos(cabinetNo);
             cabinet.preInsert();
+            cabinet.setSysPassword("111111");
+            cabinet.setFoodPassword("111111");
             cabinetDao.insert(cabinet);
         }
 

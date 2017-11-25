@@ -52,6 +52,7 @@ public class CabinetHttpStatusTask {
             } else {
                 //沒有日志就保存成未通信
                 cabinet.setCabinetStatus("0");
+
                 cabinetDao.update(cabinet);
             }
 
