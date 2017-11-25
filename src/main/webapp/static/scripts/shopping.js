@@ -65,7 +65,7 @@ $(function () {
                             "<div class=shop-info-text>" +
                             "<h4>" + list[a]['productName'] + "</h4>" +
                             "<div class=shop-brief>" +
-                            "<span>价格:" + list[a]['remark'] + "</span>" +
+                            "<span>菜品介绍:" + list[a]['remark'] + "</span>" +
                             "</div>" +
                             "<div class=shop-price>" +
                             "<div class=shop-pices>￥<b class=price>" + list[a]['productActualPrice'] / 100 + "</b></div>" + "<div class=shop-arithmetic>" +
