@@ -33,7 +33,7 @@
                 <div class="slider-controls" data-snap-ignore="true">
                     <c:forEach items="${products}" var="product">
                         <div>
-                            <img src="${pageContext.request.contextPath}/${product.imgurl}" class="responsive-image" alt="img">
+                            <img src="/${product.imgurl}" class="responsive-image" alt="img">
                             <p class="title-slider-caption">
                                 <strong>${product.productName}</strong>
                                 <em>${product.remark}</em>

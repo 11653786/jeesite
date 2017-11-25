@@ -61,7 +61,7 @@ $(function () {
                         products += "<li><div class=shop-info>" +
                             "<input type=checkbox name=ids value=" + list[a]['id'] + " class='check goods-check goodsCheck'>" +
                             "<div class=shop-info-img><a href=#>" +
-                            "<img src=" + path+"/"+list[a]['imgurl']+" /></a></div>" +
+                            "<img src=" +"/"+list[a]['imgurl']+" /></a></div>" +
                             "<div class=shop-info-text>" +
                             "<h4>" + list[a]['productName'] + "</h4>" +
                             "<div class=shop-brief>" +
