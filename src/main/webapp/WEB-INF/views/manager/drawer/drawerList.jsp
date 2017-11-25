@@ -65,6 +65,7 @@
         <th>抽屉状态</th>
         <th>放餐状态</th>
         <th>放餐商品名称</th>
+        <th>配置商品名称</th>
         <th>放餐时间</th>
         <th>过期时间</th>
         <shiro:hasPermission name="drawer:drawer:edit">
@@ -90,6 +91,9 @@
             </td>
             <td>
                     ${drawer.productName}
+            </td>
+            <td>
+                    ${drawer.configProductName}
             </td>
             <td>
                 <fmt:formatDate value="${drawer.inTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
