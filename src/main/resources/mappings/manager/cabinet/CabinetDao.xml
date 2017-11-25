@@ -250,7 +250,7 @@
 
 
     <select id="getWorkTimeByCabinetNo" resultType="com.thinkgem.jeesite.api.entity.res.CabinetWorkTimeRes">
-        select start_time as "workStartTime",end_time as "workEndTime" from cabinet where cabinet_no=#{cabinetNo}
+        select start_time as "workStartTime",end_time as "workEndTime" from cabinet where cabinet_nos=#{cabinetNo}
 
     </select>
 
