@@ -24,7 +24,7 @@
             <div class="container-fluid">
                 <div class="slider-controls" data-snap-ignore="true">                
                     <div>
-                        <img src="${ctxStatic}/images/wechat/brand.jpg" class="responsive-image" alt="img">
+                        <img src="${ctxStatic}/images/brand.jpg" class="responsive-image" alt="img">
                         <%--<p class="title-slider-caption">--%>
                             <%--<strong>牛上山</strong>--%>
                             <%--<em>特色饮食文化</em>--%>
