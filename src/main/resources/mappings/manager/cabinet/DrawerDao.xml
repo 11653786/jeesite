@@ -172,7 +172,7 @@
          in_time = now(),
          product_id=#{productId},
          product_name=#{productName},
-         in_out_time = date_add(now(), interval 3 hour)
+         in_out_time = date_add(now(), interval 4 hour)
          where drawer_no=#{drawerNo} and cabinet_no=#{cabinetNo}
     </update>
 
