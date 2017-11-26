@@ -29,7 +29,7 @@ public class DrawerOutTimeTask {
     /**
      * http获取柜子状态是否正常
      */
-    @Scheduled(cron = "0 0/1 * * * ?") // 间隔1小时执行
+    @Scheduled(cron = "0 0 0/30 * * ?") // 间隔1小时执行
     public void work() {
         logger.info("DrawerOutTimeTask执行时间: " + DateUtils.formatDateTime(new Date()));
         List<Drawer> drawers = drawerDao.findDrawerOutTimeList();
