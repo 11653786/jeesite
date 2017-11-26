@@ -239,4 +239,21 @@
         UPDATE drawer set food_status=#{foodStatus} where id=#{id}
     </update>
 
+    <select id="findDrawerOutTimeList">
+             SELECT
+        a.id AS "id",
+        a.drawer_no AS "drawerNo",
+        a.cabinet_id AS "cabinetId",
+        a.cabinet_no AS "cabinetNo",
+        a.drawer_status AS "drawerStatus",
+        a.food_status AS "foodStatus",
+        a.create_time AS "createTime",
+        a.product_id as "productId",
+        a.product_name as "productName",
+        a.in_time as "inTime",
+        a.in_out_time as "inOutTime"
+        from drawer a
+        where  a.in_out_time &lt; now() and food_status=1
+    </select>
+
 </mapper>
