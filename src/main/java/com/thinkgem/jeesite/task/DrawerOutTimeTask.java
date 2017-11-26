@@ -29,10 +29,12 @@ public class DrawerOutTimeTask {
     /**
      * http获取柜子状态是否正常
      */
-    @Scheduled(cron = "0 0 0/1 * * ?") // 间隔1小时执行
+    @Scheduled(cron = "0 0 * * * ?") // 间隔1小时执行
     public void work() {
         logger.info("DrawerOutTimeTask执行时间: "+ DateUtils.formatDateTime(new Date()));
-        List<Drawer> drawers = drawerDao.findList(new Drawer());
+        Drawer queryDrawer=new Drawer();
+        queryDrawer.setFoodStatus("1");
+        List<Drawer> drawers = drawerDao.findList(queryDrawer);
         for (Drawer drawer : drawers) {
                 if (DateUtils.getBeteenHour(drawer.getInOutTime(), drawer.getInTime()) <= 3) {
                     drawerDao.lockOrUnlockStatus(drawer.getId(),2);
