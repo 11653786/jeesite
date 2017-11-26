@@ -32,9 +32,7 @@ public class DrawerOutTimeTask {
     @Scheduled(cron = "0 0/1 * * * ?") // 间隔1小时执行
     public void work() {
         logger.info("DrawerOutTimeTask执行时间: " + DateUtils.formatDateTime(new Date()));
-        Drawer queryDrawer = new Drawer();
-        queryDrawer.setFoodStatus("1");
-        List<Drawer> drawers = drawerDao.findList(queryDrawer);
+        List<Drawer> drawers = drawerDao.findDrawerOutTimeList();
         for (Drawer drawer : drawers) {
             drawerDao.lockOrUnlockStatus(drawer.getId(), 2);
         }
