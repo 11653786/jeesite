@@ -36,8 +36,8 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     private CabinetProductRelactionDao cabinetProductRelactionDao;
 
 
-    public void unlockStatus(String drawerNo) {
-        drawerDao.lockOrUnlockStatus(drawerNo, 1);
+    public void unlockStatus(String id) {
+        drawerDao.lockOrUnlockStatus(id, 1);
     }
 
     public Drawer get(String id) {

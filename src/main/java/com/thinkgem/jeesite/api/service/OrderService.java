@@ -150,7 +150,7 @@ public class OrderService {
                     orderGoodsDao.insert(orderGoods);
 
                     //锁定柜子5分钟
-                    drawerDao.lockOrUnlockStatus(drawer.getDrawerNo(), 4);
+                    drawerDao.lockOrUnlockStatus(drawer.getId(), 4);
 
 
                 }

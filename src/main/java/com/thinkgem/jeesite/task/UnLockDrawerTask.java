@@ -55,7 +55,7 @@ public class UnLockDrawerTask {
                         Drawer drawer = drawerService.getDrawerByDrawerNo(orderGood.getCabinetNo(), orderGood.getDrawerNo());
                         if (drawer.getFoodStatus().equals("4"))
                             drawer.setFoodStatus("1");
-                        drawerService.unlockStatus(drawer.getDrawerNo());
+                        drawerService.unlockStatus(drawer.getId());
 
 
                     }
