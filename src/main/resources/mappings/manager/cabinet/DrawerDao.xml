@@ -239,7 +239,7 @@
         UPDATE drawer set food_status=#{foodStatus} where id=#{id}
     </update>
 
-    <select id="findDrawerOutTimeList">
+    <select id="findDrawerOutTimeList"  resultType="Drawer">
              SELECT
         a.id AS "id",
         a.drawer_no AS "drawerNo",
