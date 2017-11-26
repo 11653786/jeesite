@@ -326,4 +326,15 @@
                 from orders a where a.payment_time &lt; date_sub(now(), interval 4 HOUR) and a.order_status=1 and a.payment_status=1
     </select>
 
+
+    <select id="getWechatPayOrders" resultType="Orders">
+        SELECT
+        <include refid="ordersColumns"/>
+        <!--已取餐和已支付，微信公众号支付的-->
+        FROM orders a join order_goods og on a.order_no=og.order_no where  a.order_status in(1) and a.payment_status=1
+        and og.cabinet_no=#{cabinetNo} and og.drawer_no=#{drawerNo}
+        order by a.order_status asc,a.payment_time desc
+
+    </select>
+
 </mapper>

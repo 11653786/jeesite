@@ -54,4 +54,6 @@ public interface OrdersDao extends CrudDao<Orders> {
      * @return
      */
     List<Orders> getPayOutTimeOrders();
+
+    List<Orders> getWechatPayOrders(@Param("cabinetNo") String cabinetNo,@Param("drawerNo") String drawerNo);
 }
