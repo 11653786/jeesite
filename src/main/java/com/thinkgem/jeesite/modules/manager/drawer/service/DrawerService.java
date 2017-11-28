@@ -35,7 +35,7 @@ public class DrawerService extends CrudService<DrawerDao, Drawer> {
     @Autowired
     private CabinetProductRelactionDao cabinetProductRelactionDao;
 
-
+    @Transactional(readOnly = false)
     public void unlockStatus(String id) {
         drawerDao.lockOrUnlockStatus(id, 1);
     }

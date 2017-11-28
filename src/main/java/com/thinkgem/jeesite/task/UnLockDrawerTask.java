@@ -40,7 +40,7 @@ public class UnLockDrawerTask {
     /**
      * 微信公众号未支付订单,并且超过5分钟的处理
      */
-    @Scheduled(cron = "0 0/3 * * * ?") // 间隔3分钟执行
+    @Scheduled(cron = "0 0/2 * * * ?") // 间隔2分钟执行
     public void work() {
         logger.info("UnLockDrawerTask執行時間: "+ DateUtils.formatDateTime(new Date()));
         List<Orders> orders = ordersService.getWechatRepayOrder();
