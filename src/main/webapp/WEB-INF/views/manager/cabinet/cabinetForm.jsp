@@ -178,7 +178,6 @@
 							</td>
 							<td>
 								<select id="drawerList{{idx}}_drawerStatus" name="drawerList[{{idx}}].drawerStatus" data-value="{{row.drawerStatus}}" class="input-small required">
-									<option value=""></option>
 									<c:forEach items="${fns:getDictList('drawer_status')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>
@@ -186,7 +185,6 @@
 							</td>
 							<td>
 								<select id="drawerList{{idx}}_foodStatus" name="drawerList[{{idx}}].foodStatus" data-value="{{row.foodStatus}}" class="input-small required">
-									<option value=""></option>
 									<c:forEach items="${fns:getDictList('food_status')}" var="dict">
 										<option value="${dict.value}">${dict.label}</option>
 									</c:forEach>

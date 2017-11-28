@@ -37,7 +37,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     private OrdersDao ordersDao;
     @Autowired
     private DrawerDao drawerDao;
-
+    @Transactional(readOnly = false)
     public void update(Orders orders) {
         ordersDao.update(orders);
     }
