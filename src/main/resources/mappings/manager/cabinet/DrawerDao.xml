@@ -154,6 +154,15 @@
 		WHERE id = #{id}
 	</update>
 
+    <update id="update1">
+        UPDATE drawer SET
+        drawer_no = #{drawerNo},
+        cabinet_id = #{cabinetId},
+        cabinet_no = #{cabinetNo},
+        drawer_status = #{drawerStatus}
+        WHERE id = #{id}
+    </update>
+
     <!--取餐抽屉的操作-->
     <update id="outFood">
        UPDATE drawer SET

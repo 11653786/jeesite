@@ -68,5 +68,7 @@ public interface DrawerDao extends CrudDao<Drawer> {
 
     List<Drawer> findDrawerOutTimeList();
 
+    Integer update1(Drawer drawer);
+
 
 }

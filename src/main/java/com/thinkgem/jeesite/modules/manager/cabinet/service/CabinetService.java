@@ -61,10 +61,11 @@ public class CabinetService extends CrudService<CabinetDao, Cabinet> {
 //					drawer.setCabinet(cabinet);
                     drawer.setCabinetId(cabinet.getId());
                     drawer.preInsert();
+                    drawer.setFoodStatus("0");
                     drawerDao.insert(drawer);
                 } else {
                     drawer.preUpdate();
-                    drawerDao.update(drawer);
+                    drawerDao.update1(drawer);
                 }
             } else {
                 drawerDao.delete(drawer);
