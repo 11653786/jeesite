@@ -60,6 +60,8 @@ public class OrderService {
     private ProductDao productDao;
     @Autowired
     private UserRedpacketRelactionDao userRedpacketRelactionDao;
+    @Autowired
+     private AlipayService alipayService;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -219,7 +221,7 @@ public class OrderService {
 
 
         //这里要创建订单,订单状态为0,等到回调通过以后更改状态,微信预约下单生成二维码
-        PlatformRes<String> wechatPayResult = null;
+        PlatformRes<String> wechatAlipayPayResult = null;
         UserRedpacketRelaction userRedpacketRelaction = null;
         if (StringUtils.isNotBlank(repackgeId)) {
             //这里判断下红包使用
@@ -229,21 +231,21 @@ public class OrderService {
 
         if (paymentStatus == 0) {
             String remark = userRedpacketRelaction == null ? "" : "使用红包优惠: " + (userRedpacketRelaction.getRedpacketPrice() / 100) + "元";
-            wechatPayResult = wechatPayService.unifiedorder(orderNo, null, productIds, productTotalPrice, tradeType, remark);
+            wechatAlipayPayResult = wechatPayService.unifiedorder(orderNo, null, productIds, productTotalPrice, tradeType, remark);
             //预支付id成功,生成订单
-            if (!wechatPayResult.getCode().equals("0")) {
-                return wechatPayResult;
+            if (!wechatAlipayPayResult.getCode().equals("0")) {
+                return wechatAlipayPayResult;
             }
 
         } else if (paymentStatus == 1) { //公众号支付
 
         } else {       //支付宝扫码付
-
+            wechatAlipayPayResult =alipayService.unifiedorder(orderNo,productIds,productTotalPrice,"牛上山快餐下單");
         }
 
         //------全部验证通过保存订单和订单明细--------------------------------------
         ordersService.submitForOrder(orderNo, paymentStatus, products, productTotalPrice, userRedpacketRelaction);
-        return wechatPayResult;
+        return wechatAlipayPayResult;
 
 
     }
