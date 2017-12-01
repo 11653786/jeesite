@@ -3,6 +3,7 @@
  */
 package com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.dao;
 
+import com.thinkgem.jeesite.api.entity.res.CabinetDrawerFoodStatusRes;
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
 import com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelaction;
@@ -37,5 +38,8 @@ public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelact
     CabinetProductRelaction findByCabinetIdAndDrawerId(@Param("cabinetId") String cabinetId, @Param("drawerId") String drawerId);
 
     Integer updateProduct(@Param("id") String id, @Param("productId") String productId, @Param("productName") String productName);
+
+
+    List<CabinetDrawerFoodStatusRes> findDrawerFoodStatusList(@Param("cabinetNo")String cabinetNo);
 
 }

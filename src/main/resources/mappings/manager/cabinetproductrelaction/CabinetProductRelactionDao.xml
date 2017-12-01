@@ -141,13 +141,15 @@
     <select id="findBydrawerIdAndProductId" resultType="CabinetProductRelaction">
         select
         <include refid="cabinetProductRelactionColumns"/>
-        from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId} and a.cabinet_no=#{cabinetNo}
+        from cabinet_product_relaction a where a.product_id=#{productId} and a.drawer_id=#{drawerId} and
+        a.cabinet_no=#{cabinetNo}
     </select>
 
     <select id="findByDrawerNoAndProductId" resultType="CabinetProductRelaction">
         select
         <include refid="cabinetProductRelactionColumns"/>
-        from cabinet_product_relaction a where a.cabinet_no=#{cabinetNo} and a.product_id=#{productId} and a.drawer_no=#{drawerNo};
+        from cabinet_product_relaction a where a.cabinet_no=#{cabinetNo} and a.product_id=#{productId} and
+        a.drawer_no=#{drawerNo};
     </select>
 
 
@@ -204,7 +206,8 @@
     </select>
 
 
-    <select id="findByCabinetIdAndDrawerId" parameterType="CabinetProductRelaction" resultType="CabinetProductRelaction">
+    <select id="findByCabinetIdAndDrawerId" parameterType="CabinetProductRelaction"
+            resultType="CabinetProductRelaction">
 
         SELECT
         <include refid="cabinetProductRelactionColumns"/>
@@ -213,11 +216,19 @@
         WHERE a.cabinet_id = #{cabinetId} and drawer_id=#{drawerId}
 
     </select>
-    <update id="updateProduct" parameterType="CabinetProductRelaction" >
+    <update id="updateProduct" parameterType="CabinetProductRelaction">
         update cabinet_product_relaction set product_id=#{productId},product_name=#{productName} where id=#{id}
     </update>
 
-
+    <select id="findDrawerFoodStatusList" resultType="com.thinkgem.jeesite.api.entity.res.CabinetDrawerFoodStatusRes">
+        select
+        a.cabinet_no AS "cabinetNo",
+        a.drawer_no as "drawerNo",
+        drawer.food_status as "foodStatus"
+        FROM cabinet_product_relaction a
+        join drawer drawer on drawer.id=a.drawer_id
+        where a.cabinet_no=#{cabinetNo}
+    </select>
 
 
 </mapper>

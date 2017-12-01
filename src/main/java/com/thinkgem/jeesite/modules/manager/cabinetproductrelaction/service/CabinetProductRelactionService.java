@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.thinkgem.jeesite.DictType;
+import com.thinkgem.jeesite.api.entity.res.CabinetDrawerFoodStatusRes;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Drawer;
@@ -48,8 +49,8 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
         return super.findList(cabinetProductRelaction);
     }
 
-    public List<CabinetProductRelaction> findListByDrawerNo(String cabinetNo,String drawerNo) {
-        return cabinetProductRelactionDao.findListByDrawerNo(cabinetNo,drawerNo);
+    public List<CabinetProductRelaction> findListByDrawerNo(String cabinetNo, String drawerNo) {
+        return cabinetProductRelactionDao.findListByDrawerNo(cabinetNo, drawerNo);
     }
 
     public Page<CabinetProductRelaction> findPage(Page<CabinetProductRelaction> page, CabinetProductRelaction cabinetProductRelaction) {
@@ -71,7 +72,7 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
         cabinetProductRelaction.setCreateTime(new Date());
         cabinetProductRelaction.setProductId(product.getId());
         cabinetProductRelaction.setProductName(product.getProductName());
-        CabinetProductRelaction existsEntity = cabinetProductRelactionDao.findBydrawerIdAndProductId(cabinet.getCabinetNos(),drawer.getId(), product.getId());
+        CabinetProductRelaction existsEntity = cabinetProductRelactionDao.findBydrawerIdAndProductId(cabinet.getCabinetNos(), drawer.getId(), product.getId());
         if (existsEntity == null)
             super.save(cabinetProductRelaction);
 
@@ -79,10 +80,9 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
 
 
     @Transactional(readOnly = false)
-    public void updateProduct(String id,String productId,String productName) {
-        cabinetProductRelactionDao.updateProduct(id,productId,productName);
+    public void updateProduct(String id, String productId, String productName) {
+        cabinetProductRelactionDao.updateProduct(id, productId, productName);
     }
-
 
 
     @Transactional(readOnly = false)
@@ -99,6 +99,11 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
     @Transactional(readOnly = false)
     public void delete(CabinetProductRelaction cabinetProductRelaction) {
         super.delete(cabinetProductRelaction);
+    }
+
+
+    public List<CabinetDrawerFoodStatusRes> findDrawerFoodStatusList(String cabinetNo) {
+        return cabinetProductRelactionDao.findDrawerFoodStatusList(cabinetNo);
     }
 
 }

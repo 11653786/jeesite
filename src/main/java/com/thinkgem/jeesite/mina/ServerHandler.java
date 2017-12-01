@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 import com.thinkgem.jeesite.api.entity.req.PlatformReq;
 import com.thinkgem.jeesite.api.entity.req.PreOrderReq;
 import com.thinkgem.jeesite.api.entity.req.PutFoodReq;
+import com.thinkgem.jeesite.api.entity.res.CabinetDrawerFoodStatusRes;
 import com.thinkgem.jeesite.api.entity.res.CabinetPasswordRes;
 import com.thinkgem.jeesite.api.entity.res.CabinetWorkTimeRes;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
@@ -99,7 +100,7 @@ public class ServerHandler extends IoHandlerAdapter {
                 } else if (data.equals("3")) {  //获取商品列表
                     Product product = new Product();
                     product.setProductStatus(1 + "");
-                    result = gson.toJson(PlatformRes.success(data,productService.findList(product)));
+                    result = gson.toJson(PlatformRes.success(data, productService.findList(product)));
                 } else if (data.equals("4")) {   //工作人员放餐接口
                     String putFoodReqs = params.get("list").toString();
                     List<PutFoodReq> list = gson.fromJson(putFoodReqs, new TypeToken<List<PutFoodReq>>() {
@@ -112,7 +113,7 @@ public class ServerHandler extends IoHandlerAdapter {
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
                     cabinetProductRelaction.setCabinetNo(cabinetNo);
-                    result = gson.toJson(PlatformRes.success(data,cabinetProductRelactionService.findList(cabinetProductRelaction)));
+                    result = gson.toJson(PlatformRes.success(data, cabinetProductRelactionService.findList(cabinetProductRelaction)));
                 } else if (data.equals("6")) { //柜子通信是否正常接口
                     String cabinetNo = params.get("cabinetNo").toString();
                     Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
@@ -131,11 +132,15 @@ public class ServerHandler extends IoHandlerAdapter {
                 } else if (data.equals("7")) { //获取柜子密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetPasswordRes cabinetPasswordRes = cabinetService.getPassByCabinetNo(cabinetNo);
-                    result = gson.toJson(PlatformRes.success(data,cabinetPasswordRes));
+                    result = gson.toJson(PlatformRes.success(data, cabinetPasswordRes));
                 } else if (data.equals("8")) {  //获取柜子工作时间
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetWorkTimeRes cabinetWorkTimeRes = cabinetService.getWorkTimeByCabinetNo(cabinetNo);
-                    result = gson.toJson(PlatformRes.success(data,cabinetWorkTimeRes));
+                    result = gson.toJson(PlatformRes.success(data, cabinetWorkTimeRes));
+                } else if (data.equals("9")) {     //根据柜子编号获取抽屉的放餐状态,放餐状态心跳
+                    String cabinetNo = params.get("cabinetNo").toString();
+                    List<CabinetDrawerFoodStatusRes> list = cabinetProductRelactionService.findDrawerFoodStatusList(cabinetNo);
+                    result = gson.toJson(PlatformRes.success(data, list));
                 }
             }
         } catch (Exception e) {
