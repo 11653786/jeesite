@@ -10,10 +10,12 @@ import com.alipay.demo.trade.model.result.AlipayF2FPrecreateResult;
 import com.alipay.demo.trade.service.AlipayTradeService;
 import com.alipay.demo.trade.service.impl.AlipayTradeServiceImpl;
 import com.thinkgem.jeesite.api.entity.res.PlatformRes;
+import com.thinkgem.jeesite.config.AlipayConfig;
 import netscape.javascript.JSObject;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,6 +32,9 @@ public class AlipayService {
 
     // 支付宝当面付2.0服务
     private static AlipayTradeService tradeService;
+    @Autowired
+    private AlipayConfig alipayConfig;
+
 
     static {
         /** 一定要在创建AlipayTradeService之前调用Configs.init()设置默认参数
@@ -49,8 +54,8 @@ public class AlipayService {
     }
 
     // 测试当面付2.0生成支付二维码
-    public PlatformRes<String> unifiedorder(String orderNo,String productIds,Integer productTotalPrice,String remark) {
-        PlatformRes payResult=new PlatformRes();
+    public PlatformRes<String> unifiedorder(String orderNo, String productIds, Integer productTotalPrice, String remark) {
+        PlatformRes payResult = new PlatformRes();
         // (必填) 商户网站订单系统中唯一订单号，64个字符以内，只能包含字母、数字、下划线，
         // 需保证商户系统端不能重复，建议通过数据库sequence生成，
         String outTradeNo = orderNo;
@@ -110,7 +115,7 @@ public class AlipayService {
 //                .setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
                 //支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
-                .setNotifyUrl("http://www.test-notify-url.com");
+                .setNotifyUrl(alipayConfig.notify_url);
 //                .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);

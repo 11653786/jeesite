@@ -11,37 +11,35 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Configuration
-@PropertySource({"classpath:alipay.properties"})
+@PropertySource({"classpath:zhifubao.properties"})
 public class AlipayConfig {
 
 
     // 商户appid
-    @Value("${APPID}")
-    public String APPID;
+    @Value("${appid}")
+    public String appid;
+    // 商户appid
+    @Value("${pid}")
+    public String pid;
     // 私钥 pkcs8格式的
-    @Value("${RSA_PRIVATE_KEY}")
-    public String RSA_PRIVATE_KEY;
+    @Value("${private_key}")
+    public String private_key;
+    //商户公钥
+    @Value("${public_key}")
+    public String public_key;
+
     @Value("${notify_url}")
     public String notify_url;
-    @Value("${return_url}")
-    public String return_url;
     // 请求网关地址
     @Value("${URL}")
     public String URL;
-    // 编码
-    @Value("${CHARSET}")
-    public String CHARSET;
-    // 返回格式
-    @Value("${FORMAT}")
-    public String FORMAT;
     // 支付宝公钥
-    @Value("${ALIPAY_PUBLIC_KEY}")
-    public String ALIPAY_PUBLIC_KEY;
-    // 日志记录目录
-    public static String log_path = "/log";
-    // RSA2
-    @Value("${SIGNTYPE}")
-    public String SIGNTYPE;
+    @Value("${alipay_public_key}")
+    public String alipay_public_key;
+    @Value("${sign_type}")
+    public String sign_type;
+    @Value("${charset}")
+    public String charset;
 
 
 }
