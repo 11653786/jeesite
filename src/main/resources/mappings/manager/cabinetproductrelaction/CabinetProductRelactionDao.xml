@@ -227,7 +227,7 @@
         drawer.food_status as "foodStatus"
         FROM cabinet_product_relaction a
         join drawer drawer on drawer.id=a.drawer_id
-        where a.cabinet_no=#{cabinetNo}
+        where a.cabinet_no=#{cabinetNo} order by drawer.drawer_no
     </select>
 
 
