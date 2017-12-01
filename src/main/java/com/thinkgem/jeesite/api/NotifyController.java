@@ -86,6 +86,11 @@ public class NotifyController {
             }
 
 
+
+            for (String key : params.keySet()) {
+                System.out.println("支付宝扫码付,key= "+ key + " and value= " + params.get(key));
+            }
+
             //获取支付宝的通知返回参数，可参考技术文档中页面跳转同步通知参数列表(以下仅供参考)//
             //商户订单号
 
@@ -124,7 +129,7 @@ public class NotifyController {
                     SessionMap sessionMap = SessionMap.newInstance();
                     Gson gson = new Gson();
                     String notifyMessage=gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.ALIPAY_PAYMENT_TYPE.code())));
-                    logger.info("下发消息："+notifyMessage);
+                    logger.info("支付宝扫码付下发消息："+notifyMessage);
                     SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
 
 
@@ -140,7 +145,7 @@ public class NotifyController {
                     //订单号，支付类型为微信扫码付
                     orderService.cardNotify(out_trade_no);
                     List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(out_trade_no);
-                    logger.info("扫码付成功,下发消息： 子订单数量： " + orderGoods.size());
+                    logger.info("支付宝扫码付成功,下发消息： 子订单数量： " + orderGoods.size());
                     String cabinetNo = null;
                     String drawerNos = "";
                     for (OrderGoods orderGood : orderGoods) {
@@ -151,7 +156,7 @@ public class NotifyController {
                     SessionMap sessionMap = SessionMap.newInstance();
                     Gson gson = new Gson();
                     String notifyMessage=gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.ALIPAY_PAYMENT_TYPE.code())));
-                    logger.info("下发消息："+notifyMessage);
+                    logger.info("支付宝扫码付下发消息："+notifyMessage);
                     SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
 
 
@@ -254,7 +259,7 @@ public class NotifyController {
                     logger.info("total_fee:" + total_fee);
                     //////////执行自己的业务逻辑////////////////
 
-                    logger.info("支付成功");
+                    logger.info("微信扫码付支付成功");
                     //订单号，支付类型为微信扫码付
                     orderService.cardNotify(out_trade_no);
                     //通知微信.异步确认成功.必写.不然会一直通知后台.八次之后就认为交易失败了.
@@ -262,7 +267,7 @@ public class NotifyController {
                             + "<return_msg><![CDATA[OK]]></return_msg>" + "</xml> ";
 
                     List<OrderGoods> orderGoods = orderGoodsDao.findListByOrderNo(out_trade_no);
-                    logger.info("扫码付成功,下发消息： 子订单数量： " + orderGoods.size());
+                    logger.info("微信扫码付成功,下发消息： 子订单数量： " + orderGoods.size());
                     String cabinetNo = null;
                     String drawerNos = "";
                     for (OrderGoods orderGood : orderGoods) {
