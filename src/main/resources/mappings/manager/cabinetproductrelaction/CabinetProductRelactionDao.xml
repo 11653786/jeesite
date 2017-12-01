@@ -224,7 +224,8 @@
         select
         a.cabinet_no AS "cabinetNo",
         a.drawer_no as "drawerNo",
-        drawer.food_status as "foodStatus"
+        drawer.food_status as "foodStatus",
+        a.product_id as "productId"
         FROM cabinet_product_relaction a
         join drawer drawer on drawer.id=a.drawer_id
         where a.cabinet_no=#{cabinetNo} order by drawer.drawer_no

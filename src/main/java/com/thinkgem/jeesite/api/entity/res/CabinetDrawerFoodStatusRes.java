@@ -11,6 +11,8 @@ public class CabinetDrawerFoodStatusRes {
 
     private String foodStatus;
 
+    private String productId;
+
     public String getCabinetNo() {
         return cabinetNo;
     }
@@ -33,5 +35,14 @@ public class CabinetDrawerFoodStatusRes {
 
     public void setFoodStatus(String foodStatus) {
         this.foodStatus = foodStatus;
+    }
+
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 }
