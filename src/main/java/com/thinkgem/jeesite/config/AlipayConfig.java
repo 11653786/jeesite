@@ -41,7 +41,7 @@ public class AlipayConfig {
     @Value("${charset}")
     public String charset;
 
-    public static String log_path="/data";
+    public static String log_path="/usr";
 
 
 }
