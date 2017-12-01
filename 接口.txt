@@ -146,3 +146,7 @@ data=8&cabinetNo=003
 Host:47.95.114.60
 
 {"code":"0","message":"8","data":{"workStartTime":"","workEndTime":""}}@@@
+
+9获取根据柜子编号获取抽屉编号以及放餐状态
+data=9&cabinetNo=002
+Host:47.95.114.60
