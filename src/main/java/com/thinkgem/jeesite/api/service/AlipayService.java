@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,6 +67,7 @@ public class AlipayService {
         // (必填) 订单总金额，单位为元，不能超过1亿元
         // 如果同时传入了【打折金额】,【不可打折金额】,【订单总金额】三者,则必须满足如下条件:【订单总金额】=【打折金额】+【不可打折金额】
         String totalAmount = "0.01";
+//        totalAmount=  new BigDecimal(productTotalPrice).divide(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_DOWN).toString();
 
 //        // (可选) 订单不可打折金额，可以配合商家平台配置折扣活动，如果酒水不参与打折，则将对应金额填写至此字段
 //        // 如果该值未传入,但传入了【订单总金额】,【打折金额】,则该值默认为【订单总金额】-【打折金额】
@@ -114,7 +116,7 @@ public class AlipayService {
                 .setStoreId(storeId)
 //                .setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
-                //支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                        //支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
                 .setNotifyUrl(alipayConfig.notify_url);
 //                .setGoodsDetailList(goodsDetailList);
 
@@ -125,20 +127,26 @@ public class AlipayService {
 
                 AlipayTradePrecreateResponse response = result.getResponse();
                 log.info("" + JSONObject.toJSONString(response));
-                PlatformRes.success(response.getQrCode());
+                payResult = PlatformRes.success(response.getQrCode());
                 //ZxingUtils.getQRCodeImge(response.getQrCode(), 256, filePath);
                 break;
 
             case FAILED:
                 log.error("支付宝预下单失败!!!");
+                payResult.setCode("718");
+                payResult.setMessage("支付宝下单失败");
                 break;
 
             case UNKNOWN:
                 log.error("系统异常，预下单状态未知!!!");
+                payResult.setCode("719");
+                payResult.setMessage("系统异常，预下单状态未知!!!");
                 break;
 
             default:
                 log.error("不支持的交易状态，交易返回异常!!!");
+                payResult.setCode("720");
+                payResult.setMessage("不支持的交易状态，交易返回异常!!!");
                 break;
         }
 
