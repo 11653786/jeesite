@@ -444,6 +444,9 @@ public class OrderService {
                     drawer.setFoodStatus(3 + "");
                     drawerDao.update(drawer);
                     //通知柜子锁定。。。
+                }else if(orders.getPaymentStatus()==2){
+                    drawer.setFoodStatus(0+"");
+                    drawerDao.update(drawer);
                 }
 
 
@@ -456,6 +459,8 @@ public class OrderService {
                 orders.setOrderStatus(1);
             }else if(orders.getPaymentStatus()==1){  //扫码付当面取餐
                 orders.setOrderStatus(3);
+            }else if(orders.getPaymentStatus()==2){
+                orders.setOrderStatus(1);
             }
 
             ordersDao.update(orders);
