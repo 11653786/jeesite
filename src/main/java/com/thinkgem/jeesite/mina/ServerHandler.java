@@ -62,7 +62,9 @@ public class ServerHandler extends IoHandlerAdapter {
      */
     @Override
     public void messageReceived(IoSession session, Object message) throws Exception {
+        log.info("服务端接收到的对象: " + message);
         String content = message.toString();
+        log.info("服务端接收到的数据为: " + content);
         //获取客户端信息
         InetSocketAddress address = (InetSocketAddress) session.getRemoteAddress();
         //柜子端口号
@@ -70,7 +72,7 @@ public class ServerHandler extends IoHandlerAdapter {
         //柜子ip
         String ip = address.getAddress().getHostAddress();
         String ips = ip + ":" + port;
-        log.debug("柜子ip:" + ips + "服务端接收到的数据为: " + content);
+//        log.info("柜子ip:" + ips + "服务端接收到的数据为: " + content);
         String result = null;
         Gson gson = new Gson();
         SessionMap sessionMap = SessionMap.newInstance();
@@ -145,7 +147,11 @@ public class ServerHandler extends IoHandlerAdapter {
             }
         } catch (Exception e) {
             log.info("接口请求异常：" + e.getMessage());
-            result = gson.toJson(PlatformRes.error("501", "接口请求异常：" + e.getMessage())) + PlatformReq.aite;
+            if (message != null) {
+                result = gson.toJson(PlatformRes.error("501", "接口请求参数异常：params: " + content + ",异常信息:" + e.getMessage())) + PlatformReq.aite;
+            } else {
+                result = gson.toJson(PlatformRes.error("502", "接口请求参数异常：params: " + message + ",异常信息:" + e.getMessage())) + PlatformReq.aite;
+            }
         }
         session.write(result + PlatformReq.aite);
         super.messageReceived(session, message);
