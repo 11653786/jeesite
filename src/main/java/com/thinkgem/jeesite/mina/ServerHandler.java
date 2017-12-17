@@ -148,9 +148,9 @@ public class ServerHandler extends IoHandlerAdapter {
         } catch (Exception e) {
             log.info("接口请求异常：" + e.getMessage());
             if (message != null) {
-                result = gson.toJson(PlatformRes.error("501", "接口请求参数异常：params: " + content + ",异常信息:" + e.getMessage())) + PlatformReq.aite;
+                result = gson.toJson(PlatformRes.error("501", "接口请求参数异常：params: " + content + ",异常信息:" + e.getMessage()));
             } else {
-                result = gson.toJson(PlatformRes.error("502", "接口请求参数异常：params: " + message + ",异常信息:" + e.getMessage())) + PlatformReq.aite;
+                result = gson.toJson(PlatformRes.error("502", "接口请求参数异常：params: " + message + ",异常信息:" + e.getMessage()));
             }
         }
         session.write(result + PlatformReq.aite);
