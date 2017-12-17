@@ -157,7 +157,7 @@ public class NotifyController {
                     Gson gson = new Gson();
                     String notifyMessage=gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.ALIPAY_PAYMENT_TYPE.code())));
                     logger.info("支付宝扫码付下发消息："+notifyMessage);
-                    SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
+                    SessionMap.sendMessage(cabinetNo,notifyMessage);
 
 
 
@@ -279,7 +279,7 @@ public class NotifyController {
                     Gson gson = new Gson();
                     String notifyMessage=gson.toJson(PlatformRes.success(new PaymentRes(cabinetNo, drawerNos, SocketResMsgType.WECHAT_PAYMENT_TYPE.code())));
                     logger.info("下发消息："+notifyMessage);
-                    SessionMap.sendMessage(cabinetNo,notifyMessage+ PlatformReq.aite);
+                    SessionMap.sendMessage(cabinetNo,notifyMessage);
 
                 } else {
                     logger.info("支付失败,错误信息：" + packageParams.get("err_code"));
