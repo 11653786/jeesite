@@ -37,6 +37,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     private OrdersDao ordersDao;
     @Autowired
     private DrawerDao drawerDao;
+
     @Transactional(readOnly = false)
     public void update(Orders orders) {
         ordersDao.update(orders);
@@ -109,7 +110,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 
         //private String openid;        // 微信标志
 
-
+        String cabinetNo = "";
         for (PreOrderReq req : products) {
             OrderGoods orderGoods = new OrderGoods();
             orderGoods.setOrderNo(orderNo);
@@ -122,16 +123,18 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             orderGoods.setCabinetNo(req.getCabinetNo());
             orderGoods.setDrawerNo(req.getDrawerNo());
             orderGoods.setCreateTime(new Date());
+            orderNo = orderNo + req.getDrawerNo();
             //设置订单柜子信息
             orders.setCabinetNo(orderGoods.getCabinetNo());
             //生成id
             orderGoods.preInsert();
             orderGoodsDao.insert(orderGoods);
+            cabinetNo = req.getCabinetNo();
             //
             //修改柜子编号
 //            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
-
         }
+        orderNo = orderNo + cabinetNo;
 
 
         super.save(orders);
@@ -152,6 +155,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
     public List<Orders> getOrderDetail(String openId) {
         return ordersDao.getOrderDetail(openId);
     }
+
     @Transactional(readOnly = false)
     public void drawerOutTimeProcess() {
         //查詢已經支付并且超過兩小時的訂單

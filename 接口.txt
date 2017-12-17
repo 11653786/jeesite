@@ -5,8 +5,12 @@ data接口类型
 productStr--》cabinetNo柜子编号,drawerNo抽屉编号,productId商品id
 
 
-请求参数
+请求参数,微信扫码
 data=1&paymentType=0&productStr=[{"cabinetNo":"002","drawerNo":"1","productId":"1"}]
+Host:47.95.114.60
+
+支付宝扫码付
+data=1&paymentType=2&productStr=[{"cabinetNo":"002","drawerNo":"1","productId":"1"}]
 Host:47.95.114.60
 
 data=1&paymentType=0&productStr=[{"cabinetNo":"001","drawerNo":"","productId":"1"}]Host:47.95.114.60

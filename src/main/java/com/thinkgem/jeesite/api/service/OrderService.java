@@ -61,7 +61,7 @@ public class OrderService {
     @Autowired
     private UserRedpacketRelactionDao userRedpacketRelactionDao;
     @Autowired
-     private AlipayService alipayService;
+    private AlipayService alipayService;
 
     Logger logger = Logger.getLogger(this.getClass().getName());
 
@@ -107,7 +107,6 @@ public class OrderService {
             String orderNo = TenpayUtil.getCurrTime();
 
 
-            orders.setOrderNo(orderNo);
             //取餐密码设置
             String putPassword = (int) ((Math.random() * 9 + 1) * 100000) + "";
             orders.setPutPassword(putPassword);
@@ -126,7 +125,7 @@ public class OrderService {
             orders.setPaymentStatus(1);
             orders.setCreateTime(new Date());
             orders.setWechatTradeNo(orderNo);
-
+            String cabinetNo = "";
             for (int a = 0; a < products.size(); a++) {
                 Integer num = Integer.valueOf(nums[a]);
                 for (int b = 0; b < num; b++) {
@@ -138,7 +137,6 @@ public class OrderService {
                     orderGoods.setProductId(product.getId());
                     orderGoods.setProductName(product.getProductName());
                     orderGoods.setProductPrice(product.getProductActualPrice());
-
                     orderGoods.setProductNum(1);
                     orderGoods.setAreaId(drawer.getAreaId());
                     orderGoods.setAreaName(drawer.getCabinetAreaName());
@@ -154,10 +152,13 @@ public class OrderService {
                     //锁定柜子5分钟
                     drawerDao.lockOrUnlockStatus(drawer.getId(), 4);
 
+                    orderNo = orderNo + drawer.getDrawerNo();
+                    cabinetNo = drawer.getCabinetNo();
 
                 }
 
             }
+            orders.setOrderNo(orderNo + cabinetNo);
             orders.preInsert();
             ordersDao.insert(orders);
 
@@ -240,7 +241,7 @@ public class OrderService {
         } else if (paymentStatus == 1) { //公众号支付
 
         } else {       //支付宝扫码付
-            wechatAlipayPayResult =alipayService.unifiedorder(orderNo,productIds,productTotalPrice,"牛上山快餐下單");
+            wechatAlipayPayResult = alipayService.unifiedorder(orderNo, productIds, productTotalPrice, "牛上山快餐下單");
         }
 
         //------全部验证通过保存订单和订单明细--------------------------------------
@@ -285,7 +286,7 @@ public class OrderService {
         productReq.setProductName(product.getProductName());
         productReq.setProductNum(1);
         //判断当前柜子是否可以放当前的商品
-        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findByDrawerNoAndProductId(productReq.getCabinetNo(),productReq.getDrawerNo(), productReq.getProductId());
+        CabinetProductRelaction cabinetProductRelaction = cabinetProductRelactionDao.findByDrawerNoAndProductId(productReq.getCabinetNo(), productReq.getDrawerNo(), productReq.getProductId());
         if (cabinetProductRelaction == null)
             return PlatformRes.error(ResCodeMsgType.DRAWER_NOT_PUT_PRODUCT);
 
@@ -444,8 +445,8 @@ public class OrderService {
                     drawer.setFoodStatus(3 + "");
                     drawerDao.update(drawer);
                     //通知柜子锁定。。。
-                }else if(orders.getPaymentStatus()==2){
-                    drawer.setFoodStatus(0+"");
+                } else if (orders.getPaymentStatus() == 2) {
+                    drawer.setFoodStatus(0 + "");
                     drawerDao.update(drawer);
                 }
 
@@ -455,11 +456,11 @@ public class OrderService {
 
             orders.setPaymentTime(new Date());
             //支付成功
-            if(orders.getPaymentStatus()==0){  //微信公众号支付成功预订订单
+            if (orders.getPaymentStatus() == 0) {  //微信公众号支付成功预订订单
                 orders.setOrderStatus(1);
-            }else if(orders.getPaymentStatus()==1){  //扫码付当面取餐
+            } else if (orders.getPaymentStatus() == 1) {  //扫码付当面取餐
                 orders.setOrderStatus(3);
-            }else if(orders.getPaymentStatus()==2){
+            } else if (orders.getPaymentStatus() == 2) {
                 orders.setOrderStatus(1);
             }
 
