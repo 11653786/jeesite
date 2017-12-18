@@ -50,6 +50,35 @@
         </choose>
     </select>
 
+
+    <select id="findListByInterface" resultType="com.thinkgem.jeesite.modules.manager.product.entity.ProductRes">
+        SELECT
+        <include refid="productColumns"/>
+        FROM product a
+        <include refid="productJoins"/>
+        <where>
+
+            <if test="productName != null and productName != ''">
+                AND a.product_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{productName}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{productName}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{productName},'%')</if>
+            </if>
+            <if test="productStatus != null and productStatus != ''">
+                AND a.product_status = #{productStatus}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+
+
     <select id="findAllList" resultType="Product">
         SELECT
         <include refid="productColumns"/>

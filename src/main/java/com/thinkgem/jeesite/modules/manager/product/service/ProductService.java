@@ -5,6 +5,8 @@ package com.thinkgem.jeesite.modules.manager.product.service;
 
 import java.util.List;
 
+import com.thinkgem.jeesite.modules.manager.product.entity.ProductRes;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,12 +24,20 @@ import com.thinkgem.jeesite.modules.manager.product.dao.ProductDao;
 @Transactional(readOnly = true)
 public class ProductService extends CrudService<ProductDao, Product> {
 
+	@Autowired
+	private ProductDao productDao;
+
 	public Product get(String id) {
 		return super.get(id);
 	}
 	
 	public List<Product> findList(Product product) {
 		return super.findList(product);
+	}
+
+
+	public List<ProductRes> findListByInterface(Product product) {
+		return productDao.findListByInterface(product);
 	}
 	
 	public Page<Product> findPage(Page<Product> page, Product product) {

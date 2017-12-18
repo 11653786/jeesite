@@ -105,7 +105,7 @@ public class ServerHandler extends IoHandlerAdapter {
                 } else if (data.equals("3")) {  //获取商品列表
                     Product product = new Product();
                     product.setProductStatus(1 + "");
-                    result = gson.toJson(PlatformRes.success(data, productService.findList(product)));
+                    result = gson.toJson(PlatformRes.success(data, productService.findListByInterface(product)));
                 } else if (data.equals("4")) {   //工作人员放餐接口
                     String putFoodReqs = params.get("list").toString();
                     List<PutFoodReq> list = gson.fromJson(putFoodReqs, new TypeToken<List<PutFoodReq>>() {
@@ -125,7 +125,7 @@ public class ServerHandler extends IoHandlerAdapter {
                     String cabinetNo = params.get("cabinetNo").toString();
                     Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
                     if (isSuccess == 0) {
-                        result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), data));
+                        result = gson.toJson(PlatformRes.error(data, data));
                         if (SessionMap.getSession(cabinetNo) != null) {
                             SessionMap.removeSession(cabinetNo);
                         }
@@ -134,7 +134,7 @@ public class ServerHandler extends IoHandlerAdapter {
                             sessionMap.removeSession(cabinetNo);
                         }
                         sessionMap.addSession(cabinetNo, session);
-                        result = gson.toJson(PlatformRes.success(data));
+                        result = gson.toJson(PlatformRes.success(data,data));
                     }
                 } else if (data.equals("7")) { //获取柜子密码
                     String cabinetNo = params.get("cabinetNo").toString();
