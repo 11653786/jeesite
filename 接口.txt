@@ -13,7 +13,8 @@ Host:47.95.114.60
 data=1&paymentType=2&productStr=[{"cabinetNo":"002","drawerNo":"1","productId":"1"}]
 Host:47.95.114.60
 
-data=1&paymentType=0&productStr=[{"cabinetNo":"001","drawerNo":"","productId":"1"}]Host:47.95.114.60
+data=1&paymentType=0&productStr=[{"cabinetNo":"001","drawerNo":"1","productId":"1"}]
+Host:47.95.114.60
 // 返回参数 
 {
     //code, 用来判断是否请求正确 0 正确 , 其他 不正确 

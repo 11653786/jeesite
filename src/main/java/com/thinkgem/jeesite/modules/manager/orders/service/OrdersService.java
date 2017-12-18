@@ -135,7 +135,7 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 //            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
         }
         orderNo = orderNo + cabinetNo;
-
+        orders.setOrderNo(orderNo);
 
         super.save(orders);
 
