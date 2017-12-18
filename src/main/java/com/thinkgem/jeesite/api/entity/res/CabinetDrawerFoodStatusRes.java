@@ -5,21 +5,21 @@ package com.thinkgem.jeesite.api.entity.res;
  */
 public class CabinetDrawerFoodStatusRes {
 
-    private String cabinetNo;
+//    private String cabinetNo;
 
     private String drawerNo;
 
     private String foodStatus;
 
-    private String productId;
+//    private String productId;
 
-    public String getCabinetNo() {
-        return cabinetNo;
-    }
-
-    public void setCabinetNo(String cabinetNo) {
-        this.cabinetNo = cabinetNo;
-    }
+//    public String getCabinetNo() {
+//        return cabinetNo;
+//    }
+//
+//    public void setCabinetNo(String cabinetNo) {
+//        this.cabinetNo = cabinetNo;
+//    }
 
     public String getDrawerNo() {
         return drawerNo;
@@ -38,11 +38,11 @@ public class CabinetDrawerFoodStatusRes {
     }
 
 
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
+//    public String getProductId() {
+//        return productId;
+//    }
+//
+//    public void setProductId(String productId) {
+//        this.productId = productId;
+//    }
 }
