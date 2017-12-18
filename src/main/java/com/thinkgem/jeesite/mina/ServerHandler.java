@@ -94,11 +94,14 @@ public class ServerHandler extends IoHandlerAdapter {
                     }
 
                     PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);
+                    results.setMessage(data);
                     result = JSONObject.toJSONString(results);
                 } else if (data.equals("2")) {    //取餐,通过订单密码
                     String cabinetNo = params.get("cabinetNo").toString();
                     String putPassword = params.get("putPassword").toString();
-                    result = gson.toJson(orderService.outFood(cabinetNo, putPassword));
+                    PlatformRes<String> results = orderService.outFood(cabinetNo, putPassword);
+                    results.setMessage(data);
+                    result = gson.toJson(results);
                 } else if (data.equals("3")) {  //获取商品列表
                     Product product = new Product();
                     product.setProductStatus(1 + "");
@@ -108,7 +111,9 @@ public class ServerHandler extends IoHandlerAdapter {
                     List<PutFoodReq> list = gson.fromJson(putFoodReqs, new TypeToken<List<PutFoodReq>>() {
                     }.getType());
                     for (PutFoodReq req : list) {
-                        result = gson.toJson(drawerService.putFood(req.getProductId(), req.getFoodPassword(), req.getCabinetNo(), req.getDrawerNo()));
+                        PlatformRes<String> results = drawerService.putFood(req.getProductId(), req.getFoodPassword(), req.getCabinetNo(), req.getDrawerNo());
+                        results.setMessage(data);
+                        result = gson.toJson(results);
                     }
 
                 } else if (data.equals("5")) { //根据柜子编号获取当前柜子抽屉和商品的关系
@@ -120,7 +125,7 @@ public class ServerHandler extends IoHandlerAdapter {
                     String cabinetNo = params.get("cabinetNo").toString();
                     Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
                     if (isSuccess == 0) {
-                        result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc()));
+                        result = gson.toJson(PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), data));
                         if (SessionMap.getSession(cabinetNo) != null) {
                             SessionMap.removeSession(cabinetNo);
                         }
@@ -129,7 +134,7 @@ public class ServerHandler extends IoHandlerAdapter {
                             sessionMap.removeSession(cabinetNo);
                         }
                         sessionMap.addSession(cabinetNo, session);
-                        result = gson.toJson(PlatformRes.success("http通信操作成功"));
+                        result = gson.toJson(PlatformRes.success(data));
                     }
                 } else if (data.equals("7")) { //获取柜子密码
                     String cabinetNo = params.get("cabinetNo").toString();
