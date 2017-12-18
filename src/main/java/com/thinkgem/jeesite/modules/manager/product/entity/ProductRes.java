@@ -22,7 +22,7 @@ public class ProductRes {
 //	private Integer productPrice;		// 商品价格
 	private Integer productActualPrice;		// 实际价格
 //	private String productStatus;		// 菜单状态
-	private Date createTime;		// 创建时间
+//	private Date createTime;		// 创建时间
 	private String remark;		// 菜单介绍
 	private String imgurl;		// 产品主图
 
@@ -58,13 +58,13 @@ public class ProductRes {
 //		this.productStatus = productStatus;
 //	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
+//	public Date getCreateTime() {
+//		return createTime;
+//	}
+//
+//	public void setCreateTime(Date createTime) {
+//		this.createTime = createTime;
+//	}
 
 	public String getRemark() {
 		return remark;
