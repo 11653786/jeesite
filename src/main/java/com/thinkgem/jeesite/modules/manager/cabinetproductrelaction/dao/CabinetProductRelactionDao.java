@@ -20,6 +20,10 @@ import java.util.List;
 @MyBatisDao
 public interface CabinetProductRelactionDao extends CrudDao<CabinetProductRelaction> {
 
+
+
+    public List<CabinetProductRelaction> findListByInterface(CabinetProductRelaction entity);
+
     CabinetProductRelaction findBydrawerIdAndProductId(@Param("cabinetNo")String cabinetNo,@Param("drawerId") String drawerId, @Param("productId") String productId);
 
     CabinetProductRelaction findByDrawerNoAndProductId(@Param("cabinetNo")String cabinetNo,@Param("drawerNo") String drawerNo, @Param("productId") String productId);

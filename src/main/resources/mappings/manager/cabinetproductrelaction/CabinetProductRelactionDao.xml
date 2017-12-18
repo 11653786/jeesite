@@ -76,6 +76,64 @@
         </choose>
     </select>
 
+
+
+    <select id="findListByInterface" resultType="com.thinkgem.jeesite.modules.manager.cabinetproductrelaction.entity.CabinetProductRelactionRes">
+        SELECT
+        a.id AS "id",
+        a.cabinet_id AS "cabinetId",
+        a.cabinet_no AS "cabinetNo",
+        a.product_id AS "productId",
+        a.cabinet_name AS "cabinetName",
+        a.product_name AS "productName",
+        a.cabinet_product_status AS "cabinetProductStatus",
+        a.create_time AS "createTime",
+        a.drawer_no as "drawerNo",
+        a.drawer_id as "drawerId",
+        drawer.food_status as "foodStatus"
+        FROM cabinet_product_relaction a
+        join drawer drawer on drawer.id=a.drawer_id
+        <where>
+
+            <if test="cabinetNo != null and cabinetNo != ''">
+                AND a.cabinet_no = #{cabinetNo}
+            </if>
+
+            <if test="drawerNo != null and drawerNo != ''">
+                AND a.drawer_no = #{drawerNo}
+            </if>
+
+            <if test="cabinetName != null and cabinetName != ''">
+                AND a.cabinet_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{cabinetName}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{cabinetName}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{cabinetName},'%')</if>
+            </if>
+            <if test="productName != null and productName != ''">
+                AND a.product_name LIKE
+                <if test="dbName == 'oracle'">'%'||#{productName}||'%'</if>
+                <if test="dbName == 'mssql'">'%'+#{productName}+'%'</if>
+                <if test="dbName == 'mysql'">concat('%',#{productName},'%')</if>
+            </if>
+            <if test="cabinetProductStatus != null and cabinetProductStatus != ''">
+                AND a.cabinet_product_status = #{cabinetProductStatus}
+            </if>
+        </where>
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
+
+
+
+
+
+
+
     <select id="findAllList" resultType="CabinetProductRelaction">
         SELECT
         <include refid="cabinetProductRelactionColumns"/>

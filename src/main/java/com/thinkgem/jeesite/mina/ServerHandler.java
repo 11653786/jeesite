@@ -120,7 +120,7 @@ public class ServerHandler extends IoHandlerAdapter {
                     String cabinetNo = params.get("cabinetNo").toString();
                     CabinetProductRelaction cabinetProductRelaction = new CabinetProductRelaction();
                     cabinetProductRelaction.setCabinetNo(cabinetNo);
-                    result = gson.toJson(PlatformRes.success(data, cabinetProductRelactionService.findList(cabinetProductRelaction)));
+                    result = gson.toJson(PlatformRes.success(data, cabinetProductRelactionService.findListByInterface(cabinetProductRelaction)));
                 } else if (data.equals("6")) { //柜子通信是否正常接口
                     String cabinetNo = params.get("cabinetNo").toString();
                     Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);

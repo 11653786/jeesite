@@ -49,6 +49,10 @@ public class CabinetProductRelactionService extends CrudService<CabinetProductRe
         return super.findList(cabinetProductRelaction);
     }
 
+    public List<CabinetProductRelaction> findListByInterface(CabinetProductRelaction cabinetProductRelaction) {
+        return cabinetProductRelactionDao.findListByInterface(cabinetProductRelaction);
+    }
+
     public List<CabinetProductRelaction> findListByDrawerNo(String cabinetNo, String drawerNo) {
         return cabinetProductRelactionDao.findListByDrawerNo(cabinetNo, drawerNo);
     }
