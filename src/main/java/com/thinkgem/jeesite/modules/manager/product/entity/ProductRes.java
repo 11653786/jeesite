@@ -18,6 +18,7 @@ import java.util.Date;
 public class ProductRes {
 
 	private static final long serialVersionUID = 1L;
+	private String id;
 	private String productName;		// 商品名称
 //	private Integer productPrice;		// 商品价格
 	private Integer productActualPrice;		// 实际价格
@@ -80,5 +81,14 @@ public class ProductRes {
 
 	public void setImgurl(String imgurl) {
 		this.imgurl = imgurl;
+	}
+
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }
