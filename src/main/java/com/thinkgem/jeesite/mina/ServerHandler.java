@@ -246,6 +246,6 @@ public class ServerHandler extends IoHandlerAdapter {
     }
 
     public void removeSessionKey(IoSession session, String tradeType, String product) {
-        session.getAttribute(tradeType + "," + product);
+        session.removeAttribute(tradeType + "," + product);
     }
 }
