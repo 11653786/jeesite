@@ -42,7 +42,7 @@ public class SessionMap {
         return sessionMap;
     }
 
-    public static void  removeSession(IoSession ioSession) {
+    public static void removeSession(IoSession ioSession) {
         for (String key : map.keySet()) {
             //map.keySet()返回的是所有key的值
             IoSession saveIosession = map.get(key);//得到每个key多对用value的值
@@ -102,12 +102,12 @@ public class SessionMap {
     public static void sendMessage(String key, Object message) {
         IoSession session = getSession(key);
         if (session == null) {
-            log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
-            log.info("mina,session消息异常");
+            log.info("mina,session消息异常,cabinetNo: " + key);
             return;
+        } else {
+            log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
+            session.write(message + "@@@");
         }
-        session.write(message + "@@@");
-
     }
 
 }
