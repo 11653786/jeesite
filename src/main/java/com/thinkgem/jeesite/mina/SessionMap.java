@@ -101,8 +101,8 @@ public class SessionMap {
 
     public static void sendMessage(String key, Object message) {
         IoSession session = getSession(key);
-        log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
         if (session == null) {
+            log.info("服务通知客户端session: " + session.getId() + ",消息: " + message);
             log.info("mina,session消息异常");
             return;
         }

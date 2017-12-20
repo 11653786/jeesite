@@ -4,7 +4,6 @@ paymentType 支付方式,0微信扫码付
 data接口类型
 productStr--》cabinetNo柜子编号,drawerNo抽屉编号,productId商品id
 
-
 请求参数,微信扫码
 data=1&paymentType=0&productStr=[{"cabinetNo":"002","drawerNo":"1","productId":"1"}]
 Host:47.95.114.60
@@ -13,26 +12,7 @@ Host:47.95.114.60
 data=1&paymentType=2&productStr=[{"cabinetNo":"002","drawerNo":"1","productId":"1"}]
 Host:47.95.114.60
 
-data=1&paymentType=0&productStr=[{"cabinetNo":"001","drawerNo":"1","productId":"1"}]
-Host:47.95.114.60
-// 返回参数 
-{
-    //code, 用来判断是否请求正确 0 正确 , 其他 不正确 
-  "code": "0",
-  //  提示信息 
-  "message": "成功",
-  //  微信扫码付支付串,用来生成支付二维码  
-  "data": "weixin://wxpay/bizpayurl?pr=3tkm2EC"
-}
-
-
-
-
-
-
-
 2放餐
-
 drawerNo  抽屉编号 
 productId 商品id
 cabinetNo  柜子编号
@@ -40,104 +20,29 @@ foodPassword 放餐密码
 data 4,接口类型(必须是4) 
 
 
-
 请求参数
-data=4&list=[{"cabinetNo":"001","drawerNo":"1","productId":"3","foodPassword":"111111"}]
+data=2&list=[{"cabinetNo":"001","drawerNo":"1","productId":"3","foodPassword":"111111"}]
 Host:47.95.114.60
 
-// 返回 参数 
-{
-  "code": "0",
-  "message": "成功",
-  "data": "放餐成功！"
-}
 
 
 
 
 3商品列表
-请求参数
 data=3&cabinetNo=002
 Host:47.95.114.60
-返回参数
- {
-    "code":"0",
-    "message":"成功",
-    "data":"[{
-        // 商品名称 
-        "productName":"测试菜单3",
-        // 商品价格, 单位分  
-        "productPrice":2000,
-        // 实际售价 
-        "productActualPrice":2000,
-        //菜单状态,0下架,1上架
-        "productStatus":"1",
-        //创建时间 
-        "createTime":"Sep 24, 2017 8:17:12 PM",
-        //描述
-        "remark":"测试菜单3",
-        //商品图片 
-        "imgurl":"",
-        "delFlag":"0",
-        // 商品 id
-        "id":"719f18d663fe4b91aee96f7c39d77236",
-        "isNewRecord":false},
-        {"productName":"测试菜单2","productPrice":2000,"productActualPrice":2000,"productStatus":"1","createTime":"Sep 24, 2017 8:16:36 PM","remark":".。。","imgurl":"","delFlag":"0","id":"be8b53dcd8ec4afd80deba294af7354f","isNewRecord":false},
-        {"productName":"测试菜单","productPrice":2000,"productActualPrice":1950,"productStatus":"1","createTime":"Aug 19, 2017 9:53:43 PM","remark":"测试商品","imgurl":"|/userfiles/1/files/product/product/2017/08/baidu.png","delFlag":"0","id":"f1a632929af54b16afa7a4db84ccb728","isNewRecord":false}]"
-}@@@
 
 
 4获取柜子商品配置信息
-
 data=5&cabinetNo=002
 Host:47.95.114.60
 
-返回参数
-{
-    "code":"0",
-    "message":"成功",
-    "data":"[
-        // 柜子id
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0",
-        // 柜子编号
-        "cabinetNo":"002",
-        // 抽屉 
-        "drawerId":"a3052182079344a79704c1bea5afc165",
-        // 抽屉 编号 
-        "drawerNo":"7",
-        //商品id
-        "productId":"f1a632929af54b16afa7a4db84ccb728",
-        //柜子名称   
-        "cabinetName":"第二个柜子",
-        // 商品名称
-        "productName":"测试菜单",
-        // 柜子商品状态,0已使用,1未使用 
-        "cabinetProductStatus":"1",
-        // 创建时间 
-        "createTime":"Oct 10, 2017 7:58:00 PM",
-        "delFlag":"0",
-        "id":"318ce96f01d54520b7bf6c37252b6cc1",
-        "isNewRecord":false},
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0","cabinetNo":"002","drawerId":"417ad1ed77cb4eb897ac45340f40dddb","drawerNo":"1","productId":"be8b53dcd8ec4afd80deba294af7354f","cabinetName":"第二个柜子","productName":"测试菜单2","cabinetProductStatus":"1","createTime":"Oct 3, 2017 2:58:12 AM","delFlag":"0","id":"42dd1a64b5ea4b7ebed7ea6c38b3b7d9","isNewRecord":false},
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0","cabinetNo":"002","drawerId":"0b53e31108a847779d1da486dc837892","drawerNo":"6","productId":"f1a632929af54b16afa7a4db84ccb728","cabinetName":"第二个柜子","productName":"测试菜单","cabinetProductStatus":"1","createTime":"Oct 10, 2017 7:57:01 PM","delFlag":"0","id":"5f6070d3cceb46c590b7029e13fe1349","isNewRecord":false},
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0","cabinetNo":"002","drawerId":"e1783bf0b24a4740bfdf8bcf90bd8fea","drawerNo":"3","productId":"f1a632929af54b16afa7a4db84ccb728","cabinetName":"第二个柜子","productName":"测试菜单","cabinetProductStatus":"1","createTime":"Oct 9, 2017 4:29:32 PM","delFlag":"0","id":"b8dc0ab7e6cf4728bfcd34aebdd0f8d2","isNewRecord":false},
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0","cabinetNo":"002","drawerId":"a9b3bf3423054d039d49cc789b9907e2","dr  awerNo":"4","productId":"f1a632929af54b16afa7a4db84ccb728","cabinetName":"第二个柜子","productName":"测试菜单","cabinetProductStatus":"1","createTime":"Oct 9, 2017 4:29:21 PM","delFlag":"0","id":"ce6969c0e9384e408dae09a6e287636c","isNewRecord":false},
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0","cabinetNo":"002","drawerId":"52656f8e7edf4395bf13a53821ebb3f2","drawerNo":"5","productId":"f1a632929af54b16afa7a4db84ccb728","cabinetName":"第二个柜子","productName":"测试菜单","cabinetProductStatus":"1","createTime":"Oct 10, 2017 7:56:49 PM","delFlag":"0","id":"d1f65a2fbfb74ef2aa398d31de93eb15","isNewRecord":false},
-        {"cabinetId":"022f8660f17d4c1191fee09bbf670cd0","cabinetNo":"002","drawerId":"0b948ca229d54f15867cfe28865cc8b5","drawerNo":"2","productId":"719f18d663fe4b91aee96f7c39d77236","cabinetName":"第二个柜子","productName":"测试菜单3","cabinetProductStatus":"1","createTime":"Oct 9, 2017 4:29:02 PM","delFlag":"0","id":"e824217dbbf34319920b698971cd3cb9","isNewRecord":false}]"
-}
-
 
 5http通信接口
-
 data=6&cabinetNo=002Host:47.95.114.60
 data=6&cabinetNo=001
 Host:47.95.114.60
 
-{
-  "code": "0",
-  "message": "成功",
-  "data": "http通信操作成功"
-}
 
 6.http
 data=6&cabinetNo=001
@@ -157,3 +62,14 @@ Host:47.95.114.60
 9获取根据柜子编号获取抽屉编号以及放餐状态
 data=9&cabinetNo=002
 Host:47.95.114.60
+
+
+
+服务器主动通知柜子
+1.支付宝扫码付下发消息：
+{"code":"0","message":"成功","data":{"cabinetNo":"002","drawerNo":",1","result":"2"}}
+
+2.微信扫码付
+{"code":"0","message":"成功","data":{"cabinetNo":"002","drawerNo":",2","result":"0"}}
+
+3.
