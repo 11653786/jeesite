@@ -39,8 +39,7 @@ Host:47.95.114.60
 
 
 5http通信接口
-data=6&cabinetNo=002Host:47.95.114.60
-data=6&cabinetNo=001
+data=5&cabinetNo=001
 Host:47.95.114.60
 
 
