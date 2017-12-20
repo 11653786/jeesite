@@ -86,6 +86,7 @@ public class ServerHandler extends IoHandlerAdapter {
                 if (data.equals("1")) { //下单
                     String tradeType = null;
                     String productsStr = params.get("productStr").toString();
+
                     Integer paymentType = Integer.valueOf(params.get("paymentType").toString());
 //                    String repackgeId = params.get("repackgeId").toString();
                     List<PreOrderReq> products = JSONObject.parseArray(productsStr, PreOrderReq.class);
@@ -93,7 +94,17 @@ public class ServerHandler extends IoHandlerAdapter {
                         tradeType = "NATIVE";
                     }
 
-                    PlatformRes<String> results = orderService.preorder(products, paymentType, tradeType, null);
+                    PlatformRes<String> results = null;
+                    //缓存防止多次提交的问题
+                    if (getSessionKey(session, tradeType, productsStr)) {
+                        setSessionKey(session, tradeType, productsStr);
+                        results = orderService.preorder(products, paymentType, tradeType, null);
+                        removeSessionKey(session, tradeType, productsStr);
+                    } else {
+                        results = new PlatformRes<String>(ResCodeMsgType.ORDER_SUBMIT_SUBMITS.code(), data);
+                        removeSessionKey(session, tradeType, productsStr);
+                    }
+
                     results.setMessage(data);
                     result = JSONObject.toJSONString(results);
                 } else if (data.equals("2")) {    //取餐,通过订单密码
@@ -134,7 +145,7 @@ public class ServerHandler extends IoHandlerAdapter {
                             sessionMap.removeSession(cabinetNo);
                         }
                         sessionMap.addSession(cabinetNo, session);
-                        result = gson.toJson(PlatformRes.success(data,data));
+                        result = gson.toJson(PlatformRes.success(data, data));
                     }
                 } else if (data.equals("7")) { //获取柜子密码
                     String cabinetNo = params.get("cabinetNo").toString();
@@ -220,5 +231,21 @@ public class ServerHandler extends IoHandlerAdapter {
             }
         }
         return params;
+    }
+
+
+    public void setSessionKey(IoSession session, String tradeType, String product) {
+        session.setAttribute(tradeType + "," + product, tradeType + "," + product);
+    }
+
+    public boolean getSessionKey(IoSession session, String tradeType, String product) {
+        Object object = session.getAttribute(tradeType + "," + product);
+        if (object == null)
+            return true;
+        return false;
+    }
+
+    public void removeSessionKey(IoSession session, String tradeType, String product) {
+        session.getAttribute(tradeType + "," + product);
     }
 }
