@@ -286,7 +286,7 @@
         a.product_id as "productId"
         FROM cabinet_product_relaction a
         join drawer drawer on drawer.id=a.drawer_id
-        where a.cabinet_no=#{cabinetNo} order by drawer.drawer_no
+        where a.cabinet_no=#{cabinetNo} and food_status not in(0,1) order by drawer.drawer_no
     </select>
 
 
