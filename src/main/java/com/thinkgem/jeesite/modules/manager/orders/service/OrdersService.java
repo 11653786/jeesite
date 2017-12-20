@@ -110,7 +110,6 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
 
         //private String openid;        // 微信标志
 
-        String cabinetNo = "";
         for (PreOrderReq req : products) {
             OrderGoods orderGoods = new OrderGoods();
             orderGoods.setOrderNo(orderNo);
@@ -123,18 +122,15 @@ public class OrdersService extends CrudService<OrdersDao, Orders> {
             orderGoods.setCabinetNo(req.getCabinetNo());
             orderGoods.setDrawerNo(req.getDrawerNo());
             orderGoods.setCreateTime(new Date());
-            orderNo = orderNo + req.getDrawerNo();
             //设置订单柜子信息
             orders.setCabinetNo(orderGoods.getCabinetNo());
             //生成id
             orderGoods.preInsert();
             orderGoodsDao.insert(orderGoods);
-            cabinetNo = req.getCabinetNo();
             //
             //修改柜子编号
 //            drawerDao.putFood(req.getCabinetNo(),req.getDrawerNo());
         }
-        orderNo = orderNo + cabinetNo;
         orders.setOrderNo(orderNo);
 
         super.save(orders);

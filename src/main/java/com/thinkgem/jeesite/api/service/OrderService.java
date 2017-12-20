@@ -186,6 +186,14 @@ public class OrderService {
             return PlatformRes.error(ResCodeMsgType.PARAMS_NOT_EMPTY);
         //订单号
         String orderNo = TenpayUtil.getCurrTime();
+        String cabinetNo = "";
+        if (products != null && !products.isEmpty()) {
+            for (PreOrderReq product : products) {
+                cabinetNo = product.getCabinetNo();
+                orderNo = orderNo + product.getDrawerNo();
+            }
+            orderNo = orderNo + cabinetNo;
+        }
 
         //商品id
         String productIds = "";
