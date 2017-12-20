@@ -123,7 +123,6 @@ public class CabinetController extends BaseController {
             String message = JSONObject.toJSONString(PlatformRes.success(updateCabinetPassRes));
             SessionMap.sendMessage(cabinet.getCabinetNos(), message);
         }
-//        SessionMap sessionMap=SessionMap.sendMessage(cabinet.getCabinetNos(),);
         return "redirect:" + Global.getAdminPath() + "/cabinet/cabinet/?repage";
     }
 
