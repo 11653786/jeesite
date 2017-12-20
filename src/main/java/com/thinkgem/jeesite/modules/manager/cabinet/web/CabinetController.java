@@ -119,8 +119,8 @@ public class CabinetController extends BaseController {
         PlatformRes<String> result = cabinetService.updatePassword(cabinet, sysPassword, foodPassword);
         addMessage(redirectAttributes, result.getMessage());
         if (result.getCode().equals("0")) {
-            UpdateCabinetPassRes updateCabinetPassRes = new UpdateCabinetPassRes(result.getCode(), result.getMessage(), SocketResMsgType.UPDATE_CABINET_PASS.code(), foodPassword, sysPassword);
-            String message = JSONObject.toJSONString(updateCabinetPassRes);
+            UpdateCabinetPassRes updateCabinetPassRes = new UpdateCabinetPassRes(foodPassword, sysPassword,SocketResMsgType.UPDATE_CABINET_PASS.code());
+            String message = JSONObject.toJSONString(PlatformRes.success(updateCabinetPassRes));
             SessionMap.sendMessage(cabinet.getCabinetNos(), message);
         }
 //        SessionMap sessionMap=SessionMap.sendMessage(cabinet.getCabinetNos(),);

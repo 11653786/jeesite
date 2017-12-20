@@ -66,10 +66,15 @@ Host:47.95.114.60
 
 
 服务器主动通知柜子
-1.支付宝扫码付下发消息：
-{"code":"0","message":"成功","data":{"cabinetNo":"002","drawerNo":",1","result":"2"}}
+
+
+1.修改密码下发柜子密码:
+{"code":"0","data":"1","foodPassword":"111111","message":"成功","sysPassword":"111111"}
 
 2.微信扫码付
 {"code":"0","message":"成功","data":{"cabinetNo":"002","drawerNo":",2","result":"0"}}
 
-3.
+3.支付宝扫码付下发消息：
+{"code":"0","message":"成功","data":{"cabinetNo":"002","drawerNo":",1","result":"2"}}
+
+

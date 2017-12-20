@@ -5,46 +5,19 @@ package com.thinkgem.jeesite.api.entity.res;
  */
 public class UpdateCabinetPassRes {
 
-    private String code;
-    private String message;
-    private String data;
     private String foodPassword;
     private String sysPassword;
+    private String result;
 
     public UpdateCabinetPassRes() {
     }
 
-    public UpdateCabinetPassRes(String code, String message, String data, String foodPassword, String sysPassword) {
-        this.code = code;
-        this.message = message;
-        this.data = data;
+    public UpdateCabinetPassRes(String foodPassword, String sysPassword, String result) {
         this.foodPassword = foodPassword;
         this.sysPassword = sysPassword;
+        this.result = result;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
 
     public String getFoodPassword() {
         return foodPassword;
@@ -60,5 +33,14 @@ public class UpdateCabinetPassRes {
 
     public void setSysPassword(String sysPassword) {
         this.sysPassword = sysPassword;
+    }
+
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 }
