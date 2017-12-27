@@ -169,7 +169,7 @@
 		</if>
 		<!-- 如果不是超级管理员，则不显示超级管理员用户 -->
 		<if test="!currentUser.admin">
-			AND a.id != '1'
+-- 			AND a.id != '1'
 		</if>
 		<if test="loginName != null and loginName != ''">
 			AND a.login_name like 
