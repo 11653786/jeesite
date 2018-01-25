@@ -44,7 +44,7 @@ Host:47.95.114.60
 
 
 6.http
-data=6&cabinetNo=001
+data=6&cabinetNo=001&temperature=80
 Host:47.95.114.60
 
 

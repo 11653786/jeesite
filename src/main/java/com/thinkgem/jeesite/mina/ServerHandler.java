@@ -134,7 +134,8 @@ public class ServerHandler extends IoHandlerAdapter {
                     result = gson.toJson(PlatformRes.success(data, cabinetProductRelactionService.findListByInterface(cabinetProductRelaction)));
                 } else if (data.equals("6")) { //柜子通信是否正常接口
                     String cabinetNo = params.get("cabinetNo").toString();
-                    Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
+                    String temperature = params.get("temperature").toString();
+                    Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo,temperature);
                     if (isSuccess == 0) {
                         result = gson.toJson(PlatformRes.error(data, data));
                         if (SessionMap.getSession(cabinetNo) != null) {

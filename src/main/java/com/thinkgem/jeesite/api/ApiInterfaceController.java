@@ -70,7 +70,7 @@ public class ApiInterfaceController {
             Gson gson = new Gson();
             return PlatformRes.success(gson.toJson(cabinetProductRelactionService.findList(cabinetProductRelaction)));
         } else if (data == 6) { //柜子通信是否正常接口
-            Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo);
+            Integer isSuccess = cabinetHttpLogService.saveOrUpdateCabinetLog(cabinetNo,"");
             if (isSuccess == 0)
                 return PlatformRes.error(ResCodeMsgType.HTTP_LOG_ERROR.code(), ResCodeMsgType.HTTP_LOG_ERROR.desc());
             else

@@ -20,7 +20,8 @@
 		a.food_password as "foodPassword",
 		a.sys_password as "sysPassword",
 		a.start_time as "workStartTime",
-		a.end_time as "workEndTime"
+		a.end_time as "workEndTime",
+		a.temperature as "temperature"
 	</sql>
 
     <sql id="cabinetJoins">
@@ -106,7 +107,8 @@
 			food_password,
 			sys_password,
 			start_time,
-			end_time
+			end_time,
+			temperature
 		) VALUES (
 			#{id},
 			#{cabinetName},
@@ -122,7 +124,8 @@
 			#{foodPassword},
 			#{sysPassword},
 			#{workStartTime},
-			#{workEndTime}
+			#{workEndTime},
+			#{temperature}
 		)
 	</insert>
 
@@ -139,7 +142,8 @@
 		  	cabinet_replace_num=#{cabinetReplaceNum},
 			cabinet_full_num=#{cabinetFullNum},
 			start_time=#{workStartTime},
-			end_time=#{workEndTime}
+			end_time=#{workEndTime},
+			temperature=#{temperature}
 		WHERE id = #{id}
 	</update>
 

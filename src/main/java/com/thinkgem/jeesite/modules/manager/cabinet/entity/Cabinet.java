@@ -18,6 +18,9 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
  * @version 2017-08-19
  */
 public class Cabinet extends DataEntity<Cabinet> {
+
+	//温度
+	private String temperature;
 	
 	private static final long serialVersionUID = 1L;
 	private String cabinetName;		// 柜子名称
@@ -38,12 +41,22 @@ public class Cabinet extends DataEntity<Cabinet> {
 	private String city1;
 	private String area1;
 
+
 	//帮助字段
 	private Integer total;
 
 	//工作休息时间
 	private String workStartTime;
 	private String workEndTime;
+
+
+	public String getTemperature() {
+		return temperature;
+	}
+
+	public void setTemperature(String temperature) {
+		this.temperature = temperature;
+	}
 
 	public Cabinet() {
 		super();

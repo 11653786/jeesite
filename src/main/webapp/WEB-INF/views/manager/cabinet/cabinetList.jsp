@@ -72,6 +72,7 @@
         <th>区</th>
         <th>详细地址</th>
         <th>通信状态</th>
+        <th>温度</th>
         <th>创建时间</th>
 
         <%--<th>不同商品销售数量</th>--%>
@@ -107,54 +108,64 @@
                     ${fns:getDictLabel(cabinet.cabinetStatus, 'cabinet_status', '')}
             </td>
             <td>
+                <c:if test="${cabinet.temperature>50}" var="isRed">
+                    <span style="color:red;">${cabinet.temperature}度</span>
+                </c:if>
+
+                <c:if test="${!isRed}">
+                    <span>${cabinet.temperature}度</span>
+                </c:if>
+
+            </td>
+            <td>
                 <fmt:formatDate value="${cabinet.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/>
             </td>
-            <%--<td>--%>
+                <%--<td>--%>
                 <%--<c:forEach items="${groupByCabinet}"  var="groupcabinet">--%>
-                    <%--<c:if test="${groupcabinet.cabinetNos==cabinet.cabinetNos}">--%>
-                        <%--${groupcabinet.province}--%>
-                    <%--</c:if>--%>
+                <%--<c:if test="${groupcabinet.cabinetNos==cabinet.cabinetNos}">--%>
+                <%--${groupcabinet.province}--%>
+                <%--</c:if>--%>
                 <%--</c:forEach>--%>
-            <%--</td>--%>
-            <%--<td>--%>
+                <%--</td>--%>
+                <%--<td>--%>
                 <%--未放餐数量:--%>
                 <%--<c:forEach items="${food0}"  var="food00">--%>
-                    <%--<c:if test="${food00.cabinetNos==cabinet.cabinetNos}">--%>
-                     <%--${food00.total}--%>
-                        <%--&lt;%&ndash;补货预警判断&ndash;%&gt;--%>
-                            <%--<c:if test="${food00.total!=null && food00.total>cabinet.cabinetFullNum}">--%>
-                                <%--<c:set var="tipFull" value="补货预警：${cabinet.cabinetFullNum},空余抽屉:${food00.total}&nbsp" scope="page"></c:set>--%>
-                            <%--</c:if>--%>
-                    <%--</c:if>--%>
+                <%--<c:if test="${food00.cabinetNos==cabinet.cabinetNos}">--%>
+                <%--${food00.total}--%>
+                <%--&lt;%&ndash;补货预警判断&ndash;%&gt;--%>
+                <%--<c:if test="${food00.total!=null && food00.total>cabinet.cabinetFullNum}">--%>
+                <%--<c:set var="tipFull" value="补货预警：${cabinet.cabinetFullNum},空余抽屉:${food00.total}&nbsp" scope="page"></c:set>--%>
+                <%--</c:if>--%>
+                <%--</c:if>--%>
                 <%--</c:forEach>--%>
                 <%--,放餐数量:--%>
                 <%--<c:forEach items="${food1}"  var="food01">--%>
 
-                    <%--<c:if test="${food01.cabinetNos==cabinet.cabinetNos}">--%>
-                        <%--${food01.total}--%>
-                    <%--</c:if>--%>
+                <%--<c:if test="${food01.cabinetNos==cabinet.cabinetNos}">--%>
+                <%--${food01.total}--%>
+                <%--</c:if>--%>
                 <%--</c:forEach>--%>
                 <%--,过期数量:--%>
                 <%--<c:forEach items="${food2}"  var="food02">--%>
 
-                    <%--<c:if test="${food02.cabinetNos==cabinet.cabinetNos}">--%>
-                        <%--${food02.total}--%>
-                        <%--&lt;%&ndash;换货预警判断&ndash;%&gt;--%>
-                            <%--<c:if test="${food02.total!=null && food02.total>cabinet.cabinetReplaceNum}">--%>
-                                <%--<c:set var="tipReplace" value="换货预警：${cabinet.cabinetReplaceNum},需换抽屉:${food02.total}" scope="page"></c:set>--%>
-                            <%--</c:if>--%>
-                    <%--</c:if>--%>
+                <%--<c:if test="${food02.cabinetNos==cabinet.cabinetNos}">--%>
+                <%--${food02.total}--%>
+                <%--&lt;%&ndash;换货预警判断&ndash;%&gt;--%>
+                <%--<c:if test="${food02.total!=null && food02.total>cabinet.cabinetReplaceNum}">--%>
+                <%--<c:set var="tipReplace" value="换货预警：${cabinet.cabinetReplaceNum},需换抽屉:${food02.total}" scope="page"></c:set>--%>
+                <%--</c:if>--%>
+                <%--</c:if>--%>
                 <%--</c:forEach>--%>
 
-            <%--</td>--%>
-            <%--<th>--%>
+                <%--</td>--%>
+                <%--<th>--%>
 
                 <%--<c:out value="${tipFull}" escapeXml="false"></c:out>--%>
                 <%--<c:out value="${tipReplace}" escapeXml="false"></c:out>--%>
                 <%--&lt;%&ndash;每行完毕删除一次,否则提示信息不正确&ndash;%&gt;--%>
                 <%--<c:set scope="page" var="tipFull" value=""></c:set>--%>
                 <%--<c:set scope="page" var="tipReplace" value=""></c:set>--%>
-            <%--</th>--%>
+                <%--</th>--%>
             <shiro:hasPermission name="cabinet:cabinet:edit">
             <td>
                 <a href="${ctx}/cabinet/cabinet/form?id=${cabinet.id}">修改</a>

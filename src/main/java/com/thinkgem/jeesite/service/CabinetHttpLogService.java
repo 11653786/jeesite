@@ -1,5 +1,6 @@
 package com.thinkgem.jeesite.service;
 
+import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.mapper.CabinetHttpLogMapper;
 import com.thinkgem.jeesite.modules.manager.cabinet.dao.CabinetDao;
 import com.thinkgem.jeesite.modules.manager.cabinet.entity.Cabinet;
@@ -36,9 +37,16 @@ public class CabinetHttpLogService {
     }
 
 
-    public Integer saveOrUpdateCabinetLog(String cabinetNo) {
+    public Integer saveOrUpdateCabinetLog(String cabinetNo,String temperature) {
         Integer isSuccess = 0;
         Cabinet cabinet = cabinetDao.getCabinetByCabinetNo(cabinetNo);
+
+
+        if(StringUtils.isNotBlank(temperature)){
+        cabinet.setTemperature(temperature);
+        }
+
+
         if (cabinet != null) {
             CabinetHttpLogExample example = new CabinetHttpLogExample();
             example.createCriteria().andCabinetnoEqualTo(cabinetNo);
