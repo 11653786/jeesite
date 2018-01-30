@@ -27,7 +27,7 @@
         $(function () {
             $("#submit").click(function () {
                 //Ajax调用处理
-                var orderNo =${orders.orderNo};
+                var orderNo =$("#orderNo").val();
                 var type =${type};
                 var remark = $("#remark").val();
                 if (remark == undefined || remark == null || remark == "") {
@@ -51,6 +51,7 @@
     </script>
 </head>
 <body style="background:#fadfdd;">
+<input type="text" id="orderNo" value="${orders.orderNo}" />
 <div style="margin-top:5px;margin-left:5px;" class="container no-bottom">
     <div class="section-title" style="font-size: 14px;">
         <h4>订单号：${orders.orderNo}</h4>
