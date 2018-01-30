@@ -124,10 +124,10 @@
                 ${orderLog.productNum}
         </td>
         <td>
-                ${orderLog.productTotalPrice}
+                ${orderLog.totalProductNum}
         </td>
         <td>
-                ${orderLog.totalProductNum}
+                ${orderLog.productTotalPrice}
         </td>
     </tr>
 </c:forEach>
