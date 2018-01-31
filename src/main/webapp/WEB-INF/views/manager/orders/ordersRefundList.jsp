@@ -62,7 +62,7 @@
         <th>支付时间</th>
         <th>手机号</th>
         <th>柜子编号</th>
-        <th>留言</th>
+        <th>用户反馈</th>
         <shiro:hasPermission name="orders:orders:refund">
             <th>操作</th>
         </shiro:hasPermission>
