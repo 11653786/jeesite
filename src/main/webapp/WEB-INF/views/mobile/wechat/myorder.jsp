@@ -37,7 +37,7 @@
                     </c:when>
                 </c:choose></em><br>
             <c:if test="${order.remark!=null && order.remark!=''}">
-                <c:if test="${order.refundStatus!=null}">
+                <c:if test="${order.refundStatus!=null}" var="isRefund">
                     <em style="color:#e34e47;">反馈问题:
                         <c:choose>
                             <c:when test="${order.refundStatus==0}">
@@ -51,8 +51,12 @@
                             </c:when>
                         </c:choose>
                     </em>
+                    <em style="color:#e34e47;">用户反馈：${order.remark}</em><br>
                 </c:if>
-                <em style="color:#e34e47;">用户评价：${order.remark}</em><br>
+                <c:if test="${!refund}">
+                    <em style="color:#e34e47;">用户评论：${order.remark}</em><br>
+                </c:if>
+
             </c:if>
 
 
