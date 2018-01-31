@@ -67,7 +67,7 @@
                     <c:if test="${order.remark==null || order.remark==''}">
 
                         <a style="float:left;"
-                                href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=2&orderNo=${order.orderNo}">申请退款</a>
+                                href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=2&orderNo=${order.orderNo}">申诉</a>
 
                         <a style="float:right;"
                            href="${pageContext.request.contextPath}/api/wechat/refundOrder?type=1&orderNo=${order.orderNo}">评价快餐</a>
