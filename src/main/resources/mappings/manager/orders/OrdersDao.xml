@@ -26,8 +26,7 @@
 		a.refund_No as "refundNo",
 		a.refund_status as "refundStatus",
 		a.refund_time as "refundTime",
-		a.put_password as "putPassword",
-		a.remark as "remark"
+		a.put_password as "putPassword"
 
 
 	</sql>

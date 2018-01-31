@@ -136,7 +136,8 @@
 				<td>
 					${orders.cabinetNo}
 				</td>
-				<td>${orders.remark}</td>
+				<td>${orders.remark}
+				</td>
 				<%--<shiro:hasPermission name="orders:orders:edit"><td>--%>
     				<%--<a href="${ctx}/orders/orders/form?id=${orders.id}">查看</a>--%>
 					<%--<a href="${ctx}/orders/orders/delete?id=${orders.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>--%>

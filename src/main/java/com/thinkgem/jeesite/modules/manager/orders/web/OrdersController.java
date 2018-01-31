@@ -60,9 +60,9 @@ public class OrdersController extends BaseController {
     @RequiresPermissions("orders:orders:view")
     @RequestMapping(value = {"list", ""})
     public String list(Orders orders, HttpServletRequest request, HttpServletResponse response, Model model) {
-        if (orders.getOrderStatus() == null) {
-            orders.setOrderStatus(1);
-        }
+//        if (orders.getOrderStatus() == null) {
+//            orders.setOrderStatus(1);
+//        }
 
         Page<Orders> page = ordersService.findPage(new Page<Orders>(request, response), orders);
         model.addAttribute("page", page);
