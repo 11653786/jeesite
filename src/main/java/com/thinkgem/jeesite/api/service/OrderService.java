@@ -461,7 +461,7 @@ public class OrderService {
                     //通知柜子开门
                 } else if (orders.getPaymentStatus() == 1) {  //微信公众号支付
                     //已经支付，锁定抽屉
-                    drawer.setFoodStatus(1 + "");
+                    drawer.setFoodStatus(3 + "");
                     drawerDao.update(drawer);
                     //通知柜子锁定。。。
                 } else if (orders.getPaymentStatus() == 2) {
@@ -474,13 +474,13 @@ public class OrderService {
             }
 
             orders.setPaymentTime(new Date());
-            //支付成功
+            //支付成功,0,微信扫码支付,1微信公众号支付,2支付宝扫码支付
             if (orders.getPaymentStatus() == 0) {  //微信公众号支付成功预订订单
-                orders.setOrderStatus(1);
-            } else if (orders.getPaymentStatus() == 1) {  //扫码付当面取餐
                 orders.setOrderStatus(3);
-            } else if (orders.getPaymentStatus() == 2) {
+            } else if (orders.getPaymentStatus() == 1) {  //扫码付当面取餐
                 orders.setOrderStatus(1);
+            } else if (orders.getPaymentStatus() == 2) {
+                orders.setOrderStatus(3);
             }
 
             ordersDao.update(orders);
