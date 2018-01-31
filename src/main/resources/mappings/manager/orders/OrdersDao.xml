@@ -48,7 +48,7 @@
         FROM orders a
         <include refid="ordersJoins"/>
         <where>
-
+            a.order_status in(1,3)
             <if test="orderNo != null and orderNo != ''">
                 AND a.order_no = #{orderNo}
             </if>
@@ -92,9 +92,10 @@
                 <if test="dbName == 'mysql'">concat('%',#{cabinetNo},'%')</if>
             </if>
 
-            <if test="payOrderStatus != null and payOrderStatus != ''">
+<!--            <if test="payOrderStatus != null and payOrderStatus != ''">
                 and a.order_status in(1,3)
-            </if>
+            </if>-->
+
 
             <if test="refundOrderStatus != null and refundOrderStatus != ''">
                 and a.refund_status is not null
