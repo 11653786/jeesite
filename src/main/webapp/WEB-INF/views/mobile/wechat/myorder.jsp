@@ -53,7 +53,7 @@
                     </em>
                     <em style="color:#e34e47;">用户反馈：${order.remark}</em><br>
                 </c:if>
-                <c:if test="${!refund}">
+                <c:if test="${!isRefund}">
                     <em style="color:#e34e47;">用户评论：${order.remark}</em><br>
                 </c:if>
 
