@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -126,6 +127,8 @@ public class OrderService {
             orders.setCreateTime(new Date());
             orders.setWechatTradeNo(orderNo);
             String cabinetNo = "";
+            List<OrderGoods> orderGoodsList = new ArrayList<OrderGoods>();
+
             for (int a = 0; a < products.size(); a++) {
                 Integer num = Integer.valueOf(nums[a]);
                 for (int b = 0; b < num; b++) {
@@ -147,8 +150,9 @@ public class OrderService {
                     orders.setCabinetNo(orderGoods.getCabinetNo());
                     //生成id
                     orderGoods.preInsert();
-                    orderGoodsDao.insert(orderGoods);
+//                    orderGoodsDao.insert(orderGoods);
 
+                    orderGoodsList.add(orderGoods);
                     //锁定柜子5分钟
                     drawerDao.lockOrUnlockStatus(drawer.getId(), 4);
 
@@ -158,6 +162,13 @@ public class OrderService {
                 }
 
             }
+
+
+            for (OrderGoods orderGoods : orderGoodsList) {
+                orderGoods.setOrderNo(orderNo);
+                orderGoodsList.add(orderGoods);
+            }
+
             orders.setOrderNo(orderNo + cabinetNo);
             orders.preInsert();
             ordersDao.insert(orders);
