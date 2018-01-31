@@ -166,7 +166,7 @@ public class OrderService {
 
             for (OrderGoods orderGoods : orderGoodsList) {
                 orderGoods.setOrderNo(orderNo);
-                orderGoodsList.add(orderGoods);
+                orderGoodsDao.insert(orderGoods);
             }
 
             orders.setOrderNo(orderNo + cabinetNo);
