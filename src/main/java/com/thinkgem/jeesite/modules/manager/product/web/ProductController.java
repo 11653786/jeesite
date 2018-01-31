@@ -64,6 +64,10 @@ public class ProductController extends BaseController {
     @RequiresPermissions("product:product:view")
     @RequestMapping(value = "form")
     public String form(Product product, Model model) {
+        if(StringUtils.isNotBlank(product.getImgurl())){
+            product.setImgurl("/"+product.getImgurl());
+        }
+
         model.addAttribute("product", product);
         return "manager/product/productForm";
     }
