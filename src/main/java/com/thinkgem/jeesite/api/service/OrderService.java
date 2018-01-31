@@ -461,7 +461,7 @@ public class OrderService {
                     //通知柜子开门
                 } else if (orders.getPaymentStatus() == 1) {  //微信公众号支付
                     //已经支付，锁定抽屉
-                    drawer.setFoodStatus(3 + "");
+                    drawer.setFoodStatus(1 + "");
                     drawerDao.update(drawer);
                     //通知柜子锁定。。。
                 } else if (orders.getPaymentStatus() == 2) {

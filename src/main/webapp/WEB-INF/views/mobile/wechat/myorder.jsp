@@ -52,7 +52,7 @@
                         </c:choose>
                     </em>
                 </c:if>
-                <em style="color:#e34e47;">用户评论：${order.remark}</em><br>
+                <em style="color:#e34e47;">用户评价：${order.remark}</em><br>
             </c:if>
 
 

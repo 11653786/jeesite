@@ -29,13 +29,13 @@
 			</li>
 			<li><label>订单状态：</label>
 				<form:select path="orderStatus" class="input-medium">
-					<form:option value="" label=""/>
+					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('order_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
 			<li><label>支付渠道：</label>
 				<form:select path="paymentStatus" class="input-medium">
-					<form:option value="" label=""/>
+					<form:option value="" label="请选择"/>
 					<form:options items="${fns:getDictList('payment_status')}" itemLabel="label" itemValue="value" htmlEscape="false"/>
 				</form:select>
 			</li>
@@ -87,7 +87,8 @@
 				<th>alipay标志</th>
 				<th>手机号</th>
 				<th>柜子编号</th>
-				<shiro:hasPermission name="orders:orders:edit"><th>操作</th></shiro:hasPermission>
+				<th>评价</th>
+				<%--<shiro:hasPermission name="orders:orders:edit"><th>操作</th></shiro:hasPermission>--%>
 			</tr>
 		</thead>
 		<tbody>
@@ -135,6 +136,7 @@
 				<td>
 					${orders.cabinetNo}
 				</td>
+				<td>${orders.remark}</td>
 				<%--<shiro:hasPermission name="orders:orders:edit"><td>--%>
     				<%--<a href="${ctx}/orders/orders/form?id=${orders.id}">查看</a>--%>
 					<%--<a href="${ctx}/orders/orders/delete?id=${orders.id}" onclick="return confirmx('确认要删除该订单管理吗？', this.href)">删除</a>--%>
